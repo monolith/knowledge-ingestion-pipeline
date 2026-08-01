@@ -1,7 +1,7 @@
 # Knowledge Ingestion Pipeline — Canonical Specification v3.0
 
 **Status:** implementation-ready reference specification, research-grounded
-**Supersedes:** v2.0 (`/home/anatoly/knowledge_ingestion_pipeline_demo/docs/SPECIFICATION.md`)
+**Supersedes:** specification v2.0 (the pre-research baseline design)
 **Primary architectural decision (unchanged from v2 §Header):** every intermediate artifact remains machine-first JSON or JSONL. Human-readable Markdown with YAML front matter is materialized only after the existing leaf engine accepts durable knowledge.
 
 ## How to read this document
@@ -15,7 +15,7 @@ Every design claim carries a citation:
 | `R5` | Research round 5 — primary sources fetched and quoted, **not** adversarially verified. One tier below R1–R4. |
 | `PE` | Production-engineering brief — first-party/vendor documentation, per-fact cited. |
 | `SDK` | Claude Code plugin + Anthropic SDK brief. |
-| `[NEW — confirm]` | Introduced here, backed by neither v2 nor research. **Requires Anatoly's confirmation or removal.** |
+| `[NEW — confirm]` | Introduced here, backed by neither v2 nor research. **Requires maintainer confirmation or removal.** |
 
 Research files live in [`../research/`](../research/). Citations point to finding IDs inside them (e.g. `R2 F3` = round 2, finding F3).
 

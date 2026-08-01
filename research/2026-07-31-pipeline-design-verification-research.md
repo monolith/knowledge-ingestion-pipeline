@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-30/31
 **Subject:** Adversarial verification of the 7-pass knowledge-ingestion pipeline design
-(spec: `/home/anatoly/knowledge_ingestion_pipeline_demo/docs/SPECIFICATION.md`)
+(spec: the v2.0 baseline specification)
 **Method:** Multi-agent research fan-out across 5 angles → 3-vote adversarial verification per claim.
 21 claims confirmed, 4 refuted. Votes shown as confirm-refute.
 

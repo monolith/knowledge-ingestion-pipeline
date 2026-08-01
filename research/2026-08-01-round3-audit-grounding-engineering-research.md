@@ -1,7 +1,7 @@
 # Round 3 Design-Verification Research — LLM-as-Judge Reliability & Auditor Architecture
 
 **Date:** 2026-08-01
-**Pipeline spec:** `/home/anatoly/knowledge_ingestion_pipeline_demo/docs/SPECIFICATION.md` (Pass 5 adversarial audit, §12; batching strategy §16)
+**Pipeline spec:** the v2.0 baseline specification (Pass 5 adversarial audit, §12; batching strategy §16)
 **Method:** multi-agent fan-out research, 3-vote adversarial verification per claim. 25 claims survived.
 **Prior rounds:** Round 1 — atomic extraction, routing/retrieval ([2026-07-31-pipeline-design-verification-research.md](2026-07-31-pipeline-design-verification-research.md)); Round 2 — claim-relationship classification, evidence aggregation, temporal knowledge ([2026-07-31-round2-audit-classification-engineering-research.md](2026-07-31-round2-audit-classification-engineering-research.md)).
 

@@ -1,8 +1,8 @@
 # Round 2 Design-Verification Research — Claim Relationships, Evidence Aggregation, Temporal Knowledge
 
 **Date:** 2026-07-31 (persisted 2026-08-01)
-**Informs:** [`SPECIFICATION.md`](/home/anatoly/knowledge_ingestion_pipeline_demo/docs/SPECIFICATION.md) — the 7-pass LLM knowledge-ingestion pipeline (Passes 3–5 primarily)
-**Companion:** Round 1 research at [`2026-07-31-pipeline-design-verification-research.md`](/home/anatoly/knowledge-ingestion-plugin/research/2026-07-31-pipeline-design-verification-research.md) (atomic extraction, routing/retrieval — not repeated here)
+**Informs:** `SPECIFICATION.md` (v2.0 baseline) — the 7-pass LLM knowledge-ingestion pipeline (Passes 3–5 primarily)
+**Companion:** Round 1 research at [`2026-07-31-pipeline-design-verification-research.md`](2026-07-31-pipeline-design-verification-research.md) (atomic extraction, routing/retrieval — not repeated here)
 **Method:** multi-agent fan-out research with 3-vote adversarial verification per claim. 23 claims survived; 2 were refuted and are listed at the bottom for transparency.
 
 ## Coverage note (important)

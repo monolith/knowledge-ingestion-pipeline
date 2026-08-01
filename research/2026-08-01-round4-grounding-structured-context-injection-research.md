@@ -1,7 +1,7 @@
 # Round 4 Design Verification — Grounding, Citation, (Structured Outputs / Long-Context / Prompt-Injection)
 
 Research date: 2026-08-01
-Pipeline spec: `/home/anatoly/knowledge_ingestion_pipeline_demo/docs/SPECIFICATION.md`
+Pipeline spec: the v2.0 baseline specification
 Method: multi-agent fan-out → 3-vote adversarial verification → synthesis.
 Scope note: Round 4 was scoped to five angles — (1) groundedness/hallucination checkers, (2) citation/attribution verification, (3) structured outputs / constrained decoding, (4) long-context degradation & batch sizing, (5) indirect prompt-injection defense.
 
