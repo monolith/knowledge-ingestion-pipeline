@@ -1,0 +1,37 @@
+[project]
+name = "kip"
+version = "0.1.0"
+description = "Knowledge Ingestion Pipeline — spec v3.0 reference implementation"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.40.0",
+]
+
+[project.optional-dependencies]
+# Pass 0 normalizers. Docling is the recommended default (spec §8.3) because its
+# DoclingDocument carries page_no + bbox + charspan per element.
+parse = ["docling>=2.0.0"]
+# Lightweight fallback parsers: a few MB instead of a multi-GB ML stack, at the
+# cost of page/slide-level provenance only (no bounding boxes).
+parse-lite = [
+    "pypdf>=4.0.0",
+    "python-docx>=1.1.0",
+    "python-pptx>=0.6.23",
+    "openpyxl>=3.1.0",
+]
+# Pass 2 lexical retrieval. Pure-python BM25 keeps the default install light.
+retrieval = ["rank-bm25>=0.2.2"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+kip = "kip.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

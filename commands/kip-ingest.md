@@ -1,0 +1,30 @@
+---
+description: Ingest a folder of documents into audited, traceable knowledge units
+argument-hint: <source-directory> [--stop-after <pass>]
+allowed-tools: Bash, Read
+---
+
+Ingest documents from `$ARGUMENTS` using the knowledge-ingestion pipeline.
+
+Steps:
+
+1. Confirm the source directory exists and list what is in it, so the user knows
+   what is about to be processed and roughly what it will cost.
+2. Check `ANTHROPIC_API_KEY` is set. If not, stop and say so — do not attempt
+   to find credentials elsewhere.
+3. Run the pipeline:
+   ```bash
+   kip --workspace .kip run --sources <source-directory>
+   ```
+   If the user did not specify otherwise and the folder holds more than ~20
+   files, run with `--stop-after extract` first and report the unit count before
+   continuing — Pass 1 is the expensive pass.
+4. Run `kip --workspace .kip validate <run-id>` and report any errors verbatim.
+5. Summarize: sources processed, any quarantined, units extracted, clusters,
+   assessments by bucket, audit verdicts, and queue events.
+
+When reporting results, carry the pipeline's own uncertainty through rather than
+flattening it: coarse relationship buckets are reliable, fine subtypes are
+advisory, and a missing contradiction flag is not evidence of consistency.
+Report what the audit changed — the diff between initial and approved candidates
+is the most informative part of a run.

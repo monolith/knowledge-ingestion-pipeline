@@ -1,0 +1,17 @@
+{
+  "name": "knowledge-ingestion",
+  "version": "0.1.0",
+  "description": "Research-grounded document knowledge-ingestion pipeline: normalize heterogeneous files into molecular, source-backed knowledge units, route and compare them, and audit candidate knowledge-base entries against the source chain.",
+  "author": {
+    "name": "Anatoly Sholomyansky"
+  },
+  "license": "MIT",
+  "keywords": [
+    "knowledge-base",
+    "ingestion",
+    "provenance",
+    "rag",
+    "extraction",
+    "audit"
+  ]
+}
