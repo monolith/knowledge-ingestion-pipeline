@@ -169,7 +169,7 @@ PDF, DOCX, PPTX, XLSX/CSV, HTML, Markdown, plain text, EML/MSG, exported chat, i
 
 **Honest tradeoff:** Docling does **not** appear in OmniDocBench's published end-to-end tables (CVPR 2025). Among benchmarked pipeline tools MinerU leads decisively (0.055 text-edit distance vs Marker's 0.157). Docling is selected for its provenance model, format breadth, and license — **not** for demonstrated parsing supremacy, which is `[UNVERIFIED]`. (`PE T2`)
 
-`[NEW — confirm]` If parsing fidelity on scanned or complex-layout PDFs proves inadequate in practice, the fallback is to run MinerU for text extraction and map its output back into Docling's provenance structure. This dual-path design is not research-backed; it is an engineering hedge.
+`[NEW — confirm]` **Two-tier normalizer.** Docling is tried first; when unavailable, lightweight pure-Python parsers (pypdf, python-docx, python-pptx, openpyxl) handle the same formats at a few MB instead of a multi-GB ML stack. The price is real and must be recorded: the fallback yields **page/slide/sheet-level provenance only, no bounding boxes**. The `normalizer` field in each manifest records which tier produced the text, so a consumer can tell what fidelity it holds. This dual-path design is not research-backed; it is an engineering hedge, and the reference implementation ships it because installing Docling was not viable on the target host. If parsing fidelity proves inadequate on scanned or complex-layout PDFs, the next escalation is MinerU (which leads OmniDocBench among pipeline tools per `PE T2`), mapped back into this locator-map contract.
 
 ### 8.4 Outputs per source
 
