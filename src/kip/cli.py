@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .artifacts import PipelineError, RunContext, file_hash, read_jsonl
+from .auth import format_status, resolve_auth
 from .config import default_config
 from .migrate import format_summary, migrate_run
 from .pipeline import discover_sources, run_pipeline
@@ -122,6 +123,19 @@ def cmd_migrate_taxonomy(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_auth(args: argparse.Namespace) -> int:
+    """Report which credential tier resolves, without spending a token.
+
+    Deliberately makes no API call: the question "am I configured" should be
+    answerable for free, and a billed probe would make people stop asking it.
+    Exit 0 when a concrete credential resolved, 1 when we fell through to the
+    SDK's own resolution and cannot tell from here.
+    """
+    resolution = resolve_auth()
+    print(format_status(resolution))
+    return 0 if resolution.usable else 1
+
+
 def cmd_show(args: argparse.Namespace) -> int:
     ctx = RunContext(run_id=args.run_id, root=Path(args.workspace).resolve())
     paths = {
@@ -195,6 +209,12 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     migrate.set_defaults(func=cmd_migrate_taxonomy)
+
+    auth = sub.add_parser(
+        "auth",
+        help="Show which credential the pipeline would use (makes no API call)",
+    )
+    auth.set_defaults(func=cmd_auth)
 
     show = sub.add_parser("show", help="Print records from an artifact")
     show.add_argument("run_id")

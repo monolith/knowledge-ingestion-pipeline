@@ -145,7 +145,7 @@ Each of these cites its evidence inline in the [specification](docs/SPECIFICATIO
 pytest -q          # or: PYTHONPATH=src python -m pytest tests/ -q
 ```
 
-218 cases from 149 test functions (the difference is parametrization), no API
+273 cases from 195 test functions (the difference is parametrization), no API
 key and no network needed. They cover
 the deterministic half directly — normalization (including PDF, DOCX, PPTX,
 XLSX and multipart email, each built in the test), locator maps, hashing,

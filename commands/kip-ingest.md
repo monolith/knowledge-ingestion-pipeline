@@ -10,8 +10,16 @@ Steps:
 
 1. Confirm the source directory exists and list what is in it, so the user knows
    what is about to be processed and roughly what it will cost.
-2. Check `ANTHROPIC_API_KEY` is set. If not, stop and say so — do not attempt
-   to find credentials elsewhere.
+2. Run `kip --workspace .kip auth` and report which credential tier resolved.
+   It makes no API call, so this is free. An unset `ANTHROPIC_API_KEY` is NOT a
+   failure — the pipeline also uses the Claude Code login, which is the normal
+   case when running as a plugin. Stop only if that command exits non-zero
+   (meaning no concrete credential resolved); do not go hunting for credentials
+   anywhere else.
+
+   If it resolved to `claude_code_oauth`, tell the user the run will draw on
+   their Claude Code subscription rate limit and so competes with interactive
+   sessions — that is the one surprise worth naming before a long run.
 3. Run the pipeline:
    ```bash
    kip --workspace .kip run --sources <source-directory>

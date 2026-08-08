@@ -7,6 +7,8 @@ all, and the validator's health checks. No API key, no network.
 
 from __future__ import annotations
 
+import hashlib
+
 from pathlib import Path
 
 import pytest
@@ -680,3 +682,26 @@ def test_nothing_in_the_pipeline_gates_on_the_heuristic():
             for forbidden in ('if unit["quantitative"]', 'if u["quantitative"]',
                               'if record["quantitative"]'):
                 assert forbidden not in stripped, f"{path.name}: {stripped}"
+
+
+# sha256 of taxonomy.py with line 3 (the plugin-identifying docstring line)
+# removed -- the same constant the wiki-graph suite pins. Enforced in both repos
+# so a standalone install still detects vocabulary drift, with no sibling
+# checkout to compare against. A deliberate vocabulary change updates this hash
+# in BOTH repos in the same commit.
+CANONICAL_BODY_SHA256 = "3fe0b65a5a54603cf8f909a35c5a5e2295b275ca82d901e983d79c637322857a"
+
+
+def test_taxonomy_matches_the_pinned_canonical_hash():
+    from pathlib import Path as _Path
+
+    from kip import taxonomy as _taxonomy
+
+    lines = _Path(_taxonomy.__file__).read_text(encoding="utf-8").splitlines()
+    del lines[2]
+    digest = hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest()
+    assert digest == CANONICAL_BODY_SHA256, (
+        "taxonomy.py has drifted from the canonical vocabulary. If the edit was "
+        "deliberate, apply it to BOTH plugins and update CANONICAL_BODY_SHA256 "
+        "in both test suites."
+    )

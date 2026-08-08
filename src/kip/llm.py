@@ -10,6 +10,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
+from .auth import resolve_auth
 from .config import Config
 
 try:  # The package is a hard dependency, but importing lazily keeps the
@@ -21,6 +22,19 @@ except ImportError:  # pragma: no cover
 
 class LLMError(RuntimeError):
     pass
+
+
+def _is_auth_error(exc: Exception) -> bool:
+    """True for a 401, by SDK class where available and by status code always.
+
+    The status-code fallback matters because the fake clients used in tests --
+    and any future SDK reshuffle -- raise something that is not the SDK's own
+    AuthenticationError but still carries the status.
+    """
+    cls = getattr(anthropic, "AuthenticationError", None) if anthropic else None
+    if cls is not None and isinstance(exc, cls):
+        return True
+    return getattr(exc, "status_code", None) == 401
 
 
 # --- Injection defense (spec §20.4) -------------------------------------------
@@ -131,6 +145,8 @@ class LLMClient:
     usage: Usage = field(default_factory=Usage)
     _client: Any = None
     _use_native_schema: bool = True
+    _auth: Any = None
+    _reauth_attempted: bool = False
 
     def __post_init__(self) -> None:
         if anthropic is None:
@@ -138,10 +154,38 @@ class LLMClient:
                 "The 'anthropic' package is not installed. Install it with "
                 "`pip install anthropic` (or `pip install -e '.[dev]'`)."
             )
+        self._build_client()
+
+    def _build_client(self) -> None:
+        """Resolve credentials and construct the SDK client.
+
+        Split out from __post_init__ so a 401 can rebuild against a refreshed
+        Claude Code token without discarding accumulated usage counters.
+        """
+        self._auth = resolve_auth()
         # SDK-level retries handle 408/409/429/5xx with backoff; the loop below
         # adds one more layer for schema-validation failures, which the SDK
         # cannot see.
-        self._client = anthropic.Anthropic(max_retries=2, timeout=600.0)
+        self._client = anthropic.Anthropic(
+            max_retries=2, timeout=600.0, **self._auth.client_kwargs
+        )
+
+    def _reauth_from_disk(self) -> bool:
+        """Re-read credentials once after a 401 and rebuild if they changed.
+
+        Claude Code refreshes its own token in place, so a 401 mid-run usually
+        means the copy we started with went stale rather than that the user is
+        logged out. We re-read; we never redeem the refresh token ourselves,
+        because redeeming rotates it and would invalidate the copy Claude Code
+        holds.
+        """
+        if self._reauth_attempted:
+            return False
+        self._reauth_attempted = True
+        before = (self._auth.details or {}).get("token_fingerprint")
+        self._build_client()
+        after = (self._auth.details or {}).get("token_fingerprint")
+        return bool(after) and after != before
 
     def complete_json(
         self,
@@ -185,6 +229,13 @@ class LLMClient:
                 continue
             except Exception as exc:  # network/API errors after SDK retries
                 last_error = exc
+                # A 401 mid-run is usually a stale Claude Code token, not a
+                # logged-out user: re-read the file once and retry immediately.
+                # If the credential on disk is unchanged, fall through and fail
+                # loudly rather than spinning against a credential we know is
+                # rejected.
+                if _is_auth_error(exc) and self._reauth_from_disk():
+                    continue
                 if attempt < self.max_retries - 1:
                     time.sleep(min(2**attempt, 8))
                     continue
