@@ -108,3 +108,18 @@ can at worst corrupt a field value, never take an action. Injection cannot be
 eliminated (the best models still break ~0.5% of the time under adaptive
 attack), so validate outputs rather than assuming clean input. See
 specification §20.
+
+## Research
+
+Every design rule in the specification traces to a file in
+`${CLAUDE_PLUGIN_ROOT}/research/`. Rounds 1–4 carry 3-vote adversarial
+verification; round 5 and the briefs are sourced-and-quoted only. Each file
+lists its own refuted claims — those must never be cited as support.
+
+`2026-08-08-knowledge-type-taxonomy-research.md` covers the knowledge-type
+question specifically: whether a small, cognitively-framed type taxonomy
+(Concepts / Claims / Models / Methods / Rules / Cases) is a sound organizing
+scheme for a knowledge base, and what the prior art — DITA, Information
+Mapping, Diátaxis, CoALA, A-MEM, Zep, Mem0 — actually measured. It informs
+§9.3's unit ontology and is the evidence base for
+`docs/KNOWLEDGE-TYPE-TAXONOMY.md`.
