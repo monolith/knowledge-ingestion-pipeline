@@ -12,12 +12,14 @@ from typing import Any
 from . import assess, audit, candidates, enqueue, extract, normalize, route
 from .artifacts import (
     RunContext,
+    fingerprint_paths,
+    fingerprint_records,
     read_jsonl,
     run_stage,
     utc_now,
     write_json_atomic,
 )
-from .config import Config
+from .config import SCHEMA_VERSION, Config
 from .llm import LLMClient
 
 
@@ -32,16 +34,26 @@ def run_pipeline(
     *,
     stop_after: str | None = None,
     force: bool = False,
+    client: LLMClient | None = None,
 ) -> dict[str, Any]:
     """Run passes 0-6 in order, resuming completed stages.
 
     `stop_after` takes a pass name so an operator can inspect intermediate
     artifacts before paying for the next stage -- useful because Pass 1 is the
     expensive one and everything downstream depends on its quality.
+
+    `client` is an injection point, not a convenience: the demo and the
+    integration tests must drive all six passes with a scripted client on a host
+    with no API key and no network, and they should exercise THIS orchestrator
+    rather than a parallel copy of the pass sequence that can drift from it.
     """
     stages = ["normalize", "extract", "route", "assess", "candidates", "audit", "enqueue"]
     if stop_after and stop_after not in stages:
         raise ValueError(f"unknown stage {stop_after!r}; expected one of {stages}")
+
+    # Config errors that will abort a later pass are checked before the first
+    # paid call, not when the pass they concern is reached.
+    audit.check_auditor_distinct(cfg)
 
     def should_run(stage: str) -> bool:
         if stop_after is None:
@@ -49,7 +61,6 @@ def run_pipeline(
         return stages.index(stage) <= stages.index(stop_after)
 
     summary: dict[str, Any] = {"run_id": ctx.run_id, "started_at": utc_now()}
-    client: LLMClient | None = None
 
     def llm() -> LLMClient:
         # Constructed lazily so Pass 0 (and the tests) never require an API key.
@@ -59,12 +70,18 @@ def run_pipeline(
         return client
 
     # --- Pass 0 ---------------------------------------------------------------
+    # Fingerprinted on the source FILES themselves. Without this, adding a
+    # document to a run and re-running the same run id resumed the old registry
+    # and ignored the new file, and editing an ingested file left the registry's
+    # original_sha256 pointing at content that no longer existed -- both silent.
+    sources = discover_sources(source_dir)
     registry = run_stage(
         ctx=ctx,
         name="pass0-normalize",
         output_path=ctx.source_registry,
-        produce=lambda: normalize.normalize_sources(ctx, discover_sources(source_dir)),
+        produce=lambda: normalize.normalize_sources(ctx, sources),
         force=force,
+        inputs_fingerprint=fingerprint_paths(sources),
     )
     summary["sources"] = len(registry)
     summary["quarantined"] = sum(
@@ -80,6 +97,7 @@ def run_pipeline(
         output_path=ctx.units,
         produce=lambda: extract.extract_units(ctx, cfg, llm(), registry),
         force=force,
+        inputs_fingerprint=fingerprint_records(registry),
     )
     summary["units"] = len(units)
     if not should_run("route"):
@@ -92,6 +110,7 @@ def run_pipeline(
         output_path=ctx.clusters,
         produce=lambda: route.route_and_cluster(ctx, cfg, llm(), units),
         force=force,
+        inputs_fingerprint=fingerprint_records(units),
     )
     summary["clusters"] = len(clusters)
     if not should_run("assess"):
@@ -104,6 +123,7 @@ def run_pipeline(
         output_path=ctx.assessments,
         produce=lambda: assess.assess_clusters(ctx, cfg, llm(), units, clusters),
         force=force,
+        inputs_fingerprint=fingerprint_records(units + clusters),
     )
     summary["assessments"] = len(assessments)
     if not should_run("candidates"):
@@ -116,6 +136,7 @@ def run_pipeline(
         output_path=ctx.candidates,
         produce=lambda: candidates.plan_candidates(ctx, cfg, llm(), assessments),
         force=force,
+        inputs_fingerprint=fingerprint_records(assessments),
     )
     summary["candidates"] = len(proposals)
     if not should_run("audit"):
@@ -144,6 +165,7 @@ def run_pipeline(
         output_path=ctx.enqueue,
         produce=lambda: enqueue.enqueue_approved(ctx, approved),
         force=force,
+        inputs_fingerprint=fingerprint_records(approved),
     )
     summary["queue_events"] = len(events)
     return _finish(ctx, cfg, summary, client)
@@ -160,8 +182,11 @@ def _finish(
     ctx: RunContext, cfg: Config, summary: dict[str, Any], client: LLMClient | None
 ) -> dict[str, Any]:
     summary["finished_at"] = utc_now()
-    if client is not None:
-        summary["usage"] = client.usage.as_dict()
+    # A scripted client spends no tokens and carries no usage counter, so the
+    # field is reported only when there is something real to report.
+    usage = getattr(client, "usage", None)
+    if usage is not None:
+        summary["usage"] = usage.as_dict()
 
     # Spec §7: the run manifest records the evidence-tier configuration in force
     # -- which checker did grounding, whether the auditor differed from the
@@ -170,7 +195,7 @@ def _finish(
         ctx.manifest,
         {
             "run_id": ctx.run_id,
-            "spec_version": "3.0.0",
+            "spec_version": SCHEMA_VERSION,
             "config": cfg.manifest_fragment(),
             "summary": summary,
         },

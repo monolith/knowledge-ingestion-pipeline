@@ -5,3 +5,4 @@ __pycache__/
 .kip/
 runs/
 .venv/
+demo/__pycache__/

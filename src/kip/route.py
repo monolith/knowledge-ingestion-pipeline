@@ -186,6 +186,13 @@ def _enrich(
                     "candidate_topics": unit.get("candidate_topics", []),
                     "enrichment_context": context,
                     "entities": entities,
+                    # Extraction-time mentions, carried through verbatim.
+                    # `entities` above is the enricher's own loose list, used
+                    # only for routing affinity and then dropped; the wiki's
+                    # entity resolution needs the raw surface forms and their
+                    # line numbers, and re-asking a model for what Pass 1
+                    # already reported would pay twice for the same answer.
+                    "entity_mentions": unit.get("entity_mentions", []),
                     "index_text": f"{context} {unit['canonical_statement']}".strip(),
                 }
             )

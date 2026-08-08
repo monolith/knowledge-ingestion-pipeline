@@ -124,6 +124,21 @@ def check_citation_accuracy(
     details: list[str] = []
     cache: dict[str, str] = {}
 
+    # A candidate citing no units checks out zero excerpts and used to come back
+    # "pass" -- a leaf with no provenance chain at all, sailing through every
+    # deterministic gate because there was nothing to disagree with. Spec §22
+    # AC3 requires every retained unit to trace to an exact source excerpt, so
+    # "nothing to check" is a failure of that criterion, not a satisfaction of it.
+    if not candidate.get("source_unit_ids"):
+        return {
+            "result": "fail",
+            "mode": "deterministic",
+            "checked": 0,
+            "mismatched": 0,
+            "missing": 0,
+            "details": ["candidate cites no source units; nothing traces to a source excerpt"],
+        }
+
     for unit_id in candidate.get("source_unit_ids", []):
         unit = units_by_id.get(unit_id)
         if unit is None:
@@ -184,8 +199,17 @@ def check_provenance_integrity(
     units_by_id: dict[str, dict[str, Any]],
     assessments_by_id: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
-    """Every referenced ID must resolve. Pure code, no judgment required."""
+    """Every referenced ID must resolve. Pure code, no judgment required.
+
+    An empty reference list is broken, not clean. "Every id resolves" is
+    vacuously true of a candidate that names none, and a candidate that names
+    none is a knowledge-base leaf with no evidence behind it.
+    """
     broken: list[str] = []
+    if not candidate.get("assertions"):
+        broken.append("candidate has no assertions")
+    if not candidate.get("source_unit_ids"):
+        broken.append("candidate has no source_unit_ids")
     for unit_id in candidate.get("source_unit_ids", []):
         if unit_id not in units_by_id:
             broken.append(f"unknown unit {unit_id}")
@@ -232,6 +256,29 @@ def check_independence_inflation(
     }
 
 
+# --- Preflight ----------------------------------------------------------------
+
+
+def check_auditor_distinct(cfg: Config) -> None:
+    """Refuse a configuration whose auditor is its own proposer.
+
+    Spec §13.3b: self-preference bias survives anonymization, so this is not a
+    soft preference. Called from run_pipeline BEFORE Pass 0 as well as from Pass
+    5, because discovering it at Pass 5 means the operator has already paid for
+    extraction, enrichment, assessment and planning on the whole corpus for an
+    audit that was never going to run.
+    """
+    auditor_model = cfg.model_for("auditor")
+    proposer_model = cfg.model_for("planner")
+    if cfg.audit.require_distinct_auditor and auditor_model == proposer_model:
+        raise RuntimeError(
+            f"Auditor model ({auditor_model}) must differ from the proposer "
+            f"({proposer_model}). Set KIP_MODEL_AUDITOR to a different "
+            "reasoning-class model, or disable require_distinct_auditor "
+            "knowing the audit's verdicts become self-assessment."
+        )
+
+
 # --- Pass entry point ---------------------------------------------------------
 
 
@@ -249,16 +296,7 @@ def audit_candidates(
     auditor_model = cfg.model_for("auditor")
     proposer_model = cfg.model_for("planner")
     distinct = auditor_model != proposer_model
-    if cfg.audit.require_distinct_auditor and not distinct:
-        # Spec §13.3b: self-preference bias survives anonymization, so this is
-        # not a soft preference. Fail loudly rather than produce an audit whose
-        # verdicts cannot be trusted.
-        raise RuntimeError(
-            f"Auditor model ({auditor_model}) must differ from the proposer "
-            f"({proposer_model}). Set KIP_MODEL_AUDITOR to a different "
-            "reasoning-class model, or disable require_distinct_auditor "
-            "knowing the audit's verdicts become self-assessment."
-        )
+    check_auditor_distinct(cfg)
 
     audits: list[dict[str, Any]] = []
     approved: list[dict[str, Any]] = []
@@ -355,6 +393,17 @@ def _approve(
     """
     verdict = audit["verdict"]
     if verdict in ("reject", "defer"):
+        return None
+
+    # Last gate before the queue. The mechanical checks above already fail an
+    # unsourced candidate, but a `fix` verdict rewrites the prose and leaves
+    # source_unit_ids untouched, so a correction cannot repair missing
+    # provenance -- and spec §22 AC3 is not negotiable by an auditor.
+    if not candidate.get("assertions") or not candidate.get("source_unit_ids"):
+        print(
+            f"[pass5] {candidate['candidate_id']} not approved: no assertions or no "
+            "source units, so nothing about it traces to a source excerpt"
+        )
         return None
 
     revised = dict(candidate)

@@ -40,10 +40,33 @@ kip --workspace .kip run --sources ./docs --stop-after extract   # inspect first
 kip --workspace .kip validate <run-id>                   # integrity check
 kip --workspace .kip trace <run-id> <candidate-id>       # full provenance chain
 kip --workspace .kip show <run-id> audits --pretty       # what the audit changed
+kip --workspace .kip migrate-taxonomy <run-id>           # backfill types on an old run
 ```
 
 Runs resume: a completed pass is reused rather than recomputed, so an
 interrupted or extended run never repeats the expensive extraction step.
+
+`migrate-taxonomy` is also what upgrades a run made before schema 3.1.0 — those
+runs hashed the unit's type into its content hash, so `validate` rejects them
+until they are migrated.
+
+## Demo — no API key needed
+
+```bash
+python demo/run_demo.py                    # scripted client, temp workspace
+python demo/run_demo.py --workspace .kip   # keep the artifact tree somewhere
+python demo/run_demo.py --live             # same code path, real API (costs money)
+```
+
+Ingests the two documents in [`demo/sources/`](demo/sources/) — a randomized
+trial and a practitioner review that disagree about the same effect — through
+all seven passes, then prints units by type and family, the flags, the
+quantitative and multi-fire counts, the entity mentions that reached the
+enriched units, and what the audit changed. The artifact tree it writes is real:
+`kip show` and `kip trace` work on it.
+
+Every model call is served by a canned transcript, so the run is free,
+deterministic, and offline. The test suite executes it.
 
 ## As a Claude Code plugin
 
@@ -87,6 +110,28 @@ answer.** Citation accuracy, provenance resolution, and independence arithmetic
 run as code with no error rate, instead of as LLM judgment with about one-in-five
 error on hard cases.
 
+**Six yes/no questions beat one six-way question.** Every unit gets typed —
+case, rule, method, concept, model, claim — but the model is never asked to pick
+one. It answers six independent booleans in a single call, and the priority
+order that resolves them lives in code. Asking a model to choose one label from
+a list measured about 90% lower odds of getting it right than asking a yes/no
+question. Chaining six separate yes/no calls instead would have been worse
+still: six gates at 95% each compounds to roughly 74% end to end.
+
+**Uncertainty is a shape, not a number.** No confidence score is asked for. If
+no test fires, the unit is `unclassified` — a visible health metric, not a
+silent default. If two fire, it is flagged `multi_fire`, which almost always
+means the sentence should have been two units. A confidence number would be one
+more thing to calibrate, and a "when unsure, pick X" instruction measurably
+biases models toward X.
+
+**A classification is a derivation, so it never touches content identity.**
+A unit's content hash covers the assertion — statement, evidence, source
+lineage — and deliberately excludes its labels. The earlier version hashed the
+type along with everything else, which meant re-classifying a corpus forged new
+hashes and the integrity check rejected it. Re-typing is now free; overwriting
+is still forbidden.
+
 **Injection can't be eliminated, so the architecture absorbs it.** No LLM pass
 has tool access and all output is schema-constrained, which means an injected
 instruction can at worst corrupt a field value — never take an action.
@@ -97,20 +142,43 @@ Each of these cites its evidence inline in the [specification](docs/SPECIFICATIO
 ## Tests
 
 ```bash
-PYTHONPATH=src python -m pytest tests/ -q
+pytest -q          # or: PYTHONPATH=src python -m pytest tests/ -q
 ```
 
-36 tests, no API key needed. They cover the deterministic half directly
-(normalization, locator maps, hashing, citation verification, independence
-arithmetic, idempotent enqueueing, resume) and the LLM passes through a scripted
-fake client that verifies wiring — including that the audit actually catches a
-deliberately overconfident candidate.
+218 cases from 149 test functions (the difference is parametrization), no API
+key and no network needed. They cover
+the deterministic half directly — normalization (including PDF, DOCX, PPTX,
+XLSX and multipart email, each built in the test), locator maps, hashing,
+citation verification, independence arithmetic, idempotent enqueueing, resume,
+the type taxonomy and its legacy migration — and the LLM passes through a
+scripted fake client that verifies wiring.
+
+The integration tests drive the real orchestrator, not a copy of the pass
+sequence, over three documents: `--stop-after`, resume, and the run manifest are
+all asserted on, so a pass cannot be removed without the suite noticing. The
+fake client validates every canned response against the schema its pass
+declared, which is what makes schema drift — the whole contract with the live
+model — visible offline.
+
+The safety machinery has its own tests because it is what the design leans on:
+each of `kip validate`'s error branches is exercised by corrupting exactly one
+field; the audit's distinct-auditor guard, mechanical-failure escalation, and
+reject/defer refusal each have a case; a candidate with no provenance is proved
+unqueueable; a migration is proved not to overwrite a live classification or to
+launder an edited statement; and a source added mid-run is proved to stop the
+resume rather than to vanish from it. The demo runs as a test too.
 
 ## Status
 
 Initial implementation. Passes 0 and 6 and all deterministic checks are
 verified end-to-end on real files; passes 1–5 are verified for wiring against a
 fake client but have **not** been run against the live API yet.
+
+The type taxonomy is in the same position. Its deterministic half — the
+derivations, the quantitative regex, the legacy migration, the content-hash
+invariant — is tested directly. Whether a real model answers the six type tests
+consistently is **unmeasured**; that is what the retained `unit_type` field is
+the control arm for.
 
 Open questions the research left unresolved — including whether the fine-grained
 relationship vocabulary is reliable enough to trust — are listed in

@@ -64,11 +64,28 @@ kip --workspace .kip show <run-id> units --pretty --limit 5
 kip --workspace .kip show <run-id> audits --pretty
 kip --workspace .kip validate <run-id>      # provenance + integrity check
 kip --workspace .kip trace <run-id> <queue-event-id|candidate-id|unit-id>
+kip --workspace .kip migrate-taxonomy <run-id>   # backfill kt-v1 types (idempotent)
 ```
 
 `trace` prints the full chain from a queue event back to the original file and
 the exact quoted excerpt. `validate` fails loudly if any excerpt no longer
 matches its source, any ID dangles, or any audit ran without a distinct auditor.
+
+`migrate-taxonomy` adds the `kt-v1` type fields to a run extracted before the
+taxonomy existed. It maps 15 of the 20 legacy labels deterministically and
+leaves the other 5 as `unclassified` with a note explaining why the label alone
+cannot decide them — it never guesses. Content hashes are unaffected, so
+`validate` still passes afterward.
+
+It refuses two things, and both refusals matter more than they look. A unit that
+already carries a real `kt-v1` classification is **left alone and counted**:
+rebuilding a model's six independent answers from one coarse legacy label is a
+downgrade, and every field involved is excluded from the content hash, so no
+later check could detect it. Pass `--reclassify` if that is genuinely what you
+want. And a unit whose stored hash matches neither the current nor the old
+sealing rule has had its statement edited since extraction; the migration stops
+rather than re-seal it, because re-sealing would make `kip validate` pass on
+text nobody wrote.
 
 ## Reading the output honestly
 

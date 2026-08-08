@@ -151,6 +151,8 @@ Store model/provider metadata in a run manifest: provider, model identifier, dec
 
 **Addition:** the run manifest must also record, per stage, the **evidence-tier configuration in force** — which checker model performed grounding, whether the auditor differed from the proposer, and the batch size used — because all three materially change the error rate of the output. (`R3 F1`, `R3 F4`, `R5 T2`)
 
+**`content_sha256` covers the assertion, not its labels.** `created_at` and every derived classification field are excluded — the authoritative list is `artifacts.DERIVED_FIELDS`, and the writer and the validator share one copy of it. See §9.3 for why. Schema `3.1.0` introduced this exclusion, so hashes written under `3.0.0` are not comparable with `3.1.0` ones.
+
 ---
 
 ## 8. Pass 0 — source intake and normalization
@@ -175,6 +177,8 @@ PDF, DOCX, PPTX, XLSX/CSV, HTML, Markdown, plain text, EML/MSG, exported chat, i
 
 `manifest.json`, `normalized.txt`, `locator_map.jsonl`, optional `assets/`. Manifest fields unchanged from v2 §7.4 (including `source_family_id`, `independence_group`, `lineage_role`, `quality_tier`).
 
+**`source_id` is `src-<slug>-<first 8 of the file's sha256>`.** The readable slug alone is not unique — `notes.md` and `notes.txt` both slugify to `notes`, and discovery is recursive, so `q1/report.md` and `q2/report.md` do too. That collision was silent and total: the two documents shared one `normalized.txt`, one `unit_id` namespace, and one registry entry, so the first was overwritten before Pass 1 read it while `kip validate` still reported a clean run. The digest is content-derived rather than positional so the same file keeps the same id however the directory changes. Two sources that still land on one id are the same bytes under the same name, and Pass 0 refuses them rather than merging.
+
 ### 8.5 `normalized.txt` rules
 
 Unchanged from v2 §7.5: UTF-8, stable `\n`; preserve reading order, headings, lists, tables, speaker labels, structural boundaries; deterministic structural markers (`[[PAGE 12]]`, `[[SLIDE 4]]`, `[[SHEET Budget]]`); no paraphrase, summary, inference, or removal of inconvenient content; deterministic-and-logged header/footer stripping only; OCR as fallback with recorded confidence; full email envelope; slide order and title/body/notes distinction; sheet/range references with formulas and displayed values separate.
@@ -189,7 +193,9 @@ Line numbers serve humans; character offsets and hashes serve machines. Keep bot
 
 ### 8.7 Acceptance checks
 
-Unchanged from v2 §7.7.
+Unchanged from v2 §7.7: unsupported or empty sources are **quarantined with a reason, never silently skipped**, because a skip corrupts every coverage metric downstream.
+
+**Garbage that survives decoding is quarantined too.** Decoding with `errors="replace"` turned an arbitrary binary with a text extension into a page of replacement characters, registered `success` with no warning and sent to the expensive extractor. A NUL byte in the raw bytes, or replacement characters above a small share of the decoded text, is treated exactly like an unsupported format.
 
 ---
 
@@ -222,9 +228,112 @@ v2 §8.3 instructed maximal atomicity: "split a proposed unit when any of these 
 
 > **Do not cite Dense X Retrieval as evidence that proposition-level indexing beats passage-level.** That claim was **refuted 0-3** in verification. (`R1`, refuted-claims list)
 
-### 9.3 Unit ontology
+### 9.3 Unit ontology — knowledge-type taxonomy `kt-v1`
 
-Unchanged from v2 §8.2, extensible: `fact`, `claim`, `definition`, `quantitative_result`, `null_result`, `study_design`, `method`, `decision`, `obligation`, `prohibition`, `exception`, `deadline`, `dependency`, `risk`, `limitation`, `contradiction`, `recommendation`, `open_question`, `observation`, `metadata`.
+v2 §8.2 carried a flat list of 20 labels. That list mixed four different questions — what kind of knowledge this is, why it must not be dropped, how it relates to another unit, and whether it is knowledge at all — which is why several of its labels were never separable from each other in practice. v3.1 splits those axes.
+
+**Six types, three families.** The tuple order below **is** the priority order:
+
+| Family (trusted tier) | Type (advisory tier) | Core question |
+|---|---|---|
+| **Episodic** — what happened | `case` | What occurred in this particular instance? |
+| **Procedural** — what to do | `rule` | What must, may, or must not happen? |
+| | `method` | How do we bring about a goal? |
+| **Semantic** — what is so | `concept` | What does this term mean? |
+| | `model` | How do these things relate, so we can explain or predict? |
+| | `claim` | What is asserted to be true? |
+
+The family is the **trusted** tier — the coarse judgment reliable enough for a lint rule and for a **ranking prior**. The 6-way type is **advisory**: display and lint pairing only. This is the same trust boundary §11.3 already draws for relationships, adopted here for the same measured reason.
+
+**Neither tier is ever a filter.** The only hard filter anywhere in the system is the **temporal window**; filtering by `family` is deliberately not expressible, because a coarse label that removes documents from consideration silently converts a classification error into a retrieval miss nobody can see. The consuming plugin enforces this in code rather than in prose — `kwg.retrieval` asserts `len(HARD_FILTERS) == 1 and HARD_FILTERS[0] == "temporal_window"`, exposes `rank_prior()`, and offers no `family=` parameter to pass.
+
+`family` is derived mechanically from `type`; it is never asked for separately.
+
+#### How classification is asked
+
+**Six independent booleans in one call, not one six-way choice.** The extractor answers `is_case`, `is_rule`, `is_method`, `is_concept`, `is_model`, `is_claim` — each on its own merits, all in the same schema object. Multiclass "pick one of N" labeling measured **~90% lower odds** of a correct assignment than binary present/absent judgments (OR = 0.10, 95% CI 0.03–0.35), and the binary-vs-multiclass distinction was the dominant task-level predictor of success.
+
+**Resolution happens in code, not in the prompt.** `taxonomy.derive_type()` returns the first test in priority order whose answer is true. An *ordered cascade of six separate LLM gates* was considered and rejected: six gates at 95% each compounds to ~0.74 end to end, worse than the single multiclass call it was meant to beat. Asking all six at once keeps the binary shape without the compounding, and moves the priority order somewhere it can change without a prompt rewrite.
+
+**Uncertainty is structural. No confidence score is asked for or stored.**
+
+| Signal | Meaning |
+|---|---|
+| `gates_fired == 0` | abstain — `type` is `unclassified`. A real terminal state and a health metric, not an error. |
+| `gates_fired == 1` | a clean classification |
+| `gates_fired >= 2` | `multi_fire` — the unit is probably **two units**. A split candidate, not a tie to break. |
+
+Consumers that need to abstain check `gates_fired != 1`. There is deliberately no `classification_confidence`: a verbalized confidence number is a second thing to calibrate, and its reliability depends mostly on how it was asked.
+
+`claim` is last in priority because it is the **residual** type — it absorbs whatever the other five reject. That is deliberate and it must be monitored; §9.3's alarm is the unflagged-`claim` share (see `validate.py`, threshold 40%).
+
+#### Secondary vocabulary
+
+- **`modality`** — `required` / `permitted` / `prohibited`, nullable. Populated on any deontic modal. It replaces three legacy labels (`obligation`, `prohibition`, `deadline`), so it is a net *reduction*.
+- **`flags`** — multi-select, from exactly two values. `negative_result`: the finding is an absence, a null, or a no-effect result. This is the one flag that survived review unanimously, because "X does not work" retrieves almost identically to "X works", so an unmarked null result is invisible to search and gets summarized out of existence. `caveat`: one merged marker absorbing limitation, exception, and scope restriction.
+- **`quantitative`** — **computed by code, never asked.** The distinction is *force*, not presence: "the trial ran in 2026" has a number and is not quantitative; "recall improved 8.2%" is. Stated honestly: this is a **heuristic with a measurable error rate**, not an oracle. Its known misfires are false *positives* — a step range (`steps 1-3`), a section reference, a phone number, a clock time — because the strip list is keyed on singular and symbol forms that real prose often does not use. Those cases are recorded as `xfail` in `tests/test_taxonomy.py` so a future fix flips them deliberately. A wrong answer costs a wrong retrieval hint, which is why paying a model for it is still not worth it; the field is a search aid and **nothing in the pipeline gates on it**, which a test also enforces.
+- **`node_kind`** — `unit` or `question`. A question has no truth value to check, no procedure to run, and no instance that occurred. Putting it inside the type system would pollute retrieval, because "what do we know about X?" would start returning "we don't know." Lint owns questions; retrieval ignores them unless asked.
+- **`entity_mentions`** — named things exactly as they appear, with line numbers. **Never canonicalized here.** The wiki owns entity resolution and needs the raw surfaces to do it.
+
+#### `unit_type` — the retained control field
+
+The full v2 list is **still asked for and still written to every record**:
+
+`fact`, `claim`, `definition`, `quantitative_result`, `null_result`, `study_design`, `method`, `decision`, `obligation`, `prohibition`, `exception`, `deadline`, `dependency`, `risk`, `limitation`, `contradiction`, `recommendation`, `open_question`, `observation`, `metadata`.
+
+This is a **dual-write**, not a deprecation. `unit_type` is the control arm of the taxonomy evaluation; deleting it would destroy the comparison the change exists to make. It is not used as a gate anywhere downstream.
+
+#### Migrating an existing run
+
+`kip migrate-taxonomy <run-id>` backfills the new fields onto units written before the taxonomy existed. It is idempotent, and it preserves `content_sha256` (see below).
+
+**15 of the 20 legacy labels map deterministically. 5 require review.** Anyone quoting a higher number is counting the unmapped ones. The five, and why the label alone cannot decide them:
+
+| Legacy label | Why it is undecidable from the label |
+|---|---|
+| `dependency` | a relationship, not a type; the typed edge is deferred |
+| `contradiction` | a relationship, not a type; carried by claim assessments |
+| `recommendation` | `method` vs `rule` turns on a modality the label does not record |
+| `observation` | `case` vs `claim` turns on whether it is bound to one instance |
+| `metadata` | not knowledge; the unit should be dropped |
+
+These are set to `type: unclassified` with a `migration_note`, never guessed. Migrated units are stamped `taxonomy_version: "kt-v1-migrated"` so an evaluation can tell a label reconstructed from a coarser one apart from a label a model produced against the type tests.
+
+`migrate-taxonomy` is also the **upgrade path for the hash change**. A run sealed by schema 3.0.0 hashed `unit_type` into `content_sha256`, so `kip validate` reports a content-hash mismatch on every unit until the run is migrated; the migration re-seals under the 3.1.0 rule and validation passes again.
+
+**Two refusals, both required by "no stage may overwrite" below.**
+
+- A unit already stamped `kt-v1` is **left untouched and counted**. Its six independent answers came from a model; the legacy label is one coarse guess, and rebuilding the first from the second is a downgrade that no later check can detect, because every field involved is excluded from the content hash by design. `--reclassify` performs it anyway, and exists so the choice is explicit rather than accidental. (`kt-v1-migrated` is deliberately not protected — re-running the migration over its own output is the idempotence property.)
+- A unit whose stored digest matches **neither** the 3.1.0 rule **nor** the 3.0.0 rule had its assertion edited after it was sealed, and the migration refuses it. Re-sealing unconditionally laundered such an edit: `kip validate` failed before the migration and passed after it, because the pass overwrote the only evidence of the change.
+
+#### Classification is a derivation, not a fact
+
+A unit's classification is a pure function of `(canonical_statement, prompt_version, classifier_model)`. Two consequences are binding:
+
+1. **No derived label enters `content_sha256`.** Content identity is the *assertion* — statement, evidence, source lineage — never its labels. Before schema 3.1.0, `seal()` hashed `unit_type` along with everything else, which meant re-deriving a classification forged a new content hash and §22's integrity check rejected the corpus. The exclusion set is `artifacts.DERIVED_FIELDS`, and `validate.py` re-seals through the same function rather than a copy of the rule. **Hashes written under schema 3.0.0 are not comparable with 3.1.0 hashes.**
+
+    Stated so the exclusion list is not over-read: `content_sha256` is a **within-run record digest, not a cross-run content identity.** The envelope — `run_id`, `prompt_version`, `model_role`, `parent_artifacts` — is inside the payload, so the same sentence extracted from the same file by two runs hashes differently. Nothing in this pipeline dedups across runs; `created_at` is excluded because it moves on every recompute of the *same* run, which would make the digest useless for detecting tampering.
+2. **Any stage may re-derive; no stage may overwrite.** A differing triple appends a new classification record with its own stamp.
+
+#### What was cut, and why
+
+The taxonomy proposal was larger than this. These parts were reviewed and removed on purpose; re-adding one needs new evidence, not a preference.
+
+| Cut | Why |
+|---|---|
+| Ordered cascade of six LLM gates | compounds multiplicatively — ~0.74 end to end at 95% per gate, worse than the single call it replaced |
+| Status lifecycle enum | duplicates the bi-temporal fields in §11.6, which already carry validity |
+| Two confidence scores | nothing to calibrate them against; `gates_fired` carries the same information structurally |
+| 10 fine-grained edge labels | the 15-label flat relationship vocabulary tested at 0.401 accuracy (§11.3); no reason to expect better here |
+| `risk` flag | maximally interpretive — the label abstractness that predicts classification failure |
+| `disputed` flag | unknowable at ingestion; the disputing unit may not be ingested yet. Computed downstream instead |
+| `deadline` flag | shadows the temporal fields |
+| `limitation` / `exception` flags | merged into `caveat`; three flags for one concept fired on nearly every careful sentence, which flags nothing |
+| `decision` flag | that is the `case` type |
+| `quantitative` as an LLM question | computed by regex |
+| Open sub-types, page-kind enums, review queues | no query was named that they unblock |
+
+A new type, flag, or edge is admitted only by naming the query it unblocks and showing measured gain.
 
 ### 9.4 Length guidance
 
@@ -265,7 +374,7 @@ The omission check may add, split, merge, or downgrade units, but must reference
 
 ### 9.7 Unit schema
 
-As v2 §8.6, with two added fields:
+As v2 §8.6, plus `granularity_policy` / `decontextualization_note` (v3.0) and the `kt-v1` classification block (v3.1):
 
 ```json
 {
@@ -273,7 +382,25 @@ As v2 §8.6, with two added fields:
   "source_id": "src-...",
   "source_family_id": "family-...",
   "independence_group": "study-...",
+
   "unit_type": "quantitative_result",
+
+  "type_tests": { "is_case": true, "is_rule": false, "is_method": false,
+                  "is_concept": false, "is_model": false, "is_claim": true },
+  "type": "case",
+  "family": "episodic",
+  "gates_fired": 2,
+  "multi_fire": true,
+  "modality": null,
+  "suppressed_modality": null,
+  "flags": [],
+  "quantitative": true,
+  "node_kind": "unit",
+  "entity_mentions": [ { "surface": "extension group", "line": 12 } ],
+  "taxonomy_version": "kt-v1",
+  "classifier_model": "<resolved from config>",
+  "migration_note": null,
+
   "canonical_statement": "One decontextualized, minimal statement.",
   "context_note": "Optional interpretive context, not new evidence.",
   "qualifiers": ["exploratory", "not preregistered"],
@@ -296,6 +423,12 @@ As v2 §8.6, with two added fields:
 ```
 
 `granularity_policy` and `decontextualization_note` are added per `R1 A3`/`R1 A4` — the first to make granularity tunable and auditable, the second to make the minimality/decontextuality tradeoff inspectable.
+
+**Only `unit_type`, `type_tests`, `modality`, `flags`, `node_kind`, and `entity_mentions` come from the model.** `type`, `family`, `gates_fired`, `multi_fire`, `suppressed_modality`, and `quantitative` are computed from those answers and the statement text. The whole block is excluded from `content_sha256` (§9.3, "classification is a derivation").
+
+**`modality` is scoped to units that resolved to `rule`; `suppressed_modality` holds the rest.** The model is still asked for a modal independently of `is_rule`, and the validator still treats a modality on a non-`rule` type as a fatal error — those two rules collide on a real shape, because a dated decision that states an obligation fires `is_case` and `is_rule` together and `case` wins on priority. Writing the reported modal into `suppressed_modality` keeps the answer (a `multi_fire` unit needs it to split later) while leaving the validated field meaning exactly what the validator checks.
+
+The example above shows a real `multi_fire` case: a measurement on one sample is a `case`, and the generalization it supports is a `claim`. Two gates firing means the source sentence should probably have been split into two units, and the flag is what surfaces that to lint.
 
 **Note the char-offset requirement in `evidence`.** v2 §8.6 showed only line numbers in the unit example while requiring char offsets in §7.6. v3 requires char offsets and `excerpt_sha256` on every evidence record, because Pass 5's deterministic citation check depends on them. (`R3 F6`)
 
@@ -573,6 +706,8 @@ As v2 §12.4, with `checks` extended to record **execution mode** per check (`de
 
 Unchanged from v2 §13 in contract. Queue event schema as v2 §13.2 with `queue_event_id`, `idempotency_key`, `target_engine`, `operation`, `candidate_id`, `candidate_version`, `audit_ids`, `payload`, `provenance_chain`, `status`.
 
+**The idempotency key is derived from `(target_engine, run_id, candidate_id, candidate_version, sha256(payload))`.** `candidate_id` is a per-run counter, so a key built from it alone made every run's Nth approved candidate identical — and a consumer doing what this section instructs, deduplicating on the key, would have discarded every run after the first. The payload digest is what makes a replay idempotent; the run id is what keeps two runs' proposals distinct.
+
 **Confirmed by engineering evidence:** the **transactional outbox** pattern is the right shape. It solves exactly the dual-write problem this handoff faces (atomically update state + publish), guarantees messages are sent iff the transaction commits and in commit order, and explicitly warns that the relay "might publish a message more than once" — therefore **consumers must be idempotent, tracking IDs of already-processed messages**. This is precisely v2's `idempotency_key` + acknowledge-by-event-ID design. (`PE T3`)
 
 This step is deterministic code, not an LLM reasoning pass. (v2, `prompts/pass_06_enqueue_contract.md`)
@@ -618,6 +753,10 @@ Pass 1 extraction across many sources is the natural batch candidate. (`SDK`)
 ## 18. Orchestration and resumability
 
 Unchanged from v2 §17: each pass is a durable job with input artifact IDs and hashes, output path, schema validation, completion marker, retry count, deterministic idempotency key, dead-letter status, parent-child lineage, and prompt/model version. A failed pass resumes from the last valid artifact. Do not reprocess unchanged sources unless the normalizer, prompt, schema, model policy, or source hash changes.
+
+**"Unchanged" is checked, not assumed.** Each stage records a fingerprint of the inputs it consumed — for Pass 0 the sorted `(filename, sha256)` of every discovered source, for later passes the content digests of the upstream records. Resuming a run whose fingerprint has moved is refused with the changed stage named, because the alternative is a corpus that is half old and half new with no marker anywhere saying so: the added document is never ingested, never quarantined, and absent from every coverage count, while the registry's `original_sha256` still describes content that no longer exists. `--force` recomputes; a new run id keeps both.
+
+**Pass 1 checkpoints per document.** It is the expensive pass and it accumulates across sources, so a failure on the last document used to discard the paid extraction for all of them. Units and omissions are written to `units.partial.jsonl` / `omissions.partial.jsonl` after each source and removed on success. A malformed unit inside an otherwise good answer is skipped and recorded in `02_units/rejects.jsonl` rather than raised — the same rule `_read_type_tests` already applied to a missing classification, extended to the rest of the record.
 
 **Confirmed by engineering practice:** durable-execution engines implement exactly this contract — recording each step as events and replaying history to restore state after a crash, with completed steps not re-executed. Because execution is at-least-once, **individual activities must be idempotent** (idempotency keys plus destination-side deduplication). (`PE T3`)
 

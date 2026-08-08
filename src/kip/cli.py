@@ -12,8 +12,9 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .artifacts import RunContext, read_jsonl
+from .artifacts import PipelineError, RunContext, file_hash, read_jsonl
 from .config import default_config
+from .migrate import format_summary, migrate_run
 from .pipeline import discover_sources, run_pipeline
 from .trace import trace_leaf
 from .validate import validate_run
@@ -37,17 +38,40 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     # Copy originals into the run so the artifact tree is self-contained and the
     # provenance chain survives the source directory changing later (spec §3.1).
+    # The RELATIVE path is preserved, not just the basename: discovery is
+    # recursive, so q1/report.md and q2/report.md are two different documents,
+    # and flattening them to one name dropped the second silently -- never
+    # ingested, never quarantined, absent from every coverage count.
     ctx.sources_dir.mkdir(parents=True, exist_ok=True)
     for path in discover_sources(source_dir):
-        target = ctx.sources_dir / path.name
-        if not target.exists():
-            shutil.copy2(path, target)
+        target = ctx.sources_dir / path.relative_to(source_dir)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists():
+            # Compared by content, not by size: the archived copy IS the
+            # provenance record, so replacing it quietly would break the chain
+            # from a durable leaf back to the bytes it was extracted from.
+            if file_hash(target) == file_hash(path):
+                continue
+            if not args.force:
+                print(
+                    f"error: {target} already exists in the run and differs from {path}. "
+                    "Re-run with --force to replace it and recompute, or use a new run "
+                    "id to keep both.",
+                    file=sys.stderr,
+                )
+                return 2
+            print(f"warning: --force is replacing the archived copy of {target.name}")
+        shutil.copy2(path, target)
 
     print(f"run_id: {ctx.run_id}")
     print(f"workspace: {ctx.run_dir}")
-    summary = run_pipeline(
-        ctx, cfg, ctx.sources_dir, stop_after=args.stop_after, force=args.force
-    )
+    try:
+        summary = run_pipeline(
+            ctx, cfg, ctx.sources_dir, stop_after=args.stop_after, force=args.force
+        )
+    except PipelineError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     print("\n--- summary ---")
     print(json.dumps(summary, indent=2))
     return 0
@@ -55,7 +79,19 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 def cmd_validate(args: argparse.Namespace) -> int:
     ctx = RunContext(run_id=args.run_id, root=Path(args.workspace).resolve())
-    report = validate_run(ctx)
+    # A gate that raises instead of reporting is a gate that a CI job reads as a
+    # crashed job, not a failed corpus. Anything unexpected becomes exit 2 --
+    # distinct from 1 ("checked, and it is bad") and from 0.
+    try:
+        report = validate_run(ctx)
+    except Exception as exc:  # noqa: BLE001 - the failure itself is the report
+        print(
+            json.dumps(
+                {"ok": False, "run_id": args.run_id, "errors": [f"validation failed: {exc}"]},
+                indent=2,
+            )
+        )
+        return 2
     print(json.dumps(report, indent=2))
     return 0 if report["ok"] else 1
 
@@ -67,6 +103,22 @@ def cmd_trace(args: argparse.Namespace) -> int:
         print(f"error: nothing found for {args.target!r}", file=sys.stderr)
         return 1
     print(chain)
+    return 0
+
+
+def cmd_migrate_taxonomy(args: argparse.Namespace) -> int:
+    ctx = RunContext(run_id=args.run_id, root=Path(args.workspace).resolve())
+    if not ctx.units.exists():
+        print(f"error: {ctx.units} does not exist", file=sys.stderr)
+        return 1
+    try:
+        summary = migrate_run(ctx, reclassify=args.reclassify)
+    except PipelineError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    print(format_summary(summary))
+    if args.json:
+        print(json.dumps(summary, indent=2))
     return 0
 
 
@@ -126,6 +178,23 @@ def main(argv: list[str] | None = None) -> int:
     trace.add_argument("run_id")
     trace.add_argument("target", help="candidate_id, queue_event_id, or unit_id")
     trace.set_defaults(func=cmd_trace)
+
+    migrate = sub.add_parser(
+        "migrate-taxonomy",
+        help="Backfill kt-v1 taxonomy fields onto a run's units (idempotent)",
+    )
+    migrate.add_argument("run_id")
+    migrate.add_argument("--json", action="store_true", help="Also print the raw summary")
+    migrate.add_argument(
+        "--reclassify",
+        action="store_true",
+        help=(
+            "Also rewrite units that already carry a real kt-v1 classification. "
+            "This REPLACES a model's six independent answers with labels re-derived "
+            "from one coarse legacy label; off by default for that reason."
+        ),
+    )
+    migrate.set_defaults(func=cmd_migrate_taxonomy)
 
     show = sub.add_parser("show", help="Print records from an artifact")
     show.add_argument("run_id")

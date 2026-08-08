@@ -9,13 +9,31 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from .artifacts import RunContext, envelope, seal, text_hash, write_jsonl_atomic
+from .artifacts import RunContext, envelope, read_jsonl, seal, text_hash, write_jsonl_atomic
 from .config import Config
 from .llm import DATA_BOUNDARY_NOTE, LLMClient, wrap_untrusted
+from .taxonomy import (
+    FLAGS,
+    MODALITIES,
+    NODE_KINDS,
+    TAXONOMY_VERSION,
+    TYPE_TESTS,
+    derive_family,
+    derive_type,
+    detect_quantitative,
+    gates_fired,
+    multi_fire,
+    normalize_flags,
+    normalize_modality,
+)
 
-PROMPT_VERSION = "pass-01-molecular-extraction-v3.0"
+PROMPT_VERSION = "pass-01-molecular-extraction-v3.1"
 OMISSION_PROMPT_VERSION = "pass-01b-omission-check-v3.0"
 
+# The pre-kt-v1 flat ontology. RETAINED, still asked for, still written to every
+# record -- this is a dual-write, and `unit_type` is the control arm of the
+# taxonomy evaluation. Deleting it would destroy the comparison the whole
+# migration exists to make.
 UNIT_TYPES = [
     "fact", "claim", "definition", "quantitative_result", "null_result",
     "study_design", "method", "decision", "obligation", "prohibition",
@@ -62,6 +80,101 @@ evidence_strength, novelty. The decision is NOT a simple sum: mandatory
 obligations, contradictions, critical limitations, and rare exceptions may be
 kept even when scores are low.
 
+TYPE TESTS — answer all six for every unit.
+Each test is an INDEPENDENT yes/no question. Answer each on its own merits; do
+not let one answer settle another, and do not try to pick a single winner. More
+than one may be true. If two are true, the unit is probably two units -- prefer
+splitting it, and if you cannot split it cleanly, answer both true and move on.
+
+  is_concept
+    Cue: the grammatical center is "X is / means / refers to / is distinguished
+    from Y" -- the unit's job is to fix what a term means.
+    Do not fire when the unit asserts something contingent that could turn out
+    false, or when it explains why or how something works.
+    Yes: "A drawdown is the peak-to-trough decline in a portfolio's value."
+    Yes: "Latency and throughput are distinct measures: per-request delay versus
+    requests served per second."
+
+  is_claim
+    Cue: a declarative proposition you could imagine checking, and that could
+    come out false.
+    Do not fire when the assertion is bound to one dated instance, when it is
+    nominal or definitional rather than contingent, when it is deontic, or when
+    it is an explanatory apparatus rather than one proposition.
+    Yes: "Sleep extension improves delayed recall in healthy adults."
+    Yes: "The API returns 429 above 100 requests per minute."
+
+  is_model
+    Cue: the unit asserts how two or more things relate such that you could
+    explain or predict something -- "because", "leads to", "is composed of",
+    "trades off against".
+    Do not fire merely because the subject is CALLED a model. A pricing model, a
+    data model, a risk model -- the word in the name is not the test. Ask what
+    the unit does. Do not fire for a single proposition, for executable steps, or
+    for a one-term definition.
+    Yes: "Larger batches raise throughput but lengthen tail latency, because
+    queued requests wait for the slowest member of the batch."
+    Yes: "Retrieval quality is composed of recall at the index stage and
+    precision at the rerank stage."
+
+  is_method
+    Cue: steps, a decision procedure, a technique, or an imperative with a goal
+    attached -- it tells you how to bring something about.
+    Do not fire when the unit constrains rather than instructs, when it explains
+    why a technique works, or when it records one occasion on which someone did
+    it. Test: a rule can be violated; a method can only be ineffective.
+    Yes: "To size a position, divide the account risk budget by the distance from
+    entry to the stop."
+    Yes: "Deduplicate sources by hashing the normalized text before clustering."
+
+  is_rule
+    Cue: a deontic modal -- must, shall, may, must not, never, always -- with
+    someone accountable to it. Requirement, permission, prohibition, limit,
+    standard, or policy.
+    Do not fire when the unit describes how a system behaves rather than what an
+    actor must do: "the API returns 429 above 100 requests per minute" is a
+    claim; "clients must not exceed 100 requests per minute" is a rule. Do not
+    fire for advice carrying no accountability, or for one enforcement event.
+    Yes: "Clients must not exceed 100 requests per minute."
+    Yes: "Reviewers may waive the second approval only for changes under ten
+    lines."
+
+  is_case
+    Cue: a specific time and a specific actor or subject. It happened once.
+    Do not fire when the unit generalizes beyond the instance, and do not fire
+    merely because a date appears -- a policy with an effective date is still a
+    rule. Ask whether the date is part of what happened or just when it started
+    applying.
+    Yes: "During the March 2026 outage the gateway dropped webhook deliveries for
+    forty minutes."
+    Yes: "The trial randomized 42 adults to a nine-hour sleep opportunity over
+    four weeks."
+
+A published result is usually TWO units: the case (on this sample, over this
+period, this was measured) and the claim it supports (this generalizes).
+
+MODALITY: set it whenever a deontic modal is present, independently of is_rule --
+"required" for must/shall/is required to, "permitted" for may/is allowed to,
+"prohibited" for must not/never/is forbidden to. Omit it when no modal appears.
+
+FLAGS: multi-select, omit when neither applies.
+  - negative_result: the finding is an absence, a null, or a no-effect result.
+    Mark these without fail. A statement that something does NOT work reads to a
+    search index almost exactly like a statement that it does, so an unmarked
+    null result is effectively invisible and gets summarized away.
+  - caveat: a limitation, a scope restriction, or an exception that qualifies
+    something else.
+
+NODE_KIND: "question" when the unit records an open question or an acknowledged
+gap rather than knowledge -- it has no truth value to check, no procedure to
+run, and no instance that occurred. Otherwise "unit".
+
+ENTITY MENTIONS: list named things the unit refers to -- people, organizations,
+products, systems, studies, instruments, places -- with the line each appears on.
+Record the surface form EXACTLY as it appears in the document. Do not expand
+acronyms, do not normalize spelling, do not merge variants. Canonicalization
+happens downstream, and it needs the raw surface forms to do it.
+
 Never invent evidence. If something is implied but not stated, either omit it or
 mark it in qualifiers. Report only what the document supports."""
 
@@ -93,6 +206,32 @@ EVIDENCE_SCHEMA = {
     "additionalProperties": False,
 }
 
+ENTITY_MENTION_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "surface": {
+            "type": "string",
+            "description": "The named thing exactly as written. Never canonicalized here.",
+        },
+        "line": {"type": "integer"},
+    },
+    "required": ["surface", "line"],
+    "additionalProperties": False,
+}
+
+# All six tests are REQUIRED in the same schema object, so the model answers them
+# in one call. Binary present/absent judgments measured ~90% higher odds of a
+# correct assignment than one multiclass choice; an ordered chain of six separate
+# LLM gates would give back more than it gained by compounding their error rates.
+# Priority resolution therefore happens in code (taxonomy.derive_type), where it
+# can change without a prompt rewrite.
+TYPE_TESTS_SCHEMA = {
+    "type": "object",
+    "properties": {name: {"type": "boolean"} for name in TYPE_TESTS},
+    "required": list(TYPE_TESTS),
+    "additionalProperties": False,
+}
+
 UNIT_SCHEMA = {
     "type": "object",
     "properties": {
@@ -102,6 +241,11 @@ UNIT_SCHEMA = {
                 "type": "object",
                 "properties": {
                     "unit_type": {"type": "string", "enum": UNIT_TYPES},
+                    "type_tests": TYPE_TESTS_SCHEMA,
+                    "modality": {"type": "string", "enum": list(MODALITIES)},
+                    "flags": {"type": "array", "items": {"type": "string", "enum": list(FLAGS)}},
+                    "node_kind": {"type": "string", "enum": list(NODE_KINDS)},
+                    "entity_mentions": {"type": "array", "items": ENTITY_MENTION_SCHEMA},
                     "canonical_statement": {"type": "string"},
                     "context_note": {"type": "string"},
                     "decontextualization_note": {
@@ -131,7 +275,8 @@ UNIT_SCHEMA = {
                     "extraction_confidence": {"type": "number"},
                 },
                 "required": [
-                    "unit_type", "canonical_statement", "evidence", "scores", "decision",
+                    "unit_type", "type_tests", "canonical_statement", "evidence",
+                    "scores", "decision",
                 ],
                 "additionalProperties": False,
             },
@@ -179,13 +324,29 @@ def _numbered(text: str) -> str:
     return "\n".join(f"{i + 1:5d}| {line}" for i, line in enumerate(text.splitlines()))
 
 
+def _checkpoint_paths(ctx: RunContext) -> tuple[Path, Path, Path]:
+    return (
+        ctx.units.with_name("units.partial.jsonl"),
+        ctx.omissions.with_name("omissions.partial.jsonl"),
+        ctx.units.with_name("rejects.jsonl"),
+    )
+
+
 def extract_units(
     ctx: RunContext,
     cfg: Config,
     client: LLMClient,
     registry: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
-    """Extract molecular units from every successfully normalized source."""
+    """Extract molecular units from every successfully normalized source.
+
+    Checkpointed per document. Pass 1 is the expensive pass and it used to hold
+    every source's units in memory until the last one finished, so any failure
+    -- a malformed answer, a truncation, a dropped connection on document nine
+    of ten -- threw away the paid work for all ten. Spec §18 says a failed pass
+    resumes from the last valid artifact; per-source checkpoints are what make
+    that true inside this pass rather than only between passes.
+    """
     boundary = DATA_BOUNDARY_NOTE.format(marker=cfg.datamark_char)
     system = EXTRACTION_SYSTEM.format(
         boundary=boundary,
@@ -195,13 +356,22 @@ def extract_units(
         eviwords=cfg.granularity.max_evidence_words,
     )
 
-    all_units: list[dict[str, Any]] = []
-    all_omissions: list[dict[str, Any]] = []
+    units_partial, omissions_partial, rejects_path = _checkpoint_paths(ctx)
+    all_units: list[dict[str, Any]] = read_jsonl(units_partial) if units_partial.exists() else []
+    all_omissions: list[dict[str, Any]] = (
+        read_jsonl(omissions_partial) if omissions_partial.exists() else []
+    )
+    all_rejects: list[dict[str, Any]] = read_jsonl(rejects_path) if rejects_path.exists() else []
+    done = {u["source_id"] for u in all_units} | {o["source_id"] for o in all_omissions}
+    if done:
+        print(f"[pass1] checkpoint: {len(all_units)} units from {len(done)} sources already done")
 
     for manifest in registry:
         if manifest.get("normalization_status") != "success":
             continue
         source_id = manifest["source_id"]
+        if source_id in done:
+            continue
         normalized_path = ctx.run_dir / manifest["normalized_path"]
         text = normalized_path.read_text(encoding="utf-8")
 
@@ -217,8 +387,12 @@ def extract_units(
             model=cfg.model_for("extractor"),
         )
 
-        units = _materialize_units(ctx, cfg, manifest, result.get("units", []), text)
+        rejects: list[dict[str, Any]] = []
+        units = _materialize_units(ctx, cfg, manifest, result.get("units", []), text, rejects)
         all_units.extend(units)
+        all_rejects.extend(rejects)
+        for reject in rejects:
+            print(f"[pass1] skipped a malformed unit from {source_id}: {reject['reason']}")
 
         # Omission check (spec §9.6). Kept as a separate call with its own
         # prompt: the evidence for it is a *detect-and-refine* step, and 24.9%
@@ -241,8 +415,99 @@ def extract_units(
             _materialize_omissions(ctx, source_id, omission.get("findings", []))
         )
 
+        done.add(source_id)
+        write_jsonl_atomic(units_partial, all_units)
+        write_jsonl_atomic(omissions_partial, all_omissions)
+        if all_rejects:
+            write_jsonl_atomic(rejects_path, all_rejects)
+
     write_jsonl_atomic(ctx.omissions, all_omissions)
+    # The checkpoints exist only to survive a crash; leaving them behind would
+    # make a later --force re-run resume from them instead of recomputing.
+    units_partial.unlink(missing_ok=True)
+    omissions_partial.unlink(missing_ok=True)
     return all_units
+
+
+def _read_type_tests(raw: object) -> dict[str, bool]:
+    """Coerce the model's six answers into exactly six booleans.
+
+    A missing or malformed answer becomes False rather than a guess, so the unit
+    lands in `unclassified` and shows up in the health metrics. Silently
+    defaulting to a type would hide the failure, which is the one outcome an
+    abstain state exists to prevent.
+    """
+    answers = raw if isinstance(raw, dict) else {}
+    return {name: bool(answers.get(name)) for name in TYPE_TESTS}
+
+
+def _read_node_kind(raw: object) -> str:
+    return raw if raw in NODE_KINDS else "unit"  # type: ignore[return-value]
+
+
+def _resolve_modality(raw: object, unit_type: str) -> tuple[str | None, str | None]:
+    """Split the model's modal answer into (kept, suppressed).
+
+    The prompt asks for modality on ANY deontic modal, independently of is_rule
+    (contract §2.2), while the validator makes a modality on a non-`rule` type a
+    fatal error (contract §2.5). Both are literal, and they collide on a real and
+    documented shape: a dated incident that also states an obligation fires
+    is_case AND is_rule, and `case` outranks `rule` in the priority tuple -- so a
+    perfectly correct extraction failed `kip validate` and exited 1.
+
+    Resolved here rather than by softening the check, because the check is the
+    thing that catches a genuinely corrupt record. The model still answers
+    independently; the record keeps the answer under `suppressed_modality` so no
+    signal is lost and a multi-fire unit can still be split later; only the
+    validated `modality` field is scoped to units that actually resolved to
+    `rule`.
+    """
+    modality = normalize_modality(raw)
+    if modality is None or unit_type == "rule":
+        return modality, None
+    return None, modality
+
+
+def _read_entity_mentions(raw: object) -> list[dict[str, Any]]:
+    """Keep surfaces verbatim; the wiki owns canonicalization, not this pass."""
+    if not isinstance(raw, (list, tuple)):
+        return []
+    mentions: list[dict[str, Any]] = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        surface = str(item.get("surface", "")).strip()
+        if not surface:
+            continue
+        try:
+            line = int(item.get("line", 0))
+        except (TypeError, ValueError):
+            line = 0
+        mentions.append({"surface": surface, "line": max(0, line)})
+    return mentions
+
+
+REQUIRED_RAW_UNIT_FIELDS = ("canonical_statement", "unit_type", "scores", "decision")
+
+
+def _reject(source_id: str, index: int, raw: object, reason: str) -> dict[str, Any]:
+    """A malformed model answer, recorded rather than raised.
+
+    `_read_type_tests` already treats a missing answer as data to record instead
+    of a crash; this applies the same rule to the rest of the record. The
+    motivation is resumability (spec §18): Pass 1 accumulates every source's
+    units and writes once, so one malformed unit in the last document used to
+    raise KeyError out of the stage runner and discard the extraction for the
+    ENTIRE corpus -- including the sources that came out fine. The forced-tool
+    fallback path and a max_tokens truncation both produce exactly this shape.
+    """
+    prefix = str(raw.get("canonical_statement", ""))[:120] if isinstance(raw, dict) else ""
+    return {
+        "source_id": source_id,
+        "raw_index": index,
+        "reason": reason,
+        "statement_prefix": prefix,
+    }
 
 
 def _materialize_units(
@@ -251,17 +516,40 @@ def _materialize_units(
     manifest: dict[str, Any],
     raw_units: list[dict[str, Any]],
     text: str,
+    rejects: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     source_id = manifest["source_id"]
     lines = text.splitlines()
     units: list[dict[str, Any]] = []
+    rejected = rejects if rejects is not None else []
 
     for index, raw in enumerate(raw_units, start=1):
+        if not isinstance(raw, dict):
+            rejected.append(_reject(source_id, index, raw, "not a JSON object"))
+            continue
+        missing = [f for f in REQUIRED_RAW_UNIT_FIELDS if f not in raw]
+        if missing:
+            rejected.append(
+                _reject(source_id, index, raw, f"missing required field(s): {', '.join(missing)}")
+            )
+            continue
+        if not isinstance(raw["canonical_statement"], str):
+            rejected.append(_reject(source_id, index, raw, "canonical_statement is not a string"))
+            continue
+
+        # Numbered from the model's output position, so a skipped record leaves
+        # a gap rather than renumbering the units after it. A unit id must mean
+        # the same thing on a re-run as it did on the first.
         unit_id = f"u-{source_id}-{index:04d}"
         evidence = [
             _resolve_evidence(manifest, e, text, lines)
             for e in raw.get("evidence", [])
+            if isinstance(e, dict)
         ]
+        tests = _read_type_tests(raw.get("type_tests"))
+        unit_type = derive_type(tests)
+        statement = raw["canonical_statement"].strip()
+        modality, suppressed_modality = _resolve_modality(raw.get("modality"), unit_type)
         record = {
             **envelope(
                 ctx,
@@ -273,8 +561,34 @@ def _materialize_units(
             "source_id": source_id,
             "source_family_id": manifest["source_family_id"],
             "independence_group": manifest["independence_group"],
+            # Legacy label, retained as the control arm (see UNIT_TYPES above).
             "unit_type": raw["unit_type"],
-            "canonical_statement": raw["canonical_statement"].strip(),
+            # --- kt-v1 derived block ------------------------------------------
+            # Everything here is a derivation of the model's six boolean answers
+            # plus the statement text, which is why none of it enters
+            # content_sha256 (artifacts.DERIVED_FIELDS). Re-deriving a
+            # classification must never forge a new content identity.
+            "type_tests": tests,
+            "type": unit_type,
+            "family": derive_family(unit_type),
+            "gates_fired": gates_fired(tests),
+            "multi_fire": multi_fire(tests),
+            "modality": modality,
+            # The modal the model reported on a unit that resolved to something
+            # other than `rule`. Kept so the signal survives for the split that
+            # a multi_fire unit is asking for; see _resolve_modality.
+            "suppressed_modality": suppressed_modality,
+            "flags": normalize_flags(raw.get("flags")),
+            # Computed, never asked. It is a heuristic with a real error rate --
+            # not an oracle -- but a regex is free and a model call is not, and
+            # the question is about surface form rather than meaning.
+            "quantitative": detect_quantitative(statement),
+            "node_kind": _read_node_kind(raw.get("node_kind")),
+            "entity_mentions": _read_entity_mentions(raw.get("entity_mentions")),
+            "taxonomy_version": TAXONOMY_VERSION,
+            "classifier_model": cfg.model_for("extractor"),
+            # ------------------------------------------------------------------
+            "canonical_statement": statement,
             "context_note": raw.get("context_note", ""),
             "decontextualization_note": raw.get("decontextualization_note", ""),
             "qualifiers": raw.get("qualifiers", []),

@@ -11,7 +11,11 @@ import os
 from dataclasses import dataclass, field, asdict
 from typing import Any
 
-SCHEMA_VERSION = "3.0.0"
+# 3.1.0 added the knowledge-type taxonomy (kt-v1) and, with it, removed derived
+# classification labels from the content hash (see artifacts.DERIVED_FIELDS).
+# Content hashes written under 3.0.0 are therefore NOT comparable with 3.1.0
+# hashes -- a run sealed by the older code will not re-seal to the same digest.
+SCHEMA_VERSION = "3.1.0"
 
 # --- Model roles (spec §19.4) -------------------------------------------------
 # Only three assignments are research-mandated:

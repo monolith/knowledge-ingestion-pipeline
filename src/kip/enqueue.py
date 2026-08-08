@@ -23,20 +23,41 @@ def enqueue_approved(
 
     Outbox semantics (spec §14): the relay may publish a message more than once,
     so delivery is at-least-once and the CONSUMER must deduplicate. The
-    idempotency key is derived from (target, candidate, version) rather than
-    generated randomly -- replaying this pass produces byte-identical events, so
-    a retry is provably harmless.
+    idempotency key is derived from the event's content rather than generated
+    randomly -- replaying this pass produces byte-identical events, so a retry is
+    provably harmless.
+
+    What goes INTO the key is the part that has to be right. `candidate_id` is
+    only a per-run counter ("cand-001"), so keying on (target, candidate,
+    version) alone made every run's Nth approved candidate share one key: a
+    consumer doing exactly what this docstring tells it to do would discard every
+    run after the first, silently, forever. The key therefore also carries the
+    run id and a digest of the payload -- the payload digest is what actually
+    makes a replay idempotent, and the run id keeps two runs' proposals distinct
+    even when they say the same thing about the same topic.
     """
     events: list[dict[str, Any]] = []
 
     for candidate in approved:
         candidate_id = candidate["candidate_id"]
         version = int(candidate["candidate_version"])
+        payload = {
+            "title": candidate["title"],
+            "slug": candidate["slug"],
+            "knowledge_state": candidate["knowledge_state"],
+            "summary": candidate["summary"],
+            "assertions": candidate["assertions"],
+            "source_unit_ids": candidate["source_unit_ids"],
+            "related_topics": candidate.get("related_topics", []),
+            "labels": candidate.get("labels", []),
+        }
         key = stable_hash(
             {
                 "target": target_engine,
+                "run_id": ctx.run_id,
                 "candidate_id": candidate_id,
                 "version": version,
+                "payload_sha256": stable_hash(payload),
             }
         )
         events.append(
@@ -51,16 +72,7 @@ def enqueue_approved(
                 "candidate_id": candidate_id,
                 "candidate_version": version,
                 "audit_ids": candidate.get("audit_ids", []),
-                "payload": {
-                    "title": candidate["title"],
-                    "slug": candidate["slug"],
-                    "knowledge_state": candidate["knowledge_state"],
-                    "summary": candidate["summary"],
-                    "assertions": candidate["assertions"],
-                    "source_unit_ids": candidate["source_unit_ids"],
-                    "related_topics": candidate.get("related_topics", []),
-                    "labels": candidate.get("labels", []),
-                },
+                "payload": payload,
                 # The full chain, so a durable leaf can be walked back to the
                 # original file without consulting this pipeline's code.
                 "provenance_chain": {

@@ -337,6 +337,41 @@ def test_enqueue_key_changes_with_version(ctx: RunContext):
     assert v1[0]["idempotency_key"] != v2[0]["idempotency_key"]
 
 
+def test_enqueue_keys_are_unique_across_runs(tmp_path: Path):
+    """Two unrelated runs must not produce the same idempotency key.
+
+    `candidate_id` is a per-run counter, so keying on (target, candidate,
+    version) alone made every run's Nth approved candidate share one key -- and
+    a consumer doing what the docstring instructs, deduplicating on the key,
+    would discard every run after the first. Different content, different key.
+    """
+    a = RunContext(run_id="run-A-2026", root=tmp_path / "a")
+    b = RunContext(run_id="run-B-2027", root=tmp_path / "b")
+    shape = {
+        "candidate_id": "cand-001-r1", "candidate_version": 2, "slug": "s",
+        "knowledge_state": "contested", "assertions": [], "source_unit_ids": [],
+        "suggested_operation": "create", "audit_ids": ["audit-1"],
+    }
+    first = enqueue_approved(a, [{**shape, "title": "Sleep extension and recall",
+                                  "summary": "one"}])
+    second = enqueue_approved(b, [{**shape, "title": "Rate limits for the payments API",
+                                   "summary": "two"}])
+    assert first[0]["idempotency_key"] != second[0]["idempotency_key"]
+    assert first[0]["queue_event_id"] != second[0]["queue_event_id"]
+
+
+def test_enqueue_key_changes_when_the_payload_changes(ctx: RunContext):
+    """Keying on content is what makes a replay idempotent rather than blind."""
+    base = {
+        "candidate_id": "cand-001", "candidate_version": 1, "slug": "t",
+        "knowledge_state": "contested", "summary": "s", "assertions": [],
+        "source_unit_ids": [], "suggested_operation": "create", "audit_ids": ["a"],
+    }
+    original = enqueue_approved(ctx, [{**base, "title": "Mixed evidence"}])
+    edited = enqueue_approved(ctx, [{**base, "title": "Definitively established"}])
+    assert original[0]["idempotency_key"] != edited[0]["idempotency_key"]
+
+
 def test_enqueue_carries_full_provenance_chain(ctx: RunContext):
     events = enqueue_approved(ctx, [{
         "candidate_id": "c", "candidate_version": 1, "title": "T", "slug": "t",

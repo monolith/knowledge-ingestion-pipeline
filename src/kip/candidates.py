@@ -85,6 +85,17 @@ PLAN_SCHEMA = {
 }
 
 
+# The fields the materializer below indexes without a default.
+REQUIRED_RAW_FIELDS = (
+    "title",
+    "knowledge_state",
+    "summary",
+    "assertions",
+    "source_unit_ids",
+    "suggested_operation",
+)
+
+
 def slugify(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")[:80] or "leaf"
 
@@ -122,6 +133,20 @@ def plan_candidates(
             continue
 
         for raw in result.get("candidates", []):
+            # Same rule as Pass 1 and Pass 3: a malformed proposal is one lost
+            # candidate, not a lost pass. Raising here discarded every candidate
+            # planned for every earlier cluster too.
+            missing = (
+                [f for f in REQUIRED_RAW_FIELDS if f not in raw]
+                if isinstance(raw, dict)
+                else ["(not a JSON object)"]
+            )
+            if missing:
+                print(
+                    f"[pass4] skipped a malformed candidate in {cluster_id}: "
+                    f"missing {', '.join(missing)}"
+                )
+                continue
             counter += 1
             candidates.append(
                 seal(

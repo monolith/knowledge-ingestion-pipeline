@@ -35,13 +35,51 @@ def slugify(value: str) -> str:
     return out or "source"
 
 
+def source_id_for(path: Path) -> str:
+    """A source id that cannot collide with another file's.
+
+    The readable slug alone is not unique: `notes.md` and `notes.txt` both
+    slugify to `notes`, and rglob makes `q1/report.md` and `q2/report.md`
+    equally identical. A collision is silent and total -- the two documents
+    share one normalized.txt, one unit_id namespace, and one registry entry, so
+    the first document's text is overwritten before Pass 1 ever reads it while
+    `kip validate` still reports a clean run. The content digest suffix makes
+    that impossible while keeping the id human-readable.
+
+    Content-derived rather than positional (an index) on purpose: the same file
+    keeps the same id no matter what else is in the directory, so resuming a run
+    after adding a source does not renumber everything already ingested.
+    """
+    # A path that does not exist cannot be hashed; fall back to the path itself
+    # so the id stays unique rather than collapsing every missing file onto one.
+    digest = file_hash(path) if path.is_file() else text_hash(str(path))
+    return f"src-{slugify(path.stem)[:40]}-{digest[:8]}"
+
+
 # --- Format handlers ----------------------------------------------------------
 # Each returns (normalized_text, structural_markers) where markers map a line
 # index to an original locator such as {"page": 7} or {"slide": 4}.
 
 
+# A decoded file that is mostly U+FFFD was not text; errors="replace" turned an
+# arbitrary binary into a page of replacement characters that reads as valid
+# prose to every downstream stage. Spec §8.7 says an unsupported source is
+# quarantined and never treated as valid, and garbage that merely survived
+# decoding is exactly that.
+_BINARY_REPLACEMENT_RATIO = 0.05
+
+
 def _normalize_text(path: Path) -> tuple[str, dict[int, dict[str, Any]]]:
-    return path.read_text(encoding="utf-8", errors="replace"), {}
+    raw = path.read_bytes()
+    if b"\x00" in raw:
+        raise PipelineError(f"{path.name}: contains NUL bytes; not text")
+    text = raw.decode("utf-8", errors="replace")
+    if text and text.count("�") / len(text) > _BINARY_REPLACEMENT_RATIO:
+        raise PipelineError(
+            f"{path.name}: {text.count(chr(0xFFFD))} undecodable bytes in "
+            f"{len(text)} characters; not usable text"
+        )
+    return text, {}
 
 
 def _normalize_html(path: Path) -> tuple[str, dict[int, dict[str, Any]]]:
@@ -300,10 +338,21 @@ def build_locator_map(
 def normalize_sources(ctx: RunContext, source_paths: list[Path]) -> list[dict[str, Any]]:
     """Normalize every source and write the source registry."""
     registry: list[dict[str, Any]] = []
+    seen_ids: dict[str, Path] = {}
 
     for path in sorted(source_paths):
         handler, normalizer = _handler_for(path)
-        source_id = f"src-{slugify(path.stem)[:48]}"
+        source_id = source_id_for(path)
+        if source_id in seen_ids:
+            # Byte-identical duplicates are the only way to reach this now, and
+            # ingesting one document twice inflates every coverage and
+            # independence count that Pass 3 depends on. Refuse rather than
+            # quietly merge -- a merge is what the old slug-only id did.
+            raise PipelineError(
+                f"duplicate source: {path} has the same content as "
+                f"{seen_ids[source_id]} (source_id {source_id}); remove one"
+            )
+        seen_ids[source_id] = path
         target_dir = ctx.normalized_dir / source_id
         normalized_rel = f"01_normalized/{source_id}/normalized.txt"
 

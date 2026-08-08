@@ -35,3 +35,6 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# So a fresh clone can run a bare `pytest`. Without it, collection fails with
+# ModuleNotFoundError: kip unless PYTHONPATH=src is set by hand.
+pythonpath = ["src"]

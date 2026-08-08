@@ -114,6 +114,19 @@ ASSESS_SCHEMA = {
 }
 
 
+# The fields _materialize indexes without a default. Named here so the guard and
+# the reader cannot disagree about what "malformed" means.
+REQUIRED_RAW_FIELDS = (
+    "canonical_claim",
+    "coarse_stance",
+    "relationship_bucket",
+    "relationship_subtype",
+    "uncertainty",
+    "synthesis",
+    "recommended_action",
+)
+
+
 def match_candidates(units: list[dict[str, Any]], top_k: int = 6) -> list[list[str]]:
     """Stage 1: retrieve plausible comparison groups, cheaply and in code.
 
@@ -182,6 +195,19 @@ def assess_clusters(
                 continue
 
             for raw in result.get("assessments", []):
+                # Skip-and-report, never raise: one malformed assessment used to
+                # abort Pass 3 and discard every assessment already produced for
+                # every cluster. The judgment is per-item, so the failure should
+                # be too.
+                missing = [f for f in REQUIRED_RAW_FIELDS if f not in raw] if isinstance(
+                    raw, dict
+                ) else ["(not a JSON object)"]
+                if missing:
+                    print(
+                        f"[pass3] skipped a malformed assessment in "
+                        f"{cluster['cluster_id']}: missing {', '.join(missing)}"
+                    )
+                    continue
                 counter += 1
                 assessments.append(
                     _materialize(ctx, cluster, raw, by_id, counter)
