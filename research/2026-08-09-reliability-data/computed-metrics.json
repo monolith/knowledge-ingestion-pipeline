@@ -1,0 +1,132 @@
+{
+  "arms": {
+    "A_legacy20_bare": {
+      "coverage": 1.0,
+      "native_alpha": 0.958540960733506,
+      "native_fleiss": 0.9581423161251743,
+      "native_unanimity": 0.9428571428571428,
+      "native_pairwise": 0.9619047619047619,
+      "projected_six_alpha": 0.973630831643002,
+      "projected_six_unanimity": 0.9714285714285714,
+      "family_alpha": 0.9687312086590499,
+      "family_unanimity": 0.9714285714285714,
+      "alpha_boundary": 1.0,
+      "alpha_routine": 0.9195979899497487,
+      "label_distribution": {
+        "claim": 51,
+        "rule": 15,
+        "concept": 9,
+        "unclassified": 9,
+        "case": 8,
+        "method": 7,
+        "question": 6
+      },
+      "author_key_agreement_SECONDARY": 0.4583333333333333
+    },
+    "B_legacy20_taught": {
+      "coverage": 1.0,
+      "native_alpha": 0.9792249300838993,
+      "native_fleiss": 0.9790251697962445,
+      "native_unanimity": 0.9714285714285714,
+      "native_pairwise": 0.9809523809523809,
+      "projected_six_alpha": 1.0,
+      "projected_six_unanimity": 1.0,
+      "family_alpha": 1.0,
+      "family_unanimity": 1.0,
+      "alpha_boundary": 1.0,
+      "alpha_routine": 1.0,
+      "label_distribution": {
+        "claim": 51,
+        "rule": 15,
+        "concept": 9,
+        "unclassified": 9,
+        "case": 9,
+        "method": 6,
+        "question": 6
+      },
+      "author_key_agreement_SECONDARY": 0.4583333333333333
+    },
+    "C_six_bare": {
+      "coverage": 1.0,
+      "native_alpha": 0.8816568047337279,
+      "native_fleiss": 0.8805188893946291,
+      "native_unanimity": 0.8571428571428571,
+      "native_pairwise": 0.9047619047619048,
+      "projected_six_alpha": 0.8816568047337279,
+      "projected_six_unanimity": 0.8571428571428571,
+      "family_alpha": 0.8955473719450955,
+      "family_unanimity": 0.9142857142857143,
+      "alpha_boundary": 0.8650831353919239,
+      "alpha_routine": 0.9183673469387755,
+      "label_distribution": {
+        "claim": 35,
+        "model": 17,
+        "rule": 16,
+        "method": 15,
+        "concept": 11,
+        "case": 11
+      },
+      "author_key_agreement_SECONDARY": 0.8888888888888888
+    },
+    "D_six_taught": {
+      "coverage": 1.0,
+      "native_alpha": 0.9536231884057971,
+      "native_fleiss": 0.9531772575250835,
+      "native_unanimity": 0.9428571428571428,
+      "native_pairwise": 0.9619047619047619,
+      "projected_six_alpha": 0.9536231884057971,
+      "projected_six_unanimity": 0.9428571428571428,
+      "family_alpha": 0.9696881375692218,
+      "family_unanimity": 0.9714285714285714,
+      "alpha_boundary": 0.9665094339622642,
+      "alpha_routine": 0.9219512195121952,
+      "label_distribution": {
+        "case": 25,
+        "claim": 25,
+        "rule": 18,
+        "model": 16,
+        "concept": 12,
+        "method": 9
+      },
+      "author_key_agreement_SECONDARY": 0.8472222222222222
+    },
+    "E_six_gates_taught": {
+      "coverage": 1.0,
+      "native_alpha": 0.9081677704194261,
+      "native_fleiss": 0.9072847682119206,
+      "native_unanimity": 0.8857142857142857,
+      "native_pairwise": 0.9238095238095239,
+      "projected_six_alpha": 0.9081677704194261,
+      "projected_six_unanimity": 0.8857142857142857,
+      "family_alpha": 0.9441160666308437,
+      "family_unanimity": 0.9428571428571428,
+      "alpha_boundary": 0.9009302325581395,
+      "alpha_routine": 0.9116022099447514,
+      "label_distribution": {
+        "case": 30,
+        "claim": 18,
+        "model": 16,
+        "rule": 16,
+        "concept": 12,
+        "method": 7,
+        "unclassified": 6
+      },
+      "author_key_agreement_SECONDARY": 0.8055555555555556,
+      "gates": {
+        "mean_gates_fired": 0.9619047619047619,
+        "multi_fire_rate": 0.01904761904761905,
+        "abstain_rate": 0.05714285714285714
+      }
+    }
+  },
+  "comparisons": {
+    "definitions_effect_20_labels (B - A)": 0.0264,
+    "definitions_effect_6_labels (D - C)": 0.072,
+    "count_effect_taught (D - B)": -0.0464,
+    "count_effect_bare (C - A)": -0.092,
+    "gates_vs_sixway_taught (E - D)": -0.0455,
+    "family_tier_gain_over_type (D)": 0.0161,
+    "family_tier_gain_over_type (E)": 0.0359
+  },
+  "n_items": 35
+}

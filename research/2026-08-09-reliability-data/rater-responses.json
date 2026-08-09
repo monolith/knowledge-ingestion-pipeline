@@ -1,0 +1,2734 @@
+{
+  "raters": [
+    {
+      "arm": "A_legacy20_bare",
+      "rater": 0,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B01",
+          "label": "definition"
+        },
+        {
+          "id": "B02",
+          "label": "claim"
+        },
+        {
+          "id": "B03",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "B04",
+          "label": "prohibition"
+        },
+        {
+          "id": "B05",
+          "label": "observation"
+        },
+        {
+          "id": "B06",
+          "label": "obligation"
+        },
+        {
+          "id": "B07",
+          "label": "deadline"
+        },
+        {
+          "id": "B08",
+          "label": "definition"
+        },
+        {
+          "id": "B09",
+          "label": "fact"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "prohibition"
+        },
+        {
+          "id": "B12",
+          "label": "decision"
+        },
+        {
+          "id": "B13",
+          "label": "fact"
+        },
+        {
+          "id": "B14",
+          "label": "fact"
+        },
+        {
+          "id": "B15",
+          "label": "fact"
+        },
+        {
+          "id": "B16",
+          "label": "open_question"
+        },
+        {
+          "id": "B17",
+          "label": "claim"
+        },
+        {
+          "id": "B18",
+          "label": "null_result"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "observation"
+        },
+        {
+          "id": "B22",
+          "label": "fact"
+        },
+        {
+          "id": "B23",
+          "label": "fact"
+        },
+        {
+          "id": "B24",
+          "label": "recommendation"
+        },
+        {
+          "id": "R01",
+          "label": "definition"
+        },
+        {
+          "id": "R02",
+          "label": "claim"
+        },
+        {
+          "id": "R03",
+          "label": "null_result"
+        },
+        {
+          "id": "R04",
+          "label": "prohibition"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "study_design"
+        },
+        {
+          "id": "R07",
+          "label": "study_design"
+        },
+        {
+          "id": "R08",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R09",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R10",
+          "label": "limitation"
+        },
+        {
+          "id": "R11",
+          "label": "open_question"
+        }
+      ]
+    },
+    {
+      "arm": "A_legacy20_bare",
+      "rater": 1,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B01",
+          "label": "definition"
+        },
+        {
+          "id": "B02",
+          "label": "claim"
+        },
+        {
+          "id": "B03",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "B04",
+          "label": "prohibition"
+        },
+        {
+          "id": "B05",
+          "label": "observation"
+        },
+        {
+          "id": "B06",
+          "label": "obligation"
+        },
+        {
+          "id": "B07",
+          "label": "deadline"
+        },
+        {
+          "id": "B08",
+          "label": "definition"
+        },
+        {
+          "id": "B09",
+          "label": "fact"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "prohibition"
+        },
+        {
+          "id": "B12",
+          "label": "decision"
+        },
+        {
+          "id": "B13",
+          "label": "fact"
+        },
+        {
+          "id": "B14",
+          "label": "fact"
+        },
+        {
+          "id": "B15",
+          "label": "fact"
+        },
+        {
+          "id": "B16",
+          "label": "open_question"
+        },
+        {
+          "id": "B17",
+          "label": "claim"
+        },
+        {
+          "id": "B18",
+          "label": "null_result"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "observation"
+        },
+        {
+          "id": "B22",
+          "label": "fact"
+        },
+        {
+          "id": "B23",
+          "label": "fact"
+        },
+        {
+          "id": "B24",
+          "label": "recommendation"
+        },
+        {
+          "id": "R01",
+          "label": "definition"
+        },
+        {
+          "id": "R02",
+          "label": "claim"
+        },
+        {
+          "id": "R03",
+          "label": "null_result"
+        },
+        {
+          "id": "R04",
+          "label": "prohibition"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "study_design"
+        },
+        {
+          "id": "R07",
+          "label": "study_design"
+        },
+        {
+          "id": "R08",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R09",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R10",
+          "label": "limitation"
+        },
+        {
+          "id": "R11",
+          "label": "open_question"
+        }
+      ]
+    },
+    {
+      "arm": "A_legacy20_bare",
+      "rater": 2,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "R01",
+          "label": "definition"
+        },
+        {
+          "id": "R02",
+          "label": "claim"
+        },
+        {
+          "id": "R03",
+          "label": "null_result"
+        },
+        {
+          "id": "R04",
+          "label": "prohibition"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "study_design"
+        },
+        {
+          "id": "R07",
+          "label": "method"
+        },
+        {
+          "id": "R08",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R09",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R10",
+          "label": "limitation"
+        },
+        {
+          "id": "R11",
+          "label": "open_question"
+        },
+        {
+          "id": "B01",
+          "label": "definition"
+        },
+        {
+          "id": "B02",
+          "label": "claim"
+        },
+        {
+          "id": "B03",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "B04",
+          "label": "prohibition"
+        },
+        {
+          "id": "B05",
+          "label": "observation"
+        },
+        {
+          "id": "B06",
+          "label": "obligation"
+        },
+        {
+          "id": "B07",
+          "label": "deadline"
+        },
+        {
+          "id": "B08",
+          "label": "definition"
+        },
+        {
+          "id": "B09",
+          "label": "fact"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "prohibition"
+        },
+        {
+          "id": "B12",
+          "label": "decision"
+        },
+        {
+          "id": "B13",
+          "label": "fact"
+        },
+        {
+          "id": "B14",
+          "label": "fact"
+        },
+        {
+          "id": "B15",
+          "label": "fact"
+        },
+        {
+          "id": "B16",
+          "label": "open_question"
+        },
+        {
+          "id": "B17",
+          "label": "claim"
+        },
+        {
+          "id": "B18",
+          "label": "null_result"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "observation"
+        },
+        {
+          "id": "B22",
+          "label": "limitation"
+        },
+        {
+          "id": "B23",
+          "label": "fact"
+        },
+        {
+          "id": "B24",
+          "label": "recommendation"
+        }
+      ]
+    },
+    {
+      "arm": "B_legacy20_taught",
+      "rater": 0,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B01",
+          "label": "definition"
+        },
+        {
+          "id": "B02",
+          "label": "claim"
+        },
+        {
+          "id": "B03",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "B04",
+          "label": "prohibition"
+        },
+        {
+          "id": "B05",
+          "label": "observation"
+        },
+        {
+          "id": "B06",
+          "label": "obligation"
+        },
+        {
+          "id": "B07",
+          "label": "deadline"
+        },
+        {
+          "id": "B08",
+          "label": "definition"
+        },
+        {
+          "id": "B09",
+          "label": "fact"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "prohibition"
+        },
+        {
+          "id": "B12",
+          "label": "decision"
+        },
+        {
+          "id": "B13",
+          "label": "fact"
+        },
+        {
+          "id": "B14",
+          "label": "fact"
+        },
+        {
+          "id": "B15",
+          "label": "fact"
+        },
+        {
+          "id": "B16",
+          "label": "open_question"
+        },
+        {
+          "id": "B17",
+          "label": "claim"
+        },
+        {
+          "id": "B18",
+          "label": "null_result"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "observation"
+        },
+        {
+          "id": "B22",
+          "label": "fact"
+        },
+        {
+          "id": "B23",
+          "label": "fact"
+        },
+        {
+          "id": "B24",
+          "label": "recommendation"
+        },
+        {
+          "id": "R01",
+          "label": "definition"
+        },
+        {
+          "id": "R02",
+          "label": "claim"
+        },
+        {
+          "id": "R03",
+          "label": "null_result"
+        },
+        {
+          "id": "R04",
+          "label": "prohibition"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "study_design"
+        },
+        {
+          "id": "R07",
+          "label": "study_design"
+        },
+        {
+          "id": "R08",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R09",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R10",
+          "label": "limitation"
+        },
+        {
+          "id": "R11",
+          "label": "open_question"
+        }
+      ]
+    },
+    {
+      "arm": "B_legacy20_taught",
+      "rater": 1,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B01",
+          "label": "definition"
+        },
+        {
+          "id": "B02",
+          "label": "claim"
+        },
+        {
+          "id": "B03",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "B04",
+          "label": "prohibition"
+        },
+        {
+          "id": "B05",
+          "label": "observation"
+        },
+        {
+          "id": "B06",
+          "label": "obligation"
+        },
+        {
+          "id": "B07",
+          "label": "deadline"
+        },
+        {
+          "id": "B08",
+          "label": "definition"
+        },
+        {
+          "id": "B09",
+          "label": "fact"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "prohibition"
+        },
+        {
+          "id": "B12",
+          "label": "decision"
+        },
+        {
+          "id": "B13",
+          "label": "fact"
+        },
+        {
+          "id": "B14",
+          "label": "fact"
+        },
+        {
+          "id": "B15",
+          "label": "fact"
+        },
+        {
+          "id": "B16",
+          "label": "open_question"
+        },
+        {
+          "id": "B17",
+          "label": "claim"
+        },
+        {
+          "id": "B18",
+          "label": "null_result"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "observation"
+        },
+        {
+          "id": "B22",
+          "label": "fact"
+        },
+        {
+          "id": "B23",
+          "label": "fact"
+        },
+        {
+          "id": "B24",
+          "label": "recommendation"
+        },
+        {
+          "id": "R01",
+          "label": "definition"
+        },
+        {
+          "id": "R02",
+          "label": "claim"
+        },
+        {
+          "id": "R03",
+          "label": "null_result"
+        },
+        {
+          "id": "R04",
+          "label": "prohibition"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "study_design"
+        },
+        {
+          "id": "R07",
+          "label": "study_design"
+        },
+        {
+          "id": "R08",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R09",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R10",
+          "label": "limitation"
+        },
+        {
+          "id": "R11",
+          "label": "open_question"
+        }
+      ]
+    },
+    {
+      "arm": "B_legacy20_taught",
+      "rater": 2,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B23",
+          "label": "claim"
+        },
+        {
+          "id": "B24",
+          "label": "recommendation"
+        },
+        {
+          "id": "R01",
+          "label": "definition"
+        },
+        {
+          "id": "R02",
+          "label": "claim"
+        },
+        {
+          "id": "R03",
+          "label": "null_result"
+        },
+        {
+          "id": "R04",
+          "label": "prohibition"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "study_design"
+        },
+        {
+          "id": "R07",
+          "label": "study_design"
+        },
+        {
+          "id": "R08",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R09",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "R10",
+          "label": "limitation"
+        },
+        {
+          "id": "R11",
+          "label": "open_question"
+        },
+        {
+          "id": "B01",
+          "label": "definition"
+        },
+        {
+          "id": "B02",
+          "label": "claim"
+        },
+        {
+          "id": "B03",
+          "label": "quantitative_result"
+        },
+        {
+          "id": "B04",
+          "label": "prohibition"
+        },
+        {
+          "id": "B05",
+          "label": "observation"
+        },
+        {
+          "id": "B06",
+          "label": "obligation"
+        },
+        {
+          "id": "B07",
+          "label": "deadline"
+        },
+        {
+          "id": "B08",
+          "label": "definition"
+        },
+        {
+          "id": "B09",
+          "label": "fact"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "prohibition"
+        },
+        {
+          "id": "B12",
+          "label": "decision"
+        },
+        {
+          "id": "B13",
+          "label": "fact"
+        },
+        {
+          "id": "B14",
+          "label": "fact"
+        },
+        {
+          "id": "B15",
+          "label": "fact"
+        },
+        {
+          "id": "B16",
+          "label": "open_question"
+        },
+        {
+          "id": "B17",
+          "label": "claim"
+        },
+        {
+          "id": "B18",
+          "label": "null_result"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "observation"
+        },
+        {
+          "id": "B22",
+          "label": "fact"
+        }
+      ]
+    },
+    {
+      "arm": "C_six_bare",
+      "rater": 0,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B01",
+          "label": "concept"
+        },
+        {
+          "id": "B02",
+          "label": "model"
+        },
+        {
+          "id": "B03",
+          "label": "claim"
+        },
+        {
+          "id": "B04",
+          "label": "rule"
+        },
+        {
+          "id": "B05",
+          "label": "case"
+        },
+        {
+          "id": "B06",
+          "label": "method"
+        },
+        {
+          "id": "B07",
+          "label": "rule"
+        },
+        {
+          "id": "B08",
+          "label": "concept"
+        },
+        {
+          "id": "B09",
+          "label": "model"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "rule"
+        },
+        {
+          "id": "B12",
+          "label": "case"
+        },
+        {
+          "id": "B13",
+          "label": "model"
+        },
+        {
+          "id": "B14",
+          "label": "claim"
+        },
+        {
+          "id": "B15",
+          "label": "claim"
+        },
+        {
+          "id": "B16",
+          "label": "method"
+        },
+        {
+          "id": "B17",
+          "label": "model"
+        },
+        {
+          "id": "B18",
+          "label": "claim"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "model"
+        },
+        {
+          "id": "B21",
+          "label": "claim"
+        },
+        {
+          "id": "B22",
+          "label": "claim"
+        },
+        {
+          "id": "B23",
+          "label": "case"
+        },
+        {
+          "id": "B24",
+          "label": "rule"
+        },
+        {
+          "id": "R01",
+          "label": "concept"
+        },
+        {
+          "id": "R02",
+          "label": "model"
+        },
+        {
+          "id": "R03",
+          "label": "claim"
+        },
+        {
+          "id": "R04",
+          "label": "rule"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "method"
+        },
+        {
+          "id": "R07",
+          "label": "method"
+        },
+        {
+          "id": "R08",
+          "label": "claim"
+        },
+        {
+          "id": "R09",
+          "label": "claim"
+        },
+        {
+          "id": "R10",
+          "label": "claim"
+        },
+        {
+          "id": "R11",
+          "label": "claim"
+        }
+      ]
+    },
+    {
+      "arm": "C_six_bare",
+      "rater": 1,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B01",
+          "label": "concept"
+        },
+        {
+          "id": "B02",
+          "label": "model"
+        },
+        {
+          "id": "B03",
+          "label": "claim"
+        },
+        {
+          "id": "B04",
+          "label": "rule"
+        },
+        {
+          "id": "B05",
+          "label": "case"
+        },
+        {
+          "id": "B06",
+          "label": "method"
+        },
+        {
+          "id": "B07",
+          "label": "rule"
+        },
+        {
+          "id": "B08",
+          "label": "concept"
+        },
+        {
+          "id": "B09",
+          "label": "model"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "rule"
+        },
+        {
+          "id": "B12",
+          "label": "case"
+        },
+        {
+          "id": "B13",
+          "label": "model"
+        },
+        {
+          "id": "B14",
+          "label": "claim"
+        },
+        {
+          "id": "B15",
+          "label": "claim"
+        },
+        {
+          "id": "B16",
+          "label": "method"
+        },
+        {
+          "id": "B17",
+          "label": "model"
+        },
+        {
+          "id": "B18",
+          "label": "claim"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "model"
+        },
+        {
+          "id": "B21",
+          "label": "claim"
+        },
+        {
+          "id": "B22",
+          "label": "rule"
+        },
+        {
+          "id": "B23",
+          "label": "case"
+        },
+        {
+          "id": "B24",
+          "label": "rule"
+        },
+        {
+          "id": "R01",
+          "label": "concept"
+        },
+        {
+          "id": "R02",
+          "label": "model"
+        },
+        {
+          "id": "R03",
+          "label": "claim"
+        },
+        {
+          "id": "R04",
+          "label": "rule"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "case"
+        },
+        {
+          "id": "R07",
+          "label": "method"
+        },
+        {
+          "id": "R08",
+          "label": "claim"
+        },
+        {
+          "id": "R09",
+          "label": "claim"
+        },
+        {
+          "id": "R10",
+          "label": "claim"
+        },
+        {
+          "id": "R11",
+          "label": "claim"
+        }
+      ]
+    },
+    {
+      "arm": "C_six_bare",
+      "rater": 2,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B23",
+          "label": "case"
+        },
+        {
+          "id": "B24",
+          "label": "rule"
+        },
+        {
+          "id": "R01",
+          "label": "concept"
+        },
+        {
+          "id": "R02",
+          "label": "model"
+        },
+        {
+          "id": "R03",
+          "label": "claim"
+        },
+        {
+          "id": "R04",
+          "label": "rule"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "case"
+        },
+        {
+          "id": "R07",
+          "label": "method"
+        },
+        {
+          "id": "R08",
+          "label": "claim"
+        },
+        {
+          "id": "R09",
+          "label": "claim"
+        },
+        {
+          "id": "R10",
+          "label": "claim"
+        },
+        {
+          "id": "R11",
+          "label": "claim"
+        },
+        {
+          "id": "B01",
+          "label": "concept"
+        },
+        {
+          "id": "B02",
+          "label": "model"
+        },
+        {
+          "id": "B03",
+          "label": "claim"
+        },
+        {
+          "id": "B04",
+          "label": "rule"
+        },
+        {
+          "id": "B05",
+          "label": "case"
+        },
+        {
+          "id": "B06",
+          "label": "method"
+        },
+        {
+          "id": "B07",
+          "label": "rule"
+        },
+        {
+          "id": "B08",
+          "label": "concept"
+        },
+        {
+          "id": "B09",
+          "label": "model"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "rule"
+        },
+        {
+          "id": "B12",
+          "label": "case"
+        },
+        {
+          "id": "B13",
+          "label": "concept"
+        },
+        {
+          "id": "B14",
+          "label": "claim"
+        },
+        {
+          "id": "B15",
+          "label": "concept"
+        },
+        {
+          "id": "B16",
+          "label": "claim"
+        },
+        {
+          "id": "B17",
+          "label": "model"
+        },
+        {
+          "id": "B18",
+          "label": "claim"
+        },
+        {
+          "id": "B19",
+          "label": "claim"
+        },
+        {
+          "id": "B20",
+          "label": "model"
+        },
+        {
+          "id": "B21",
+          "label": "claim"
+        },
+        {
+          "id": "B22",
+          "label": "claim"
+        }
+      ]
+    },
+    {
+      "arm": "D_six_taught",
+      "rater": 0,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B01",
+          "label": "concept"
+        },
+        {
+          "id": "B02",
+          "label": "model"
+        },
+        {
+          "id": "B03",
+          "label": "case"
+        },
+        {
+          "id": "B04",
+          "label": "rule"
+        },
+        {
+          "id": "B05",
+          "label": "case"
+        },
+        {
+          "id": "B06",
+          "label": "rule"
+        },
+        {
+          "id": "B07",
+          "label": "rule"
+        },
+        {
+          "id": "B08",
+          "label": "concept"
+        },
+        {
+          "id": "B09",
+          "label": "claim"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "rule"
+        },
+        {
+          "id": "B12",
+          "label": "case"
+        },
+        {
+          "id": "B13",
+          "label": "model"
+        },
+        {
+          "id": "B14",
+          "label": "claim"
+        },
+        {
+          "id": "B15",
+          "label": "concept"
+        },
+        {
+          "id": "B16",
+          "label": "method"
+        },
+        {
+          "id": "B17",
+          "label": "model"
+        },
+        {
+          "id": "B18",
+          "label": "claim"
+        },
+        {
+          "id": "B19",
+          "label": "model"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "claim"
+        },
+        {
+          "id": "B22",
+          "label": "claim"
+        },
+        {
+          "id": "B23",
+          "label": "case"
+        },
+        {
+          "id": "B24",
+          "label": "rule"
+        },
+        {
+          "id": "R01",
+          "label": "concept"
+        },
+        {
+          "id": "R02",
+          "label": "model"
+        },
+        {
+          "id": "R03",
+          "label": "case"
+        },
+        {
+          "id": "R04",
+          "label": "rule"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "case"
+        },
+        {
+          "id": "R07",
+          "label": "case"
+        },
+        {
+          "id": "R08",
+          "label": "case"
+        },
+        {
+          "id": "R09",
+          "label": "case"
+        },
+        {
+          "id": "R10",
+          "label": "claim"
+        },
+        {
+          "id": "R11",
+          "label": "claim"
+        }
+      ]
+    },
+    {
+      "arm": "D_six_taught",
+      "rater": 1,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B12",
+          "label": "case"
+        },
+        {
+          "id": "B13",
+          "label": "model"
+        },
+        {
+          "id": "B14",
+          "label": "claim"
+        },
+        {
+          "id": "B15",
+          "label": "concept"
+        },
+        {
+          "id": "B16",
+          "label": "method"
+        },
+        {
+          "id": "B17",
+          "label": "model"
+        },
+        {
+          "id": "B18",
+          "label": "claim"
+        },
+        {
+          "id": "B19",
+          "label": "model"
+        },
+        {
+          "id": "B20",
+          "label": "model"
+        },
+        {
+          "id": "B21",
+          "label": "claim"
+        },
+        {
+          "id": "B22",
+          "label": "claim"
+        },
+        {
+          "id": "B23",
+          "label": "case"
+        },
+        {
+          "id": "B24",
+          "label": "rule"
+        },
+        {
+          "id": "R01",
+          "label": "concept"
+        },
+        {
+          "id": "R02",
+          "label": "model"
+        },
+        {
+          "id": "R03",
+          "label": "claim"
+        },
+        {
+          "id": "R04",
+          "label": "rule"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "case"
+        },
+        {
+          "id": "R07",
+          "label": "case"
+        },
+        {
+          "id": "R08",
+          "label": "case"
+        },
+        {
+          "id": "R09",
+          "label": "case"
+        },
+        {
+          "id": "R10",
+          "label": "claim"
+        },
+        {
+          "id": "R11",
+          "label": "claim"
+        },
+        {
+          "id": "B01",
+          "label": "concept"
+        },
+        {
+          "id": "B02",
+          "label": "model"
+        },
+        {
+          "id": "B03",
+          "label": "case"
+        },
+        {
+          "id": "B04",
+          "label": "rule"
+        },
+        {
+          "id": "B05",
+          "label": "case"
+        },
+        {
+          "id": "B06",
+          "label": "rule"
+        },
+        {
+          "id": "B07",
+          "label": "rule"
+        },
+        {
+          "id": "B08",
+          "label": "concept"
+        },
+        {
+          "id": "B09",
+          "label": "claim"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "rule"
+        }
+      ]
+    },
+    {
+      "arm": "D_six_taught",
+      "rater": 2,
+      "mode": "single",
+      "labels": [
+        {
+          "id": "B23",
+          "label": "case"
+        },
+        {
+          "id": "B24",
+          "label": "rule"
+        },
+        {
+          "id": "R01",
+          "label": "concept"
+        },
+        {
+          "id": "R02",
+          "label": "model"
+        },
+        {
+          "id": "R03",
+          "label": "claim"
+        },
+        {
+          "id": "R04",
+          "label": "rule"
+        },
+        {
+          "id": "R05",
+          "label": "method"
+        },
+        {
+          "id": "R06",
+          "label": "case"
+        },
+        {
+          "id": "R07",
+          "label": "case"
+        },
+        {
+          "id": "R08",
+          "label": "case"
+        },
+        {
+          "id": "R09",
+          "label": "case"
+        },
+        {
+          "id": "R10",
+          "label": "claim"
+        },
+        {
+          "id": "R11",
+          "label": "claim"
+        },
+        {
+          "id": "B01",
+          "label": "concept"
+        },
+        {
+          "id": "B02",
+          "label": "model"
+        },
+        {
+          "id": "B03",
+          "label": "case"
+        },
+        {
+          "id": "B04",
+          "label": "rule"
+        },
+        {
+          "id": "B05",
+          "label": "case"
+        },
+        {
+          "id": "B06",
+          "label": "rule"
+        },
+        {
+          "id": "B07",
+          "label": "rule"
+        },
+        {
+          "id": "B08",
+          "label": "concept"
+        },
+        {
+          "id": "B09",
+          "label": "claim"
+        },
+        {
+          "id": "B10",
+          "label": "method"
+        },
+        {
+          "id": "B11",
+          "label": "rule"
+        },
+        {
+          "id": "B12",
+          "label": "case"
+        },
+        {
+          "id": "B13",
+          "label": "model"
+        },
+        {
+          "id": "B14",
+          "label": "claim"
+        },
+        {
+          "id": "B15",
+          "label": "concept"
+        },
+        {
+          "id": "B16",
+          "label": "method"
+        },
+        {
+          "id": "B17",
+          "label": "model"
+        },
+        {
+          "id": "B18",
+          "label": "claim"
+        },
+        {
+          "id": "B19",
+          "label": "model"
+        },
+        {
+          "id": "B20",
+          "label": "claim"
+        },
+        {
+          "id": "B21",
+          "label": "claim"
+        },
+        {
+          "id": "B22",
+          "label": "claim"
+        }
+      ]
+    },
+    {
+      "arm": "E_six_gates_taught",
+      "rater": 0,
+      "mode": "gates",
+      "labels": [
+        {
+          "id": "B01",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B02",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B03",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B04",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B05",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B06",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B07",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B08",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B09",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B10",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": true,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B11",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B12",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B13",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B14",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B15",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B16",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B17",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B18",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B19",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B20",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B21",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B22",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B23",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B24",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R01",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R02",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "R03",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R04",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R05",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": true,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R06",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R07",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R08",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R09",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R10",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R11",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        }
+      ]
+    },
+    {
+      "arm": "E_six_gates_taught",
+      "rater": 1,
+      "mode": "gates",
+      "labels": [
+        {
+          "id": "B12",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B13",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B14",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B15",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B16",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B17",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B18",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B19",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": true
+        },
+        {
+          "id": "B20",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": true
+        },
+        {
+          "id": "B21",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B22",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B23",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B24",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R01",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R02",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "R03",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R04",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R05",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": true,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R06",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R07",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R08",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R09",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R10",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R11",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B01",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B02",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B03",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B04",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B05",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B06",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": true,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B07",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B08",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B09",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B10",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": true,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B11",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        }
+      ]
+    },
+    {
+      "arm": "E_six_gates_taught",
+      "rater": 2,
+      "mode": "gates",
+      "labels": [
+        {
+          "id": "B23",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B24",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R01",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R02",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "R03",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R04",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R05",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": true,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R06",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R07",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R08",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R09",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R10",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "R11",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B01",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B02",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B03",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B04",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B05",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B06",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B07",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B08",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B09",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B10",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": true,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B11",
+          "is_case": false,
+          "is_rule": true,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B12",
+          "is_case": true,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B13",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B14",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B15",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": true,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B16",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": false
+        },
+        {
+          "id": "B17",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B18",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B19",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": true,
+          "is_claim": false
+        },
+        {
+          "id": "B20",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B21",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        },
+        {
+          "id": "B22",
+          "is_case": false,
+          "is_rule": false,
+          "is_method": false,
+          "is_concept": false,
+          "is_model": false,
+          "is_claim": true
+        }
+      ]
+    }
+  ]
+}

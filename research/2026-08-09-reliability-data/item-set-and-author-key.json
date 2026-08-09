@@ -1,0 +1,325 @@
+{
+  "items": [
+    {
+      "id": "B01",
+      "text": "A *golden cross* is when the 50-day moving average crosses above the 200-day.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B02",
+      "text": "Momentum persists at 3\u201312 month horizons because investors underreact to news.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B03",
+      "text": "Jegadeesh & Titman (1993): 12-month momentum returned ~1%/month, US equities, 1965\u20131989.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B04",
+      "text": "Never risk more than 2% of account equity on a single trade.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B05",
+      "text": "March 2026: drawdown hit 12% when the momentum and carry books both de-risked into the same liquidity hole.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B06",
+      "text": "New engineers get laptop, SSO, and repo access on day one; the hiring manager files the IT ticket.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B07",
+      "text": "The deploy freeze runs 20 Dec \u2013 2 Jan.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B08",
+      "text": "We say *incident* for anything customer-visible and *defect* for anything caught before release.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B09",
+      "text": "The scheduler uses a leaky-bucket limiter with a 10 rps refill.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B10",
+      "text": "To add a channel, implement ChannelAdapter and register it in channels/index.ts.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B11",
+      "text": "Extension code may import only from openclaw/plugin-sdk/* and local api.ts barrels.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B12",
+      "text": "2026-04-11: adopted per-change topic branches after two sessions collided on a shared branch.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B13",
+      "text": "CAP: a partitioned system must choose between availability and consistency.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B14",
+      "text": "Python 3.12 removed distutils.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B15",
+      "text": "The ISO 4217 code for the Swiss franc is CHF.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B16",
+      "text": "What if lint emitted a weekly contradiction digest instead of blocking?",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B17",
+      "text": "Maybe onboarding friction and incident rate are two faces of one undocumented-tribal-knowledge problem.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B18",
+      "text": "None of the agent-memory papers show typing helping simple lookup.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B19",
+      "text": "Firms with public changelogs have lower support load; changelogs pre-answer the top 20% of tickets.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B20",
+      "text": "Across trading drawdowns, incident postmortems, and onboarding churn, the common precursor is an undocumented dependency.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B21",
+      "text": "Every time we added a governance box, quota draw rose faster than the gate anticipated.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B22",
+      "text": "Our API returns 429 above 100 req/min.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B23",
+      "text": "Postmortem: the outage was caused by a stale DNS cache.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "B24",
+      "text": "Prefer small reversible steps.",
+      "stratum": "boundary"
+    },
+    {
+      "id": "R01",
+      "text": "Delayed recall is the proportion of learned items a participant reproduces after a retention interval of twelve hours or more.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R02",
+      "text": "Hippocampal replay during slow-wave sleep strengthens cortical traces, so shortening slow-wave sleep reduces next-day recall.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R03",
+      "text": "An independent replication of the sleep-extension protocol found no statistically significant overall effect on delayed recall.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R04",
+      "text": "Participants must not consume caffeine within eight hours of a scheduled sleep session.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R05",
+      "text": "To score the recall task, count the correctly reproduced items and divide by the number of items presented at learning.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R06",
+      "text": "The trial randomized 42 healthy adults to a nine-hour sleep opportunity or to their habitual schedule over four weeks.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R07",
+      "text": "Participants completed a delayed word-recall task at baseline and again at week four.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R08",
+      "text": "Delayed word recall improved 8.2% in the extension group versus 1.1% in controls.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R09",
+      "text": "Total sleep time rose by 47 minutes per night in the extension group.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R10",
+      "text": "The trial was not blinded, and follow-up lasted only four weeks, so durability beyond one month is unknown.",
+      "stratum": "routine"
+    },
+    {
+      "id": "R11",
+      "text": "Whether the same effect holds in adults over sixty-five remains untested.",
+      "stratum": "routine"
+    }
+  ],
+  "author_key": {
+    "B01": {
+      "primary": "concept",
+      "secondary": null,
+      "family": "semantic",
+      "my_confidence": 0.9
+    },
+    "B02": {
+      "primary": "model",
+      "secondary": "claim",
+      "family": "semantic",
+      "my_confidence": 0.7
+    },
+    "B03": {
+      "primary": "case",
+      "secondary": "claim",
+      "family": "episodic",
+      "my_confidence": 0.6
+    },
+    "B04": {
+      "primary": "rule",
+      "secondary": "method",
+      "family": "procedural",
+      "my_confidence": 0.85
+    },
+    "B05": {
+      "primary": "case",
+      "secondary": "model",
+      "family": "episodic",
+      "my_confidence": 0.9
+    },
+    "B06": {
+      "primary": "method",
+      "secondary": "rule",
+      "family": "procedural",
+      "my_confidence": 0.6
+    },
+    "B07": {
+      "primary": "rule",
+      "secondary": null,
+      "family": "procedural",
+      "my_confidence": 0.8
+    },
+    "B08": {
+      "primary": "concept",
+      "secondary": null,
+      "family": "semantic",
+      "my_confidence": 0.95
+    },
+    "B09": {
+      "primary": "model",
+      "secondary": "claim",
+      "family": "semantic",
+      "my_confidence": 0.6
+    },
+    "B10": {
+      "primary": "method",
+      "secondary": "rule",
+      "family": "procedural",
+      "my_confidence": 0.85
+    },
+    "B11": {
+      "primary": "rule",
+      "secondary": "model",
+      "family": "procedural",
+      "my_confidence": 0.9
+    },
+    "B12": {
+      "primary": "case",
+      "secondary": "rule",
+      "family": "episodic",
+      "my_confidence": 0.7
+    },
+    "B13": {
+      "primary": "model",
+      "secondary": "claim",
+      "family": "semantic",
+      "my_confidence": 0.55
+    },
+    "B14": {
+      "primary": "claim",
+      "secondary": null,
+      "family": "semantic",
+      "my_confidence": 0.85
+    },
+    "B15": {
+      "primary": "concept",
+      "secondary": "claim",
+      "family": "semantic",
+      "my_confidence": 0.5
+    },
+    "B16": {
+      "primary": "method",
+      "secondary": null,
+      "family": "procedural",
+      "my_confidence": 0.5
+    },
+    "B17": {
+      "primary": "model",
+      "secondary": "claim",
+      "family": "semantic",
+      "my_confidence": 0.5
+    },
+    "B18": {
+      "primary": "claim",
+      "secondary": "model",
+      "family": "semantic",
+      "my_confidence": 0.7
+    },
+    "B19": {
+      "primary": "claim",
+      "secondary": "model",
+      "family": "semantic",
+      "my_confidence": 0.4
+    },
+    "B20": {
+      "primary": "model",
+      "secondary": "claim",
+      "family": "semantic",
+      "my_confidence": 0.6
+    },
+    "B21": {
+      "primary": "claim",
+      "secondary": "model",
+      "family": "semantic",
+      "my_confidence": 0.6
+    },
+    "B22": {
+      "primary": "claim",
+      "secondary": "rule",
+      "family": "semantic",
+      "my_confidence": 0.5
+    },
+    "B23": {
+      "primary": "case",
+      "secondary": "claim",
+      "family": "episodic",
+      "my_confidence": 0.8
+    },
+    "B24": {
+      "primary": "rule",
+      "secondary": "method",
+      "family": "procedural",
+      "my_confidence": 0.55
+    }
+  }
+}
