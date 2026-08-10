@@ -1,0 +1,291 @@
+{
+  "question": "Research question: How should an LLM-based STATEMENT CLASSIFIER be designed so that multiple model families apply a fixed label set consistently \u2014 and what does evidence say about classifying CONVERSATIONAL statements (chat) versus curated document-derived statements?\n\nContext: a standalone classifier will assign fine-grained knowledge-type labels (rolling up to ~6 coarse types + \"general\") to (a) canonicalized statements extracted from documents and (b) raw statements arriving from chat. It must work across OpenAI/Anthropic/Google/open-weight models. Previously collected but UNVERIFIED claims are listed \u2014 verify them, and find what else is known.\n\nAngles:\n\n1. CROSS-MODEL ANNOTATION CONSISTENCY \u2014 verify arXiv 2601.12099 (Jan 2026): 7 LLMs \u00d7 121 features \u00d7 567 excerpts, mean LLM-LLM Cohen's \u03ba=0.23 vs human-human 0.57; multiclass features had 90% lower odds of correct detection than binary (OR 0.10, CI 0.03-0.35); concrete features F1>0.60 vs interpretive F1<0.30; LLM performance tracked human IRR at r=0.61. Other LLM-as-annotator studies with cross-model agreement statistics; ensemble/majority-vote gains; per-model prompt sensitivity.\n\n2. ESCAPE-HATCH AND LABEL-DESIGN BIAS \u2014 verify arXiv 2605.06940 (May 2026): four frontier models reached near-total surface agreement with Fleiss \u03ba\u2248-0.001 (sarcasm); instructing what to do when uncertain biases output toward the escape-hatch label. Position/order bias in label lists; label-name effects (common words vs jargon); \"abstain\" vs \"other\" designs for LLM classifiers; calibration of verbalized confidence (verify arXiv 2412.14737: reliability depends primarily on how the model is asked, 17 prompt methods \u00d7 10 datasets \u00d7 2B-110B models).\n\n3. STRUCTURED-OUTPUT RELIABILITY ACROSS FAMILIES \u2014 verify arXiv 2605.02363 (May 2026): 7-9B open models reached up to 85% task accuracy with 0% valid-JSON joint accuracy without per-model prompts; constrained decoding cost 3.6-8.2x latency and degraded quality (Gemma 2-9B 52.4% duplicate outputs); per-model automated prompt optimization reached 84-87%. Newer results on structured-output quality effects; JSON-schema vs forced-tool-call reliability by family.\n\n4. CONVERSATIONAL/CHAT STATEMENT CLASSIFICATION \u2014 how well do classifiers handle raw conversational statements vs curated ones: claim detection / check-worthiness (ClaimBuster, CheckThat! labs \u2014 accuracy on conversational vs formal text); dialogue-act classification performance with LLMs; DECONTEXTUALIZATION: evidence that resolving pronouns/ellipsis before classification improves it (Choi et al. decontextualization, follow-ups); utterance segmentation (one message = several statements) \u2014 measured approaches; how much context window around a chat statement is needed for reliable typing.\n\n5. FEW-SHOT/DEFINITION PROMPT DESIGN FOR CLASSIFICATION \u2014 measured effects on LLM classification agreement/accuracy of: definitions in prompt vs bare labels; positive+negative exemplars; number of exemplars; chain-of-thought for classification (helps or hurts \u2014 include the CoT-degrades-fine-typing finding if it replicates); one multiclass call vs independent binary probes per label (verify against the OR 0.10 finding and any others); batch classification effects (verify: 6 of 8 models within 2pp of single-item baseline through batch size 100, collapse at larger sizes \u2014 arXiv 2604.03684).\n\nFor every claim: name the source, exact numbers, what was measured vs asserted. Flag absence of evidence explicitly \u2014 especially for chat-statement typing, where we suspect the literature is thin.",
+  "summary": "Synthesis step was skipped or failed \u2014 returning 11 verified claims unmerged.",
+  "findings": [],
+  "confirmed": [
+    {
+      "claim": "Across 7 LLMs annotating 121 ritual features in 567 ethnographic excerpts, mean pairwise LLM-LLM Cohen's kappa was 0.233, versus 0.573 for human-human agreement \u2014 different models applying the same codebook agree far less with each other than trained human coders do.",
+      "source": "https://arxiv.org/abs/2601.12099",
+      "quote": "LLMs agreed with each other substantially less than human coders agreed with each other. Mean LLM-LLM \u03ba was .233 compared to human-human \u03ba of .573",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Multiclass features (multiple ordinal or categorical options) had 90% lower odds of correct detection than binary features (OR=0.10, 95% CI 0.03\u20130.35) \u2014 supporting binary probes per label over one multiclass call for fine-grained typing.",
+      "source": "https://arxiv.org/abs/2601.12099",
+      "quote": "multiclass features had 90% lower odds of correct detection than binary features (OR=0.10, 95% CI: 0.03\u20130.35)",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Concrete, observable features (ritual function, movement) reached F1 above 0.60 for the best models, while interpretive/inferential features (psychological discomfort, arousal levels, ritual form) fell below F1 0.30 \u2014 label sets should be anchored in surface-observable criteria, not judgment calls.",
+      "source": "https://arxiv.org/abs/2601.12099",
+      "quote": "Features relating to ritual function (e.g., funerary, initiation, newborn ceremonies) and movement (e.g., dancing, singing) were annotated with relatively higher accuracy (F1 >> 0.60 for the best models)...features requiring interpretive inference, such as psychological discomfort, arousal levels, and ritual form, proved considerably more difficult (F1 << 0.30).",
+      "vote": "3-0"
+    },
+    {
+      "claim": "On the interpretive TREC question-classification task (6 classes), 20 semantically equivalent prompts differing only in wording produced accuracy spreads of 0.546-0.808 for GPT-4o mini and 0.392-0.756 for LLaMa3.1:8b (temperature=0, formatting held constant) \u2014 i.e., prompt wording alone can swing classification accuracy by ~26-36 points per model.",
+      "source": "https://arxiv.org/abs/2604.16413",
+      "quote": "accuracy varies significantly across semantically equivalent prompts, ranging from 0.808 (prompt: Examine the meaning of the question and identify the type of answer the question is expecting...) to 0.546 (prompt: If someone asks the following question, what kind of answer are they expecting...) for GPT-4o mini, and from 0.756 to 0.392 for LLaMa3.1:8b. This large performance spread in accuracy while no-seemingly difference in prompts indicates that linguistic variation alone can induce significant differences in model outputs.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Prompt sensitivity is strongly task-dependent (a 'Knowledge Anchoring Effect'): on the interpretive TREC task, pairwise agreement rate (PAR) between prompts spread over 40% with SD > 0.1, while on the knowledge-anchored Politifact fact-checking task (ordinal scoring) the fluctuation range was only 3% with SD 0.02 \u2014 interpretive classification is far less stable under rewording than knowledge-grounded classification.",
+      "source": "https://arxiv.org/abs/2604.16413",
+      "quote": "both models show substantial disagreement across semantically equivalent prompts, with PAR spread over 40% ... the PAR heatmap in Figure 2 also reveals a much narrow fluctuation range of only 3% with SD of 0.02, indicating a much high inter-prompt agreement under continuous scoring in Politifact datasets.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "With six LLMs (GPT-4o, GPT-4o-mini, Gemini 2.5 Pro, Gemini 2.0 Flash, Llama 3.3-70B, Llama 3.1-8B) annotating 2024 U.S. election posts across five harm categories, LLM-LLM pairwise Cohen's kappa exceeded human-human kappa on every category (Conspiracy 0.75 vs 0.43; Hate Speech 0.62 vs 0.32; Sensationalism 0.60 vs 0.23; Speculation 0.58 vs 0.21; Satire 0.53 vs 0.16) \u2014 the opposite direction of the 2601.12099 finding (LLM-LLM 0.23 vs human 0.57).",
+      "source": "https://arxiv.org/abs/2602.11962",
+      "quote": "Inter-rater reliability analyses show comparable agreement patterns between LLMs and humans, with LLMs exhibiting higher internal consistency and achieving up to 0.90 recall on Speculation. [Reported pairwise Cohen's kappa across 15 LLM pairs: Conspiracy 0.75 \u00b1 0.05, Hate Speech 0.62 \u00b1 0.08, Sensationalism 0.60 \u00b1 0.07, Speculation 0.58 \u00b1 0.09, Satire 0.53 \u00b1 0.09; human-human: 0.43, 0.32, 0.23, 0.21, 0.16 respectively]",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Majority voting over the three best-performing LLMs drawn from different model families improved agreement with human consensus versus single models, but expanding the ensemble to five LLMs slightly reduced inter-rater reliability \u2014 i.e., ensemble gains saturate and can reverse.",
+      "source": "https://arxiv.org/abs/2602.11962",
+      "quote": "Five-model voting \"did not improve IRR and, in fact, led to slightly lower agreement.\" [Three-model combinations per category, e.g., Conspiracy: Llama 3.1 + GPT-4o + Gemini 2.5 reached kappa 0.62\u20130.65 against human consensus]",
+      "vote": "3-0"
+    },
+    {
+      "claim": "On concrete/less-interpretive tasks (sentiment, political leaning), LLMs across different model families achieved high inter-rater reliability and higher internal consistency than human annotators \u2014 evidence that cross-family label agreement is achievable for concrete label types.",
+      "source": "https://arxiv.org/abs/2501.02532",
+      "quote": "The results reveal that both humans and LLMs exhibit high reliability in sentiment analysis and political leaning assessments, with LLMs demonstrating higher internal consistency than humans.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Both humans and LLMs showed low agreement on sarcasm detection, corroborating the pattern that interpretive statement types resist consistent classification regardless of annotator type \u2014 consistent with the interpretive-vs-concrete divide claimed in arXiv 2601.12099 and the sarcasm Fleiss-kappa\u2248-0.001 result in arXiv 2605.06940.",
+      "source": "https://arxiv.org/abs/2501.02532",
+      "quote": "Both groups struggled with sarcasm detection, evidenced by low agreement.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "High LLM-LLM agreement can coexist with systematic divergence from human judgment: on emotional intensity, LLMs agreed with each other more than humans did, yet humans rated intensity significantly higher \u2014 showing inter-model agreement is not evidence of validity against human ground truth.",
+      "source": "https://arxiv.org/abs/2501.02532",
+      "quote": "In emotional intensity, LLMs displayed higher agreement compared to humans, though humans rated emotional intensity significantly higher.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "On 200 real-world support conversations annotated across four empathy frameworks, LLM-expert agreement (Cohen's weighted kappa median 0.60, range 0.17-0.86) essentially matched expert-expert agreement (median 0.58, range 0.11-0.84), with Expert-LLM pairs exceeding the high-agreement threshold in 15 of 21 sub-components \u2014 a counterpoint to studies reporting low LLM annotation reliability, and directly on conversational (chat-like) text.",
+      "source": "https://arxiv.org/abs/2506.10150",
+      "quote": "Reliability between experts and LLMs closely followed expert reliability with \u03baw between experts and LLMs ranging from 0.17 to 0.86 (median = 0.60), with most values between 0.49 and 0.70 (IQR).",
+      "vote": "3-0"
+    }
+  ],
+  "refuted": [
+    {
+      "claim": "Majority voting across k semantically equivalent prompt variants substantially stabilizes labels: aggregating 10 prompts reduced the standard deviation of inter-prompt reliability by 90% and raised mean accuracy ~9% vs single-prompt; for GPT-4o mini mean PAR rose from 0.71 (k=1) to ~0.95 (k=10), with most variance reduction already achieved by k=3.",
+      "vote": "1-2",
+      "source": "https://arxiv.org/abs/2604.16413"
+    },
+    {
+      "claim": "The multi-label task was decomposed into independent binary True/False probes per category, each with a detailed in-prompt definition and temperature 0, and this design produced usable cross-family agreement (mean Krippendorff's alpha 0.70 for optimized model combinations vs 0.62 for the best human sets) \u2014 consistent with the 2601.12099 finding that binary framing outperforms multiclass.",
+      "vote": "1-2",
+      "source": "https://arxiv.org/abs/2602.11962"
+    }
+  ],
+  "unverified": [
+    {
+      "claim": "Three frontier model families (Gemini 2.5 Pro, GPT-4o, Claude 3.7 Sonnet) agreed with each other at Krippendorff's alpha 0.51-0.75 (median 0.60) on the same fixed label sets \u2014 a much higher cross-model consistency than the mean LLM-LLM Cohen's \u03ba=0.23 reported in arXiv 2601.12099, suggesting cross-family agreement depends heavily on task/label design.",
+      "erroredVotes": 2,
+      "validVotes": 1,
+      "source": "https://arxiv.org/abs/2506.10150"
+    },
+    {
+      "claim": "LLM reliability tracked human expert inter-rater reliability across sub-components at Pearson r=0.67 (vs r=0.17 for crowdworkers) \u2014 corroborating the r=0.61 'LLM performance tracks human IRR' finding in arXiv 2601.12099: labels humans can't agree on, LLMs can't either, so expert IRR is the right ceiling/benchmark for a classifier's label set.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2506.10150"
+    },
+    {
+      "claim": "Sub-components with clear linguistic/behavioral markers were reliably annotated (e.g., 'Explorations' median \u03baw=0.76, 'Practical Advice' \u03baw=0.77) while interpretive/subjective ones were not ('Interpretations' \u03baw=0.29) \u2014 replicating the concrete-vs-interpretive split (F1>0.60 vs F1<0.30) claimed in arXiv 2601.12099 and implying knowledge-type labels should be defined by observable surface markers.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2506.10150"
+    },
+    {
+      "claim": "Agreement between human experts and frontier LLMs (Gemini 3 Pro, GPT-5) when coding Talk Moves in tutoring dialogues \u2014 a conversational-utterance classification task \u2014 is only moderate, with Cohen's kappa between 0.38 and 0.58, well below common ground-truth thresholds.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2603.29141"
+    },
+    {
+      "claim": "LLM annotation reliability splits sharply by construct concreteness: multimodal LLMs matched expert educators on rote arithmetic grading (\u03ba=0.90) but failed on interpretive conceptual illustrations (\u03ba\u22480.47) \u2014 corroborating the concrete-vs-interpretive gap reported in arXiv 2601.12099.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2603.29141"
+    },
+    {
+      "claim": "Four LLM annotators (ChatGPT, Gemini, Claude, Grok) showed near-total surface agreement on sarcasm labels (0.9612 full-agreement ratio on 'No') while chance-corrected agreement was essentially zero (Fleiss' kappa ~ -0.001), meaning apparent consensus was an artifact of majority-class collapse rather than shared understanding.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2605.06940"
+    },
+    {
+      "claim": "Including default 'when uncertain' rules in the annotation prompt (assign Other / Neutral / No for unclear cases) systematically biased all models toward those fallback escape-hatch labels, producing what the authors call instruction-induced label collapse.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2605.06940"
+    },
+    {
+      "claim": "Measured against human labels, the LLM annotators missed 79% of hateful instances and 75% of sarcastic instances (false-negative rates), so high inter-model agreement coexisted with severe failure on minority classes.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2605.06940"
+    },
+    {
+      "claim": "The reliability of LLM verbalized confidence scores depends strongly on the prompt method used to elicit them, but well-calibrated confidence scores are achievable with certain prompt methods \u2014 this verifies the previously collected claim that 'reliability depends primarily on how the model is asked.'",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2412.14737"
+    },
+    {
+      "claim": "The benchmark scope matches the unverified numbers: 17 prompt methods (10 custom including basic, advanced, combo variants; 7 from prior work by Tian 2023 and Xiong 2023) were tested across 10 QA datasets (arc-c, arc-e, commonsense_qa, logi_qa, mmlu, sciq, social_i_qa, trivia_qa, truthful_qa-mc1/mc2) and 11 models spanning 2B to 110B parameters (Gemma 1.1 2B/7B, Llama 3 8B/70B, Qwen 1.5 7B/32B/72B/110B, GPT-3.5-turbo, GPT-4o-mini, GPT-4o).",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2412.14737"
+    },
+    {
+      "claim": "Reordering answer options in multiple-choice questions causes LLM performance gaps of approximately 13% to 75% across benchmarks, demonstrating strong positional/order bias relevant to how a fixed label list is presented to a classifier.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2308.11483"
+    },
+    {
+      "claim": "LLM answers to multiple-choice questions are not robust to option position: moving the gold answer to a specific position materially shifts accuracy (gpt-3.5-turbo drops 6.3 points, 67.2 to 60.9, when gold answers are moved to position D; llama-30B gains 15.2 points under a favorable move), so a classifier that presents a fixed label set as an ordered option list inherits position/order bias.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2309.03882"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2601.12099",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.16413",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.11962",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.02532",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2506.10150",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.29141",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.06940",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.14737",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2308.11483",
+      "quality": "primary",
+      "claimCount": 4
+    },
+    {
+      "url": "https://arxiv.org/abs/2309.03882",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2407.18418",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2405.02743",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.02363",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.10868",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2408.02442",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://blog.dottxt.ai/say-what-you-mean.html",
+      "quality": "blog",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2110.08222",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.14389",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2509.17442",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2102.05169",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.03684",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2409.12183",
+      "quality": "primary",
+      "claimCount": 4
+    },
+    {
+      "url": "https://arxiv.org/abs/2410.21333",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2406.00954",
+      "quality": "primary",
+      "claimCount": 5
+    }
+  ],
+  "stats": {
+    "angles": 5,
+    "sources": 24,
+    "claims": 118,
+    "verified": 25,
+    "confirmed": 11,
+    "killed": 2,
+    "unverified": 12,
+    "afterSynthesis": 0
+  }
+}

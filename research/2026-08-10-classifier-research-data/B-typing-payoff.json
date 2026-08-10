@@ -1,0 +1,282 @@
+{
+  "question": "Research question: Does TYPING knowledge (assigning knowledge-type labels to stored statements/units) measurably improve downstream systems \u2014 retrieval, contradiction detection, knowledge-graph QA, agent memory \u2014 or is it decoration? Verify the strongest specific claims, which were previously collected but never adversarially verified.\n\nContext: a knowledge pipeline stores typed statement units; a wiki/graph layer consumes types for lint, contradiction pairing, and retrieval ranking. The decision this informs: how much to invest in a statement-type classifier, and whether type-aware retrieval should be trusted.\n\nAngles:\n\n1. INFORMATION-TYPING PRIOR ART OUTCOMES \u2014 the documented fate of shipped information-type systems: Information Mapping (Horn's 6-7 types): verify Jansen et al. 2002 (IEEE IPCC / Document Design 4(1) 2003) \u2014 two controlled reader experiments (n=65 plant operators, n=76) reportedly found NO task-performance benefit from typed restructuring, only subjective preference. Verify the actual numbers and conditions. DITA concept/task/reference: documented degeneration into presentation formats (Mark Baker \"Every Page Is Page One\" critiques); any measured outcomes. Di\u00e1taxis: author's own concessions about classification difficulty. Any OTHER controlled studies of typed/structured documentation impact on task performance.\n\n2. TYPED MEMORY FOR LLM AGENTS \u2014 verify the specific measured numbers: A-MEM (NeurIPS 2025, arXiv 2502.12110): ablating link-generation+memory-evolution drops LoCoMo Multi-Hop F1 27.02\u21929.65; flat baselines beat A-MEM on Open Domain and Adversarial categories. Zep/Graphiti (arXiv 2501.13956): up to +18.5% accuracy on LongMemEval with ~90% latency reduction, gains concentrated in multi-session (44.3\u219257.9) and temporal (45.1\u219262.4). Mem0 vs Mem0-graph (arXiv 2504.19413): graph variant only ~2% overall gain, HURTS single-hop (67.13\u219265.71) and multi-hop (51.15\u219247.19). EMem (arXiv 2511.17208): typed event-proposition units beat flat RAG and full-context on LoCoMo/LongMemEval. CoALA (arXiv 2309.02427): confirm it provides NO empirical measurement of typed-memory benefit. HippoRAG/HippoRAG2 multi-hop gains.\n\n3. TYPE/METADATA-AWARE RETRIEVAL \u2014 verify: SRAG (arXiv 2603.26670): structured metadata tagging raised LLM-judge scores 72.36\u219294.35 on financial QA, gains concentrated in analytical/comparative/predictive queries, ABSENT for simple lookup (98.37 vs 97.43, p=0.24), and NO single metadata component was individually significant in ablation. arXiv 2606.29645: structure-alone JSON conversion REDUCED accuracy on most benchmarks; temporal-validity metadata was the only layer with measured payoff (+0.220); confidence-metadata compliance rose while accuracy DROPPED. Metadata filtering in production RAG systems \u2014 any additional measured results. GraphRAG/LightRAG/LazyGraphRAG: typed-graph gains concentrated in multi-hop/global questions (+27 multi-hop vs +0.5 general QA \u2014 verify).\n\n4. CONTRADICTION DETECTION AND TYPE PAIRING \u2014 verify WikiContradict (arXiv 2406.13805): 7 LLMs surfaced conflicts in only 2-10% of cases unprompted, 43.8% with explicit instruction (Llama-3-70b), explicit conflicts 13.3\u219260.0 vs implicit 5.9\u219217.6. Any evidence that TYPE-matched candidate pairing (claim-vs-claim, rule-vs-rule) improves contradiction recall/precision over untyped pairing in KBs or fact-checking pipelines.\n\n5. LLM-MAINTAINED WIKI IMPLEMENTATIONS \u2014 post-Karpathy-gist (early 2026) community implementations of the LLM-wiki pattern: what typing/categorization schemes did they adopt, any reported outcomes; also memory-bank/knowledge-base features in agent products (Letta/MemGPT filesystem memory, Claude Code memory tooling, Cursor memories) \u2014 do any type their entries, and any measured or reported benefit.\n\nFor every claim: name the source, what was measured vs asserted, sample sizes, and whether vendor-reported or independent. A refuted or unverifiable number matters as much as a confirmed one \u2014 these specific numbers are currently load-bearing in a design document and are marked unverified.",
+  "summary": "Synthesis step was skipped or failed \u2014 returning 5 verified claims unmerged.",
+  "findings": [],
+  "confirmed": [
+    {
+      "claim": "Study 1 (65 operators at the DSM chemical plant in the Netherlands) found no statistically significant difference in task performance \u2014 neither correctness nor speed \u2014 between the Information Mapping version, the original in-use text, and a rewrite by an experienced non-IMAP writer; mean 78% correct, ~3 minutes for six multiple-choice lookup questions across all conditions.",
+      "source": "https://careljansen.nl/wp-content/uploads/2022/12/2002_Jansen-Information_Mapping.pdf",
+      "quote": "The first study showed no effects at all of text format on reader performance (correctness nor speed). ... there were no statistically significant differences between the three text variants, neither concerning the number of correct answers found, nor concerning the time needed to find these answers.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "The only significant effect of format in Study 1 was subjective preference: the IMAP text scored 7.71 on a ten-point scale versus 6.72 for the expert non-IMAP rewrite, while the original text (7.38) did not differ significantly from either \u2014 i.e., readers may merely think an IMAP text is superior.",
+      "source": "https://careljansen.nl/wp-content/uploads/2022/12/2002_Jansen-Information_Mapping.pdf",
+      "quote": "The IMAP text (average score 7.71 on a ten-point scale) was assessed as significantly more positive than was the text revised by the lecturer (6.72). The original DSM-text (7.38) was not assessed as significantly more positive or negative than the other texts. ... The outcomes suggest that at best, readers may think that an IMAP text is superior.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "Study 2 (76 Sony Music employees: 44 of Dutch descent, 32 immigrants, machine-operation instructions with a physical scale model) found no significant effect of text format (IMAP vs traditional) on accuracy, speed, or even subjective judgment, and no interaction with reader origin or education; only subjects' origin and years of education affected performance.",
+      "source": "https://careljansen.nl/wp-content/uploads/2022/12/2002_Jansen-Information_Mapping.pdf",
+      "quote": "Regarding the format chosen for the organization and presentation of the text (IMAP or traditional), there were no significant effects on accuracy, speed or evaluation scores at all, neither apart from nor in interaction with the subject variables measured.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "The journal's Editors' Comments on the article state that the Information Mapping-designed document was compared against a traditionally written version and did NOT prove more effective \u2014 directly supporting the 'no task-performance benefit from typed restructuring' claim under verification.",
+      "source": "https://www.jbe-platform.com/content/journals/10.1075/dd.4.1.05jan",
+      "quote": "They compare the efficiency of a document designed using these procedures to that of documents written in a more traditional style. At least for this audience and this goal, employing the design procedure did not yield a more effective document.",
+      "vote": "3-0"
+    },
+    {
+      "claim": "The full text is paywalled with only a one-page preview (the Editors' Comments page), so the specific numbers cited in the design document \u2014 n=65 plant operators, n=76 second experiment, and the 'subjective preference only' finding \u2014 CANNOT be verified or refuted from this source page; they require the full text or the companion IEEE IPCC 2002 paper.",
+      "source": "https://www.jbe-platform.com/content/journals/10.1075/dd.4.1.05jan",
+      "quote": "Preview this article: Testing an Information Mapping\u00ae text: Does the method live up to the expectations?, Page 1 of 1",
+      "vote": "2-1"
+    }
+  ],
+  "refuted": [],
+  "unverified": [
+    {
+      "claim": "The earlier Jansen et al. (2002/2003, Document Design 4(1)) study \u2014 the one the design doc cites as showing no benefit \u2014 used only about twenty respondents per text version on a short (three A4 pages) text, and found no significant effectiveness or efficiency differences between the IMAP, conventional, and expert-rewritten versions; the only significant result was a preference rating of IMAP over the expert rewrite (not over the original). The design doc's attribution of 'n=65 plant operators, n=76' to that 2002 study is therefore misattributed \u2014 those samples belong to the experiments in this 2007 paper.",
+      "erroredVotes": 2,
+      "validVotes": 1,
+      "source": "https://www.jbe-platform.com/content/journals/10.1075/idj.15.1.10pai"
+    },
+    {
+      "claim": "The blanket claim 'typed restructuring produced no task-performance benefit, only subjective preference' is REFUTED for longer texts: in Experiment 1 (n=53 pre-university students, six A4-page brochure), the IMAP version produced significantly higher effectiveness (6.4 vs 5.8 correct answers, p<.05, effect size .09) and much higher efficiency (14.0 vs 20.2 minutes, p<.001, effect size .39) than the conventional version, plus higher appreciation (7.9 vs 6.8, p<.001).",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://www.jbe-platform.com/content/journals/10.1075/idj.15.1.10pai"
+    },
+    {
+      "claim": "In Experiment 2a (n=67 staff of a concrete/hydraulic engineering firm and a district water board \u2014 almost certainly the 'n=65 plant operators' in the design doc), neither the full IMAP version nor a format-stripped IMAP version improved answer accuracy (78% vs 86% vs 88% correct, F(2,64)=2.45 ns), but BOTH IMAP versions produced significantly faster retrieval than the conventional text (30.4s and 30.9s vs 46.7s, F(2,64)=7.20, p<.01) \u2014 so 'no benefit, only preference' is wrong for this experiment: accuracy was flat but time-on-task, a performance measure, improved significantly.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://www.jbe-platform.com/content/journals/10.1075/idj.15.1.10pai"
+    },
+    {
+      "claim": "Experiment 3 (n=76 Sony Music production employees, 44 native / 32 non-native Dutch speakers, one A4-page instructive texts) found NO main effect of text version (IMAP vs conventional) on effectiveness, efficiency, or evaluation, and no interaction with the readers' linguistic origin \u2014 this is the true n=76 null result, and it applies to very short texts only.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://www.jbe-platform.com/content/journals/10.1075/idj.15.1.10pai"
+    },
+    {
+      "claim": "Ablating both the link-generation (LG) and memory-evolution (ME) modules drops A-MEM's LoCoMo Multi-Hop F1 from 27.02 to 9.65 (GPT-4o-mini backbone, Table 3) \u2014 CONFIRMING the previously collected number, but the ablated components are linking/evolution, not the typed attributes (keywords/tags), so this number does not measure the benefit of typing per se.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2502.12110"
+    },
+    {
+      "claim": "The flat LoCoMo baseline clearly beats A-MEM on the Adversarial category (69.23 vs 50.03 F1 with GPT-4o-mini; 52.61 vs 36.35 with GPT-4o), but on Open Domain A-MEM is marginally AHEAD of the LoCoMo baseline (12.14 vs 12.04; 17.10 vs 16.47) \u2014 so the previously collected claim 'flat baselines beat A-MEM on Open Domain and Adversarial' is confirmed for Adversarial and only weakly/partially supported for Open Domain (the paper credits LoCoMo and MemGPT as strong there, but A-MEM is not strictly beaten by LoCoMo in these table rows).",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2502.12110"
+    },
+    {
+      "claim": "Each A-MEM memory note is a typed/structured unit containing LLM-generated keywords, tags, and a contextual description alongside content, timestamp, embedding, and links \u2014 i.e., the system does use structured attribute tagging, but the paper's ablation never isolates these attributes' contribution separately from linking and evolution.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2502.12110"
+    },
+    {
+      "claim": "The previously collected load-bearing number is MISATTRIBUTED: in A-MEM v6 Table 2 (GPT-4o-mini backbone), 27.02\u21929.65 is the SINGLE-HOP F1 drop when both link-generation (LG) and memory-evolution (ME) are ablated; the MULTI-HOP F1 drop is 45.85\u219224.55 (with w/o-ME intermediate at 31.24). The direction (large degradation from ablation) is confirmed, but the category label in the design document is wrong.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/html/2502.12110v6"
+    },
+    {
+      "claim": "The claim 'flat baselines beat A-MEM on Open Domain and Adversarial' is only PARTIALLY true and backbone-specific: the LoCoMo baseline beats A-MEM on Adversarial only for GPT-4o-mini (69.23 vs 50.03), and LoCoMo (61.56) and MemGPT (60.16) beat A-MEM (48.43) on Open Domain only for GPT-4o; on all four smaller backbones (Qwen 1.5b/3b, Llama 1b/3b) A-MEM wins both categories.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/html/2502.12110v6"
+    },
+    {
+      "claim": "The ablation does NOT isolate typing itself: Table 2 varies only the link-generation and memory-evolution modules and covers only GPT-4o-mini; no ablation variant removes keywords/tags/contextual descriptions, so A-MEM cannot be cited as direct evidence that TYPE LABELS (as opposed to inter-note linking and note updating) drive the gains.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/html/2502.12110v6"
+    },
+    {
+      "claim": "Zep achieves up to 18.5% (relative) accuracy improvement on LongMemEval \u2014 gpt-4o overall accuracy 60.2% (full-context baseline) to 71.2% (Zep) \u2014 while reducing response latency by ~90% (28.9s/115k tokens down to 2.58s/1.6k tokens). Numbers CONFIRMED as stated in the design doc, but they are vendor-reported: all five authors are Zep AI employees, with no independent replication cited.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2501.13956"
+    },
+    {
+      "claim": "Zep's LongMemEval gains are concentrated in cross-session and temporal question types: for gpt-4o, multi-session accuracy rises 44.3% to 57.9% and temporal-reasoning 45.1% to 62.4% (Table 3). Both numbers in the design doc VERIFIED against the paper's per-category breakdown. This supports the pattern that typed/temporal graph structure pays off specifically on multi-hop and time-sensitive queries.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2501.13956"
+    },
+    {
+      "claim": "Adding graph-based memory structure to Mem0 yields only about a 2% overall improvement on the LOCOMO benchmark (LLM-as-a-Judge metric), despite the added structural machinery.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2504.19413"
+    },
+    {
+      "claim": "The graph-structured variant HURTS performance on single-hop and multi-hop question categories: single-hop drops 67.13 to 65.71 and multi-hop drops 51.15 to 47.19 (LLM-as-a-Judge scores) versus base Mem0 \u2014 confirming the exact numbers cited in the design document.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2504.19413"
+    },
+    {
+      "claim": "Graph structure's gains are concentrated in temporal reasoning (55.51 to 58.13) and open-domain (72.93 to 75.71) categories \u2014 the paper attributes this to relational representations aiding temporally grounded, multi-step contextual integration, i.e., structure pays off only for specific query shapes.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2504.19413"
+    },
+    {
+      "claim": "EMem's event-proposition memory beats the full-context baseline on both benchmarks with gpt-4o-mini: LoCoMo overall LLM-judge score 0.780 (EMem and EMem-G) vs 0.723 for full context, and LongMemEval_S average accuracy 77.9% (EMem-G) / 76.0% (EMem) vs 55.0% for full context. This confirms the load-bearing claim that EMem beats full-context on LoCoMo/LongMemEval, though evaluation is author-run and the paper is a non-peer-reviewed preprint.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2511.17208"
+    },
+    {
+      "claim": "EMem beats flat chunk-based RAG on LoCoMo by a large margin \u2014 RAG-4096 (4096-token chunks, dense retrieval) scores 0.302 vs EMem's 0.780 with gpt-4o-mini \u2014 but the RAG baseline is absent from the LongMemEval_S table, so the previously collected claim 'beats flat RAG on LoCoMo/LongMemEval' is only verified for LoCoMo.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2511.17208"
+    },
+    {
+      "claim": "EMem's memory units are structured event propositions, not knowledge-type-labeled statements: each session is decomposed into enriched elementary discourse units (EDUs) \u2014 self-contained statements with normalized entities, temporal cues, and source-turn attributions in a heterogeneous graph. The paper therefore supports fine-grained structured decomposition of memory, but is not direct evidence for assigning knowledge-type labels (claim/rule/preference etc.) to units.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2511.17208"
+    },
+    {
+      "claim": "CoALA is a conceptual framework/survey paper that contains no original empirical experiments, benchmarks, or quantitative measurements of its own \u2014 it therefore provides NO empirical evidence that typed memory improves agent performance, confirming the research brief's unverified claim. The full text (checked via ar5iv) has no experiment section, no results tables, and no accuracy numbers from the authors' own runs; the memory taxonomy is purely organizational.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2309.02427"
+    },
+    {
+      "claim": "CoALA proposes a four-way typed memory scheme for language agents \u2014 working, episodic, semantic, and procedural memory \u2014 which is the canonical typing taxonomy that later typed-memory systems (A-MEM, Zep, Mem0-graph, etc.) trace back to; the types are defined conceptually, not derived from measured outcomes.",
+      "erroredVotes": 3,
+      "validVotes": 0,
+      "source": "https://arxiv.org/abs/2309.02427"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://careljansen.nl/wp-content/uploads/2022/12/2002_Jansen-Information_Mapping.pdf",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.jbe-platform.com/content/journals/10.1075/dd.4.1.05jan",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.jbe-platform.com/content/journals/10.1075/idj.15.1.10pai",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2502.12110",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/html/2502.12110v6",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.13956",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2504.19413",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2511.17208",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2309.02427",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.26670",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/html/2603.26670",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2606.29645",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/html/2606.29645",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2502.11371",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2406.13805",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2111.08543",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2311.09182",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://arxiv.org/abs/2408.12076",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
+      "quality": "blog",
+      "claimCount": 5
+    },
+    {
+      "url": "https://github.com/Astro-Han/karpathy-llm-wiki",
+      "quality": "blog",
+      "claimCount": 5
+    },
+    {
+      "url": "https://docs.letta.com/v1-sdk/memory/memory-blocks",
+      "quality": "primary",
+      "claimCount": 5
+    },
+    {
+      "url": "https://github.com/getzep/graphiti",
+      "quality": "primary",
+      "claimCount": 5
+    }
+  ],
+  "stats": {
+    "angles": 5,
+    "sources": 22,
+    "claims": 110,
+    "verified": 25,
+    "confirmed": 5,
+    "killed": 0,
+    "unverified": 20,
+    "afterSynthesis": 0
+  }
+}
