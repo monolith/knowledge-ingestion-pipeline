@@ -1,0 +1,322 @@
+{
+  "question": "Research question: What knowledge/statement-type taxonomies have EMPIRICAL VALIDATION in human annotation practice, and what does that evidence say about designing a two-tier classifier (fine-grained labels that collapse deterministically to ~6 coarse types + a \"general\" residual) for knowledge-base statements?\n\nThis informs a real design decision: a classifier that takes short knowledge statements (from document ingestion AND from chat) and assigns a fine label from a curated set (~15-20), which rolls up to 6 coarse types (case/rule/method/concept/model/claim) plus \"general\". We need the strongest available evidence on label-set design, NOT LLM-specific work (a parallel run covers that).\n\nAngles:\n\n1. ANNOTATION SCHEMES WITH MEASURED AGREEMENT \u2014 schemes that classify sentences/statements/utterances by knowledge role or rhetorical function, with published inter-annotator agreement (kappa/alpha) and label counts: Teufel's Argumentative Zoning (7 categories, \u03ba\u22480.71-0.78 \u2014 verify actual numbers); CoreSC scientific-discourse annotation; PubMed structured-abstract rhetorical roles (background/objective/methods/results/conclusions \u2014 agreement and automated F1); dialogue-act tagsets (SWBD-DAMSL 42 tags, ISO 24617-2) and their kappas at different granularities; argument-mining claim/premise/evidence schemes (Stab & Gurevych, IBM Debater); PDTB discourse relations coarse-vs-fine agreement.\n\n2. DOMAIN STATEMENT-TYPE CLASSIFICATION WITH MEASURED PERFORMANCE \u2014 requirements engineering (functional vs non-functional classification accuracy; modal \"shall\"-statement detection); legal norm classification (obligation/permission/prohibition \u2014 deontic classification accuracy in LegalRuleML/legal-NLP work, e.g. Waltl, Ashley); clinical guideline statement classification (recommendation strength typing); knowledge-management codification taxonomies with any evaluation.\n\n3. FINE-VS-COARSE / HIERARCHICAL LABELING EVIDENCE \u2014 does two-level labeling (fine labels grouped into coarse) measurably improve agreement or accuracy vs flat? Coarse vs fine NER (OntoNotes, FIGER); dialogue-act clustering results; hierarchical text classification (local vs global classifier strategies, Silla & Freitas survey and successors); the relationship between tagset size and achieved kappa across annotation projects (any meta-analyses).\n\n4. RESIDUAL/\"OTHER\" CATEGORY DESIGN \u2014 annotation-science guidance and measured effects of catch-all categories: how often do \"other\"/\"miscellaneous\" buckets absorb disproportionate mass, what codebook designs keep residuals small, best practice for abstain vs residual distinction in annotation schemes.\n\n5. CODEBOOK/DEFINITION DESIGN EFFECTS \u2014 measured effects of definition quality, positive+negative examples, and decision rules on inter-annotator agreement (content-analysis methodology literature: Krippendorff, Neuendorf, MacQueen codebook development; any before/after agreement studies).\n\nFor every claim: name the scheme, the label count, the measured agreement statistic and its exact value, and the study. Prioritize primary sources. Flag explicitly where evidence is absent \u2014 absence is a finding.",
+  "summary": "The usable empirical evidence comes from a narrow family of scientific-discourse annotation schemes (Teufel's AZ and AZ-II, Liakata's CoreSC) plus the Artstein & Poesio methodology survey, and it says label count is a second-order variable. Growing the tagset cost little (3\u21927 labels: \u03ba .78\u2192.71; 7\u219215 on the same domain: .71\u2192.65), while codebook depth and annotator training moved \u03ba by .15\u2013.36 on identical documents, and individual category definitions inside one scheme ranged from \u03ba .43 to .89. Coarsening sometimes helps (7\u21923: .71\u2192.78; 15\u21922 on chemistry: .71\u2192.78) and sometimes does literally nothing (15\u21922 on CL: .65\u2192.65), and every reported gain is confounded by a fresh purpose-written codebook, different documents, or merges chosen precisely where annotators had disagreed. No source in this set measures a fine tagset and its deterministic coarse rollup on the same annotations with a mapping fixed in advance \u2014 the one experiment that would directly validate the proposed two-tier design \u2014 and the abstract/epistemic categories that most resemble the proposed \"model\", \"claim\" and \"concept\" types were the least reliable in every scheme that measured them. Design implication: spend the effort on per-category definitions and the codebook, not on tuning the label count, and measure agreement at both tiers rather than assuming the coarse layer inherits the fine layer's reliability (or vice versa).",
+  "findings": [
+    {
+      "claim": "The frequently cited \"Argumentative Zoning, 7 categories, \u03ba\u22480.71\u20130.78\" is a conflation of two different experiments. The 7-category scheme's reproducibility is a single value, \u03ba=.71 (N=4261, k=3, 87% raw agreement), with intra-annotator stability .82/.81/.76 (N=1220, k=2). The .78 belongs to a separate 3-category experiment (BACKGROUND/OTHER/OWN).",
+      "confidence": "high",
+      "vote": "3-0 (two independent primary sources, both read in full)",
+      "sources": [
+        "https://aclanthology.org/E99-1015/",
+        "https://aclanthology.org/J02-4002/"
+      ],
+      "evidence": "EACL 1999 \u00a73.1 verbatim: \"the basic annotation scheme is stable (K=.83, .79, .81; N=1248; k=2 for all three annotators) and reproducible (K=.78, N=4031, k=3)\u2026 The full annotation scheme is stable (K=.82, .81, .76; N=1220; k=2\u2026) and reproducible (K=.71, N=4261, k=3).\" The CL journal 2002 paper restates the same figures with raw-agreement equivalents (87% / 93%, 92%, 90%) and confirms exactly seven flat categories (AIM, TEXTUAL, OWN, BACKGROUND, CONTRAST, BASIS, OTHER) over an 80-article, 12,188-sentence CL corpus with 3 annotators, one of whom was the first author. Robustness: \"Leaving the coding developer out of the coder pool for Study II did not change the results (K=.71, N=4261, k=2).\" Practical consequence \u2014 any design argument that quotes \"0.78\" as the achievable ceiling for a 7-label scheme is quoting a 3-label number."
+    },
+    {
+      "claim": "Codebook depth and annotator training dominate achievable agreement \u2014 they move kappa several times more than label count does. The same documents and the same label set produced \u03ba=.65/.85/.87 with trained coders (6- and 17-page instructions, 4 training papers, weekly discussion) and \u03ba=.35/.49/.72 with 18 untrained subjects given 1 page \u2014 drops of .30, .36 and .15.",
+      "confidence": "high",
+      "vote": "2-1 (verifier confirmed every number verbatim; the dissent concerned the phrase \"not the label set\", which is inference rather than a controlled contrast)",
+      "sources": [
+        "https://aclanthology.org/E99-1015/",
+        "http://www.lrec-conf.org/proceedings/lrec2010/pdf/644_Paper.pdf"
+      ],
+      "evidence": "EACL 1999 \u00a73.2 verbatim: \"Subjects were given only minimal instructions (1 page A4), and the decision tree\u2026 randomly chosen from the set of papers for which our trained annotators had previously achieved good reproducibility in Study II (K=.65,N=205,k=3; K=.85,N=192,k=3; K=.87,N=144,k=3)\u2026 Reproducibility varied considerably between groups (K=.35, N=205, k=6; K=.49, N=192, k=6; K=.72, N=144, k=6).\" The paper pre-empts the k=6-vs-k=3 objection (\"Kappa is designed to abstract over the number of coders\") and states the causal reading itself: \"our very short instructions did not provide enough information for consistent annotation.\" Honest narrowing: recomputed on the three most-similar annotators per group the gap shrinks to .15/.22, still below trained. Magnitude comparison within the same paper: training/codebook = .15\u2013.36; 3\u21927 label growth = .07. Countervailing datapoint from CoreSC: a 45-page codebook with decision tree, category semantics, 6 pairwise-distinction rules and worked examples still yielded only \u03ba=0.50\u20130.57 \u2014 so codebook investment is necessary, not sufficient."
+    },
+    {
+      "claim": "Adding labels costs agreement, but only a little, and the cost is not reliably attributable to label count alone: 3\u21927 labels cost .07 (.78\u2192.71); 7\u219215 within computational linguistics cost .06 (.71\u2192.65). Across schemes the relationship inverts entirely \u2014 the 15-category AZ-II reached Fleiss \u03ba=0.71 while the 11-category CoreSC reached only Cohen \u03ba=0.57/0.50.",
+      "confidence": "high",
+      "vote": "3-0 on the cross-scheme inversion; 2-1 on the AZ-II within-domain drop (dissent: the 7-category baseline is a different study, corpus and annotator pool)",
+      "sources": [
+        "https://aclanthology.org/D09-1155/",
+        "https://aclanthology.org/E99-1015/",
+        "http://www.lrec-conf.org/proceedings/lrec2010/pdf/644_Paper.pdf"
+      ],
+      "evidence": "EMNLP 2009 \u00a74.2 verbatim: \"The inter-annotator agreement for chemistry was \u03ba = 0.71 (N=3745,n=15,k=3). For CL, the inter-annotator agreement was \u03ba = 0.65 (N=1629,n=15,k=3). For comparison, the inter-annotator agreement for the original, CL-specific AZ with 7 categories was \u03ba = 0.71 (N=3420,n=7,k=3).\" The paper's headline \"no loss of agreement despite more distinctions\" rests on the chemistry 0.71 versus the CL 0.71 \u2014 a cross-domain comparison the authors caveat themselves (\"when comparing the raw numerical results one should consider that different data from different disciplines is used\"), and they float the alternative explanation that chemistry discourse may simply be easier to annotate. LREC 2010 supplies the inversion: 15 flat AZ-II labels at 0.71 versus 11 CoreSC coarse labels at 0.57/0.50, with confounds stated in-paper (different corpora, Cohen vs Fleiss \u2014 though the paper adds that Siegel & Castellan's multi-rater formula gave \"very similar\" values, weakening that particular confound, and CoreSC annotators were domain experts whose quality \"was determined post-hoc\" and varied widely). Design read: a 15\u201320 label fine tier is not, by size alone, outside the range where trained humans reach substantial agreement."
+    },
+    {
+      "claim": "Coarsening a label set does not automatically buy agreement. Collapsing all 15 AZ-II labels to a single binary distinction lifted chemistry from 0.71 to 0.78 but left computational linguistics unchanged at 0.65 \u2014 15 labels down to 2, zero measurable gain. The reliability ceiling was set by definitional clarity and domain, not by how many labels were on offer.",
+      "confidence": "high",
+      "vote": "2-1 (numbers verbatim-verified; dissent noted that a differently-designed 7-label scheme did score .71 on CL, mild counter-pressure on the sweeping half)",
+      "sources": [
+        "https://aclanthology.org/D09-1155/"
+      ],
+      "evidence": "EMNLP 2009 verbatim: \"we first consider the binary distinction between zone categories (OWNMTHD, OWNRES, OWNCONC, OWNFAIL, OTHR, PREVOWN and COGRO) and rhetorical categories (the other 8). This shows an inter-annotator agreement of \u03ba_binary = 0.78 (N=3745, n=2, k=3) for chemistry and \u03ba_binary = 0.65 (N=1629, n=2, k=3) for CL, indicating that annotators find it relatively easy (chemistry) or at least not more difficult than the overall distinction (CL) to distinguish these two types of categories.\" Statistical nuance the parent should carry: kappa at n=2 has far higher chance agreement than at n=15, so an unchanged \u03ba means raw observed agreement rose substantially while chance-corrected reliability did not \u2014 \"zero gain\" is true in reliability terms, not in raw-agreement terms. The paper frames this test as a probe of \"how well categories are defined,\" which is the mechanism the finding names."
+    },
+    {
+      "claim": "Every measured gain from coarsening in this literature is confounded, and the authors of the canonical survey explicitly warn that collapsing labels after the fact is NOT equivalent to having designed the coarser scheme up front. Reported gains span +0.024 to +0.41 kappa depending on how the merge was chosen.",
+      "confidence": "high",
+      "vote": "3-0",
+      "sources": [
+        "https://aclanthology.org/J08-4004/",
+        "https://aclanthology.org/J02-4002/"
+      ],
+      "evidence": "Artstein & Poesio (CL 34(4), pp. 586-587) verbatim: \"Palmer, Dang, and Fellbaum (2007) achieved for the English Verb Lexical Sense task of SENSEVAL-2 a percentage agreement among coders of 82% with grouped senses, as opposed to 71% with the original WordNet senses\u2026 V\u00e9ronis (1998) found that agreement on noun word sense tagging went up from a K of around 0.45 to a K of 0.86\u2026 We should note, however, that the post hoc merging of categories is not equivalent to running a study with fewer categories to begin with.\" Two weaknesses attach to the headline numbers: V\u00e9ronis and Bruce & Wiebe used clustering to merge \"the two classes found to be harder to distinguish\" \u2014 merges selected exactly where coders disagreed, mechanically maximizing the gain \u2014 and the Palmer 71\u219282 figure is uncorrected raw percentage agreement. The same paragraph contains a near-null case the optimistic reading omits: Bruce & Wiebe's collapse of \"interest\" senses raised K only 0.874\u21920.898 (+0.024). Independently, Teufel & Moens's 7\u21923 result (.71\u2192.78) came from a fresh annotation pass over 22 DIFFERENT articles with \"seven pages of new guidelines describing the semantics of the three categories\" \u2014 a coarse scheme with its own dedicated codebook, not a rollup of existing labels; and per-annotator stability did not rise uniformly there (.82\u2192.83, .76\u2192.81, but .81\u2192.79). Direct design consequence: the coarse tier's reliability cannot be claimed from a rollup of fine-tier annotations, and vice versa; if coarse-level reliability is what matters operationally, it must be measured with annotators who saw the coarse scheme."
+    },
+    {
+      "claim": "Within a single scheme, per-category reliability varies by a factor of two, and the abstract/epistemic categories are systematically the worst \u2014 precisely the ones that resemble the proposed \"model\", \"claim\" and \"concept\" coarse types. CoreSC Cohen's \u03ba: Conclusion 0.89, Background 0.87, Object 0.81, Observation 0.79, Result 0.78, Method 0.74, Experiment 0.65, Goal 0.60, Hypothesis 0.46, Motivation 0.46, Model 0.43.",
+      "confidence": "high",
+      "vote": "3-0 on the measurement; the mapping onto the proposed KB types is the analyst's inference, not a finding",
+      "sources": [
+        "http://www.lrec-conf.org/proceedings/lrec2010/pdf/644_Paper.pdf"
+      ],
+      "evidence": "LREC 2010 \u00a75.1 states the method verbatim (Krippendorff's diagnostic: \"collapses all categories but the one in focus into one category and then measures reproducibility\") and the verdict: \"Conclusion, Background, Observation and Object are easier to recognise, whereas Hypothesis, Motivation and Model are harder to recognise than the average taken at \u03ba=0.55.\" All 11 Table 3 values were transcription-checked against the PDF and independently corroborated in the authors' Bioinformatics 28(7) republication (doi:10.1093/bioinformatics/bts071, Table 1). Byrt's adjusted values are uniformly lower, spanning 0.39\u20130.79. The same pattern appears in AZ-II: the aggregate CoreSC-vs-AZ-II gap is driven entirely by the badly-carved categories \u2014 CoreSC's best (0.89, 0.87, 0.81) actually beat AZ-II's best (USE 0.82, AIM 0.80, OWNMTHD 0.76). Caveats: these are one-vs-rest binary collapses and are mechanically inflated relative to the 11-way \u03ba=0.50\u20130.57; the 0.55 comparison baseline is the paper's own loose framing (the arithmetic mean of the 11 values is 0.68); and CoreSC's \"Model\" means a theoretical/mathematical representation of a studied phenomenon, so transferring it to a knowledge-base \"model\" type is an assumption. Design read: a few ill-defined categories sink a whole scheme's aggregate agreement, and the epistemic ones are the usual culprits."
+    },
+    {
+      "claim": "ABSENCE FINDING \u2014 no source in this evidence set reports agreement at the fine level of a two-tier scheme. CoreSC is a genuine two-tier design (18 composed flat labels rolling up to 11 coarse) but reports only the n=11 coarse figure; PDTB 2.0 has a three-level 4/16/23 hierarchy but the surviving claim about it carries no agreement statistic at all. The single most decision-relevant experiment for the proposed design has not been located.",
+      "confidence": "high",
+      "vote": "3-0 on PDTB structure; 2-1 on CoreSC, with the absence confirmed by exhaustive table inspection",
+      "sources": [
+        "http://www.lrec-conf.org/proceedings/lrec2010/pdf/644_Paper.pdf",
+        "https://www.cis.upenn.edu/~elenimi/pdtb-manual.pdf"
+      ],
+      "evidence": "LREC 2010 \u00a72.1: \"If we combine the layers of annotation so as to give flat labels, we cater for the categories in table 1\" \u2014 Table 1 enumerates exactly 18 (Hypothesis, Motivation, Background, Goal, Object-New, Object-New-Advantage, Object-New-Disadvantage, Method-New, Method-New-Advantage, Method-New-Disadvantage, Method-Old, Method-Old-Advantage, Method-Old-Disadvantage, Experiment, Model, Observation, Result, Conclusion). The reported kappas carry n=11 (footnote 1: \"n for the number of categories\"), and Table 3's 11 rows use coarse names (\"Object\", \"Method\", not Object-New / Method-Old-Disadvantage). The verifier confirmed by full-table inspection that the fine labels appear with numbers in exactly one place \u2014 a raw co-occurrence contingency table, not an agreement statistic. Notably, this is the one case where a fine\u2192coarse collapse did NOT rescue agreement: 18 fine labels collapsed to 11 coarse still only reached 0.50\u20130.57. PDTB 2.0 manual \u00a74.2 verbatim: \"The tagset of senses is organized hierarchically\u2026 The top level, or class level, has four tags\u2026 For each class, a second level of types is defined\u2026 A third level of subtype specifies the semantic contribution of each argument\"; counts of 16 types and 23 subtypes were derived by enumerating Figure 1 (the manual never states those totals numerically). Scope note: PDTB 3.0 (2019) revised the hierarchy, so these counts are version-locked."
+    },
+    {
+      "claim": "METHODOLOGICAL REQUIREMENT \u2014 raw percentage agreement is biased toward schemes with fewer categories, so agreement cannot be compared across the fine and coarse tiers (or across schemes) without chance correction. Two coders labelling at random agree on 1/2 of items with 2 categories but only 1/3 with 3.",
+      "confidence": "high",
+      "vote": "3-0",
+      "sources": [
+        "https://aclanthology.org/J08-4004/"
+      ],
+      "evidence": "Artstein & Poesio \u00a72.3 verbatim, quoting Scott (1955, p. 322): \"[percentage agreement] is biased in favor of dimensions with a small number of categories\u2026 given two coding schemes for the same phenomenon, the one with fewer categories will result in higher percentage agreement just by chance\u2026 pure chance will cause the coders to agree on half of the items (1/4 + 1/4)\u2026 they would only agree on a third of the items (1/9 + 1/9 + 1/9).\" Two scope qualifications the raw claim omits: (a) the bias holds under uniform marginals \u2014 skew matters at least as much, and A&P's Di Eugenio & Glass example shows a 95%/5% binary scheme has chance agreement 0.905, so \"a seemingly high observed agreement of 90% is actually worse than expected by chance\"; (b) chance correction does not fully restore comparability either \u2014 A&P \u00a73 documents that \u03c0/\u03ba/\u03b1 are themselves distorted by prevalence (\"the exceeding difficulty in getting high agreement values when most of the items fall under one category\"). Since a knowledge-base taxonomy with a \"general\" residual will almost certainly be skewed, expect kappa to look pessimistic even when the classifier is behaving. IMPORTANT CITATION CORRECTION: two upstream claims cited https://aclanthology.org/J08-2004/, which is a different paper entirely (Xue, \"Labeling Chinese Predicates with Semantic Roles\"). The correct source is J08-4004."
+    },
+    {
+      "claim": "ABSENCE FINDING \u2014 three of the five research angles returned nothing that survived verification: residual/\"other\" category design (angle 4), domain statement-type classification in requirements engineering, legal deontic norms, and clinical guidelines (angle 2), and before/after codebook-design studies from the content-analysis methodology literature (angle 5). There is currently no empirical basis in this evidence set for how to design or size the \"general\" residual bucket.",
+      "confidence": "medium",
+      "vote": "n/a \u2014 inferred from the composition of the surviving claim set",
+      "sources": [
+        "https://web.stanford.edu/~jurafsky/ws97/manual.august1.html",
+        "https://aclanthology.org/J02-4002/"
+      ],
+      "evidence": "Both candidate residual-design claims were voted down 0-3: the SWBD-DAMSL claim that residual space is split by cause (% uninterpretable / x non-verbal / o other-forward-function / no other-answers) under a mechanical decision rule, and the AZ claim that a forced-choice scheme with no dustbin still concentrated 67% of sentences in one category. No requirements-engineering, legal-deontic (LegalRuleML, Waltl, Ashley) or clinical-guideline claim reached the confirmed set at all, nor did any Krippendorff/Neuendorf/MacQueen codebook-development study. Read this as a coverage gap in this run rather than proof of absence in the literature \u2014 the run's search budget was exhausted mid-verification and effort concentrated on the AZ/CoreSC lineage. The nearest usable proxy evidence is finding 2 (codebook depth moved kappa by .15\u2013.36), which supports investing in residual-bucket definitions but says nothing about their shape."
+    }
+  ],
+  "caveats": "SOURCE CONCENTRATION IS THE BIGGEST WEAKNESS. Nine of the twelve confirmed claims trace to four papers from essentially one research lineage \u2014 Teufel is an author on AZ (1999, 2002), AZ-II (2009) and CoreSC (2010), and Liakata co-authors the CoreSC work. The apparent breadth of \"multiple primary sources\" overstates independence. The one genuinely external source is Artstein & Poesio's methodology survey, which contributes no new annotation data. Nothing here is independent replication.\n\nUNRESOLVED INTERNAL INCONSISTENCY. Verifiers for two CONFIRMED claims independently extracted, from the primary PDFs, numbers showing that collapsing fine labels on IDENTICAL data raised agreement \u2014 AZ-II 15\u21926 coarse, \u03ba 0.71\u21920.75 on the same chemistry corpus (with a stated deterministic union rule: OWN = OWNFAIL \u222a OWNMTHD \u222a OWNRES \u222a OWNCONC \u222a FUT \u222a NOVADV), and AZ 7\u21925, \u03ba .71\u2192.75 on the same Study II data. Yet the standalone claims asserting those results were both voted down 0-3. The refutations most likely targeted the interpretive overreach (\"direct evidence that a two-tier rollup buys reliability at no annotation cost\") rather than the arithmetic, but that is my inference. These are the two most decision-relevant numbers in the entire run and they are currently in limbo \u2014 treat them as unverified until re-checked.\n\nVOTE QUALITY. Four confirmed claims passed 2-1, not unanimously (the AZ-II within-domain drop, the binary-collapse result, the training-dominance claim, and the CoreSC agreement figures). In each case the dissent concerned causal framing, not the numbers.\n\nCITATION ERROR. Two claims cited https://aclanthology.org/J08-2004/ for Artstein & Poesio; that URL is a different paper. Correct: https://aclanthology.org/J08-4004/. Anyone re-checking should use the corrected URL.\n\nCoreSC SCOPE OVERSTATED UPSTREAM. The \"16 chemistry experts over 265 papers\" framing attaches to corpus scale; the \u03ba=0.50\u20130.57 figures come from phase I only (41 papers) and from the 9 best-performing annotators. The error runs conservative \u2014 a best-9 subset scores at least as well as the full pool.\n\nTRANSFER IS AN ASSUMPTION, NOT A FINDING. All evidence is humans labelling running sentences inside full scientific papers. The design in question types short, pre-extracted knowledge statements from mixed document and chat sources, with no surrounding discourse. Whether agreement transfers up or down is untested here \u2014 a claim suggesting it goes UP (\u03ba .84 for typing pre-selected statements out of context, vs .71 for full-document labelling) was refuted 0-3 and remains open.\n\nVERIFICATION METHOD LIMIT. The session's WebSearch budget was exhausted (200/200) partway through verification, so most verifiers substituted full primary-document extraction for external contradiction sweeps. For \"what does paper X report\" claims that is the stronger check; for \"is this the consensus reading\" it leaves a real gap. Several verifiers also caught the WebFetch summarizer returning fabricated numbers and wrong titles, and worked around it by decompressing PDF streams directly \u2014 treat any figure in this report that was NOT verbatim-extracted with suspicion.\n\nTIME-SENSITIVITY: none of practical consequence. These are fixed historical measurements of human annotation behavior (1999\u20132010) and do not decay like model benchmarks. The one version-locked item is PDTB: the 4/16/23 counts are PDTB 2.0 only; PDTB 3.0 (2019) revised the hierarchy.\n\nHOUSE-RULE NOTE for the parent: per the deep-research persistence rule, the full claim set with confidence labels, named sources, evidence and adversarial verdicts should be written to a *-research.md beside the artifact it informs (for a plugin skill, skills/<name>/references/ so it ships) and linked from that artifact. I did not write it \u2014 subagent instructions forbid report files.",
+  "openQuestions": [
+    "Does deterministic fine-to-coarse rollup preserve or improve reliability on the SAME annotations with the mapping fixed in advance? Two primary texts appear to contain exactly this result (AZ-II 15\u21926: \u03ba 0.71\u21920.75; AZ 7\u21925: \u03ba .71\u2192.75), extracted verbatim by verifiers of confirmed claims, but the standalone claims asserting them were refuted 0-3. This is the single most important unresolved item \u2014 it is the direct empirical test of the proposed two-tier design and it needs a clean re-verification.",
+    "How should the \"general\" residual be designed and how large should it be expected to grow? Nothing survived on catch-all category design \u2014 not the SWBD-DAMSL split-by-cause precedent, not the mass-concentration evidence, not any annotation-science guidance on abstain-vs-residual. Worth a dedicated second pass, since a badly-defined residual is the most likely failure mode for a scheme whose weakest categories (per finding 6) are the abstract ones.",
+    "Does agreement transfer from full-document sentence labelling to short, pre-extracted knowledge statements shown without context? The evidence base is entirely the former; the design is entirely the latter. One refuted claim pointed the opposite way from intuition (\u03ba .84 out of context vs .71 in running text), so the direction of the effect is genuinely unknown.",
+    "Do the applied domains \u2014 requirements engineering (functional vs non-functional), legal deontic classification (obligation/permission/prohibition), clinical recommendation-strength typing \u2014 report human inter-annotator agreement at all, or only downstream classifier F1? If they report only F1, that is itself a finding about what the field considers worth measuring, and it means the AZ/CoreSC lineage is the only agreement evidence available for this design."
+  ],
+  "refuted": [
+    {
+      "claim": "Collapsing the fine-grained 15-category AZ-II scheme into 6 coarse categories RAISED inter-annotator agreement from Fleiss' kappa = 0.71 (15-way) to kappa = 0.75 (6-way) on the identical chemistry corpus (N=3745 sentences, 3 annotators). This is direct measured evidence that a deterministic fine-to-coarse rollup of a curated label set yields a coarse layer more reliable than the fine layer it derives from.",
+      "vote": "0-3",
+      "source": "https://aclanthology.org/D09-1155/"
+    },
+    {
+      "claim": "Achieving kappa ~0.71 on a 15-label statement-typing scheme required an extraordinary codebook investment: 111 pages of A4 guidelines containing a decision tree, 75 explicit pairwise category-distinction rules, worked examples from both domains, plus a separate 10-page domain 'primer' \u2014 and 3 months of part-time work to author, developed on 70 chemistry + 20 CL papers held out from the evaluation set. This is the measured cost basis for a 15-label scheme reaching substantial agreement.",
+      "vote": "1-2",
+      "source": "https://aclanthology.org/D09-1155/"
+    },
+    {
+      "claim": "Deterministically collapsing fine labels into coarser ones measurably RAISED agreement on the identical annotated data: merging CONTRAST, OTHER and BACKGROUND lifted reproducibility from K=.71 to K=.75, while retaining the distinctions the authors considered task-critical (AIM, TEXTUAL, BASIS, plus the basic own/other/background split). This is direct primary evidence that a two-tier design \u2014 annotate fine, report/consume coarse \u2014 buys reliability at no annotation cost.",
+      "vote": "0-3",
+      "source": "https://aclanthology.org/E99-1015/"
+    },
+    {
+      "claim": "CoreSC is explicitly built as a two-tier scheme of exactly the shape under design: a first layer of 11 coarse core concepts (Hypothesis, Motivation, Background, Goal, Object, Method, Experiment, Model, Observation, Result, Conclusion) plus a second 'property' layer (New/Old, Advantage/Disadvantage) that composes deterministically into ~18 flat fine labels (e.g. Method-Old-Disadvantage, Object-New-Advantage). The fine labels are a cross-product of coarse type x property, not an independently curated list.",
+      "vote": "0-3",
+      "source": "http://www.lrec-conf.org/proceedings/lrec2010/pdf/644_Paper.pdf"
+    },
+    {
+      "claim": "The scheme is forced-choice with NO residual/'other'/'miscellaneous' catch-all \u2014 every sentence must take exactly one of the seven substantive labels ('OTHER' means 'other researchers' work', a contentful category, not a dustbin) \u2014 and the resulting label distribution is extremely skewed, with 67% of all sentences falling into the single category OWN. A knowledge-base scheme that adds a 'general' residual should therefore expect mass concentration well beyond what a balanced design assumes; here one substantive category absorbed two thirds of items without any residual bucket existing at all.",
+      "vote": "0-3",
+      "source": "https://aclanthology.org/J02-4002/"
+    },
+    {
+      "claim": "Classifying only pre-selected 'important' statements into six rhetorical categories \u2014 200 sentences sampled from 1183 already judged relevant, presented WITHOUT surrounding context \u2014 yielded reproducibility kappa .84 (N=200, k=3) and stability .90/.86/.83 (N=100, k=2), substantially better than the .71 obtained when labelling every sentence in a document. This is the closest analogue in the paper to a pipeline that types already-extracted knowledge statements, and it suggests such a task is measurably easier than typing raw running text.",
+      "vote": "0-3",
+      "source": "https://aclanthology.org/J02-4002/"
+    },
+    {
+      "claim": "The CoreSC scheme \u2014 11 fine-grained knowledge-role categories (Background, Hypothesis, Motivation, Goal, Object, Method, Model, Experiment, Observation, Result, Conclusion) applied at sentence level \u2014 achieved only Cohen's \u03ba=0.55 overall inter-annotator agreement, measured on 41 papers across the 9 best annotators. This is well below the \u03ba\u22480.7 conventionally treated as usable, and below the \u03ba\u22480.71-0.78 reported for Teufel's 7-category Argumentative Zoning.",
+      "vote": "0-3",
+      "source": "https://doi.org/10.1093/bioinformatics/bts071"
+    },
+    {
+      "claim": "Per-category agreement inside a single fine-grained scheme varies by roughly a factor of two: categories anchored to observable text (Conclusion \u03ba=0.89, Background \u03ba=0.87, Observation \u03ba=0.79) are reliably annotated, while categories requiring inference about author intent or abstraction (Model \u03ba=0.43, Motivation \u03ba=0.46, Hypothesis \u03ba=0.46) are not. Aggregate kappa hides this \u2014 the label set, not the annotators, is the failure point.",
+      "vote": "1-2",
+      "source": "https://doi.org/10.1093/bioinformatics/bts071"
+    },
+    {
+      "claim": "Deterministically collapsing the 11 fine CoreSC labels into 4 coarse groups raises automatic-classification F1 for groups built from high-agreement fine labels (Outcome 81%, Approach 72%) above the best single fine-grained label (Experiment 76%, Background 62%), but the coarse group assembled entirely from low-agreement fine labels (Objective = MOT+GOA+HYP+OBJ) stays at 38%. Collapsing fine labels improves measurable performance only when the constituent labels were themselves reliably distinguishable; it does not rescue an intrinsically ill-defined group.",
+      "vote": "0-3",
+      "source": "https://doi.org/10.1093/bioinformatics/bts071"
+    },
+    {
+      "claim": "Teufel's Argumentative Zoning shows higher inter-coder agreement at coarse granularity than fine: K=0.81 for the three main zones (own, other, background) versus K=0.71 for the full scheme. This is direct empirical evidence that collapsing a fine label set into a small coarse set raises measured agreement within the same annotation study.",
+      "vote": "0-3",
+      "source": "https://aclanthology.org/J08-2004/"
+    },
+    {
+      "claim": "SWBD-DAMSL used a fine-grained tagset of 220 tags in actual coding, and the project then deterministically clustered those 220 fine tags into 42 coarser classes for downstream use \u2014 the collapse was driven by label sparsity (130 of the 220 tags occurred fewer than 10 times each). This is a direct precedent for a two-tier scheme where a curated fine label set rolls up to a small coarse set, with sparsity as the stated criterion for the rollup.",
+      "vote": "1-2",
+      "source": "https://web.stanford.edu/~jurafsky/ws97/manual.august1.html"
+    },
+    {
+      "claim": "Human annotators achieved an average pairwise Kappa of .80 on the SWBD-DAMSL scheme, with 8 trained linguistics graduate-student coders labeling 1,155 Switchboard conversations (March 1 \u2013 July 5, 1997). This is the primary-source value behind the frequently cited SWBD-DAMSL agreement figure; the manual states the statistic without specifying whether it was computed at the 220-tag or 42-class granularity, so granularity-specific agreement is NOT established by this source.",
+      "vote": "0-3",
+      "source": "https://web.stanford.edu/~jurafsky/ws97/manual.august1.html"
+    },
+    {
+      "claim": "The residual/catch-all space is deliberately split by CAUSE rather than pooled into one 'other' bucket \u2014 % (uninterpretable verbal), x (non-verbal, e.g. [Laughter]), o (other forward function), no (other answers, most commonly 'I don't know') \u2014 and the residual assignment is governed by a mechanical decision rule rather than annotator judgment alone.",
+      "vote": "0-3",
+      "source": "https://web.stanford.edu/~jurafsky/ws97/manual.august1.html"
+    }
+  ],
+  "unverified": [],
+  "sources": [
+    {
+      "url": "https://aclanthology.org/D09-1155/",
+      "quality": "primary",
+      "angle": "Annotation schemes with measured agreement (rhetorical/knowledge-role)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://aclanthology.org/E99-1015/",
+      "quality": "primary",
+      "angle": "Annotation schemes with measured agreement (rhetorical/knowledge-role)",
+      "claimCount": 5
+    },
+    {
+      "url": "http://www.lrec-conf.org/proceedings/lrec2010/pdf/644_Paper.pdf",
+      "quality": "primary",
+      "angle": "Annotation schemes with measured agreement (rhetorical/knowledge-role)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://aclanthology.org/J02-4002/",
+      "quality": "primary",
+      "angle": "Annotation schemes with measured agreement (rhetorical/knowledge-role)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.1093/bioinformatics/bts071",
+      "quality": "primary",
+      "angle": "Annotation schemes with measured agreement (rhetorical/knowledge-role)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://aclanthology.org/J08-2004/",
+      "quality": "primary",
+      "angle": "Annotation schemes with measured agreement (rhetorical/knowledge-role)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://web.stanford.edu/~jurafsky/ws97/manual.august1.html",
+      "quality": "primary",
+      "angle": "Tagset granularity vs agreement (dialogue acts, discourse relations)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://www.cis.upenn.edu/~elenimi/pdtb-manual.pdf",
+      "quality": "primary",
+      "angle": "Tagset granularity vs agreement (dialogue acts, discourse relations)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://catalog.ldc.upenn.edu/docs/LDC2019T05/PDTB3-Annotation-Manual.pdf",
+      "quality": "primary",
+      "angle": "Tagset granularity vs agreement (dialogue acts, discourse relations)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://web.stanford.edu/~jurafsky/ws97/asru97.pdf",
+      "quality": "primary",
+      "angle": "Tagset granularity vs agreement (dialogue acts, discourse relations)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://dialogbank.lsv.uni-saarland.de/?page_id=432",
+      "quality": "primary",
+      "angle": "Tagset granularity vs agreement (dialogue acts, discourse relations)",
+      "claimCount": 4
+    },
+    {
+      "url": "https://www.potatoannotator.com/showcase/swbd-damsl-dialogue-acts",
+      "quality": "secondary",
+      "angle": "Tagset granularity vs agreement (dialogue acts, discourse relations)",
+      "claimCount": 5
+    },
+    {
+      "url": "https://link.springer.com/article/10.1007/s10506-018-9228-y",
+      "quality": "primary",
+      "angle": "Domain statement-type classification with measured performance",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.1109/RE48521.2020.00028",
+      "quality": "primary",
+      "angle": "Domain statement-type classification with measured performance",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.1109/RE.2017.82",
+      "quality": "primary",
+      "angle": "Domain statement-type classification with measured performance",
+      "claimCount": 5
+    },
+    {
+      "url": "https://webspace.science.uu.nl/~dalpi001/papers/dalp-dell-ayde-cevi-19-re.pdf",
+      "quality": "primary",
+      "angle": "Domain statement-type classification with measured performance",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.1145/3086512.3086528",
+      "quality": "unreliable",
+      "angle": "Domain statement-type classification with measured performance",
+      "claimCount": 0
+    },
+    {
+      "url": "https://doi.org/10.1007/s10618-010-0175-9",
+      "quality": "primary",
+      "angle": "Hierarchical vs flat labeling and residual 'other' category effects",
+      "claimCount": 5
+    },
+    {
+      "url": "https://aclanthology.org/J11-4004/",
+      "quality": "primary",
+      "angle": "Hierarchical vs flat labeling and residual 'other' category effects",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.3390/electronics13071199",
+      "quality": "primary",
+      "angle": "Hierarchical vs flat labeling and residual 'other' category effects",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.1177/1525822X04266540",
+      "quality": "primary",
+      "angle": "Codebook design methodology effects on agreement",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.1177/1525822X980100020301",
+      "quality": "primary",
+      "angle": "Codebook design methodology effects on agreement",
+      "claimCount": 5
+    },
+    {
+      "url": "https://doi.org/10.1177/0049124113500475",
+      "quality": "primary",
+      "angle": "Codebook design methodology effects on agreement",
+      "claimCount": 4
+    }
+  ],
+  "stats": {
+    "angles": 5,
+    "sourcesFetched": 23,
+    "claimsExtracted": 108,
+    "claimsVerified": 25,
+    "confirmed": 12,
+    "killed": 13,
+    "unverified": 0,
+    "afterSynthesis": 9,
+    "urlDupes": 1,
+    "budgetDropped": 6,
+    "agentCalls": 105
+  }
+}
