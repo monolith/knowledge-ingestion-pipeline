@@ -13,7 +13,7 @@ from .config import Config
 from .llm import LLMClient
 from .route import BM25, tokenize
 
-PROMPT_VERSION = "pass-03-relationship-judgment-v3.0"
+PROMPT_VERSION = "pass-03-relationship-judgment-v3.1"  # v3.1: render unit flags (negative_result, caveat) into the comparison listing
 
 # Coarse stance is the tier established benchmarks validate (spec §11.3).
 COARSE_STANCES = ["supports", "contradicts", "insufficient_evidence"]
@@ -226,8 +226,15 @@ def _render(units: list[dict[str, Any]], pairs: list[list[str]]) -> str:
     for unit in units:
         evidence = unit.get("evidence") or [{}]
         excerpt = (evidence[0].get("excerpt") or "")[:300]
+        # The flags earn their render HERE specifically: this is the stance
+        # judgment, and a null result reads like an ordinary claim unless
+        # marked -- "no significant effect" vs "improved 8.2%" is a
+        # contradiction only if the judge notices the first one is a negative
+        # finding. negative_result exists for exactly that; before this line it
+        # was written to every unit and shown to no model anywhere.
+        markers = "".join(f" [{flag}]" for flag in unit.get("flags") or [])
         lines.append(
-            f"\n{unit['unit_id']} [{unit['unit_type']}]"
+            f"\n{unit['unit_id']} [{unit['unit_type']}]{markers}"
             f" (source={unit['source_id']}, independence_group={unit['independence_group']})"
             f"\n  statement: {unit['canonical_statement']}"
             f"\n  qualifiers: {', '.join(unit.get('qualifiers', [])) or 'none'}"

@@ -160,6 +160,18 @@ def _oauth_resolution(cred: dict[str, Any], now: float) -> Resolution | None:
             "this shares your Claude Code subscription rate limit -- a large run "
             "competes with interactive sessions"
         )
+    # Empirical status of this tier, tested 2026-08-09 on this credential shape:
+    # the token AUTHENTICATES against the Messages API (a corrupted token gets
+    # 401; this one gets past auth) but direct API calls were refused with a
+    # bare 429 carrying no retry-after and no ratelimit headers -- a policy
+    # refusal wearing a rate-limit status, not quota exhaustion. The tier is
+    # kept because entitlements are server policy and may change, but nobody
+    # should discover mid-run that it never serves: say it up front.
+    warnings.append(
+        "Claude Code OAuth has been observed to authenticate but NOT serve "
+        "direct API calls (policy 429). Expect failures; set ANTHROPIC_API_KEY "
+        "for real runs"
+    )
 
     expiry_text = (
         time.strftime("%Y-%m-%d %H:%M:%SZ", time.gmtime(expires_at))

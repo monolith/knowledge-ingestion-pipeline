@@ -110,6 +110,19 @@ def migrate_unit(unit: dict[str, Any]) -> dict[str, Any]:
         # classification.
         unit_type, modality, flags = UNCLASSIFIED, None, ()
         migration_note = f"legacy label {legacy!r}: {LEGACY_UNMAPPED[legacy]}"
+    elif not legacy:
+        # No legacy label at all. This is not a migratable unit -- it is a unit
+        # that was never classified, which is what a post-removal extraction run
+        # produces. Stamping it UNCLASSIFIED here would launder "never
+        # classified" into "classified as unclassifiable", and the graph builder
+        # accepts that stamp -- the removal review reproduced a typeless graph
+        # building cleanly off exactly this path. Refuse instead; the caller
+        # reports the count and points at the real classifier.
+        raise PipelineError(
+            f"unit {unit.get('unit_id', '?')} has no legacy unit_type to migrate. "
+            "This run was extracted without classification; run the classifier "
+            "over it instead of migrate-taxonomy."
+        )
     else:
         unit_type, modality, flags = UNCLASSIFIED, None, ()
         migration_note = f"unknown legacy label {legacy!r}"
