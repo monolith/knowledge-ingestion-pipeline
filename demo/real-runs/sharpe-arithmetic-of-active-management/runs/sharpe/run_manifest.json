@@ -31,22 +31,23 @@
       "planner": "claude-sonnet-5"
     },
     "schema_version": "3.1.0",
+    "taxonomy_path": null,
     "use_batch_api": false
   },
   "run_id": "sharpe",
   "spec_version": "3.1.0",
   "summary": {
-    "approved": 2,
+    "approved": 3,
     "assessments": 1,
-    "audits": 2,
-    "candidates": 2,
+    "audits": 3,
+    "candidates": 3,
     "clusters": 1,
-    "finished_at": "2026-08-12T16:48:54.790116+00:00",
+    "finished_at": "2026-08-12T19:32:02.283121+00:00",
     "quarantined": 0,
-    "queue_events": 2,
+    "queue_events": 3,
     "run_id": "sharpe",
     "sources": 1,
-    "started_at": "2026-08-12T16:48:54.548881+00:00",
+    "started_at": "2026-08-12T19:32:02.249718+00:00",
     "units": 23,
     "usage": {
       "cache_read_tokens": 0,
@@ -55,8 +56,7 @@
       "output_tokens": 0
     },
     "verdicts": {
-      "fix": 1,
-      "pass_with_label": 1
+      "pass_with_label": 3
     }
   }
 }
