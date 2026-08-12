@@ -1,27 +1,32 @@
 {
   "auditor_model": "claude-opus-5",
-  "created_at": "2026-08-12T19:30:52.667801+00:00",
+  "created_at": "2026-08-12T20:31:10.554442+00:00",
   "definitions_captured": true,
   "fairly_represented": true,
   "key_insights_captured": true,
   "mechanical": {
-    "assertions_out": 104,
-    "units_carried": 93,
-    "units_kept": 93,
+    "assertions_out": 153,
+    "units_carried": 136,
+    "units_kept": 136,
     "units_orphaned": 0,
     "units_orphaned_protected": 0
   },
   "missing": [],
   "model_role": "corpus-coverage-auditor",
   "notes": [
-    "Definitions are carried as their own assertions rather than described, so a reader can apply a label from the output alone."
+    "All fifteen label definitions are carried with cue and exclusions, not described. A reader can classify a statement from the output alone, which is the test that matters for a codebook -- and it is the failure this pass exists to catch.",
+    "The per-label internal tests survive: the strip test, the breach test, the elevator test, the third-party test, the actual-not-proposed test. These are the operative content of the definitions they sit in and are the easiest thing to lose when a definition is summarized.",
+    "Negative and reversed results are given the same standing as positive ones: the confounded second collision test, the rejected generality test, the boolean mechanism measuring worse than single choice, and the finding that the priority order is worse than resolving alphabetically. A skewed output would have kept the design and dropped the refutations.",
+    "The specification's epistemic labelling survives into the output. Entries are marked authoritative where the source stipulates, internal-observation where the evidence is in-house, and contested where the corpus contains both sides -- and four entries were downgraded from established during audit because a single specification cannot corroborate the studies it cites.",
+    "One gap the audit already named rather than a loss: the thirty per-label exemplars required by §3.1 were never extracted, so the definitions entry carries two of the three required components. The corrected entry states this so a consumer knows to go to the source.",
+    "The output states throughout that this is one document and one independence group, and that the in-house figures measure reproducibility rather than correctness. For a specification whose own register says exactly that, the framing is faithful."
   ],
   "parent_artifacts": [
     "02_units/units.jsonl",
     "06_audit/candidates.approved.jsonl"
   ],
   "prompt_version": "pass-05b-corpus-coverage-v1.0",
-  "reasoning": "0 of the extracted units reached no assertion. The fifteen label definitions are present in the output as fifteen assertions carrying their own cues and exclusions, which is the failure this check was added for and it does not recur here. Spot-checking the entries against the units, the measured results including the rejected designs are carried, and so are the named unclosed gaps.",
+  "reasoning": "All 136 units reached an assertion, so nothing was lost and the question is whether the output is skewed. The place this corpus could most easily be misrepresented is the codebook itself, and it is not: all fifteen definitions arrive with their cues and their exclusions in a form a rater can check a sentence against, and the nineteen pairwise separations arrive as tests rather than as descriptions of distinctions. The second place is the specification's account of its own confidence, and that also survives -- the retracted collision-test headline sits beside the control that overturned it, the boolean mechanism sits beside the in-house measurement showing it is worse than the alternative it replaced, the rejected generality test is kept as a result, and the register's list of unmeasured design decisions and contradicted claims is carried. The proportions match the document: definitions and separations are the largest entries, which is where the specification spends its words and its argument.",
   "run_id": "spec",
   "schema_version": "3.1.0",
   "verdict": "represented"

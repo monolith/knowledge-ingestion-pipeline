@@ -37,18 +37,18 @@
   "run_id": "spec",
   "spec_version": "3.1.0",
   "summary": {
-    "approved": 7,
-    "assessments": 4,
-    "audits": 7,
-    "candidates": 7,
+    "approved": 33,
+    "assessments": 37,
+    "audits": 33,
+    "candidates": 33,
     "clusters": 2,
-    "finished_at": "2026-08-12T19:30:52.723508+00:00",
+    "finished_at": "2026-08-12T20:31:10.593457+00:00",
     "quarantined": 0,
-    "queue_events": 7,
+    "queue_events": 33,
     "run_id": "spec",
     "sources": 1,
-    "started_at": "2026-08-12T19:30:52.084291+00:00",
-    "units": 93,
+    "started_at": "2026-08-12T20:31:10.493698+00:00",
+    "units": 136,
     "usage": {
       "cache_read_tokens": 0,
       "calls": 0,
@@ -56,7 +56,8 @@
       "output_tokens": 0
     },
     "verdicts": {
-      "pass_with_label": 7
+      "fix": 12,
+      "pass_with_label": 21
     }
   }
 }

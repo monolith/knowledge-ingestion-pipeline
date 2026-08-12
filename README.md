@@ -77,7 +77,7 @@ deterministic, and offline. The test suite executes it.
 
 For output from a **real** model rather than a canned one, read
 [`demo/real-runs/`](demo/real-runs/README.md) — three complete runs on real
-documents, including the one that fails.
+documents, 1,650 to 12,311 words, every quote verified against its source.
 
 ## As a Claude Code plugin
 
@@ -98,7 +98,7 @@ The unit of output is a **knowledge unit** — one point from the document,
 written so it survives being read cold by somebody who never saw the source.
 
 That is a higher bar than "grammatically complete", and the gap between the two
-is the whole design. Both of these came out of the same 223 words of Sharpe's
+is the whole design. Both of these came out of the same page of Sharpe's
 arithmetic of active management:
 
 > **Not a unit** — "Each passive manager obtains precisely the market return,
@@ -219,47 +219,53 @@ files ─▶ 0 normalize ─▶ 1 extract ─▶ 2 route ─▶ 3 assess ─▶ 
 
 Artifacts land under `runs/<run-id>/`, one JSONL file per pass, each record
 carrying a content hash and pointers to its parents. They are listed in full
-under [What a run writes](#what-a-run-writes) below, and four real runs you can
+under [What a run writes](#what-a-run-writes) below, and three real runs you can
 open are in [`demo/real-runs/`](demo/real-runs/README.md).
+
+### What length actually costs
+
+Everything above assumes the document fits in one call. Measured on the same
+extractor and the same prompt, across the three runs in
+[`demo/real-runs/`](demo/real-runs/README.md):
+
+```
+Sharpe                1,650 words →  23 units   (1 per  72 words)
+De Bondt & Thaler     6,284 words →  53 units   (1 per 119 words)
+classifier spec      12,311 words → 136 units   (1 per  91 words)
+```
+
+Density is roughly flat across a 7× range in length, and the longest document is
+denser than the middle one — because it is a reference document whose fifteen
+label definitions and nineteen pairwise rules each have to survive on their own,
+while the middle one is an argument with long stretches of connective prose.
+Document shape drives the number; length does not.
+
+This was not true before. An earlier run of the same specification produced 12
+units, and a later one produced 93 of which 34 reached no approved candidate,
+all fifteen label definitions among them. Neither failure was about length. The
+first was a prompt that let the extractor summarize; the second was a planning
+step that saw only unit IDs and a candidate shape — title, summary, assertions —
+that has no room for a definition. Both are fixed, and the fix is visible in the
+output: all fifteen definitions reach
+[the queue handoff](demo/real-runs/statement-classifier-specification/enqueue.md)
+with their cues and exclusions intact, and all three runs report zero orphaned
+units.
 
 ### Not built yet: documents too long to hold at once
 
-Everything above assumes the document fits in one call. Measured on the same
-extractor and the same prompt:
+The limit that remains is the real one. A document larger than the context
+window has to be cut before it can be read at all, at boundaries where a section
+is self-contained enough that nothing it rests on falls outside the cut. Nothing
+here does that: `extract` sends one document in one call. At 12,311 words that
+still fits comfortably, so the ceiling has not yet been reached in a demo — which
+is exactly why it is unmeasured rather than solved.
 
-```
-Sharpe excerpt      223 words →  7 units   (1 per    31 words)
-De Bondt & Thaler 6,284 words → 35 units   (1 per   179 words)
-classifier spec  12,311 words → 12 units   (1 per 1,025 words)
-```
-
-Length alone is not the variable. [De Bondt &
-Thaler (1985)](demo/real-runs/04-debondt-thaler/UNITS.md) is five times longer
-than the Sharpe excerpt and held up: 35 units, `kip validate` clean, all 82
-excerpts verified. The [classifier
-specification](demo/real-runs/03-spec-long/runs/spec/00_original_sources/SPECIFICATION.md) is a dense reference
-document — fifteen label definitions, twenty-two pairwise rules, an evidence
-register — and it is the one that collapsed. Some of the 32× gap is document
-shape rather than extractor failure.
-
-Everything except coverage held at 12,000 words: all fourteen citations verified
-against the source, all twelve units `attributable`, statements the same length
-as in the short run. And the omission check diagnosed its own run — fifteen
-label definitions, twenty-two pairwise rules, three field vocabularies and an
-entire section, none of them represented. The quality machinery works; the
-coverage does not. See
-[`demo/real-runs/03-spec-long/`](demo/real-runs/03-spec-long/).
-
-Two separate limits are tangled in that number and neither is addressed.
-`max_tokens` on the shared model-call seam is 8,192 — about 28 units at the
-observed cost per unit — so a dense document's answer has nowhere to go. And a
-document large enough to strain the context window has to be cut regardless of
-the output budget, at boundaries where a section is self-contained enough that
-nothing it rests on falls outside the cut.
-
-Coverage is imperfect before either limit binds: at 6,284 words the omission
-check still found eight gaps, concentrated in the statistical apparatus and the
-footnotes. It degrades gradually with length rather than at a cliff.
+Coverage is imperfect well before that limit binds. The omission check reports
+gaps on every one of these runs, including the shortest: on Sharpe it found the
+footnote saying the three measurement failures are not an exhaustive list, and
+on the specification it found that none of the thirty per-label exemplars was
+carried. Those are real losses at 1,650 and 12,311 words alike. Coverage
+degrades gradually with document density, not at a cliff with length.
 
 ### Not built yet: line-break repair in `normalize`
 
@@ -387,7 +393,8 @@ the shape of a *claim*. A definition asserts nothing to argue with, so a planner
 describes it — "the codebook defines fifteen labels" — instead of carrying it
 across, and the content a reader actually needs never arrives. Measured on a
 12,311-word specification: 93 units extracted, 34 reaching no approved
-candidate, all fifteen definitions among them. `src/kip/retention.py` flags
+candidate, all fifteen definitions among them. Under the current pipeline the
+same document extracts 136 units and orphans none of them. `src/kip/retention.py` flags
 units whose statements match a configured taxonomy's surface cues, and that flag
 travels to the planner as `[MUST CARRY]` and to the coverage audit as an
 escalation. It assigns no type and no label — it answers only "would losing this
