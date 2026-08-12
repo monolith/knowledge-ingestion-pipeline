@@ -13,6 +13,7 @@ from __future__ import annotations
 from typing import Any
 
 from .artifacts import RunContext, envelope, seal, text_hash, write_jsonl_atomic
+from .candidates import slugify
 from .config import Config
 from .llm import LLMClient
 
@@ -414,7 +415,14 @@ def _approve(
         revised.update(
             {
                 "title": correction["title"],
-                "slug": candidate["slug"],
+                # Derived from the corrected title, not carried over. The slug is
+                # what the queue payload hands the consumer as its key, so
+                # freezing it across a correction files the corrected entry under
+                # the uncorrected name -- the audit's own finding, preserved in
+                # the one field a knowledge base indexes on. Stability is not an
+                # argument for freezing it: the candidate_id already changes on
+                # revision, and the slug is a pure function of the title.
+                "slug": slugify(correction["title"]),
                 "knowledge_state": correction["knowledge_state"],
                 "summary": correction["summary"],
                 "assertions": correction["assertions"],

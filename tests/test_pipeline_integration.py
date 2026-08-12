@@ -17,6 +17,7 @@ from typing import Any
 import pytest
 
 from kip import assess, audit, candidates, cli, enqueue, extract, normalize, route
+from kip.candidates import slugify
 from kip.artifacts import (
     PipelineError,
     RunContext,
@@ -386,6 +387,26 @@ def test_audit_produces_a_new_version_not_an_overwrite(run):
     assert approved["candidate_version"] == original["candidate_version"] + 1
     assert approved["supersedes"] == original["candidate_id"]
     assert read_jsonl(run["ctx"].candidates)[0]["knowledge_state"] == "established"
+
+
+def test_a_corrected_title_regenerates_the_slug(run):
+    """A `fix` must not leave the overstated claim in the identifier.
+
+    The slug is derived from the title, and the queue payload carries it as the
+    consumer's key. Freezing it across a correction files the corrected entry
+    under the uncorrected name -- the audit's whole finding, preserved in the
+    one field a knowledge base indexes on.
+    """
+    original = run["candidates"][0]
+    approved = run["approved"][0]
+    assert approved["title"] != original["title"], "fixture must exercise a title change"
+    assert approved["slug"] != original["slug"], (
+        "slug still derives from the superseded title"
+    )
+    assert approved["slug"] == slugify(approved["title"])
+
+    event = next(e for e in run["events"] if e["candidate_id"] == approved["candidate_id"])
+    assert event["payload"]["slug"] == approved["slug"]
 
 
 def test_only_approved_versions_reach_the_queue(run):

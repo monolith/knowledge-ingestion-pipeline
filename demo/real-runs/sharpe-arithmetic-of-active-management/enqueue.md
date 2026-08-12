@@ -10,7 +10,7 @@ Markdown rendering of `runs/sharpe/07_enqueue/enqueue.jsonl`, the file a consumi
 
 `create` · knowledge state **authoritative** · status `ready` · candidate `cand-001-r1` v2
 
-**Slug** `arithmetic-of-active-management-the-average-active-dollar-cannot-beat-the-averag`
+**Slug** `arithmetic-of-active-management-within-a-defined-market-the-average-actively-man`
 
 ### Summary
 
@@ -66,8 +66,8 @@ Within a named market, if every holder is classified as either passive (holding 
 
 ### Traceability
 
-- idempotency key `82d126adeef57c3ad2049c384a16bc6a84d828c2b5dddd97c8ddf6a3114f59ea`
-- queue event `q-82d126adeef57c3a`
+- idempotency key `8874da619e376857f3772c0ac9cd4b7c71a49433c4e067f142cfc10bd7fe4ba8`
+- queue event `q-8874da619e376857`
 - audits `audit-cand-001`
 
 Provenance chain recorded on the event:
