@@ -1,8 +1,55 @@
 # Session handoff — 2026-08-12
 
+**If you are an agent resuming this work, everything you need is in this file.
+Read it top to bottom, then `demo/real-runs/README.md`. Start on Open work item
+A (document windowing) unless told otherwise.**
+
 Written for whoever picks this up next. `HANDOFF.md` describes the project;
 this describes **what changed in this session, what is open, and what will bite
 you.**
+
+---
+
+## Resuming: the short version
+
+**What kip is.** A knowledge **digestion** pipeline: it breaks documents into
+standalone chunks with verified citations and finds relationships between them.
+Classification was deliberately removed this session — it happens afterwards, in
+a separate classifier that does not exist yet. **Do not add typing back.**
+
+**Where the work is.** Branch `refactor/strip-classification-dual-runtime`, 180
+tests passing, pushed but not merged.
+
+**What to do first.** Open work item A below: document windowing. It is the
+largest defect and it is quiet — it does not error, it silently returns a
+summary instead of a digestion.
+
+**How to run it live.** Not with the scripted client — that is what hid every
+real bug for the life of this project. Use the handoff runtime, where you are
+the model:
+
+```bash
+PYTHONPATH=src /home/sirlunch/workspace/conda/bin/python3 -m kip \
+  --workspace /tmp/ws run --sources <dir> --run-id r1 --mode handoff --show-request
+```
+
+Each model call is written to `_handoff/pending.jsonl` and the process exits 10.
+Answer by appending one line to `_handoff/responses.jsonl`:
+
+```
+{"call_id": "<id from the output>", "response": { ...schema-valid object... }}
+```
+
+Then re-run the same command. Completed stages resume; answered calls are cache
+hits; only the frontier advances. Exit 0 means the run finished.
+
+**Tests.** `/home/sirlunch/workspace/conda/bin/python3 -m pytest -q`
+(pytest is not on the default python).
+
+**The bar for a chunk**, in Anatoly's words: clear as a standalone insight *"not
+just as a grammatical sentence but as a point in context of the paper"* — good
+enough for a high-school comprehension test, a logic test, and to hold ground in
+a PhD thesis citing it. Windowing must not lower that.
 
 Two repos are in play:
 
