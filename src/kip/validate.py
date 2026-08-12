@@ -370,8 +370,13 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
         for candidate in approved:
             carried.update(candidate.get("source_unit_ids", []))
         orphaned = sorted(kept - carried)
+        by_id = {u.get("unit_id"): u for u in units}
+        protected_orphans = sorted(
+            uid for uid in orphaned if by_id.get(uid, {}).get("protected_by")
+        )
         counts["units_kept"] = len(kept)
         counts["units_orphaned"] = len(orphaned)
+        counts["units_orphaned_protected"] = len(protected_orphans)
         if orphaned:
             shown = ", ".join(orphaned[:5])
             more = f" (+{len(orphaned) - 5} more)" if len(orphaned) > 5 else ""
@@ -385,6 +390,17 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
             warnings.append(
                 f"{len(orphaned)} of {len(kept)} kept units reach no approved candidate "
                 f"and are lost between extraction and the queue: {shown}{more}"
+            )
+        if protected_orphans:
+            # A protected unit resembles a kind synthesis is known to drop -- a
+            # definition, a rule, a formula. Losing one of those is the specific
+            # failure the retention taxonomy exists to prevent, so it is named
+            # separately rather than buried in the general orphan count.
+            shown = ", ".join(protected_orphans[:5])
+            more = f" (+{len(protected_orphans) - 5} more)" if len(protected_orphans) > 5 else ""
+            warnings.append(
+                f"{len(protected_orphans)} of those carry retention protection and should "
+                f"have been carried across: {shown}{more}"
             )
 
     for audit_record in audits:

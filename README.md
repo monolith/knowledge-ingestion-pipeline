@@ -381,6 +381,21 @@ answer.** Citation accuracy, provenance resolution, and independence arithmetic
 run as code with no error rate, instead of as LLM judgment with about one-in-five
 error on hard cases.
 
+**A retention guard, which is not typing coming back.** Synthesis is a
+proposition-shaped step: a candidate is title, summary and assertions, which is
+the shape of a *claim*. A definition asserts nothing to argue with, so a planner
+describes it — "the codebook defines fifteen labels" — instead of carrying it
+across, and the content a reader actually needs never arrives. Measured on a
+12,311-word specification: 93 units extracted, 34 reaching no approved
+candidate, all fifteen definitions among them. `src/kip/retention.py` flags
+units whose statements match a configured taxonomy's surface cues, and that flag
+travels to the planner as `[MUST CARRY]` and to the coverage audit as an
+escalation. It assigns no type and no label — it answers only "would losing this
+be the failure we already measured?" The cues are deliberately loose, because
+classification runs separately after digestion and a false positive costs one
+unit carried forward that need not have been. Point `KIP_TAXONOMY` at your own
+file to change what is protected.
+
 **Typing is not digestion's job, and used to be.** Every unit once carried a
 type — case, rule, method, concept, model, claim — produced in pass 1 and read
 as decoration everywhere downstream. Nothing branched on it, which is what made

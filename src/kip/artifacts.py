@@ -226,6 +226,10 @@ DERIVED_FIELDS = frozenset(
         "created_at",
         # Legacy and current classification labels, both derived.
         "modality",
+        # Retention protection: a pure function of (canonical_statement,
+        # taxonomy). Changing the taxonomy must not forge a new content hash --
+        # the same rule that excludes classification labels, for the same reason.
+        "protected_by",
         # A deontic modal the model reported on a unit that did not resolve to
         # `rule`. Derived from the same six answers as `modality` itself, so it
         # belongs on this side of the line for the same reason.

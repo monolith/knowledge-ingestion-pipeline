@@ -36,6 +36,10 @@ RULES
   it does NOT mean summarizing several units into one sentence. The point of
   grouping is to remove duplication and noise, never to drop content: if two
   units say the same thing, keep one; if they say different things, keep both.
+- A unit marked [MUST CARRY] resembles a kind that this step is known to drop --
+  a definition, a rule, a formula, a dependency. Its CONTENT must appear in an
+  assertion, stated so a reader can apply it without the source. Describing it
+  does not count: "the codebook defines fifteen labels" is not the definitions.
 - EVERY unit you were given must end up somewhere. Each one either becomes an
   assertion, is folded into an assertion that already carries its content, or is
   a duplicate of one that is. A unit that is none of those has not been
@@ -117,10 +121,17 @@ def plan_candidates(
     cfg: Config,
     client: LLMClient,
     assessments: list[dict[str, Any]],
+    units: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     if not assessments:
         write_jsonl_atomic(ctx.candidates, [])
         return []
+
+    # The planner used to receive assessment summaries and bare unit IDs, and
+    # was asked to write assertions carrying the corpus's content. It could not:
+    # a definition it never saw cannot reach an assertion, which is exactly how
+    # fifteen of them were lost on a 93-unit run. It now sees the statements.
+    units_by_id = {u["unit_id"]: u for u in (units or [])}
 
     candidates: list[dict[str, Any]] = []
     counter = 0
@@ -135,7 +146,7 @@ def plan_candidates(
         try:
             result = client.complete_json(
                 system=PLAN_SYSTEM,
-                user=_render(group),
+                user=_render(group, units_by_id),
                 schema=PLAN_SCHEMA,
                 model=cfg.model_for("planner"),
                 max_tokens=16384,
@@ -192,7 +203,11 @@ def plan_candidates(
     return candidates
 
 
-def _render(assessments: list[dict[str, Any]]) -> str:
+def _render(
+    assessments: list[dict[str, Any]],
+    units_by_id: dict[str, dict[str, Any]] | None = None,
+) -> str:
+    units_by_id = units_by_id or {}
     lines = ["Assessments for this topic cluster:"]
     for a in assessments:
         lines.append(
@@ -212,5 +227,26 @@ def _render(assessments: list[dict[str, Any]]) -> str:
         )
         if a.get("source_validity_flags"):
             lines.append(f"  NOTE — pipeline corrections applied: {a['source_validity_flags']}")
+    # The units themselves, not just their ids. Protected ones first and marked:
+    # they are the kinds this pass is known to describe rather than carry.
+    referenced: list[str] = []
+    for a in assessments:
+        for key in ("supporting_unit_ids", "opposing_unit_ids", "qualifying_unit_ids"):
+            for uid in a.get(key, []):
+                if uid not in referenced:
+                    referenced.append(uid)
+
+    known = [uid for uid in referenced if uid in units_by_id]
+    if known:
+        protected = [uid for uid in known if units_by_id[uid].get("protected_by")]
+        ordinary = [uid for uid in known if not units_by_id[uid].get("protected_by")]
+        lines.append(f"\nUNITS IN THIS CLUSTER ({len(known)}):")
+        for uid in protected:
+            unit = units_by_id[uid]
+            kinds = ", ".join(sorted({h["label"] for h in unit.get("protected_by", [])}))
+            lines.append(f"\n[MUST CARRY — {kinds}] {uid}\n  {unit.get('canonical_statement','')}")
+        for uid in ordinary:
+            lines.append(f"\n{uid}\n  {units_by_id[uid].get('canonical_statement','')}")
+
     lines.append("\nPropose candidate knowledge-base operations.")
     return "\n".join(lines)

@@ -11,6 +11,7 @@ from typing import Any
 
 from .artifacts import RunContext, envelope, read_jsonl, seal, text_hash, write_jsonl_atomic
 from .config import Config
+from .retention import annotate as annotate_protected, load_taxonomy
 from .llm import DATA_BOUNDARY_NOTE, LLMClient, wrap_untrusted
 from .vocab import FLAGS, MODALITIES, NODE_KINDS, detect_quantitative, normalize_flags, normalize_modality
 
@@ -402,6 +403,7 @@ def extract_units(
         eviwords=cfg.granularity.max_evidence_words,
     )
 
+    taxonomy = load_taxonomy(cfg.taxonomy_path)
     units_partial, omissions_partial, rejects_path = _checkpoint_paths(ctx)
     all_units: list[dict[str, Any]] = read_jsonl(units_partial) if units_partial.exists() else []
     all_omissions: list[dict[str, Any]] = (
@@ -435,6 +437,12 @@ def extract_units(
 
         rejects: list[dict[str, Any]] = []
         units = _materialize_units(ctx, cfg, manifest, result.get("units", []), text, rejects)
+        # Flag the kinds a proposition-shaped synthesis step is known to drop,
+        # before sealing, so the flag is part of the record rather than a thing
+        # recomputed later and liable to drift from what the planner was told.
+        n_protected = annotate_protected(units, taxonomy)
+        if n_protected:
+            print(f"[pass1] {n_protected} of {len(units)} units carry retention protection")
         all_units.extend(units)
         all_rejects.extend(rejects)
         for reject in rejects:

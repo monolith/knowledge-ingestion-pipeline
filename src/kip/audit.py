@@ -412,6 +412,11 @@ Two failures matter, and they are different:
     promoted to a headline, a central one buried, or a caveat dropped so a
     finding reads as firmer than the corpus supports.
 
+A unit marked [PROTECTED] resembles a kind this pipeline is known to drop --
+a definition, a rule, a formula, a dependency. One of those reaching no
+assertion is the specific failure worth reporting, and it is rarely
+deduplication: reference content is usually stated once.
+
 Deduplication is NOT loss. If two units say the same thing and one assertion
 carries it, that is correct. Say so rather than counting it as missing.
 
@@ -474,6 +479,9 @@ def audit_corpus_coverage(
         "units_kept": len(kept),
         "units_carried": len([u for u in kept if u.get("unit_id") in carried]),
         "units_orphaned": len(orphaned),
+        "units_orphaned_protected": len(
+            [u for u in orphaned if u.get("protected_by")]
+        ),
         "assertions_out": sum(len(c.get("assertions", [])) for c in approved),
     }
 
@@ -492,6 +500,9 @@ def audit_corpus_coverage(
 
     def line(u: dict[str, Any]) -> str:
         mark = " [REACHED NO ASSERTION]" if u.get("unit_id") not in carried else ""
+        if u.get("protected_by") and mark:
+            kinds = ", ".join(sorted({h["label"] for h in u["protected_by"]}))
+            mark += f" [PROTECTED — {kinds}]"
         return f"- {u.get('unit_id')}{mark}: {u.get('canonical_statement', '')}"
 
     out_lines = []

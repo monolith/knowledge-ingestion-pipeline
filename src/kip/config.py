@@ -110,6 +110,11 @@ class Config:
     datamark: bool = True
     datamark_char: str = "▁"  # U+2581 LOWER ONE EIGHTH BLOCK
 
+    # Where the retention taxonomy lives. A unit whose statement matches one of
+    # its protected kinds must survive synthesis; see retention.py. None means
+    # the shipped default, which a deployment overrides with KIP_TAXONOMY.
+    taxonomy_path: str | None = os.environ.get("KIP_TAXONOMY")
+
     # Cost: the Message Batches API is 50% off input AND output, and stacks with
     # prompt caching (PE T4). Pass 1 across many sources is the natural batch.
     use_batch_api: bool = False
@@ -138,6 +143,7 @@ class Config:
             "granularity": asdict(self.granularity),
             "audit": asdict(self.audit),
             "datamark": self.datamark,
+            "taxonomy_path": self.taxonomy_path,
             "use_batch_api": self.use_batch_api,
             "models": {
                 role: self.model_for(role)

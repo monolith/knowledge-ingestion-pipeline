@@ -134,7 +134,7 @@ def run_pipeline(
         ctx=ctx,
         name="pass4-candidates",
         output_path=ctx.candidates,
-        produce=lambda: candidates.plan_candidates(ctx, cfg, llm(), assessments),
+        produce=lambda: candidates.plan_candidates(ctx, cfg, llm(), assessments, units),
         force=force,
         inputs_fingerprint=fingerprint_records(assessments),
     )
