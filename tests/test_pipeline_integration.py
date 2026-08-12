@@ -1174,11 +1174,39 @@ def test_pass_five_judges_the_corpus_and_not_only_each_candidate(run):
     coverage = json.loads(run["ctx"].corpus_coverage.read_text())
     m = coverage["mechanical"]
     assert m["units_kept"] == m["units_carried"] + m["units_orphaned"]
-    assert m["units_orphaned"] > 0, "the demo plan orphans units; the check must see it"
-    assert coverage["fairly_represented"] is False
-    assert coverage["missing"], "a gaps verdict must name what is lost"
-    assert coverage["missing"][0]["consequence"]
     assert coverage["auditor_model"] and coverage["prompt_version"]
+    # Whether this fixture orphans anything depends on its canned plan; what the
+    # pass must always do is report the arithmetic and answer both questions.
+    assert isinstance(coverage["definitions_captured"], bool)
+    assert isinstance(coverage["fairly_represented"], bool)
+    if m["units_orphaned"]:
+        assert coverage["missing"], "a run that lost units must name what is lost"
+
+
+def test_corpus_coverage_names_a_protected_unit_it_lost(tmp_path):
+    """The escalation path: losing a definition is not just one more orphan."""
+    from kip.audit import audit_corpus_coverage
+    from kip.config import default_config
+
+    class _Client:
+        def complete_json(self, *, system, user, schema, model, **kw):
+            assert "[PROTECTED" in user, "a lost protected unit must be marked for the auditor"
+            return {"reasoning": "r", "verdict": "gaps", "key_insights_captured": True,
+                    "definitions_captured": False, "fairly_represented": False,
+                    "missing": [{"what_is_lost": "a definition", "consequence": "unusable"}],
+                    "notes": []}
+
+    ctx = RunContext(run_id="r", root=tmp_path)
+    units = [
+        {"unit_id": "u-1", "decision": "keep", "canonical_statement": "carried"},
+        {"unit_id": "u-2", "decision": "keep", "canonical_statement": "A drawdown is defined as X.",
+         "protected_by": [{"label": "definition", "cue": "x"}]},
+    ]
+    approved = [{"source_unit_ids": ["u-1"], "assertions": [{"text": "a"}], "title": "t"}]
+    result = audit_corpus_coverage(ctx, default_config(), _Client(), units, approved)
+    assert result["mechanical"]["units_orphaned"] == 1
+    assert result["mechanical"]["units_orphaned_protected"] == 1
+    assert result["definitions_captured"] is False
 
 
 def test_corpus_coverage_counts_agree_with_validate(run):

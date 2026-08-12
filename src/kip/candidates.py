@@ -122,6 +122,7 @@ def plan_candidates(
     client: LLMClient,
     assessments: list[dict[str, Any]],
     units: list[dict[str, Any]] | None = None,
+    clusters: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     if not assessments:
         write_jsonl_atomic(ctx.candidates, [])
@@ -132,6 +133,15 @@ def plan_candidates(
     # a definition it never saw cannot reach an assertion, which is exactly how
     # fifteen of them were lost on a 93-unit run. It now sees the statements.
     units_by_id = {u["unit_id"]: u for u in (units or [])}
+    # Membership comes from the CLUSTER, not from the assessments. Pass 3 judges
+    # pairs and reports only the units it judged, so a unit that was clustered
+    # but never entered a comparison appears in no assessment -- and rendering
+    # from assessments alone hid 20 of 93 units, four of them definitions, from
+    # the planner entirely. The planner plans for a cluster; it sees the cluster.
+    members_by_cluster = {
+        c.get("cluster_id"): list(c.get("unit_ids") or c.get("members") or [])
+        for c in (clusters or [])
+    }
 
     candidates: list[dict[str, Any]] = []
     counter = 0
@@ -146,7 +156,7 @@ def plan_candidates(
         try:
             result = client.complete_json(
                 system=PLAN_SYSTEM,
-                user=_render(group, units_by_id),
+                user=_render(group, units_by_id, members_by_cluster.get(cluster_id)),
                 schema=PLAN_SCHEMA,
                 model=cfg.model_for("planner"),
                 max_tokens=16384,
@@ -206,6 +216,7 @@ def plan_candidates(
 def _render(
     assessments: list[dict[str, Any]],
     units_by_id: dict[str, dict[str, Any]] | None = None,
+    cluster_members: list[str] | None = None,
 ) -> str:
     units_by_id = units_by_id or {}
     lines = ["Assessments for this topic cluster:"]
@@ -229,7 +240,7 @@ def _render(
             lines.append(f"  NOTE — pipeline corrections applied: {a['source_validity_flags']}")
     # The units themselves, not just their ids. Protected ones first and marked:
     # they are the kinds this pass is known to describe rather than carry.
-    referenced: list[str] = []
+    referenced: list[str] = list(cluster_members or [])
     for a in assessments:
         for key in ("supporting_unit_ids", "opposing_unit_ids", "qualifying_unit_ids"):
             for uid in a.get(key, []):
