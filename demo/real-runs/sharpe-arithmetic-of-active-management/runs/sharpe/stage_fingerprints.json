@@ -1,0 +1,8 @@
+{
+  "pass0-normalize": "3a0483f7c8ce92e44bd0f2288891462733815711a371f02b8c0c8f9df62bcabf",
+  "pass1-extract": "79ddd4ca0310faecf95cbada11bac37fdd06aefbc0872973562a5f43ca50a9fd",
+  "pass2-route": "3f257792f540a8f61272f28972aaece9195be73223a5b6e04cb8cfc168f6aec1",
+  "pass3-assess": "4661c054c968342d212a851615711e924dd59d00f00c6b252b09d76286347dfb",
+  "pass4-candidates": "d2903c9882624c08b07c2f25fbab6c22baf64a7f0d3367db7ef7a6ed23a536ab",
+  "pass6-enqueue": "f86c3126fc196efe02b32c79df5f1b2ffb3d58df0df8a29d541bc410421ee5a9"
+}
