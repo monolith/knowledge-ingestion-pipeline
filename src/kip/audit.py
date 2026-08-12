@@ -479,7 +479,7 @@ def _render(
             continue
         excerpt = (unit.get("evidence") or [{}])[0].get("excerpt", "")[:240]
         lines.append(
-            f"  {unit_id} [{unit['unit_type']}]"
+            f"  {unit_id}"
             f" (group={unit['independence_group']}): {unit['canonical_statement']}"
             f"\n    evidence: \"{excerpt}\""
         )

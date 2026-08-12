@@ -211,7 +211,7 @@ def envelope(
 # derivation: a pure function of (canonical_statement, prompt_version,
 # classifier_model). Braiding a derived label into the hash means re-deriving a
 # classification forges a new content hash and validate.py rejects the corpus,
-# which would make the taxonomy migration structurally impossible.
+# which would make re-deriving a field a content change.
 #
 # Schema 3.1.0 introduced this exclusion set, so 3.0.0 content hashes are NOT
 # comparable with 3.1.0 ones. That break is intentional and one-time.
@@ -221,12 +221,6 @@ DERIVED_FIELDS = frozenset(
         "content_sha256",
         "created_at",
         # Legacy and current classification labels, both derived.
-        "unit_type",
-        "type",
-        "family",
-        "type_tests",
-        "gates_fired",
-        "multi_fire",
         "modality",
         # A deontic modal the model reported on a unit that did not resolve to
         # `rule`. Derived from the same six answers as `modality` itself, so it
@@ -237,8 +231,6 @@ DERIVED_FIELDS = frozenset(
         "node_kind",
         "entity_mentions",
         # Stamps identifying which derivation produced the labels above.
-        "taxonomy_version",
-        "classifier_model",
         "migration_note",
     }
 )

@@ -18,7 +18,6 @@ from .artifacts import (
     stable_hash,
     text_hash,
 )
-from .taxonomy import FAMILY_OF, TYPES, UNCLASSIFIED
 
 # Above 40% of retained claims carrying no flag, `claim` has stopped being a
 # type and started being a bucket. Claim is the residual gate by design, so this
@@ -30,90 +29,6 @@ def _reseal(record: dict[str, Any]) -> str:
     # Deliberately delegates: the writer (artifacts.seal) and this checker must
     # never hold two copies of the exclusion rule.
     return stable_hash(seal_payload(record))
-
-
-def _check_taxonomy(
-    units: list[dict[str, Any]],
-    errors: list[str],
-    warnings: list[str],
-    counts: dict[str, int],
-) -> None:
-    """Structural checks on the kt-v1 classification block.
-
-    Only the first group is fatal. The rest are health metrics, and they are
-    warnings on purpose: a corpus whose classifier has drifted is still a valid
-    corpus, and failing the run would delete the evidence needed to diagnose the
-    drift.
-    """
-    classified = [u for u in units if "type" in u]
-    if not classified:
-        return
-
-    unflagged_claims = 0
-    unclassified = 0
-    split_candidates: list[str] = []
-    used_types: set[str] = set()
-
-    for unit in classified:
-        unit_id = unit.get("unit_id", "?")
-        unit_type = unit.get("type")
-        used_types.add(unit_type)
-
-        if unit_type not in TYPES + (UNCLASSIFIED,):
-            errors.append(f"{unit_id}: unknown type {unit_type!r}")
-            continue
-
-        expected_family = FAMILY_OF.get(unit_type)
-        if unit.get("family") != expected_family:
-            errors.append(
-                f"{unit_id}: family {unit.get('family')!r} inconsistent with "
-                f"type {unit_type!r} (expected {expected_family!r})"
-            )
-
-        # Modality is asked for on any deontic modal, but a modal on something
-        # that did not resolve to a rule means the type and the modality
-        # disagree about what the unit is -- one of the two is wrong, and which
-        # one cannot be decided here.
-        if unit.get("modality") is not None and unit_type != "rule":
-            errors.append(
-                f"{unit_id}: modality {unit['modality']!r} set on non-rule type {unit_type!r}"
-            )
-
-        if unit_type == "claim" and not unit.get("flags"):
-            unflagged_claims += 1
-        if unit_type == UNCLASSIFIED:
-            unclassified += 1
-        if unit.get("multi_fire"):
-            split_candidates.append(unit_id)
-
-    counts["classified_units"] = len(classified)
-    counts["unflagged_claims"] = unflagged_claims
-    counts["unclassified"] = unclassified
-    counts["multi_fire"] = len(split_candidates)
-
-    share = unflagged_claims / len(classified)
-    if share > UNFLAGGED_CLAIM_ALARM:
-        warnings.append(
-            f"unflagged-claim share {share:.1%} exceeds the "
-            f"{UNFLAGGED_CLAIM_ALARM:.0%} residual-absorption alarm "
-            f"({unflagged_claims}/{len(classified)} units): claim is the residual "
-            "gate and may be absorbing units the other five tests should have caught"
-        )
-
-    for dead in [t for t in TYPES if t not in used_types]:
-        warnings.append(f"type {dead!r} was never used in this run (dead label)")
-
-    if split_candidates:
-        warnings.append(
-            f"{len(split_candidates)} multi-fire units are split candidates: "
-            + ", ".join(split_candidates[:10])
-            + (" ..." if len(split_candidates) > 10 else "")
-        )
-
-    if unclassified:
-        warnings.append(
-            f"{unclassified} units are unclassified (no type test fired)"
-        )
 
 
 # Which id field names a record of each kind. Carried alongside the records so
@@ -402,7 +317,6 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
             errors.append(f"{event_id}: queued without an audit reference")
 
     # --- Taxonomy (kt-v1) -----------------------------------------------------
-    _check_taxonomy(units, errors, warnings, counts)
 
     # --- Coverage -------------------------------------------------------------
     successful = [r for r in registry if r.get("normalization_status") == "success"]

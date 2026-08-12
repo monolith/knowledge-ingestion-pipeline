@@ -28,16 +28,11 @@ from kip.artifacts import (
     write_json_atomic,
     write_jsonl_atomic,
 )
-from kip.taxonomy import TAXONOMY_VERSION
 from kip.validate import validate_run
 
 NORMALIZED = "Recall improved 8.2% in the sleep-extension group.\n"
 EXCERPT = "Recall improved 8.2% in the sleep-extension group."
 
-
-def _tests(*fired: str) -> dict[str, bool]:
-    names = ("is_case", "is_rule", "is_method", "is_concept", "is_model", "is_claim")
-    return {name: name in fired for name in names}
 
 
 def _build_run(root: Path) -> RunContext:
@@ -65,10 +60,6 @@ def _build_run(root: Path) -> RunContext:
         "source_id": "src-doc",
         "independence_group": "group-a",
         "canonical_statement": EXCERPT,
-        "unit_type": "quantitative_result",
-        "type": "claim",
-        "family": "semantic",
-        "type_tests": _tests("is_claim"),
         "gates_fired": 1,
         "multi_fire": False,
         "modality": None,
@@ -76,7 +67,6 @@ def _build_run(root: Path) -> RunContext:
         "quantitative": True,
         "node_kind": "unit",
         "entity_mentions": [],
-        "taxonomy_version": TAXONOMY_VERSION,
         "classifier_model": "m",
         "decision": "keep",
         "evidence": [{

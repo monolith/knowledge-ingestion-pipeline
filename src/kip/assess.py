@@ -234,7 +234,7 @@ def _render(units: list[dict[str, Any]], pairs: list[list[str]]) -> str:
         # was written to every unit and shown to no model anywhere.
         markers = "".join(f" [{flag}]" for flag in unit.get("flags") or [])
         lines.append(
-            f"\n{unit['unit_id']} [{unit['unit_type']}]{markers}"
+            f"\n{unit['unit_id']}{markers}"
             f" (source={unit['source_id']}, independence_group={unit['independence_group']})"
             f"\n  statement: {unit['canonical_statement']}"
             f"\n  qualifiers: {', '.join(unit.get('qualifiers', [])) or 'none'}"

@@ -99,7 +99,7 @@ def trace_leaf(ctx: RunContext, target: str) -> str | None:
         if unit is None:
             continue
         lines.append("  <-")
-        lines.append(f"unit {unit_id} [{unit['unit_type']}]  group={unit['independence_group']}")
+        lines.append(f"unit {unit_id}  group={unit['independence_group']}")
         lines.append(f"  {unit['canonical_statement']}")
         for evidence in unit.get("evidence", []):
             source = sources_by_id.get(evidence["source_id"], {})
@@ -121,7 +121,7 @@ def _render_unit_chain(
     sources_by_id: dict[str, dict[str, Any]],
     clusters: list[dict[str, Any]],
 ) -> str:
-    lines = [f"unit {unit['unit_id']} [{unit['unit_type']}]"]
+    lines = [f"unit {unit['unit_id']}"]
     lines.append(f"  {unit['canonical_statement']}")
     if unit.get("decontextualization_note"):
         lines.append(f"  decontextualization: {unit['decontextualization_note']}")

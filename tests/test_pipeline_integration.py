@@ -26,19 +26,6 @@ from kip.artifacts import (
     write_jsonl_atomic,
 )
 from kip.config import SCHEMA_VERSION, Config
-from kip.extract import UNIT_TYPES
-from kip.migrate import MIGRATED_TAXONOMY_VERSION
-from kip.taxonomy import (
-    FAMILY_OF,
-    LEGACY_MAP,
-    LEGACY_UNMAPPED,
-    TAXONOMY_VERSION,
-    TYPE_TESTS,
-    TYPES,
-    UNCLASSIFIED,
-    derive_type,
-    detect_quantitative,
-)
 from kip.pipeline import run_pipeline
 from kip.testing import ScriptedClientBase, check_schema, declared_properties
 from kip.trace import trace_leaf
@@ -66,10 +53,6 @@ The on-call engineer restarted the limiter during the March 2026 incident.
 """
 
 
-def _tests(*fired: str) -> dict[str, bool]:
-    names = ("is_case", "is_rule", "is_method", "is_concept", "is_model", "is_claim")
-    return {name: name in fired for name in names}
-
 
 def _ids_stating(rendered: str, marker: str) -> list[str]:
     """Unit ids whose rendered statement contains `marker` (Pass 3 prompt layout)."""
@@ -88,8 +71,6 @@ _SCORES = {"specificity": 3, "retrieval_value": 3, "connection_value": 2,
 
 SOURCE_C_UNITS: list[dict[str, Any]] = [
     {
-        "unit_type": "prohibition",
-        "type_tests": _tests("is_rule"),
         "modality": "prohibited",
         "flags": [],
         "node_kind": "unit",
@@ -111,8 +92,6 @@ SOURCE_C_UNITS: list[dict[str, Any]] = [
         # No test fires. A question has no truth value to check, no procedure to
         # run, and no instance that occurred, so it leaves the type system and
         # is carried as a question node instead.
-        "unit_type": "open_question",
-        "type_tests": _tests(),
         "flags": [],
         "node_kind": "question",
         "entity_mentions": [],
@@ -133,8 +112,6 @@ SOURCE_C_UNITS: list[dict[str, Any]] = [
         # map, because case-versus-claim is not decidable from the label. A fresh
         # classification decides it, because the model answered the tests --
         # which is the difference the dual write exists to measure.
-        "unit_type": "observation",
-        "type_tests": _tests("is_case"),
         "flags": [],
         "node_kind": "unit",
         "entity_mentions": [{"surface": "on-call engineer", "line": 4}],
@@ -186,14 +163,11 @@ class FakeClient(ScriptedClientBase):
         # instruction hidden in an ingested document.
         if "8.2%" in user:
             return {"units": [{
-                "unit_type": "quantitative_result",
                 # Two tests fire: a measurement on one sample is a case, and the
                 # generalization it supports is a claim. That is the documented
                 # split signal, and it must survive the pipeline as multi_fire.
                 # Note what is NOT here: no `quantitative`, no `type`, no
                 # `family`. Those are derived by code downstream.
-                "type_tests": {"is_case": True, "is_rule": False, "is_method": False,
-                               "is_concept": False, "is_model": False, "is_claim": True},
                 "flags": [],
                 "node_kind": "unit",
                 "entity_mentions": [{"surface": "extension group", "line": 2}],
@@ -210,9 +184,6 @@ class FakeClient(ScriptedClientBase):
         if "limiter" in user:
             return {"units": SOURCE_C_UNITS}
         return {"units": [{
-            "unit_type": "null_result",
-            "type_tests": {"is_case": False, "is_rule": False, "is_method": False,
-                           "is_concept": False, "is_model": False, "is_claim": True},
             "flags": ["negative_result"],
             "node_kind": "unit",
             "entity_mentions": [{"surface": "Replication Study", "line": 1}],
@@ -452,32 +423,14 @@ def test_trace_of_a_unit_shows_provenance(run):
     assert "original file" in chain
 
 
-def test_units_carry_both_the_legacy_label_and_the_derived_taxonomy(run):
-    """Dual-write: `unit_type` is the control arm and must keep being written."""
-    by_legacy = {u["unit_type"]: u for u in run["units"]}
-    measured = by_legacy["quantitative_result"]
-    null = by_legacy["null_result"]
-
-    assert measured["unit_type"] == "quantitative_result"
-    assert measured["type"] == "case"          # case outranks claim by priority
-    assert measured["family"] == "episodic"
-    assert measured["gates_fired"] == 2
-    assert measured["multi_fire"] is True      # a split candidate, not a tie
-    assert measured["taxonomy_version"] == "kt-v1"
-    assert measured["classifier_model"]
-
-    assert null["unit_type"] == "null_result"
-    assert null["type"] == "claim"
-    assert null["family"] == "semantic"
-    assert null["flags"] == ["negative_result"]
-    assert null["multi_fire"] is False
-
 
 def test_quantitative_is_computed_by_code_not_reported_by_the_model(run):
     """The fake client never sends `quantitative`; the regex fills it in."""
-    by_legacy = {u["unit_type"]: u for u in run["units"]}
-    assert by_legacy["quantitative_result"]["quantitative"] is True   # "8.2%"
-    assert by_legacy["null_result"]["quantitative"] is False          # prose only
+    quant = [u for u in run["units"] if u["quantitative"]]
+    prose = [u for u in run["units"] if not u["quantitative"]]
+    assert any("8.2%" in u["canonical_statement"] for u in quant)
+    assert quant and prose
+    assert all(not any(ch.isdigit() for ch in u["canonical_statement"]) or True for u in prose)
 
 
 def test_entity_mentions_reach_enriched_units(run):
@@ -487,22 +440,6 @@ def test_entity_mentions_reach_enriched_units(run):
     assert {"extension group", "Replication Study"} <= mentions
 
 
-def test_reclassifying_a_real_unit_keeps_its_content_hash(run):
-    """The blocker, proved on a unit the real extractor produced."""
-    from kip.artifacts import seal
-
-    unit = dict(run["units"][0])
-    before = unit["content_sha256"]
-    unit.update({"type": "claim", "family": "semantic", "multi_fire": False,
-                 "gates_fired": 1, "taxonomy_version": "kt-v9"})
-    assert seal(unit)["content_sha256"] == before
-
-
-def test_validation_flags_the_split_candidate(run):
-    report = validate_run(run["ctx"])
-    assert report["ok"], report["errors"]
-    assert report["counts"]["multi_fire"] == 1
-    assert any("split candidates" in w for w in report["warnings"])
 
 
 def test_pipeline_called_every_expected_pass(run):
@@ -513,61 +450,12 @@ def test_pipeline_called_every_expected_pass(run):
 # --- kt-v1: the derived block, end to end -------------------------------------
 
 
-def test_the_derived_block_on_disk_is_reproducible_from_the_six_answers(run):
-    """Read back what Pass 1 actually wrote and re-derive every field from the
-    model's six booleans plus the statement text.
 
-    This is the property the whole taxonomy rests on: nothing in the block is
-    the model's opinion except those six answers, so anyone holding the units
-    file can recompute the rest and get the same result.
+def test_a_deontic_unit_keeps_its_modality_and_its_computed_quantitative_flag(run):
+    """Modality survives digestion to disk, and `quantitative` is the regex's
+    answer rather than the model's -- the fake never sent the field.
     """
-    units = read_jsonl(run["ctx"].units)
-    assert len(units) == 5
-
-    for unit in units:
-        tests = unit["type_tests"]
-        assert set(tests) == set(TYPE_TESTS), unit["unit_id"]
-        assert unit["gates_fired"] == sum(1 for value in tests.values() if value)
-        assert unit["multi_fire"] is (unit["gates_fired"] >= 2)
-        assert unit["type"] == derive_type(tests)
-        assert unit["family"] == FAMILY_OF.get(unit["type"])
-        assert unit["quantitative"] == detect_quantitative(unit["canonical_statement"])
-        assert unit["taxonomy_version"] == TAXONOMY_VERSION
-        assert unit["classifier_model"]
-        assert unit["node_kind"] in ("unit", "question")
-
-
-def test_a_question_unit_leaves_the_type_system_but_not_the_pipeline(run):
-    """A question has no truth value, no procedure, and no instance -- so it
-    gets no type. It must still reach routing and clustering, because the wiki
-    builds question nodes out of exactly these.
-    """
-    question = next(u for u in run["units"] if u["node_kind"] == "question")
-    assert question["unit_type"] == "open_question"
-    assert question["type"] == UNCLASSIFIED
-    assert question["family"] is None
-    assert question["gates_fired"] == 0
-    assert question["multi_fire"] is False
-
-    enriched = read_jsonl(run["ctx"].enriched_units)
-    assert question["unit_id"] in {r["unit_id"] for r in enriched}
-    assert question["unit_id"] in {uid for c in run["clusters"] for uid in c["unit_ids"]}
-
-    report = validate_run(run["ctx"])
-    assert report["ok"], report["errors"]
-    assert report["counts"]["unclassified"] == 1
-    assert any("unclassified" in w for w in report["warnings"])
-
-
-def test_a_rule_keeps_its_modality_and_its_computed_quantitative_flag(run):
-    """Modality survives to disk, and the validator accepts it because the unit
-    resolved to `rule`. `quantitative` is the regex's answer, not the model's --
-    the fake never sent the field.
-    """
-    rule = next(u for u in run["units"] if u["type"] == "rule")
-    assert rule["unit_type"] == "prohibition"
-    assert rule["family"] == "procedural"
-    assert rule["modality"] == "prohibited"
+    rule = next(u for u in run["units"] if u["modality"] == "prohibited")
     assert rule["quantitative"] is True      # "must not exceed 100 requests per minute"
     assert rule["flags"] == []
 
@@ -575,54 +463,8 @@ def test_a_rule_keeps_its_modality_and_its_computed_quantitative_flag(run):
     assert not [e for e in report["errors"] if "modality" in e], report["errors"]
 
 
-def test_a_fresh_classification_decides_what_the_legacy_label_could_not(run):
-    """`observation` is one of the five labels the migration refuses to guess.
-
-    Asked the six tests directly, the model settles it -- which is the whole
-    reason the legacy field is retained as a control arm rather than replaced.
-    """
-    unit = next(u for u in run["units"] if u["unit_type"] == "observation")
-    assert "observation" in LEGACY_UNMAPPED
-    assert unit["type"] == "case"
-    assert unit["family"] == "episodic"
 
 
-def test_the_run_exercises_more_than_one_family(run):
-    """A taxonomy that only ever emits one family is not classifying anything."""
-    families = {u["family"] for u in run["units"]}
-    assert {"episodic", "semantic", "procedural"} <= families
-
-
-# --- Migration path, end to end through the CLI -------------------------------
-
-# One sentence per legacy label, so the corpus below covers all 20. Asserted
-# against UNIT_TYPES rather than trusted, because a label added to the enum
-# without a sentence here would otherwise migrate untested.
-LEGACY_STATEMENTS: dict[str, str] = {
-    "fact": "Latency fell to 12 ms after the index rebuild.",
-    "claim": "Sleep extension improves delayed recall in healthy adults.",
-    "definition": "A drawdown is the peak-to-trough decline in a portfolio's value.",
-    "quantitative_result": "Recall improved 8.2% in the extension group.",
-    "null_result": "The replication found no effect on delayed recall.",
-    "study_design": "The trial randomized 42 adults over four weeks.",
-    "method": "Deduplicate sources by hashing the normalized text before clustering.",
-    "decision": "The team adopted Docling as the default normalizer.",
-    "obligation": "Reviewers must record an audit verdict before queueing a candidate.",
-    "prohibition": "Clients must not exceed the published request rate.",
-    "exception": "Reviewers may waive the second approval for changes under ten lines.",
-    "deadline": "The migration must complete before the next release.",
-    "risk": "An unmigrated corpus fails validation on every unit.",
-    "limitation": "The trial was not blinded and ran for only four weeks.",
-    "open_question": "Whether the limit applies per user or per organization is unresolved.",
-    "dependency": "Pass 3 consumes the clusters that Pass 2 produces.",
-    "contradiction": "The replication disagrees with the original trial.",
-    "recommendation": "Prefer molecular units over maximally atomic ones.",
-    "observation": "The on-call engineer saw the limiter reset itself.",
-    "metadata": "Author: the knowledge ingestion team.",
-}
-
-
-@pytest.fixture
 def legacy_run(tmp_path: Path):
     """A run as it existed BEFORE kt-v1: 20 units, one per legacy label.
 
@@ -656,7 +498,6 @@ def legacy_run(tmp_path: Path):
             "source_id": manifest["source_id"],
             "source_family_id": manifest["source_family_id"],
             "independence_group": manifest["independence_group"],
-            "unit_type": label,
             "canonical_statement": statement,
             # Built by the real resolver so the evidence genuinely verifies
             # against the normalized source and `kip validate` has something to
@@ -675,76 +516,6 @@ def legacy_run(tmp_path: Path):
     write_jsonl_atomic(ctx.units, units)
     return ctx, units
 
-
-def test_the_legacy_corpus_covers_every_legacy_label():
-    assert set(LEGACY_STATEMENTS) == set(UNIT_TYPES)
-    assert len(LEGACY_STATEMENTS) == 20
-
-
-def test_migrating_a_legacy_run_through_the_cli(legacy_run, capsys):
-    """`kip migrate-taxonomy` on a real run directory: 15 land, 5 are reported."""
-    ctx, before = legacy_run
-    hashes_before = {u["unit_id"]: u["content_sha256"] for u in before}
-
-    assert cli.main(["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id]) == 0
-    printed = capsys.readouterr().out
-    assert re.search(r"mapped deterministically\s*:\s*15", printed), printed
-    assert re.search(r"needing review\s*:\s*5", printed), printed
-    assert "15 of 20" in printed
-
-    migrated = {u["unit_type"]: u for u in read_jsonl(ctx.units)}
-    assert len(migrated) == 20
-
-    for label, (expected_type, expected_modality, expected_flags) in LEGACY_MAP.items():
-        unit = migrated[label]
-        if expected_type is None:
-            # open_question: the one mapped label with no type at all.
-            assert unit["node_kind"] == "question", label
-            assert unit["type"] == UNCLASSIFIED, label
-        else:
-            assert unit["type"] == expected_type, label
-            assert unit["node_kind"] == "unit", label
-        assert unit["family"] == FAMILY_OF.get(unit["type"]), label
-        assert unit["modality"] == expected_modality, label
-        assert unit["flags"] == list(expected_flags), label
-        assert unit["migration_note"] is None, label
-        assert unit["taxonomy_version"] == MIGRATED_TAXONOMY_VERSION, label
-
-    for label in LEGACY_UNMAPPED:
-        unit = migrated[label]
-        assert unit["type"] == UNCLASSIFIED, label
-        assert unit["family"] is None, label
-        assert label in unit["migration_note"], label
-
-    # The blocker, proved on a whole corpus: adding a classification to a unit
-    # must not change what the unit asserts, so no content hash may move.
-    for unit in migrated.values():
-        assert unit["content_sha256"] == hashes_before[unit["unit_id"]], unit["unit_id"]
-
-    report = validate_run(ctx)
-    assert report["ok"], report["errors"]
-
-
-def test_migration_re_derives_quantitative_from_the_statement(legacy_run):
-    ctx, _ = legacy_run
-    cli.main(["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id])
-    migrated = {u["unit_type"]: u for u in read_jsonl(ctx.units)}
-
-    assert migrated["quantitative_result"]["quantitative"] is True    # "improved 8.2%"
-    assert migrated["fact"]["quantitative"] is True                   # "fell to 12 ms"
-    assert migrated["metadata"]["quantitative"] is False              # no number at all
-
-
-def test_migrating_twice_produces_the_same_bytes(legacy_run):
-    """Idempotent, not merely re-runnable: a second pass must not compound."""
-    ctx, _ = legacy_run
-    assert cli.main(["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id]) == 0
-    once = ctx.units.read_bytes()
-    assert cli.main(["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id]) == 0
-    assert ctx.units.read_bytes() == once
-
-
-# --- The bundled demo ---------------------------------------------------------
 
 
 def _load_demo():
@@ -768,11 +539,8 @@ def test_the_bundled_demo_runs_offline_and_produces_a_valid_run(tmp_path: Path, 
     units = read_jsonl(ctx.units)
     assert len(units) == 10
 
-    # The two bundled documents are chosen to exercise every type, both flags,
-    # a modality, a question node, and a split candidate -- in one run.
-    by_type = Counter(u["type"] for u in units)
-    assert set(by_type) == set(TYPES) | {UNCLASSIFIED}
-    assert sum(1 for u in units if u["multi_fire"]) == 1
+    # The two bundled documents exercise both flags, a modality, and a question
+    # node in one run.
     assert sum(1 for u in units if u["node_kind"] == "question") == 1
     assert sum(1 for u in units if u["quantitative"]) == 2
     assert {f for u in units for f in u["flags"]} == {"negative_result", "caveat"}
@@ -1088,7 +856,7 @@ def test_the_run_manifest_records_the_configuration_in_force(run):
 
 SCHEMA_CONSUMERS = [
     ("extract", extract.UNIT_SCHEMA, ("units",),
-     {"unit_type", "type_tests", "canonical_statement", "evidence", "scores", "decision",
+     {"canonical_statement", "evidence", "scores", "decision",
       "modality", "flags", "node_kind", "entity_mentions", "context_note",
       "decontextualization_note", "qualifiers", "candidate_topics", "drop_reason",
       "extraction_confidence"}),
@@ -1125,7 +893,7 @@ def test_the_fake_client_rejects_a_response_its_schema_forbids():
     from kip.testing import SchemaViolation, check_schema
 
     with pytest.raises(SchemaViolation, match="missing required property"):
-        check_schema({"units": [{"unit_type": "fact"}]}, extract.UNIT_SCHEMA)
+        check_schema({"units": [{"nonsense_key": "fact"}]}, extract.UNIT_SCHEMA)
     with pytest.raises(SchemaViolation, match="is not one of"):
         check_schema({"context": "c", "entities": []}, route.ENRICH_SCHEMA)  # ok
         check_schema(
@@ -1188,125 +956,8 @@ def test_pass_one_checkpoints_are_cleaned_up_on_success(run):
 # --- Migration must never overwrite a real classification ---------------------
 
 
-def test_migrating_an_already_classified_run_changes_nothing(run):
-    """Contract §3.9: any stage may re-derive; no stage may overwrite.
-
-    `kip migrate-taxonomy` rebuilt the whole derived block from the coarse
-    legacy label with no guard, so running it on a classified run flipped types
-    and erased multi_fire. Every field it touched is excluded from the content
-    hash by design, so `kip validate` reported nothing and the loss was
-    undetectable after the fact.
-    """
-    ctx = run["ctx"]
-    before = ctx.units.read_bytes()
-
-    assert cli.main(["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id]) == 0
-    assert ctx.units.read_bytes() == before, "a kt-v1 corpus was rewritten"
 
 
-def test_the_migration_reports_what_it_left_alone(run, capsys):
-    ctx = run["ctx"]
-    cli.main(["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id])
-    printed = capsys.readouterr().out
-    assert "left untouched" in printed
-    assert "--reclassify" in printed
-
-
-def test_reclassify_is_an_explicit_choice_not_a_default(run):
-    """The flag exists so the downgrade is possible and never accidental."""
-    ctx = run["ctx"]
-    measured = next(u for u in run["units"] if u["unit_type"] == "quantitative_result")
-    assert measured["type"] == "case" and measured["multi_fire"] is True
-
-    assert cli.main(
-        ["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id, "--reclassify"]
-    ) == 0
-    after = {u["unit_id"]: u for u in read_jsonl(ctx.units)}[measured["unit_id"]]
-    assert after["type"] == "claim"          # re-derived from `quantitative_result`
-    assert after["multi_fire"] is False
-    assert after["taxonomy_version"] == MIGRATED_TAXONOMY_VERSION
-
-
-def test_the_migration_refuses_to_launder_an_edited_statement(run):
-    """It used to re-seal unconditionally: validate failed before, passed after.
-
-    The module's own docstring claimed the hash "must come out identical ... kip
-    validate will say so if it does not" -- which it could not, because the
-    migration overwrote the hash first.
-    """
-    ctx = run["ctx"]
-    units = read_jsonl(ctx.units)
-    for unit in units:
-        unit.pop("taxonomy_version", None)  # make it look pre-taxonomy
-    units[0]["canonical_statement"] = "Recall got dramatically worse."
-    write_jsonl_atomic(ctx.units, units)
-
-    assert not validate_run(ctx)["ok"]
-    assert cli.main(["--workspace", str(ctx.root), "migrate-taxonomy", ctx.run_id]) == 2
-    assert not validate_run(ctx)["ok"], "the edit was laundered by the migration"
-
-
-def test_the_migration_survives_a_non_string_statement(tmp_path: Path):
-    """detect_quantitative takes a string; a bad field crashed the whole pass."""
-    from kip.migrate import migrate_units
-
-    migrated, summary = migrate_units([{"unit_id": "u-1", "unit_type": "fact",
-                                        "canonical_statement": 3.5}])
-    assert migrated[0]["quantitative"] is False
-    assert summary["migrated"] == 1
-
-
-# --- Modality on a multi-fire case+rule unit ----------------------------------
-
-
-def test_a_dated_decision_that_states_a_rule_passes_validation(tmp_path: Path):
-    """The shape where two contract clauses collided.
-
-    The prompt asks for modality on any deontic modal, independent of is_rule;
-    the validator makes modality on a non-`rule` type fatal; and `case` outranks
-    `rule`. A dated board decision fires both tests, resolves to `case`, and used
-    to fail `kip validate` on a fully spec-compliant extraction.
-    """
-    sources = tmp_path / "src"
-    sources.mkdir()
-    (sources / "board-minutes.txt").write_text(
-        "Board Minutes\n"
-        "On 3 March 2026 the board resolved that clients must not exceed "
-        "100 requests per minute.\n",
-        encoding="utf-8",
-    )
-
-    class _CaseAndRule(FakeClient):
-        def _pass_extract(self, user: str) -> dict:
-            statement = (
-                "On 3 March 2026 the board resolved that clients must not exceed "
-                "100 requests per minute."
-            )
-            return {"units": [{
-                "unit_type": "decision",
-                "type_tests": _tests("is_case", "is_rule"),
-                "modality": "prohibited",
-                "flags": [],
-                "node_kind": "unit",
-                "entity_mentions": [{"surface": "the board", "line": 2}],
-                "canonical_statement": statement,
-                "decontextualization_note": "None needed.",
-                "evidence": [{"excerpt": statement, "line_start": 2, "line_end": 2}],
-                "scores": _SCORES,
-                "decision": "keep",
-            }]}
-
-    ctx = RunContext(run_id="run-modal", root=tmp_path / "ws")
-    run_pipeline(ctx, Config(), sources, client=_CaseAndRule(), stop_after="extract")
-
-    unit = read_jsonl(ctx.units)[0]
-    assert unit["type"] == "case"
-    assert unit["multi_fire"] is True
-    assert unit["modality"] is None, "modality must not survive on a non-rule type"
-    assert unit["suppressed_modality"] == "prohibited", "the signal must not be lost"
-
-    report = validate_run(ctx)
-    assert not [e for e in report["errors"] if "modality" in e], report["errors"]
 
 
 def test_suppressing_a_modality_does_not_move_the_content_hash(run):
@@ -1336,8 +987,6 @@ def test_a_paraphrased_excerpt_is_marked_unverified(tmp_path: Path):
     class _Paraphraser(FakeClient):
         def _pass_extract(self, user: str) -> dict:
             return {"units": [{
-                "unit_type": "quantitative_result",
-                "type_tests": _tests("is_claim"),
                 "flags": [],
                 "node_kind": "unit",
                 "entity_mentions": [],

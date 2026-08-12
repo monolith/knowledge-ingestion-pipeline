@@ -153,7 +153,6 @@ def _enrich(
                 system=ENRICH_SYSTEM,
                 user=(
                     f"Source: {unit['source_id']} (family {unit['source_family_id']})\n"
-                    f"Unit type: {unit['unit_type']}\n"
                     f"Statement: {unit['canonical_statement']}\n"
                     f"Topics: {', '.join(unit.get('candidate_topics', [])) or 'none'}\n\n"
                     "Write the retrieval context."
@@ -181,7 +180,6 @@ def _enrich(
                     "source_id": unit["source_id"],
                     "source_family_id": unit["source_family_id"],
                     "independence_group": unit["independence_group"],
-                    "unit_type": unit["unit_type"],
                     "canonical_statement": unit["canonical_statement"],
                     "candidate_topics": unit.get("candidate_topics", []),
                     "enrichment_context": context,
@@ -314,7 +312,7 @@ def _label_clusters(
     for index, members in enumerate(groups, start=1):
         units = [enriched[m] for m in members]
         listing = "\n".join(
-            f"- [{u['unit_type']}] {u['canonical_statement']}" for u in units[:60]
+            f"- {u['canonical_statement']}" for u in units[:60]
         )
         try:
             labelled = client.complete_json(

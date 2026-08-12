@@ -46,7 +46,6 @@ if str(REPO_ROOT / "src") not in sys.path:
 from kip.artifacts import RunContext, read_jsonl  # noqa: E402
 from kip.config import Config, default_config  # noqa: E402
 from kip.pipeline import run_pipeline  # noqa: E402
-from kip.taxonomy import TYPES, UNCLASSIFIED, derive_family  # noqa: E402
 from kip.testing import ScriptedClientBase  # noqa: E402
 from kip.validate import validate_run  # noqa: E402
 
@@ -324,12 +323,8 @@ def _first_statement(text: str) -> str:
 # Note what these records do NOT contain: no `type`, no `family`, no
 # `quantitative`, no `gates_fired`. A model answers six independent booleans and
 # nothing else; every derived field in the artifact tree is computed by
-# kip.taxonomy from those booleans plus the statement text.
+# the statement text.
 
-
-def _tests(*fired: str) -> dict[str, bool]:
-    names = ("is_case", "is_rule", "is_method", "is_concept", "is_model", "is_claim")
-    return {name: name in fired for name in names}
 
 
 def _scores(**overrides: int) -> dict[str, int]:
@@ -346,8 +341,6 @@ def _scores(**overrides: int) -> dict[str, int]:
 
 TRIAL_UNITS: list[dict[str, Any]] = [
     {
-        "unit_type": "study_design",
-        "type_tests": _tests("is_case"),
         "node_kind": "unit",
         "entity_mentions": [{"surface": "nine-hour sleep opportunity", "line": 5}],
         "canonical_statement": (
@@ -369,12 +362,10 @@ TRIAL_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "quantitative_result",
         # Two tests fire on purpose: a measurement taken on one sample is a
         # case, and the generalization it is offered as support for is a claim.
         # That is the documented split signal, and it must reach the artifacts
         # as multi_fire rather than being silently resolved.
-        "type_tests": _tests("is_case", "is_claim"),
         "node_kind": "unit",
         "entity_mentions": [{"surface": "extension group", "line": 10}],
         "canonical_statement": (
@@ -396,8 +387,6 @@ TRIAL_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "quantitative_result",
-        "type_tests": _tests("is_case"),
         "node_kind": "unit",
         "entity_mentions": [{"surface": "extension group", "line": 11}],
         "canonical_statement": (
@@ -415,8 +404,6 @@ TRIAL_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "limitation",
-        "type_tests": _tests("is_claim"),
         "flags": ["caveat"],
         "node_kind": "unit",
         "entity_mentions": [],
@@ -439,11 +426,9 @@ TRIAL_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "open_question",
         # Nothing fires: a question has no truth value to check, no procedure to
         # run, and no instance that occurred. It leaves the type system and is
         # carried as a question node instead.
-        "type_tests": _tests(),
         "node_kind": "question",
         "entity_mentions": [],
         "canonical_statement": (
@@ -465,8 +450,6 @@ TRIAL_UNITS: list[dict[str, Any]] = [
 
 REVIEW_UNITS: list[dict[str, Any]] = [
     {
-        "unit_type": "definition",
-        "type_tests": _tests("is_concept"),
         "node_kind": "unit",
         "entity_mentions": [{"surface": "Delayed recall", "line": 5}],
         "canonical_statement": (
@@ -488,8 +471,6 @@ REVIEW_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "fact",
-        "type_tests": _tests("is_model"),
         "node_kind": "unit",
         "entity_mentions": [{"surface": "Hippocampal replay", "line": 9}],
         "canonical_statement": (
@@ -511,8 +492,6 @@ REVIEW_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "null_result",
-        "type_tests": _tests("is_claim"),
         # The one unanimous flag. "X had no effect" reads to a search index
         # almost exactly like "X had an effect", so an unmarked null result is
         # effectively invisible and gets summarized out of existence.
@@ -538,8 +517,6 @@ REVIEW_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "prohibition",
-        "type_tests": _tests("is_rule"),
         "modality": "prohibited",
         "node_kind": "unit",
         "entity_mentions": [],
@@ -562,8 +539,6 @@ REVIEW_UNITS: list[dict[str, Any]] = [
         "decision": "keep",
     },
     {
-        "unit_type": "method",
-        "type_tests": _tests("is_method"),
         "node_kind": "unit",
         "entity_mentions": [],
         "canonical_statement": (
@@ -593,51 +568,6 @@ REVIEW_UNITS: list[dict[str, Any]] = [
 def _bar(count: int, width: int = 24) -> str:
     return "#" * min(count, width)
 
-
-def taxonomy_summary(units: list[dict[str, Any]]) -> list[str]:
-    """The kt-v1 view of a finished corpus. Every number here is derived."""
-    by_type = Counter(u.get("type") for u in units)
-    by_family = Counter(u.get("family") or "(none)" for u in units)
-    by_flag: Counter[str] = Counter()
-    for unit in units:
-        by_flag.update(unit.get("flags") or [])
-
-    lines = ["units by type", ""]
-    for name in TYPES + (UNCLASSIFIED,):
-        count = by_type.get(name, 0)
-        family = derive_family(name) or "-"
-        lines.append(f"  {name:<14} {count:>3}  {_bar(count):<24}  family: {family}")
-
-    lines += ["", "units by family", ""]
-    for name in ("semantic", "procedural", "episodic", "(none)"):
-        count = by_family.get(name, 0)
-        lines.append(f"  {name:<14} {count:>3}  {_bar(count)}")
-
-    lines += ["", "flags and derived signals", ""]
-    for name in ("negative_result", "caveat"):
-        lines.append(f"  {name:<24} {by_flag.get(name, 0):>3}")
-    lines.append(
-        f"  {'quantitative':<24} {sum(1 for u in units if u.get('quantitative')):>3}"
-        "   (computed by regex, never asked)"
-    )
-    lines.append(
-        f"  {'multi_fire':<24} {sum(1 for u in units if u.get('multi_fire')):>3}"
-        "   (split candidates)"
-    )
-    lines.append(
-        f"  {'unclassified':<24} {by_type.get(UNCLASSIFIED, 0):>3}"
-        "   (no test fired; an abstain, not an error)"
-    )
-    lines.append(
-        f"  {'node_kind=question':<24} "
-        f"{sum(1 for u in units if u.get('node_kind') == 'question'):>3}"
-    )
-    modalities = Counter(u["modality"] for u in units if u.get("modality"))
-    lines.append(
-        f"  {'modality set':<24} {sum(modalities.values()):>3}"
-        f"   ({', '.join(f'{k}={v}' for k, v in sorted(modalities.items())) or 'none'})"
-    )
-    return lines
 
 
 def dual_write_table(units: list[dict[str, Any]]) -> list[str]:
@@ -685,8 +615,6 @@ def print_report(
             print(f"      {name:<16} {count}")
 
     section("knowledge types (kt-v1)")
-    for line in taxonomy_summary(units):
-        print(line)
 
     section("dual write: the retained legacy label beside the derived type")
     for line in dual_write_table(units):

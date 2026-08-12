@@ -15,7 +15,6 @@ from pathlib import Path
 from .artifacts import PipelineError, RunContext, file_hash, read_jsonl
 from .auth import format_status, resolve_auth
 from .config import default_config
-from .migrate import format_summary, migrate_run
 from .pipeline import discover_sources, run_pipeline
 from .trace import trace_leaf
 from .validate import validate_run
@@ -107,21 +106,6 @@ def cmd_trace(args: argparse.Namespace) -> int:
     return 0
 
 
-def cmd_migrate_taxonomy(args: argparse.Namespace) -> int:
-    ctx = RunContext(run_id=args.run_id, root=Path(args.workspace).resolve())
-    if not ctx.units.exists():
-        print(f"error: {ctx.units} does not exist", file=sys.stderr)
-        return 1
-    try:
-        summary = migrate_run(ctx, reclassify=args.reclassify)
-    except PipelineError as exc:
-        print(f"error: {exc}", file=sys.stderr)
-        return 2
-    print(format_summary(summary))
-    if args.json:
-        print(json.dumps(summary, indent=2))
-    return 0
-
 
 def cmd_auth(args: argparse.Namespace) -> int:
     """Report which credential tier resolves, without spending a token.
@@ -193,22 +177,6 @@ def main(argv: list[str] | None = None) -> int:
     trace.add_argument("target", help="candidate_id, queue_event_id, or unit_id")
     trace.set_defaults(func=cmd_trace)
 
-    migrate = sub.add_parser(
-        "migrate-taxonomy",
-        help="Backfill kt-v1 taxonomy fields onto a run's units (idempotent)",
-    )
-    migrate.add_argument("run_id")
-    migrate.add_argument("--json", action="store_true", help="Also print the raw summary")
-    migrate.add_argument(
-        "--reclassify",
-        action="store_true",
-        help=(
-            "Also rewrite units that already carry a real kt-v1 classification. "
-            "This REPLACES a model's six independent answers with labels re-derived "
-            "from one coarse legacy label; off by default for that reason."
-        ),
-    )
-    migrate.set_defaults(func=cmd_migrate_taxonomy)
 
     auth = sub.add_parser(
         "auth",

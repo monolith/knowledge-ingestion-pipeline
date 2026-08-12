@@ -12,35 +12,10 @@ from typing import Any
 from .artifacts import RunContext, envelope, read_jsonl, seal, text_hash, write_jsonl_atomic
 from .config import Config
 from .llm import DATA_BOUNDARY_NOTE, LLMClient, wrap_untrusted
-from .taxonomy import (
-    FLAGS,
-    MODALITIES,
-    NODE_KINDS,
-    TAXONOMY_VERSION,
-    TYPE_TESTS,
-    derive_family,
-    derive_type,
-    detect_quantitative,
-    gates_fired,
-    multi_fire,
-    normalize_flags,
-    normalize_modality,
-)
+from .vocab import FLAGS, MODALITIES, NODE_KINDS, detect_quantitative, normalize_flags, normalize_modality
 
 PROMPT_VERSION = "pass-01-molecular-extraction-v3.1"
 OMISSION_PROMPT_VERSION = "pass-01b-omission-check-v3.0"
-
-# The pre-kt-v1 flat ontology. RETAINED, still asked for, still written to every
-# record -- this is a dual-write, and `unit_type` is the control arm of the
-# taxonomy evaluation. Deleting it would destroy the comparison the whole
-# migration exists to make.
-UNIT_TYPES = [
-    "fact", "claim", "definition", "quantitative_result", "null_result",
-    "study_design", "method", "decision", "obligation", "prohibition",
-    "exception", "deadline", "dependency", "risk", "limitation",
-    "contradiction", "recommendation", "open_question", "observation",
-    "metadata",
-]
 
 # --- System prompt ------------------------------------------------------------
 # Every rule below is a spec decision, and the wording is deliberately close to
@@ -219,19 +194,6 @@ ENTITY_MENTION_SCHEMA = {
     "additionalProperties": False,
 }
 
-# All six tests are REQUIRED in the same schema object, so the model answers them
-# in one call. Binary present/absent judgments measured ~90% higher odds of a
-# correct assignment than one multiclass choice; an ordered chain of six separate
-# LLM gates would give back more than it gained by compounding their error rates.
-# Priority resolution therefore happens in code (taxonomy.derive_type), where it
-# can change without a prompt rewrite.
-TYPE_TESTS_SCHEMA = {
-    "type": "object",
-    "properties": {name: {"type": "boolean"} for name in TYPE_TESTS},
-    "required": list(TYPE_TESTS),
-    "additionalProperties": False,
-}
-
 UNIT_SCHEMA = {
     "type": "object",
     "properties": {
@@ -240,8 +202,6 @@ UNIT_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "unit_type": {"type": "string", "enum": UNIT_TYPES},
-                    "type_tests": TYPE_TESTS_SCHEMA,
                     "modality": {"type": "string", "enum": list(MODALITIES)},
                     "flags": {"type": "array", "items": {"type": "string", "enum": list(FLAGS)}},
                     "node_kind": {"type": "string", "enum": list(NODE_KINDS)},
@@ -275,8 +235,7 @@ UNIT_SCHEMA = {
                     "extraction_confidence": {"type": "number"},
                 },
                 "required": [
-                    "unit_type", "type_tests", "canonical_statement", "evidence",
-                    "scores", "decision",
+                    "canonical_statement", "evidence", "scores", "decision",
                 ],
                 "additionalProperties": False,
             },
@@ -403,7 +362,7 @@ def extract_units(
                 f"{wrap_untrusted(_numbered(text), cfg)}\n\n"
                 "Units already extracted:\n"
                 + "\n".join(
-                    f"- {u['unit_id']} [{u['unit_type']}] {u['canonical_statement']}"
+                    f"- {u['unit_id']} {u['canonical_statement']}"
                     for u in units
                 )
                 + "\n\nWhat is missing or mis-shaped?"
@@ -429,23 +388,12 @@ def extract_units(
     return all_units
 
 
-def _read_type_tests(raw: object) -> dict[str, bool]:
-    """Coerce the model's six answers into exactly six booleans.
-
-    A missing or malformed answer becomes False rather than a guess, so the unit
-    lands in `unclassified` and shows up in the health metrics. Silently
-    defaulting to a type would hide the failure, which is the one outcome an
-    abstain state exists to prevent.
-    """
-    answers = raw if isinstance(raw, dict) else {}
-    return {name: bool(answers.get(name)) for name in TYPE_TESTS}
-
 
 def _read_node_kind(raw: object) -> str:
     return raw if raw in NODE_KINDS else "unit"  # type: ignore[return-value]
 
 
-def _resolve_modality(raw: object, unit_type: str) -> tuple[str | None, str | None]:
+def _resolve_modality(raw: object) -> tuple[str | None, str | None]:
     """Split the model's modal answer into (kept, suppressed).
 
     The prompt asks for modality on ANY deontic modal, independently of is_rule
@@ -463,9 +411,7 @@ def _resolve_modality(raw: object, unit_type: str) -> tuple[str | None, str | No
     `rule`.
     """
     modality = normalize_modality(raw)
-    if modality is None or unit_type == "rule":
-        return modality, None
-    return None, modality
+    return modality, None
 
 
 def _read_entity_mentions(raw: object) -> list[dict[str, Any]]:
@@ -487,13 +433,13 @@ def _read_entity_mentions(raw: object) -> list[dict[str, Any]]:
     return mentions
 
 
-REQUIRED_RAW_UNIT_FIELDS = ("canonical_statement", "unit_type", "scores", "decision")
+REQUIRED_RAW_UNIT_FIELDS = ("canonical_statement", "scores", "decision")
 
 
 def _reject(source_id: str, index: int, raw: object, reason: str) -> dict[str, Any]:
     """A malformed model answer, recorded rather than raised.
 
-    `_read_type_tests` already treats a missing answer as data to record instead
+    A missing optional answer is data to record instead
     of a crash; this applies the same rule to the rest of the record. The
     motivation is resumability (spec §18): Pass 1 accumulates every source's
     units and writes once, so one malformed unit in the last document used to
@@ -546,10 +492,8 @@ def _materialize_units(
             for e in raw.get("evidence", [])
             if isinstance(e, dict)
         ]
-        tests = _read_type_tests(raw.get("type_tests"))
-        unit_type = derive_type(tests)
         statement = raw["canonical_statement"].strip()
-        modality, suppressed_modality = _resolve_modality(raw.get("modality"), unit_type)
+        modality, suppressed_modality = _resolve_modality(raw.get("modality"))
         record = {
             **envelope(
                 ctx,
@@ -561,18 +505,6 @@ def _materialize_units(
             "source_id": source_id,
             "source_family_id": manifest["source_family_id"],
             "independence_group": manifest["independence_group"],
-            # Legacy label, retained as the control arm (see UNIT_TYPES above).
-            "unit_type": raw["unit_type"],
-            # --- kt-v1 derived block ------------------------------------------
-            # Everything here is a derivation of the model's six boolean answers
-            # plus the statement text, which is why none of it enters
-            # content_sha256 (artifacts.DERIVED_FIELDS). Re-deriving a
-            # classification must never forge a new content identity.
-            "type_tests": tests,
-            "type": unit_type,
-            "family": derive_family(unit_type),
-            "gates_fired": gates_fired(tests),
-            "multi_fire": multi_fire(tests),
             "modality": modality,
             # The modal the model reported on a unit that resolved to something
             # other than `rule`. Kept so the signal survives for the split that
@@ -585,8 +517,6 @@ def _materialize_units(
             "quantitative": detect_quantitative(statement),
             "node_kind": _read_node_kind(raw.get("node_kind")),
             "entity_mentions": _read_entity_mentions(raw.get("entity_mentions")),
-            "taxonomy_version": TAXONOMY_VERSION,
-            "classifier_model": cfg.model_for("extractor"),
             # ------------------------------------------------------------------
             "canonical_statement": statement,
             "context_note": raw.get("context_note", ""),

@@ -161,7 +161,6 @@ def test_datamark_preserves_length_and_tokens():
 def test_thinking_field_is_declared_first():
     """Key order matters: declared first means generated first (spec §19.3)."""
     schema = {
-        "type": "object",
         "properties": {"answer": {"type": "string"}},
         "required": ["answer"],
     }
@@ -200,7 +199,6 @@ def _unit(unit_id: str, group: str, excerpt: str, text: str, path: str) -> dict:
     return {
         "unit_id": unit_id,
         "independence_group": group,
-        "unit_type": "fact",
         "canonical_statement": excerpt,
         "evidence": [
             {

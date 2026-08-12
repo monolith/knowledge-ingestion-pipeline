@@ -1,137 +1,33 @@
-"""Knowledge-type vocabulary, shared verbatim by the ingestion and wiki plugins.
+"""Extraction vocabulary — the closed value sets a digested unit may carry.
 
-This copy lives in the knowledge-ingestion plugin (`kip`), which classifies units at extraction time.
+These are NOT a classification. Nothing here says what *kind* of knowledge a
+statement is; they record properties visible on the face of the sentence, which
+is why they survived the removal of the type taxonomy:
 
-This module is the single source of truth for the knowledge-type taxonomy
-`kt-v1`. It is duplicated byte-for-byte (except this docstring) in every plugin
-that speaks the vocabulary, because cross-plugin imports are forbidden and a
-translation layer between two vocabularies is exactly how they drift apart.
+- `MODALITIES` is the deontic force of a sentence, read off its modal verb.
+- `FLAGS` marks two things embeddings cannot recover on their own. A null result
+  and a positive one are near neighbours in vector space — "X does not work" and
+  "X works" differ by one token — so without an explicit marker the distinction
+  is unrecoverable downstream. `caveat` is the same problem for scope limits.
+- `NODE_KINDS` separates a statement from a question. A question asserts
+  nothing, and treating one as a claim corrupts anything that reads claims.
+- `detect_quantitative` is pure code and never a model call: whether a sentence
+  carries a measurement is decidable from its characters.
 
-Design decisions worth knowing before changing anything here:
-
-- **Six independent boolean tests, not one six-way choice.** Multiclass
-  "pick one of N" labeling measured ~90% lower odds of correct assignment than
-  binary present/absent judgments (OR 0.10, 95% CI 0.03-0.35). The model answers
-  six yes/no questions in a single call; priority resolution happens below, in
-  code, where it is free to change without a prompt rewrite.
-- **Priority resolution, not a cascade.** An ordered chain of six LLM gates
-  compounds multiplicatively -- six gates at 95% each is ~0.74 end to end, worse
-  than one 6-way call at 80%. Asking all six independently and resolving by a
-  fixed priority keeps the binary shape without the compounding.
-- **No confidence score is asked for.** Uncertainty is structural:
-  `gates_fired == 0` means abstain, `gates_fired >= 2` means the unit is probably
-  two units. A verbalized confidence number would be a second thing to calibrate
-  and its reliability depends mostly on how it is asked.
-- **`quantitative` is computed, never asked.** A regex answers it exactly and for
-  free; paying a model for a question a regex settles is waste.
-- **Family is derived from type.** Asking for it separately would be a second
-  multiclass decision with nothing to gain.
-
-Family naming: the first family is `semantic`, not `declarative`. In the
-canonical memory taxonomy, declarative is the *parent* of both facts and events,
-so a declarative/episodic sibling pair is a level error. The cognitive
-architectures that use a genuine co-equal triad name it semantic for that reason.
-The justification for the split here is computational -- these categories have
-different write, update, and retrieval behavior -- not neuroscientific.
+Typing a unit — deciding whether it is an observation, a principle, a procedure
+— is a separate concern handled after digestion, by a classifier that reads the
+canonical statement. This package does not do it and must not grow it back.
 """
 
 from __future__ import annotations
 
 import re
-from typing import Mapping
 
-TAXONOMY_VERSION = "kt-v1"
-
-# --- Types --------------------------------------------------------------------
-# Tuple order IS the priority order used by derive_type(). It runs most
-# surface-recognizable first (a date and an actor; a deontic modal; steps) and
-# most interpretive last, because label abstractness predicts classification
-# failure more strongly than label count does.
-
-TYPES: tuple[str, ...] = ("case", "rule", "method", "concept", "model", "claim")
-UNCLASSIFIED = "unclassified"
-
-TYPE_TESTS: tuple[str, ...] = (
-    "is_case",
-    "is_rule",
-    "is_method",
-    "is_concept",
-    "is_model",
-    "is_claim",
-)
-
-# TYPE_TESTS[i] decides TYPES[i]. Kept as parallel tuples rather than a dict so
-# the priority order is impossible to lose to dict-literal reordering.
-assert len(TYPE_TESTS) == len(TYPES)
-
-FAMILY_OF: dict[str, str] = {
-    "case": "episodic",
-    "rule": "procedural",
-    "method": "procedural",
-    "concept": "semantic",
-    "model": "semantic",
-    "claim": "semantic",
-}
-FAMILIES: tuple[str, ...] = ("semantic", "procedural", "episodic")
-
-# --- Secondary vocabulary -----------------------------------------------------
-# MODALITIES replaces three legacy labels (obligation, prohibition, deadline), so
-# it is a net reduction in vocabulary rather than an addition. It is populated on
-# any deontic modal, independent of whether is_rule fired -- which also settles
-# the old `recommendation` ambiguity mechanically: modal present -> rule,
-# modal absent -> method.
 MODALITIES: tuple[str, ...] = ("required", "permitted", "prohibited")
 
-# Two flags survived review out of eight proposed.
-#   negative_result -- the only unanimous keep. A null or no-effect finding is
-#     invisible to embedding search ("X does not work" retrieves as "X works"),
-#     so without an explicit marker it gets summarized out of existence.
-#   caveat -- one merged marker absorbing limitation, exception, and scope
-#     restriction. Three separate flags for one concept fired on nearly every
-#     careful sentence, which flags nothing.
-# Cut, deliberately: risk (maximally interpretive), disputed (unknowable at
-# ingestion -- the disputing unit may not be ingested yet), deadline (shadows the
-# temporal fields), limitation and exception (merged into caveat), decision
-# (that is the `case` type), quantitative (computed below).
 FLAGS: tuple[str, ...] = ("negative_result", "caveat")
 
 NODE_KINDS: tuple[str, ...] = ("unit", "question")
-
-
-# --- Derivation ---------------------------------------------------------------
-
-
-def derive_type(tests: Mapping[str, bool]) -> str:
-    """Resolve six independent boolean tests into one type by fixed priority.
-
-    Returns UNCLASSIFIED when no test fires. That is a real terminal state and a
-    health metric, not an error: a silent default would hide taxonomy failures,
-    and an explicit "if unsure pick X" instruction measurably biases models
-    toward whatever X is.
-    """
-    for test_name, type_name in zip(TYPE_TESTS, TYPES):
-        if tests.get(test_name):
-            return type_name
-    return UNCLASSIFIED
-
-
-def derive_family(unit_type: str) -> str | None:
-    """Family follows mechanically from type; None for UNCLASSIFIED."""
-    return FAMILY_OF.get(unit_type)
-
-
-def gates_fired(tests: Mapping[str, bool]) -> int:
-    return sum(1 for name in TYPE_TESTS if tests.get(name))
-
-
-def multi_fire(tests: Mapping[str, bool]) -> bool:
-    """Two or more tests firing is a split signal, not a tie to break.
-
-    The molecular rule already says a statement whose parts are independently
-    evaluable and independently interpretable should be split. Multi-fire is that
-    condition showing up in the classifier for free.
-    """
-    return gates_fired(tests) >= 2
 
 
 def normalize_flags(raw: object) -> list[str]:
@@ -288,11 +184,3 @@ LEGACY_UNMAPPED: dict[str, str] = {
 }
 
 LEGACY_TYPES: tuple[str, ...] = tuple(LEGACY_MAP) + tuple(LEGACY_UNMAPPED)
-
-
-def legacy_summary() -> str:
-    return (
-        f"{len(LEGACY_MAP)} of {len(LEGACY_TYPES)} legacy labels map deterministically; "
-        f"{len(LEGACY_UNMAPPED)} require review "
-        f"({', '.join(sorted(LEGACY_UNMAPPED))})."
-    )
