@@ -7,10 +7,11 @@ are the pipeline's actual output, not fixtures.
 **Start with `UNITS.md` in any run folder.** Everything else is the machine-
 readable material behind it.
 
-## Each folder is a real workspace
+## Each folder is a workspace
 
-Every folder here is a `kip` **workspace** — the exact directory `kip` writes,
-not a curated copy. The CLI works on them unchanged:
+Every folder here is a `kip` **workspace** — `runs/<run-id>/` with the pass
+directories laid out exactly as the pipeline lays them out, rather than a
+flattened copy. The CLI works on them unchanged:
 
 ```bash
 kip --workspace demo/real-runs/04-debondt-thaler show dt1 units --pretty
@@ -40,10 +41,13 @@ All four pass `kip validate` with zero errors and zero warnings.
 ```
 
 The three files at the top are **not pipeline artifacts** — they are written for
-this repo. Everything under `runs/` is exactly what the pipeline produced. What
-each artifact is and why you would open it is documented once, in the top-level
-README under
+this repo. What each artifact under `runs/` is, and why you would open it, is
+documented once in the top-level README under
 [What a run writes](../../README.md#what-a-run-writes).
+
+For runs 03 and 04 everything under `runs/` is exactly what the pipeline
+produced. **For runs 01 and 02 it is not** — see
+[What can and cannot be reproduced](#what-can-and-cannot-be-reproduced).
 
 **Runs differ in how far they got**, which is why their trees differ:
 
@@ -58,20 +62,30 @@ README under
 
 ### What can and cannot be reproduced
 
-Runs **03 and 04 replay exactly.** Their prompts still match the code, so
-copying `_handoff/responses.jsonl` into a fresh workspace and re-running serves
-every call from cache — same `call_id`s, same units, same content hashes. That
-is verified, not asserted: rebuilding run 03 this way reproduced all twelve
-units with byte-identical `content_sha256`.
+**Runs 03 and 04 replay exactly, and this was checked.** Copying
+`_handoff/responses.jsonl` into a fresh workspace and re-running serves every
+call from cache — same `call_id`s, same units, same `content_sha256`. Run 03
+reproduced all 12 units and run 04 all 35, with `created_at` the only differing
+field.
 
-Runs **01 and 02 cannot be reproduced by any version of this code.** They used
-extraction prompts v3.1 and v4.1, which were replaced by v4.2 and no longer
-exist in the repository. Their Pass 0 output is genuinely regenerated — that
-stage is deterministic and version-independent — but their units are historical
-records of prompts that are gone. Each unit says so in its own
-`prompt_version` field. Re-running them produces a different `call_id` and
-blocks on an unanswered call, which is the protocol correctly refusing to serve
-an answer to a question nobody asked.
+**Runs 01 and 02 are reconstructions, not runs, and their trees say so
+incorrectly.** They used extraction prompts v3.1 and v4.1, which were replaced
+at v4.2 and no longer exist here — and the v4.1 output schema predates the
+`grounding` field, so even restoring the prompt string is not enough to make a
+`call_id` match. Their Pass 0 output is genuinely regenerated, because that
+stage is deterministic and version-independent. Their Pass 1+ artifacts are the
+historical records, placed at the canonical paths by hand.
+
+The visible consequence: **`stage_fingerprints.json` in those two runs records
+only `pass0-normalize`**, while `02_units/` — and, in run 01, four more pass
+directories — exist beside it. No genuine run produces that combination, and
+resuming the run does not repair it, because `run_stage` sees the output already
+present and skips without recording a fingerprint. The artifacts themselves are
+untouched and `kip validate` passes; it is the run's account of its own history
+that is wrong.
+
+Runs 03 and 04 have no such gap: their fingerprint files record both
+`pass0-normalize` and `pass1-extract`, because both stages really executed.
 
 ## What each run shows
 
