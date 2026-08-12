@@ -1,0 +1,33 @@
+{
+  "auditor_model": "claude-opus-5",
+  "created_at": "2026-08-12T22:40:10.289781+00:00",
+  "definitions_captured": true,
+  "fairly_represented": true,
+  "key_insights_captured": true,
+  "mechanical": {
+    "assertions_out": 38,
+    "units_carried": 42,
+    "units_kept": 42,
+    "units_orphaned": 0,
+    "units_orphaned_protected": 0
+  },
+  "missing": [],
+  "model_role": "corpus-coverage-auditor",
+  "notes": [
+    "The conditional and quantitative content is carried rather than paraphrased. A reader can apply the soul conditions and the bargain's failure clause from the output alone, which is what lets them see that the ending follows the rules rather than breaking them.",
+    "The causal chain from rescue to misattribution to marriage survives in order and across two entries. It is the story's mechanism, and a summary would have kept the events and lost the dependency between them.",
+    "The refusal of the knife is presented with the escape's mechanism, price and deadline attached, so it reads as a choice rather than as resignation. That distinction is the story's moral content.",
+    "Six units the first extraction pass missed were recovered by the repair round and all six reached assertions -- the sisters' sequence, the tears rule, the price of rank, the voice's valuation, the family at the surface, and the potion's effect on the polypi. Three of them are setup that pays off in later entries.",
+    "One tension is preserved rather than resolved: the witch states the mermaid can never return to her family, and her family then visits her at the surface. The corpus contains both and reconciles neither, which is faithful.",
+    "What is deliberately absent is a plot summary. Events appear only where a rule or a consequence hangs on them, so the output is shorter than the story and is not a retelling of it."
+  ],
+  "parent_artifacts": [
+    "02_units/units.jsonl",
+    "06_audit/candidates.approved.jsonl"
+  ],
+  "prompt_version": "pass-05b-corpus-coverage-v1.0",
+  "reasoning": "All 42 units reached an assertion, so nothing is lost and the question is whether the output is skewed. For a narrative the skew risk is specific: an output that keeps the plot and drops the rules would read as a summary, and an output that keeps the rules and drops the causal chain would read as a rulebook for a world nobody visits. Neither happened. The stated rules survive with their quantities intact -- fifteen years, three hundred years, eight oysters, the first morning after he marries another -- and the causal chain survives in order, so the ending can be checked against the terms rather than merely felt. The proportions also match the source: the bargain and the failure are the largest entries, which is where the story spends its length and its argument.",
+  "run_id": "mermaid",
+  "schema_version": "3.1.0",
+  "verdict": "represented"
+}

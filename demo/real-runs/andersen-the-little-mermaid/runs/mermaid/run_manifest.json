@@ -1,0 +1,64 @@
+{
+  "config": {
+    "audit": {
+      "deterministic_citation_check": true,
+      "nli_checker_model": null,
+      "order_swap": true,
+      "require_distinct_auditor": true
+    },
+    "batch": {
+      "context_cap": 0.8,
+      "default_context_window": 1000000,
+      "hard_split_above": 75,
+      "rotate_ordering": true,
+      "target_size": 35
+    },
+    "datamark": true,
+    "granularity": {
+      "max_evidence_words": 200,
+      "name": "molecular-v1",
+      "soft_target_words": [
+        20,
+        80
+      ],
+      "warn_words": 160
+    },
+    "models": {
+      "auditor": "claude-opus-5",
+      "enricher": "claude-haiku-4-5",
+      "extractor": "claude-sonnet-5",
+      "judge": "claude-sonnet-5",
+      "omission": "claude-sonnet-5",
+      "planner": "claude-sonnet-5"
+    },
+    "schema_version": "3.1.0",
+    "taxonomy_path": null,
+    "use_batch_api": false
+  },
+  "run_id": "mermaid",
+  "spec_version": "3.1.0",
+  "summary": {
+    "approved": 7,
+    "assessments": 11,
+    "audits": 7,
+    "candidates": 7,
+    "clusters": 1,
+    "finished_at": "2026-08-12T22:40:10.321334+00:00",
+    "quarantined": 0,
+    "queue_events": 7,
+    "run_id": "mermaid",
+    "sources": 1,
+    "started_at": "2026-08-12T22:40:10.263812+00:00",
+    "units": 42,
+    "usage": {
+      "cache_read_tokens": 0,
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "verdicts": {
+      "fix": 1,
+      "pass_with_label": 6
+    }
+  }
+}

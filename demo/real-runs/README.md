@@ -1,12 +1,13 @@
 # Real runs
 
-Three complete runs on real documents, all produced through the CLI in
+Four complete runs on real documents, all produced through the CLI in
 `--mode handoff` with **no API key**. Every model call was answered by the agent
 operating the CLI, one call at a time, against the request the pipeline actually
 wrote — so these are model output on real sources, not fixtures.
 
-All three go through **all seven passes** and pass `kip validate` with zero
-errors and zero warnings.
+All four go through **all seven passes** and pass `kip validate` with zero
+errors and zero warnings. Three are argument, evidence and reference; the fourth
+is a narrative, included because it is the shape the others are not.
 
 **Start with `enqueue.md` in any run folder.** It is the queue handoff — what a
 consuming knowledge base would actually receive — rendered as markdown.
@@ -18,17 +19,23 @@ Everything else is the machine-readable material behind it.
 |---|---|---|---|---|---|
 | [`sharpe-arithmetic-of-active-management`](sharpe-arithmetic-of-active-management/enqueue.md) | Sharpe, *The Arithmetic of Active Management* (1991) | 1,650 | 23 | 1 per 72 words | 6 |
 | [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/enqueue.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 53 | 1 per 119 words | 11 |
+| [`andersen-the-little-mermaid`](andersen-the-little-mermaid/enqueue.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
 | [`statement-classifier-specification`](statement-classifier-specification/enqueue.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
 
-Density is roughly flat across a 7× range in length, and the longest document is
-the second-densest. Length is not the variable; document shape is. The
-specification is a reference document whose fifteen label definitions and
-nineteen pairwise separations each have to survive individually, so it cuts
-finer than the paper-length argument in the middle row, which carries long
-stretches of connective prose.
+Density is not a function of length. Across a 7× range the three non-fiction
+documents sit between one unit per 72 and one per 119 words, and the longest of
+them is the second-densest — it is a reference document whose fifteen label
+definitions and nineteen pairwise separations each have to survive individually.
 
-Every excerpt in all three runs verifies verbatim against `normalized.txt`:
-57, 137 and 488 quotes respectively, none corrected, none unverified.
+The fairy tale is the outlier at one unit per 219 words, and that is the
+expected result rather than a failure: a narrative carries long stretches that
+assert nothing. What it does carry is stated rules — an age threshold, a
+lifespan, the conditions on obtaining a soul, the terms of a bargain — and those
+are what the extraction keeps. Events appear only where a rule or a consequence
+hangs on them, so the output is not a retelling.
+
+Every excerpt in all four runs verifies verbatim against `normalized.txt`:
+57, 137, 91 and 488 quotes respectively, none corrected, none unverified.
 
 The specification source is the taxonomy spec from the sibling
 `statement-classifier` repo, copied in as
@@ -141,6 +148,26 @@ rows of the mapping table.
 
 These are diagnostic: the pass records them and does not automatically add units.
 Coverage degrades gradually with document density, not at a cliff with length.
+
+## What the narrative run showed
+
+The three non-fiction documents share a property the fairy tale does not: they
+make claims. Sharpe argues, De Bondt & Thaler measure, the specification
+stipulates — and a knowledge unit is a natural output for all three. A story
+asserts nothing about the world, so the question was open: what is a unit here?
+
+The answer, on this document, is that the extractable content is the world's
+**stated rules** and the **causal chain** between them. The story specifies an
+age threshold, a lifespan, the exact conditions under which a mermaid can obtain
+an immortal soul, and a bargain whose price, irreversibility and failure clause
+are all disclosed before it is accepted. Those are conditional and quantitative,
+so they survive being read cold — a consumer can check the ending against them.
+The rest, the moment-to-moment action, does not become units: an entry per event
+would be a plot summary in JSONL and none of it stands alone.
+
+That is also why the density is half the others'. It is a property of the source,
+not a coverage failure: `units_orphaned` is 0 and corpus coverage returns
+`represented`, the same as the other three.
 
 ## The retention guard
 
