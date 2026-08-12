@@ -17,6 +17,7 @@ from .vocab import FLAGS, MODALITIES, NODE_KINDS, detect_quantitative, normalize
 
 PROMPT_VERSION = "pass-01-molecular-extraction-v4.2"  # v4.2: grounding flag
 OMISSION_PROMPT_VERSION = "pass-01b-omission-check-v3.0"
+REPAIR_PROMPT_VERSION = "pass-01c-omission-repair-v1.0"
 
 # --- System prompt ------------------------------------------------------------
 # Every rule below is a spec decision, and the wording is deliberately close to
@@ -196,6 +197,24 @@ happens downstream, and it needs the raw surface forms to do it.
 
 Never invent evidence. If something is implied but not stated, either omit it or
 mark it in qualifiers. Report only what the document supports."""
+
+REPAIR_SYSTEM = """You extract the units an earlier pass over this document missed.
+
+{boundary}
+
+You are given the document, the units already extracted from it, and a list of
+findings from a completeness check -- each naming something missing and quoting
+the source text it concerns.
+
+Extract a unit for each finding whose content is genuinely absent. Follow exactly
+the same standard as the first pass: decontextualized but sufficient, every claim
+quotable, every excerpt copied verbatim from the document.
+
+Do NOT re-extract anything the existing units already carry. Do NOT restate a
+finding as a unit -- a finding says what is missing, and your job is to extract
+the missing content itself from the document. If a finding turns out to be
+already covered, or names nothing the document actually supports, return no unit
+for it."""
 
 OMISSION_SYSTEM = """You check an extraction for completeness against its source document.
 
@@ -465,9 +484,52 @@ def extract_units(
             schema=OMISSION_SCHEMA,
             model=cfg.model_for("omission"),
         )
-        all_omissions.extend(
-            _materialize_omissions(ctx, source_id, omission.get("findings", []))
-        )
+        findings = omission.get("findings", [])
+        all_omissions.extend(_materialize_omissions(ctx, source_id, findings))
+
+        # Repair round (spec §9.6's detect-and-refine, completed). The check
+        # above was diagnostic only: it found real losses -- a footnote bounding
+        # a paper's claims, thirty per-label exemplars in a specification -- and
+        # wrote them to a file no code read. One extra round closes it.
+        #
+        # Only `add` findings are acted on. The others (`split`, `merge`,
+        # `downgrade`, `drop`) are instructions to reshape units that are
+        # already sealed, and rewriting a sealed record is a different and much
+        # larger change than extracting content that is missing.
+        #
+        # One round, never a loop: the repair output is not re-checked, because
+        # a check-repair cycle has no natural fixed point and every turn of it
+        # costs a call over the whole document.
+        additions = [f for f in findings if f.get("suggested_action") == "add"]
+        if additions:
+            repair = client.complete_json(
+                system=REPAIR_SYSTEM.format(boundary=boundary),
+                user=(
+                    f"{wrap_untrusted(_numbered(text), cfg)}\n\n"
+                    "Units already extracted:\n"
+                    + "\n".join(f"- {u['canonical_statement']}" for u in units)
+                    + "\n\nFindings from the completeness check:\n"
+                    + "\n".join(
+                        f"- {f.get('description', '')}"
+                        + (f"\n  source text: {f['excerpt']}" if f.get("excerpt") else "")
+                        for f in additions
+                    )
+                    + "\n\nExtract the missing units."
+                ),
+                schema=UNIT_SCHEMA,
+                model=cfg.model_for("extractor"),
+            )
+            repaired = _materialize_units(
+                ctx, cfg, manifest, repair.get("units", []), text, rejects,
+                start_index=len(units) + 1,
+            )
+            annotate_protected(repaired, taxonomy)
+            print(
+                f"[pass1] repair round on {source_id}: {len(additions)} gap(s) reported, "
+                f"{len(repaired)} unit(s) recovered"
+            )
+            units.extend(repaired)
+            all_units.extend(repaired)
 
         done.add(source_id)
         write_jsonl_atomic(units_partial, all_units)
@@ -558,13 +620,17 @@ def _materialize_units(
     raw_units: list[dict[str, Any]],
     text: str,
     rejects: list[dict[str, Any]] | None = None,
+    start_index: int = 1,
 ) -> list[dict[str, Any]]:
     source_id = manifest["source_id"]
     lines = text.splitlines()
     units: list[dict[str, Any]] = []
     rejected = rejects if rejects is not None else []
 
-    for index, raw in enumerate(raw_units, start=1):
+    # `start_index` exists so the repair round can number its units after the
+    # first round's rather than colliding with them: ids are positional and a
+    # second call on the same source would otherwise reissue u-...-0001.
+    for index, raw in enumerate(raw_units, start=start_index):
         if not isinstance(raw, dict):
             rejected.append(_reject(source_id, index, raw, "not a JSON object"))
             continue

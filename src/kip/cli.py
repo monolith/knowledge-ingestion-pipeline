@@ -74,7 +74,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     # API key at all.
     client = None
     if args.mode == "handoff":
-        client = HandoffClient(root=ctx.run_dir / "_handoff")
+        client = HandoffClient(root=ctx.run_dir / "_handoff", cfg=cfg)
 
     try:
         summary = run_pipeline(

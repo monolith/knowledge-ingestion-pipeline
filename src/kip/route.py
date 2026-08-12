@@ -10,30 +10,52 @@ import re
 from collections import Counter, defaultdict
 from typing import Any, Callable, Iterable
 
-from .artifacts import RunContext, envelope, seal, write_jsonl_atomic
+from .artifacts import RunContext, batched, envelope, seal, write_jsonl_atomic
 from .config import Config
 from .llm import LLMClient
 
-ENRICH_PROMPT_VERSION = "pass-02a-contextual-enrichment-v3.0"
+ENRICH_PROMPT_VERSION = "pass-02a-contextual-enrichment-v4.0"
 CLUSTER_PROMPT_VERSION = "pass-02b-cluster-labeling-v3.0"
 
-ENRICH_SYSTEM = """You write a short retrieval context for a knowledge unit.
+ENRICH_SYSTEM = """You write a short retrieval context for each of several knowledge units.
 
-Given a unit and its source document's title and summary, write 1-2 sentences
-situating the unit: what document it came from, what subject area it belongs to,
-and what entities or study it concerns.
+For every unit you are given, write 1-2 sentences situating it: what document it
+came from, what subject area it belongs to, and what entities or study it
+concerns.
 
 This text is used ONLY to improve retrieval. It is never shown as evidence and
 never replaces the unit's own statement. Do not add facts that are not already
-implied by the unit and its source metadata. Do not speculate."""
+implied by the unit and its source metadata. Do not speculate.
+
+Answer for EVERY unit you were given, keyed by the unit id shown. A unit you skip
+gets no retrieval context at all."""
+
+# Units per enrichment call. This was one call per unit, which on a
+# 12,311-word document meant 136 of the run's 182 model calls -- three
+# quarters of the bill for the cheapest content in the pipeline. Ten sits far
+# below the 25-100 band spec §17 records as safe (6 of 8 models within 2pp of
+# the single-item baseline through batch size 100), because there is no reason
+# to push it: the saving is already an order of magnitude.
+ENRICH_BATCH_SIZE = 10
 
 ENRICH_SCHEMA = {
     "type": "object",
     "properties": {
-        "context": {"type": "string"},
-        "entities": {"type": "array", "items": {"type": "string"}},
+        "contexts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "unit_id": {"type": "string"},
+                    "context": {"type": "string"},
+                    "entities": {"type": "array", "items": {"type": "string"}},
+                },
+                "required": ["unit_id", "context", "entities"],
+                "additionalProperties": False,
+            },
+        },
     },
-    "required": ["context", "entities"],
+    "required": ["contexts"],
     "additionalProperties": False,
 }
 
@@ -146,27 +168,45 @@ def _enrich(
     enrichment is an INDEX-TIME artifact only -- it must never leak into the
     unit's own statement or its evidence.
     """
-    out: list[dict[str, Any]] = []
-    for unit in units:
+    written: dict[str, tuple[str, list[str]]] = {}
+    for batch in batched(units, ENRICH_BATCH_SIZE):
         try:
             result = client.complete_json(
                 system=ENRICH_SYSTEM,
                 user=(
-                    f"Source: {unit['source_id']} (family {unit['source_family_id']})\n"
-                    f"Statement: {unit['canonical_statement']}\n"
-                    f"Topics: {', '.join(unit.get('candidate_topics', [])) or 'none'}\n\n"
-                    "Write the retrieval context."
+                    "\n\n".join(
+                        f"unit_id: {u['unit_id']}\n"
+                        f"Source: {u['source_id']} (family {u['source_family_id']})\n"
+                        f"Statement: {u['canonical_statement']}\n"
+                        f"Topics: {', '.join(u.get('candidate_topics', [])) or 'none'}"
+                        for u in batch
+                    )
+                    + f"\n\nWrite the retrieval context for each of these {len(batch)} units."
                 ),
                 schema=ENRICH_SCHEMA,
                 model=cfg.model_for("enricher"),
                 add_thinking=False,  # too small a task to pay for a reasoning field
             )
-            context = result.get("context", "")
-            entities = result.get("entities", [])
+            # Keyed on the id the model echoes back, not on position: a batched
+            # answer that drops or reorders an item would otherwise attach one
+            # unit's context to another unit's statement, which is worse than
+            # having no context at all.
+            for record in result.get("contexts", []):
+                written[record.get("unit_id", "")] = (
+                    record.get("context", ""),
+                    record.get("entities", []),
+                )
         except Exception as exc:  # enrichment is an optimization, never a gate
-            context, entities = "", []
-            print(f"[pass2] enrichment failed for {unit['unit_id']}: {exc}")
+            ids = ", ".join(u["unit_id"] for u in batch)
+            print(f"[pass2] enrichment failed for {ids}: {exc}")
 
+    missing = [u["unit_id"] for u in units if u["unit_id"] not in written]
+    if missing:
+        print(f"[pass2] {len(missing)} unit(s) came back with no context: {missing[:5]}")
+
+    out: list[dict[str, Any]] = []
+    for unit in units:
+        context, entities = written.get(unit["unit_id"], ("", []))
         out.append(
             seal(
                 {

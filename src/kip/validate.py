@@ -239,6 +239,51 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
     _ids(audits, "audit_id", "audit", errors)
     _ids(events, "queue_event_id", "queue event", errors)
 
+    # The slug, not the candidate id, is what a consuming knowledge base files an
+    # entry under -- `enqueue` copies it into the event and the consumer
+    # deduplicates on it. Two approved entries sharing one slug therefore claim
+    # one identity, and the second silently overwrites or merges with the first
+    # on the far side of the queue, where nothing here can see it happen.
+    #
+    # This is reachable in one run: a document that routes into more than one
+    # cluster is planned once per cluster, and two planning calls that pick the
+    # same title produce the same slug with no code between them. It happened
+    # fourteen times on a 12,311-word document.
+    # Sharing a slug is legal only when every claimant says it is updating a leaf
+    # rather than creating one. That is the case a document routed into several
+    # clusters produces honestly: one leaf, planned once per cluster. A `create`
+    # in the set means two entries each believe they are the first, which is the
+    # collision.
+    slugs: dict[str, list[dict[str, Any]]] = {}
+    for record in approved:
+        slug = record.get("slug")
+        if slug:
+            slugs.setdefault(slug, []).append(record)
+    for slug, claimants in sorted(slugs.items()):
+        if len(claimants) < 2:
+            continue
+        creating = [
+            c.get("candidate_id", "<no id>")
+            for c in claimants
+            if c.get("suggested_operation") == "create"
+        ]
+        owners = ", ".join(c.get("candidate_id", "<no id>") for c in claimants)
+        if creating:
+            errors.append(
+                f"duplicate slug {slug!r}: claimed by {len(claimants)} approved "
+                f"candidates ({owners}), {len(creating)} of them with "
+                "suggested_operation 'create'. Two entries cannot both create the "
+                "same leaf; use 'create_or_update' if they are one leaf assembled "
+                "from several comparison sets."
+            )
+        else:
+            warnings.append(
+                f"slug {slug!r} is claimed by {len(claimants)} approved candidates "
+                f"({owners}), all updating rather than creating. The consumer will "
+                "merge them into one leaf."
+            )
+    counts["distinct_slugs"] = len(slugs)
+
     _check_originals(ctx, registry, errors)
 
     _check_grounding(units, errors, warnings, counts)

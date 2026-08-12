@@ -104,6 +104,9 @@ class ScriptedClientBase:
     # (marker predicate, call name, handler attribute) in dispatch order.
     MARKERS: tuple[tuple[str, str, str], ...] = (
         ("GRANULARITY", "extract", "_pass_extract"),
+        # Before the omission marker: the repair prompt names the completeness
+        # check it acts on, so a looser ordering routes repairs to the checker.
+        ("units an earlier pass over this document missed", "repair", "_pass_repair"),
         ("completeness", "omission", "_pass_omission"),
         ("retrieval context", "enrich", "_pass_enrich"),
         ("label a cluster", "label", "_pass_label"),

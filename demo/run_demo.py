@@ -99,16 +99,31 @@ class ScriptedClient(ScriptedClientBase):
 
     # -- Pass 2 ---------------------------------------------------------------
 
+    def _pass_repair(self, user: str) -> dict[str, Any]:
+        # The canned omission finding names nothing these two documents contain,
+        # so the repair round correctly recovers nothing.
+        return {"units": []}
+
     def _pass_enrich(self, user: str) -> dict[str, Any]:
-        if "src-sleep-extension-trial" in user:
-            return {
-                "context": "From a randomized trial of sleep extension and delayed recall.",
-                "entities": ["sleep extension", "delayed recall"],
-            }
-        return {
-            "context": "From a practitioner review of sleep and memory consolidation.",
-            "entities": ["slow-wave sleep", "delayed recall"],
-        }
+        # One call now carries several units, so the answer is keyed by unit id
+        # and each unit is situated by the source its own block names.
+        blocks = [b for b in user.split("\n\n") if b.startswith("unit_id: ")]
+        contexts = []
+        for block in blocks:
+            uid = block.splitlines()[0].removeprefix("unit_id: ").strip()
+            if "src-sleep-extension-trial" in block:
+                contexts.append({
+                    "unit_id": uid,
+                    "context": "From a randomized trial of sleep extension and delayed recall.",
+                    "entities": ["sleep extension", "delayed recall"],
+                })
+            else:
+                contexts.append({
+                    "unit_id": uid,
+                    "context": "From a practitioner review of sleep and memory consolidation.",
+                    "entities": ["slow-wave sleep", "delayed recall"],
+                })
+        return {"contexts": contexts}
 
     def _pass_label(self, user: str) -> dict[str, Any]:
         if "8.2%" in user or "no statistically significant" in user:

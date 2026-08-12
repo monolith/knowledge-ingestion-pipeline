@@ -154,8 +154,22 @@ class FakeClient(ScriptedClientBase):
             "suggested_action": "add",
         }]}
 
+    def _pass_repair(self, user: str) -> dict:
+        # The omission above names a sample size these fixtures do not contain,
+        # so the honest repair is to recover nothing -- which is the branch the
+        # repair prompt explicitly asks for and the one that must not invent a
+        # unit. Recovery itself is proven separately, below.
+        return {"units": []}
+
     def _pass_enrich(self, user: str) -> dict:
-        return {"context": "From a sleep-and-memory study.", "entities": ["sleep extension"]}
+        # Enrichment is batched, so the fake has to answer per unit id the way
+        # a real model would -- keyed, not positional.
+        ids = re.findall(r"^unit_id: (\S+)$", user, re.M)
+        return {"contexts": [
+            {"unit_id": uid, "context": "From a sleep-and-memory study.",
+             "entities": ["sleep extension"]}
+            for uid in ids
+        ]}
 
     def _pass_label(self, user: str) -> dict:
         return {"topic_label": "Sleep extension and delayed recall",
@@ -500,8 +514,8 @@ def test_entity_mentions_reach_enriched_units(run):
 def test_pipeline_called_every_expected_pass(run):
     """Guard against a pass being silently skipped by a wiring change."""
     assert set(run["client"].calls) == {
-        "extract", "omission", "enrich", "label", "assess", "plan", "audit",
-        "corpus_coverage",
+        "extract", "omission", "repair", "enrich", "label", "assess", "plan",
+        "audit", "corpus_coverage",
     }
 
 def test_a_deontic_unit_keeps_its_modality_and_its_computed_quantitative_flag(run):
@@ -855,7 +869,95 @@ def test_stop_after_does_not_pay_for_the_next_pass(tmp_path: Path):
     assert summary["units"] > 0
     assert "clusters" not in summary
     assert not ctx.clusters.exists()
-    assert set(client.calls) == {"extract", "omission"}
+    assert set(client.calls) == {"extract", "omission", "repair"}
+
+
+def test_the_omission_check_gets_a_repair_round(tmp_path: Path):
+    """The check used to find real losses and write them to a file nobody read.
+
+    It correctly reported that a paper's footnote bounding its own claims was
+    missing, and that thirty per-label exemplars in a specification were gone --
+    and the units it named never entered the corpus. One repair round closes it.
+    """
+
+    class _Repairing(FakeClient):
+        def _pass_omission(self, user: str) -> dict:
+            return {"findings": [{
+                "kind": "missing",
+                "description": "The blinding and follow-up limitation is not represented.",
+                "excerpt": "The trial was not blinded and follow-up lasted four weeks.",
+                "suggested_action": "add",
+            }, {
+                "kind": "bundled",
+                "description": "Reshaping an existing unit, not missing content.",
+                "suggested_action": "split",
+            }]}
+
+        def _pass_repair(self, user: str) -> dict:
+            # Only the `add` finding reaches the repair prompt; a `split` asks
+            # for a sealed unit to be rewritten, which this round does not do.
+            assert "blinding and follow-up" in user
+            assert "Reshaping an existing unit" not in user
+            # Key off a single token from the trial document itself: the
+            # finding's own excerpt is rendered into every source's repair
+            # prompt, so matching on that would fire everywhere. The other two
+            # sources correctly recover nothing, which is also the check that a
+            # repaired excerpt is verified against ITS OWN source.
+            if "8.2%" not in user:
+                return {"units": []}
+            return {"units": [{
+                "flags": [],
+                "node_kind": "unit",
+                "entity_mentions": [],
+                "canonical_statement": (
+                    "The sleep-extension trial was not blinded and its follow-up "
+                    "lasted four weeks."
+                ),
+                "decontextualization_note": "Named the trial.",
+                "evidence": [{
+                    "excerpt": "The trial was not blinded and follow-up lasted four weeks.",
+                    "line_start": 3, "line_end": 3, "role": "primary",
+                }],
+                "scores": _SCORES,
+                "decision": "keep", "grounding": "attributable",
+            }]}
+
+    ctx = RunContext(run_id="run-repair", root=tmp_path / "ws")
+    client = _Repairing()
+    run_pipeline(ctx, Config(), write_sources(tmp_path), client=client,
+                 stop_after="extract")
+
+    units = read_jsonl(ctx.units)
+    recovered = [u for u in units if "not blinded" in u["canonical_statement"]]
+    assert len(recovered) == 1, "recovered from the one source that supports it"
+
+    unit = recovered[0]
+    assert unit["evidence"][0]["excerpt_verified"], "a repaired unit is checked like any other"
+    assert unit["unit_id"] not in {
+        u["unit_id"] for u in units if u is not unit
+    }, "repaired units must not reuse an id the first round already issued"
+    assert len({u["unit_id"] for u in units}) == len(units)
+
+    report = validate_run(ctx)
+    assert not report["errors"], report["errors"]
+
+
+def test_the_repair_round_does_not_run_when_nothing_is_missing(tmp_path: Path):
+    """No `add` finding means no second call. The round is not free."""
+
+    class _NothingMissing(FakeClient):
+        def _pass_omission(self, user: str) -> dict:
+            return {"findings": [{
+                "kind": "bundled",
+                "description": "Two claims in one unit.",
+                "suggested_action": "split",
+            }]}
+
+    ctx = RunContext(run_id="run-no-repair", root=tmp_path / "ws")
+    client = _NothingMissing()
+    run_pipeline(ctx, Config(), write_sources(tmp_path), client=client,
+                 stop_after="extract")
+    assert "repair" not in client.calls
 
 
 def test_resuming_a_finished_run_spends_nothing(tmp_path: Path):
@@ -922,7 +1024,8 @@ SCHEMA_CONSUMERS = [
     ("candidates", candidates.PLAN_SCHEMA, ("candidates",),
      {"title", "knowledge_state", "priority", "summary", "assertions",
       "source_unit_ids", "related_topics", "suggested_operation"}),
-    ("route-enrich", route.ENRICH_SCHEMA, (), {"context", "entities"}),
+    ("route-enrich", route.ENRICH_SCHEMA, ("contexts",),
+     {"unit_id", "context", "entities"}),
     ("route-label", route.LABEL_SCHEMA, (),
      {"topic_label", "routing_reason", "related_existing_topics"}),
     ("audit", audit.AUDIT_SCHEMA, (),
@@ -948,7 +1051,8 @@ def test_the_fake_client_rejects_a_response_its_schema_forbids():
     with pytest.raises(SchemaViolation, match="missing required property"):
         check_schema({"units": [{"nonsense_key": "fact"}]}, extract.UNIT_SCHEMA)
     with pytest.raises(SchemaViolation, match="is not one of"):
-        check_schema({"context": "c", "entities": []}, route.ENRICH_SCHEMA)  # ok
+        check_schema({"contexts": [{"unit_id": "u-1", "context": "c",
+                                    "entities": []}]}, route.ENRICH_SCHEMA)  # ok
         check_schema(
             {"verdict": "approve", "checks": {}, "findings": [], "auditor_confidence": 1},
             audit.AUDIT_SCHEMA,

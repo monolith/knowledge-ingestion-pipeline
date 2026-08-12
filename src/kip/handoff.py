@@ -113,6 +113,10 @@ class HandoffClient:
     #: agent answering the call is not billed through this process -- so it
     #: stays zeroed rather than being faked.
     usage: Usage = field(default_factory=Usage)
+    #: Supplied by the CLI so the size guard applies to this runtime too.
+    #: Optional because a caller constructing a bare client for replay has
+    #: nothing to check against and no reason to be forced to build a Config.
+    cfg: Any = None
 
     def __post_init__(self) -> None:
         self.root = Path(self.root)
@@ -141,8 +145,10 @@ class HandoffClient:
         # `add_thinking` is honoured so the request the agent sees is the same
         # shape the API runtime would send, and an answer produced under one
         # runtime is valid under the other.
-        from .llm import with_thinking_field
+        from .llm import check_request_size, with_thinking_field
 
+        if self.cfg is not None:
+            check_request_size(system=system, user=user, model=model, cfg=self.cfg)
         effective = with_thinking_field(schema) if add_thinking else schema
         cid = call_id(system=system, user=user, schema=effective, model=model)
 

@@ -24,6 +24,41 @@ class LLMError(RuntimeError):
     pass
 
 
+class RequestTooLarge(LLMError):
+    """A single request would occupy more of the window than the cap allows."""
+
+
+# Characters per token. An approximation on purpose: the exact count is an API
+# call, and this guard has to work in `--mode handoff`, which runs with no
+# credential and no network. Four is the conventional English-prose figure and
+# is close enough for a check whose threshold is 800,000 tokens -- being wrong
+# by a third still leaves the answer unambiguous either way.
+CHARS_PER_TOKEN = 4
+
+
+def approx_tokens(*parts: str) -> int:
+    return sum(len(p) for p in parts) // CHARS_PER_TOKEN
+
+
+def check_request_size(*, system: str, user: str, model: str, cfg: Any) -> int:
+    """Refuse a request too large to answer well, before paying for it.
+
+    Returns the approximate token count so a caller can log it. The cap is a
+    FIT check: it answers "will this fit", never "will this be good". See
+    `BatchPolicy.context_cap`.
+    """
+    tokens = approx_tokens(system, user)
+    limit = int(cfg.batch.default_context_window * cfg.batch.context_cap)
+    if tokens > limit:
+        raise RequestTooLarge(
+            f"request is ~{tokens:,} tokens against a cap of {limit:,} "
+            f"({cfg.batch.context_cap:.0%} of a "
+            f"{cfg.batch.default_context_window:,}-token window), model={model}. "
+            "The document needs splitting before this pass can run."
+        )
+    return tokens
+
+
 def _is_auth_error(exc: Exception) -> bool:
     """True for a 401, by SDK class where available and by status code always.
 
@@ -199,6 +234,7 @@ class LLMClient:
         add_thinking: bool = True,
     ) -> dict[str, Any]:
         """One schema-constrained call returning a validated dict."""
+        check_request_size(system=system, user=user, model=model, cfg=self.cfg)
         if add_thinking:
             schema = with_thinking_field(schema)
 

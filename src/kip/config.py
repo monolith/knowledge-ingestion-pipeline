@@ -54,7 +54,19 @@ class BatchPolicy:
     target_size: int = 35          # inside the spec's 20-50 band (§17)
     hard_split_above: int = 75     # spec §10.4 / §17
     rotate_ordering: bool = True   # R5 T2
-    context_reservation: float = 0.4  # reserve 30-50% of window (§17)
+
+    # Fraction of the model's window a single request may occupy. This replaces
+    # `context_reservation`, which sat here unread by any code -- so nothing
+    # measured how large a request was, and a document too big to answer well
+    # would have been sent anyway and diagnosed only from a bad answer.
+    #
+    # It is a FIT check, not the accuracy margin spec §17 argues for. §17's
+    # 30-50% reservation comes from degradation measured at 32K on retrieval
+    # tasks; whether that curve holds the same shape on a 1M-token model is
+    # untested, so this cap is deliberately looser than §17 and answers only
+    # "will this fit", never "will this be good".
+    context_cap: float = 0.8
+    default_context_window: int = 1_000_000
 
 
 @dataclass(frozen=True)
