@@ -223,11 +223,14 @@ carrying a content hash and pointers to its parents.
 ### Not built yet: documents too long to hold at once
 
 Everything above assumes the document fits in one call. Measured on the same
-extractor and the same prompt:
+extractor and the same prompt, against a 223-word excerpt of Sharpe and the
+12,311-word [statement-classifier
+specification](demo/real-runs/03-spec-long/source.md) — a dense nine-section
+technical document, not prose:
 
 ```
 Sharpe excerpt      223 words →  7 units   (1 per    32 words)
-SPECIFICATION.md 12,311 words → 12 units   (1 per 1,025 words)
+classifier spec  12,311 words → 12 units   (1 per 1,025 words)
 ```
 
 Everything except coverage held at 12,000 words: all fourteen citations verified

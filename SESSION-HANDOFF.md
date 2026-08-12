@@ -181,7 +181,7 @@ Measured, same extractor and prompt:
 
 ```
 Sharpe excerpt      223 words →  9 units   (1 per    25 words)
-SPECIFICATION.md 12,311 words → 12 units   (1 per 1,025 words)
+classifier spec  12,311 words → 12 units   (1 per 1,025 words)
 ```
 
 **A 41× collapse in density.** One pass over 12,000 words with "return as many

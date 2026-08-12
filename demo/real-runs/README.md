@@ -13,7 +13,13 @@ the pipeline wrote; `render.py` turns them into the markdown.
 |---|---|---|---|---|
 | `01-sharpe-v31` | Sharpe excerpt, 223 words | 9 | 1 per 25 words | the original **minimality** prompt |
 | `02-sharpe-v41` | same 223 words | 7 | 1 per 31 words | **sufficiency + cited imports** |
-| `03-spec-long` | a 12,311-word specification | 12 | **1 per 1,025 words** | **the windowing failure** |
+| `03-spec-long` | the statement-classifier spec, 12,311 words | 12 | **1 per 1,025 words** | **the windowing failure** |
+
+The run-03 source is the taxonomy specification from the sibling
+`statement-classifier` repo, copied in as
+[`03-spec-long/source.md`](03-spec-long/source.md) — a dense nine-section
+technical document. It is **not** this repo's `docs/SPECIFICATION.md`, which is a
+different and shorter document.
 
 ## 01 → 02: what changed, and why
 
@@ -64,7 +70,7 @@ Same extractor, same prompt, same rules, on a 12,311-word document:
 
 ```
 Sharpe excerpt      223 words →  9 units   (1 per 25 words)
-SPECIFICATION.md 12,311 words → 12 units   (1 per 1,025 words)
+classifier spec  12,311 words → 12 units   (1 per 1,025 words)
 ```
 
 **A 41× collapse in density.** `extract` sends the whole document in one call —
