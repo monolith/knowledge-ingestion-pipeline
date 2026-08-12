@@ -15,7 +15,8 @@ from pathlib import Path
 from .artifacts import PipelineError, RunContext, file_hash, read_jsonl
 from .auth import format_status, resolve_auth
 from .config import default_config
-from .handoff import EXIT_PENDING, HandoffClient, HandoffPending, format_request
+from .handoff import (EXIT_PENDING, HandoffClient, HandoffInvalid, HandoffPending,
+                      format_request)
 from .pipeline import discover_sources, run_pipeline
 from .trace import trace_leaf
 from .validate import validate_run
@@ -80,6 +81,11 @@ def cmd_run(args: argparse.Namespace) -> int:
             ctx, cfg, ctx.sources_dir, stop_after=args.stop_after,
             force=args.force, client=client,
         )
+    except HandoffInvalid as bad:
+        print(f"error: {bad}", file=sys.stderr)
+        print(f"       fix the line for {bad.call_id} in the answers file and re-run.",
+              file=sys.stderr)
+        return 2
     except HandoffPending as pending:
         req = pending.request
         print(f"\n--- awaiting answer ({len(client.answers)} answered so far) ---")

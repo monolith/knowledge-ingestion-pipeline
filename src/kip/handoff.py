@@ -41,6 +41,7 @@ from pathlib import Path
 from typing import Any
 
 from .llm import Usage
+from .testing import SchemaViolation, check_schema
 
 PROTOCOL_VERSION = "handoff-1"
 
@@ -50,8 +51,29 @@ PROTOCOL_VERSION = "handoff-1"
 EXIT_PENDING = 10
 
 
-class HandoffPending(Exception):
-    """Raised when a call has no answer yet. Carries the request that needs one."""
+class HandoffInvalid(BaseException):
+    """An answer was supplied but does not match the schema it answers."""
+
+    def __init__(self, call_id_: str, reason: str) -> None:
+        super().__init__(f"answer for {call_id_} does not match its schema: {reason}")
+        self.call_id = call_id_
+        self.reason = reason
+
+
+class HandoffPending(BaseException):
+    """Raised when a call has no answer yet. Carries the request that needs one.
+
+    Inherits BaseException, not Exception, and that is load-bearing. Several
+    passes wrap their model call in `except Exception: report and continue` so
+    that one bad item cannot abort a stage that has already produced good ones.
+    That is right for a failure and wrong for this: a pending call is not a
+    failure, it is "stop here and come back". Caught by those handlers, pass 3
+    reported an assessment failure, wrote an empty artifact, checkpointed the
+    stage as complete, and the answer supplied afterwards was never read.
+
+    Sitting outside Exception means the signal reaches the CLI intact and no
+    pass has to know the handoff runtime exists.
+    """
 
     def __init__(self, request: dict[str, Any]) -> None:
         super().__init__(f"awaiting answer for call {request['call_id']}")
@@ -125,7 +147,18 @@ class HandoffClient:
         cid = call_id(system=system, user=user, schema=effective, model=model)
 
         if cid in self.answers:
-            return self.answers[cid]
+            answer = self.answers[cid]
+            # Validate here, and here specifically. The SDK runtime gets schema
+            # enforcement from the API and the scripted client checks explicitly;
+            # a hand-written answer has neither, so an answer of the wrong SHAPE
+            # would sail through and fail two passes later, far from its cause.
+            # That is exactly what happened first time out: assertions supplied
+            # as bare strings passed unchecked and crashed the audit.
+            try:
+                check_schema(answer, effective, f"response[{cid}]")
+            except SchemaViolation as exc:
+                raise HandoffInvalid(cid, str(exc)) from None
+            return answer
 
         request = {
             "protocol": PROTOCOL_VERSION,
