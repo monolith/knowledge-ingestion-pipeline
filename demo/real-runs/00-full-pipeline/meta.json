@@ -1,5 +1,0 @@
-{
-  "source": "demo/sources/ \u2014 a randomized trial and a practitioner review that disagree about the same effect, both written for this repo.",
-  "source_words": 206,
-  "source_note": "**This is the structural reference, not a model demonstration.** It is the only run here taken through all seven passes, so it is the one whose tree matches [What a run writes](../../../README.md#what-a-run-writes) in full. Its model calls were answered by the canned transcript in `demo/run_demo.py`, driven through the real CLI \u2014 so the *structure* is exactly what `kip run` produces, while the *content* is fixture data. For real model output read runs 01-04."
-}
