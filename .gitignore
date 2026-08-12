@@ -3,6 +3,10 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 .kip/
+# Run output from local workspaces. The demo runs are checked in deliberately:
+# they are the repo's worked examples, so the directory itself must be
+# re-included before its contents can be tracked.
 runs/
+!demo/real-runs/*/runs/
 .venv/
 demo/__pycache__/
