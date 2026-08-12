@@ -1,11 +1,43 @@
 # Real runs
 
-Three complete runs on real documents, produced by the CLI in `--mode handoff`
+Four complete runs on real documents, produced by the CLI in `--mode handoff`
 with **no API key** — the agent running the CLI answered every model call. These
 are the pipeline's actual output, not fixtures.
 
-Read `UNITS.md` in each folder. The `.jsonl` files beside it are the artifacts
-the pipeline wrote; `render.py` turns them into the markdown.
+**Start with `UNITS.md` in any run folder.** Everything else is the machine-
+readable material behind it.
+
+## What the files in a run folder are
+
+Read them in this order. The first three are all most readers need.
+
+| file | what it is |
+|---|---|
+| **`UNITS.md`** | The readable render — every unit, its quotes, and what each one is doing in the argument, then the omission findings. Generated from the `.jsonl` files by `render.py`; nothing is in it that is not in them. |
+| **`source.md`** | The document the run digested, exactly as Pass 0 produced it. Every quote is a literal substring of this file, so you can check any of them by searching it. `[[PAGE n]]` markers are inserted by the normalizer. |
+| **`units.jsonl`** | **The pipeline's real output.** One JSON record per knowledge unit: the standalone statement, its evidence (each with the verbatim quote, its character and line offsets into `source.md`, and whether the quote was found there), the five scores, the keep/drop decision, and the grounding flag. |
+| `omissions.jsonl` | What the omission check found missing or mis-shaped after reading the document *against* the units just extracted from it. One record per finding. This is the pass that audits the extraction, so it is where a run admits its own gaps. |
+| `handoff-requests.jsonl` | The exact requests sent to the model: system prompt, user message (which contains the whole document), JSON schema, model name, and a `call_id` that is a hash of all four. |
+| `handoff-answers.jsonl` | The answers given back, keyed by the same `call_id`. Together with the requests this makes a run replayable with no model and no API key — see [The handoff protocol](#the-handoff-protocol). |
+| `manifest.json` | Pass 0 provenance: sha256 of both the original file and the normalized text, the normalizer version, line count. What lets someone confirm they are looking at the same bytes this run read. |
+| `locator_map.jsonl` | Maps character spans in `source.md` back to locations in the original file — page, slide, sheet. How a quote resolves to "page 801 of the journal". |
+| `meta.json` | Citation and source word count for the run folder. Read by `render.py`. Not a pipeline artifact. |
+| `VERIFY.md` | How to check the run yourself, where a run has one. Not a pipeline artifact. |
+
+**Not every run has every file**, and the differences are meaningful rather than
+accidental:
+
+- **Only `01-sharpe-v31` was taken through all seven passes**, so only it carries
+  `clusters.jsonl` (Pass 2 groupings), `claim_assessments.jsonl` (Pass 3
+  relationship judgments), `candidates.initial.jsonl` (Pass 4 proposals) and
+  `audits.jsonl` (Pass 5 verdicts). Runs 02–04 stop after extraction, which is
+  the pass under study.
+- **`02-sharpe-v41/omissions.jsonl` is empty on purpose** — the omission check
+  ran and found nothing missing.
+- **Only `04-debondt-thaler` carries `manifest.json`, `locator_map.jsonl`,
+  `meta.json` and `VERIFY.md`.** It is the only run whose source is a scanned
+  PDF rather than text written for the purpose, so page mapping and provenance
+  actually have something to say.
 
 ## What each run shows
 

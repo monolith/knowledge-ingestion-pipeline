@@ -218,7 +218,10 @@ files ─▶ 0 normalize ─▶ 1 extract ─▶ 2 route ─▶ 3 assess ─▶ 
   sole authority for durable writes.
 
 Artifacts land under `runs/<run-id>/`, one JSONL file per pass, each record
-carrying a content hash and pointers to its parents.
+carrying a content hash and pointers to its parents. What each of those files is
+and why you would open it is documented in
+[`demo/real-runs/`](demo/real-runs/README.md#what-the-files-in-a-run-folder-are),
+against four real runs you can read.
 
 ### Not built yet: documents too long to hold at once
 
