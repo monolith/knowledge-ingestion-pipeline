@@ -130,3 +130,70 @@ def test_call_id_ignores_key_order_in_the_schema(tmp_path):
     b = call_id(system="s", user="u", model="m",
                 schema={"properties": {"y": {}, "x": {}}, "type": "object"})
     assert a == b
+
+
+# --- The two runtimes must enforce the same budget ----------------------------
+
+
+def _oversized_answer(n: int) -> dict:
+    return {"answer": "x" * n}
+
+
+def test_a_configured_ceiling_is_enforced_on_a_hand_written_answer(tmp_path):
+    """Shape was checked and size was not, so the runtimes disagreed.
+
+    The API stops generating at the declared ceiling. Nothing stops an agent
+    writing past it, so a run could answer six times over its own budget, pass
+    validation, and truncate the first time it was replayed against the API --
+    which is what three of the four published demo runs did.
+    """
+    from dataclasses import replace
+
+    from kip.config import default_config
+    from kip.llm import OutputBudgetExceeded
+
+    cfg = replace(default_config(), max_output_tokens=64)
+    client = HandoffClient(root=tmp_path, cfg=cfg)
+    with pytest.raises(HandoffPending) as pending:
+        _ask(client)
+    cid = pending.value.request["call_id"]
+    assert pending.value.request["max_tokens"] == 64, "the request declares the ceiling"
+
+    write_answer(tmp_path, cid, _oversized_answer(4000))
+    with pytest.raises(OutputBudgetExceeded) as exc:
+        _ask(HandoffClient(root=tmp_path, cfg=cfg))
+    assert "would have truncated it" in str(exc.value)
+
+
+def test_an_answer_inside_the_ceiling_is_accepted(tmp_path):
+    from dataclasses import replace
+
+    from kip.config import default_config
+
+    cfg = replace(default_config(), max_output_tokens=64)
+    client = HandoffClient(root=tmp_path, cfg=cfg)
+    with pytest.raises(HandoffPending) as pending:
+        _ask(client)
+    write_answer(tmp_path, pending.value.request["call_id"], _oversized_answer(8))
+    assert _ask(HandoffClient(root=tmp_path, cfg=cfg))["answer"] == "x" * 8
+
+
+def test_no_configured_ceiling_means_neither_runtime_imposes_one(tmp_path):
+    """The default. kip invents no limit, so there is nothing to disagree about.
+
+    This is the property that matters more than any particular number: a
+    ceiling kip made up is worse than none, because it applied in one runtime
+    and not the other.
+    """
+    from kip.config import default_config
+
+    cfg = default_config()
+    assert cfg.max_output_tokens is None, "kip ships without a limit of its own"
+
+    client = HandoffClient(root=tmp_path, cfg=cfg)
+    with pytest.raises(HandoffPending) as pending:
+        _ask(client)
+    assert pending.value.request["max_tokens"] is None
+    write_answer(tmp_path, pending.value.request["call_id"],
+                 _oversized_answer(200_000))
+    assert len(_ask(HandoffClient(root=tmp_path, cfg=cfg))["answer"]) == 200_000

@@ -18,6 +18,7 @@ import json
 from typing import Any
 
 import pytest
+from dataclasses import replace
 
 from kip import llm as llm_module
 from kip.config import default_config
@@ -75,7 +76,11 @@ def client_factory(monkeypatch):
     def build(outcomes: list[Any], **overrides: Any) -> tuple[LLMClient, _Stub]:
         stub = _Stub(outcomes)
         monkeypatch.setattr(LLMClient, "__post_init__", lambda self: None)
-        client = LLMClient(cfg=default_config(), _client=stub, **overrides)
+        # A ceiling is configured because the stub has no `models` endpoint to
+        # ask, and kip refuses to invent one. That refusal is the behaviour
+        # under test in `test_an_unresolvable_output_ceiling_fails_immediately`.
+        cfg = replace(default_config(), max_output_tokens=8192)
+        client = LLMClient(cfg=cfg, _client=stub, **overrides)
         return client, stub
 
     return build

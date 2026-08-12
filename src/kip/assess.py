@@ -188,7 +188,6 @@ def assess_clusters(
                     user=payload,
                     schema=ASSESS_SCHEMA,
                     model=cfg.model_for("judge"),
-                    max_tokens=16384,
                 )
             except Exception as exc:
                 print(f"[pass3] assessment failed for {cluster['cluster_id']}: {exc}")

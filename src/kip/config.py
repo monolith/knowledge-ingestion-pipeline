@@ -131,6 +131,26 @@ class Config:
     # prompt caching (PE T4). Pass 1 across many sources is the natural batch.
     use_batch_api: bool = False
 
+    # Optional ceiling on a single call's output, in tokens. None -- the default
+    # -- means kip imposes none and the model's own maximum applies.
+    #
+    # It exists as configuration rather than as a constant because the constant
+    # was wrong and silently so. Extraction ran under a hardcoded 8,192 while
+    # the passes that emit far less ran under 16,384, and three of the four
+    # published demo runs answered past it: the 12,311-word specification's
+    # extraction cost roughly 48,000 tokens. Nothing failed, because the handoff
+    # runtime does not enforce a declared budget and the SDK runtime does -- so
+    # those runs reproduce under one runtime and truncate under the other.
+    #
+    # Set it and both runtimes enforce it identically. Leave it unset and
+    # neither imposes anything, which is also identical. What must not happen
+    # again is a number kip invented applying in one runtime and not the other.
+    max_output_tokens: int | None = (
+        int(os.environ["KIP_MAX_OUTPUT_TOKENS"])
+        if os.environ.get("KIP_MAX_OUTPUT_TOKENS")
+        else None
+    )
+
     def model_for(self, role: str) -> str:
         return {
             "extractor": MODEL_EXTRACTOR,

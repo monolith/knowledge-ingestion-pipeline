@@ -326,7 +326,6 @@ def audit_candidates(
                 user=_render(candidate, units_by_id, assessments_by_id, mechanical),
                 schema=AUDIT_SCHEMA,
                 model=auditor_model,
-                max_tokens=16384,
             )
         except Exception as exc:
             print(f"[pass5] audit failed for {candidate['candidate_id']}: {exc}")
@@ -522,7 +521,7 @@ def audit_corpus_coverage(
     try:
         result = client.complete_json(
             system=CORPUS_SYSTEM, user=user, schema=CORPUS_SCHEMA,
-            model=cfg.model_for("auditor"), max_tokens=16384,
+            model=cfg.model_for("auditor"),
         )
     except Exception as exc:  # a judgement that fails is recorded, never fatal
         print(f"[pass5] corpus coverage audit failed: {exc}")

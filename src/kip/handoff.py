@@ -138,17 +138,24 @@ class HandoffClient:
         user: str,
         schema: dict[str, Any],
         model: str,
-        max_tokens: int = 8192,
+        max_tokens: int | None = None,
         cache_system: bool = True,
         add_thinking: bool = True,
     ) -> dict[str, Any]:
         # `add_thinking` is honoured so the request the agent sees is the same
         # shape the API runtime would send, and an answer produced under one
         # runtime is valid under the other.
-        from .llm import check_request_size, with_thinking_field
+        from .llm import (
+            approx_tokens,
+            check_answer_size,
+            check_request_size,
+            resolve_max_output,
+            with_thinking_field,
+        )
 
         if self.cfg is not None:
             check_request_size(system=system, user=user, model=model, cfg=self.cfg)
+        max_tokens = resolve_max_output(self.cfg, max_tokens)
         effective = with_thinking_field(schema) if add_thinking else schema
         cid = call_id(system=system, user=user, schema=effective, model=model)
 
@@ -164,6 +171,16 @@ class HandoffClient:
                 check_schema(answer, effective, f"response[{cid}]")
             except SchemaViolation as exc:
                 raise HandoffInvalid(cid, str(exc)) from None
+            # Size, not only shape. The API runtime stops generating at the
+            # declared ceiling; nothing stops an agent writing an answer by
+            # hand. Unchecked, a run answers past its own budget, validates
+            # clean, and truncates the first time it is replayed against the
+            # API -- which is what three of the four published demo runs did.
+            check_answer_size(
+                answer_tokens=approx_tokens(json.dumps(answer, ensure_ascii=False)),
+                max_tokens=max_tokens,
+                call_id_=cid,
+            )
             return answer
 
         request = {

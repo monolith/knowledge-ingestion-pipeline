@@ -59,6 +59,49 @@ def check_request_size(*, system: str, user: str, model: str, cfg: Any) -> int:
     return tokens
 
 
+#: What kip sends when no ceiling is configured. It is not a limit -- it is the
+#: absence of one, expressed in the field the Messages API requires. The API
+#: rejects a value above the model's own maximum, and that rejection names the
+#: real ceiling, so an oversized value fails loudly at the seam instead of
+#: truncating an answer halfway through.
+NO_CONFIGURED_CEILING = None
+
+
+def resolve_max_output(cfg: Any, override: int | None = None) -> int | None:
+    """The output ceiling in force for one call, or None if kip imposes none.
+
+    Deliberately not a constant. Extraction used to run under a hardcoded 8,192
+    while the passes emitting less ran under 16,384, and nothing enforced either
+    in the handoff runtime -- so a run could answer six times past its declared
+    budget, pass validation, and truncate the moment it was replayed against the
+    API. A ceiling kip invented is worse than no ceiling at all, because it
+    applies in one runtime and not the other.
+    """
+    if override is not None:
+        return override
+    return getattr(cfg, "max_output_tokens", None)
+
+
+class OutputBudgetExceeded(LLMError):
+    """An answer is larger than the ceiling its request declared."""
+
+
+def check_answer_size(*, answer_tokens: int, max_tokens: int | None, call_id_: str) -> None:
+    """Refuse an answer that would not have survived the SDK runtime.
+
+    Only fires when a ceiling is configured. With none set, neither runtime
+    imposes one and there is nothing to disagree about.
+    """
+    if max_tokens is None or answer_tokens <= max_tokens:
+        return
+    raise OutputBudgetExceeded(
+        f"answer for {call_id_} is ~{answer_tokens:,} tokens against the "
+        f"{max_tokens:,} declared on its request. The API runtime would have "
+        "truncated it. Raise max_output_tokens (or KIP_MAX_OUTPUT_TOKENS), or "
+        "split the work so the answer fits."
+    )
+
+
 def _is_auth_error(exc: Exception) -> bool:
     """True for a 401, by SDK class where available and by status code always.
 
@@ -182,6 +225,7 @@ class LLMClient:
     _use_native_schema: bool = True
     _auth: Any = None
     _reauth_attempted: bool = False
+    _model_limits: dict[str, int] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         if anthropic is None:
@@ -229,12 +273,18 @@ class LLMClient:
         user: str,
         schema: dict[str, Any],
         model: str,
-        max_tokens: int = 8192,
+        max_tokens: int | None = None,
         cache_system: bool = True,
         add_thinking: bool = True,
     ) -> dict[str, Any]:
         """One schema-constrained call returning a validated dict."""
         check_request_size(system=system, user=user, model=model, cfg=self.cfg)
+        # Resolved once, outside the retry loop: an unresolvable ceiling is a
+        # configuration fault, and retrying it four times only delays the same
+        # message behind three more failures.
+        max_tokens = resolve_max_output(self.cfg, max_tokens)
+        if max_tokens is None:
+            max_tokens = self._model_max_output(model)
         if add_thinking:
             schema = with_thinking_field(schema)
 
@@ -277,6 +327,42 @@ class LLMClient:
                     continue
                 raise
         raise LLMError(f"schema-constrained call failed after {self.max_retries} attempts: {last_error}")
+
+    def _model_max_output(self, model: str) -> int:
+        """The model's own output ceiling, asked of the API and cached.
+
+        Reached only when no ceiling is configured. The Messages API requires a
+        max_tokens on every request, so something must be sent -- and the one
+        number that is not an invention of kip's is the model's own maximum.
+        If the API will not say, this raises rather than guessing, because
+        guessing is what produced a hardcoded 8,192 silently truncating the
+        pass that emits the most.
+        """
+        cached = self._model_limits.get(model)
+        if cached is not None:
+            return cached
+        limit = None
+        try:
+            info = self._client.models.retrieve(model)
+            for attr in ("max_output_tokens", "max_tokens"):
+                value = getattr(info, attr, None)
+                if isinstance(value, int) and value > 0:
+                    limit = value
+                    break
+        except Exception as exc:  # network, SDK shape, unknown model
+            raise LLMError(
+                f"could not determine the output ceiling for {model!r} ({exc}). "
+                "Set max_output_tokens on the Config, or KIP_MAX_OUTPUT_TOKENS "
+                "in the environment."
+            ) from None
+        if limit is None:
+            raise LLMError(
+                f"the API did not report an output ceiling for {model!r}. Set "
+                "max_output_tokens on the Config, or KIP_MAX_OUTPUT_TOKENS in "
+                "the environment."
+            )
+        self._model_limits[model] = limit
+        return limit
 
     def _call(
         self,

@@ -159,7 +159,6 @@ def plan_candidates(
                 user=_render(group, units_by_id, members_by_cluster.get(cluster_id)),
                 schema=PLAN_SCHEMA,
                 model=cfg.model_for("planner"),
-                max_tokens=16384,
             )
         except Exception as exc:
             print(f"[pass4] planning failed for {cluster_id}: {exc}")
