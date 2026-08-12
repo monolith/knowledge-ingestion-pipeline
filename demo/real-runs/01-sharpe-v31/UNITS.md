@@ -1,5 +1,7 @@
 # 01-sharpe-v31
 
+Rendered from `runs/sharpe/` — the run tree kip wrote. Everything below is in those artifacts; nothing is added here.
+
 - source: 223 words
 - units: 9  (one per 24 words)
 - omissions flagged: 2

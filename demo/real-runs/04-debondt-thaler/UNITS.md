@@ -1,5 +1,7 @@
 # 04-debondt-thaler
 
+Rendered from `runs/dt1/` — the run tree kip wrote. Everything below is in those artifacts; nothing is added here.
+
 **Source.** De Bondt, W. F. M. & Thaler, R. (1985). "Does the Stock Market Overreact?" The Journal of Finance 40(3), 793-805.
 
 The source is included as `source.md` (Pass 0's normalized text, 6,284 words). It was obtained from a publicly accessible JSTOR scan. See VERIFY.md to check the run against it, or to reproduce Pass 0 from the original PDF.

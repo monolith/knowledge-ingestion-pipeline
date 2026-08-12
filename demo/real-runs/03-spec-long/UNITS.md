@@ -1,5 +1,7 @@
 # 03-spec-long
 
+Rendered from `runs/spec/` — the run tree kip wrote. Everything below is in those artifacts; nothing is added here.
+
 - source: 12,311 words
 - units: 12  (one per 1,025 words)
 - omissions flagged: 5

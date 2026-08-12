@@ -4,6 +4,10 @@ The artifacts are JSONL because that is what the pipeline writes and what
 downstream consumes. This is for reading them.
 
     python demo/real-runs/render.py demo/real-runs/02-sharpe-v41
+
+The argument is a kip *workspace* -- a directory containing `runs/<run-id>/` --
+because that is the shape kip actually writes. The renderer reads the artifacts
+from their canonical paths inside it and writes UNITS.md beside the workspace.
 """
 
 from __future__ import annotations
@@ -13,26 +17,33 @@ import sys
 from pathlib import Path
 
 
-def render(run_dir: Path) -> str:
-    units = [json.loads(l) for l in (run_dir / "units.jsonl").read_text().splitlines() if l.strip()]
-    om_path = run_dir / "omissions.jsonl"
+def _only_run(workspace: Path) -> Path:
+    """The single run directory inside a demo workspace."""
+    runs = sorted(p for p in (workspace / "runs").iterdir() if p.is_dir())
+    if len(runs) != 1:
+        raise SystemExit(f"{workspace}: expected exactly one run, found {len(runs)}")
+    return runs[0]
+
+
+def render(workspace: Path) -> str:
+    run_dir = _only_run(workspace)
+    units = [json.loads(l)
+             for l in (run_dir / "02_units/units.jsonl").read_text().splitlines() if l.strip()]
+    om_path = run_dir / "02_units/omissions.jsonl"
     omissions = ([json.loads(l) for l in om_path.read_text().splitlines() if l.strip()]
                  if om_path.exists() else [])
 
-    # Most runs ship their source beside the artifacts. A run over a copyrighted
-    # document cannot, so it records the word count in meta.json instead -- the
-    # density figure is the point of these runs and must not depend on whether
-    # the source could be redistributed.
-    source = run_dir / "source.md"
-    meta_path = run_dir / "meta.json"
-    if source.exists():
-        words = len(source.read_text().split())
-    elif meta_path.exists():
-        words = int(json.loads(meta_path.read_text())["source_words"])
-    else:
-        raise SystemExit(f"{run_dir}: needs source.md or meta.json with source_words")
+    # The normalized text is what every excerpt was cut from and what the density
+    # figure is measured against -- not the original file, which may be a PDF.
+    normalized = sorted((run_dir / "01_normalized").glob("*/normalized.txt"))
+    if len(normalized) != 1:
+        raise SystemExit(f"{run_dir}: expected one normalized.txt, found {len(normalized)}")
+    words = len(normalized[0].read_text().split())
+    meta_path = workspace / "meta.json"
 
-    header = [f"# {run_dir.name}", ""]
+    header = [f"# {workspace.name}", "",
+              f"Rendered from `runs/{run_dir.name}/` — the run tree kip wrote. "
+              f"Everything below is in those artifacts; nothing is added here.", ""]
     if meta_path.exists():
         meta_doc = json.loads(meta_path.read_text())
         if meta_doc.get("source"):

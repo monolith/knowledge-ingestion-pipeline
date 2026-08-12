@@ -228,7 +228,7 @@ Everything above assumes the document fits in one call. Measured on the same
 extractor and the same prompt:
 
 ```
-Sharpe excerpt      223 words →  7 units   (1 per    32 words)
+Sharpe excerpt      223 words →  7 units   (1 per    31 words)
 De Bondt & Thaler 6,284 words → 35 units   (1 per   179 words)
 classifier spec  12,311 words → 12 units   (1 per 1,025 words)
 ```
@@ -237,7 +237,7 @@ Length alone is not the variable. [De Bondt &
 Thaler (1985)](demo/real-runs/04-debondt-thaler/UNITS.md) is five times longer
 than the Sharpe excerpt and held up: 35 units, `kip validate` clean, all 82
 excerpts verified. The [classifier
-specification](demo/real-runs/03-spec-long/source.md) is a dense reference
+specification](demo/real-runs/03-spec-long/runs/spec/00_original_sources/SPECIFICATION.md) is a dense reference
 document — fifteen label definitions, twenty-two pairwise rules, an evidence
 register — and it is the one that collapsed. Some of the 32× gap is document
 shape rather than extractor failure.
@@ -340,6 +340,12 @@ Two files are transient: `units.partial.jsonl` and `omissions.partial.jsonl` are
 written after each document so a failure on document nine of ten does not
 discard the first eight, and are removed when the pass completes. Seeing them in
 a finished run means the run did not finish.
+
+> **The folders in [`demo/real-runs/`](demo/real-runs/README.md) do not look like
+> this.** They are flat, hand-picked copies of run trees, with some files renamed
+> — `02_units/units.jsonl` appears there as `units.jsonl`, and
+> `01_normalized/<source-id>/normalized.txt` as `source.md`. That folder's README
+> carries the full mapping. The tree above is what `kip` actually writes.
 
 `kip show <run-id> <artifact>` prints eight of them by short name — `units`,
 `omissions`, `clusters`, `assessments`, `candidates`, `audits`, `approved`,
