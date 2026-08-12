@@ -353,6 +353,40 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
                 if unit_id not in unit_ids:
                     errors.append(f"{candidate_id}: unknown unit {unit_id}")
 
+    # The Pass 4 counterpart of the Pass 2 orphan rate (spec §21). Every check
+    # above validates a record against its PARENT -- a candidate's units exist, a
+    # unit's excerpt is in the source. None validates a parent against its
+    # children, so a planning pass could drop most of what was extracted and
+    # every per-item check would still pass. Spec §7.7 already forbids the same
+    # thing one pass earlier: a source is "quarantined with a reason, never
+    # silently skipped, because a skip corrupts every coverage metric
+    # downstream". A kept unit that reaches no approved candidate is that skip.
+    if approved:
+        # .get: a unit missing its id is already reported by _ids above, and
+        # this check must not raise on the same record.
+        kept = {u.get("unit_id") for u in units if u.get("decision") == "keep"}
+        kept.discard(None)
+        carried: set[str] = set()
+        for candidate in approved:
+            carried.update(candidate.get("source_unit_ids", []))
+        orphaned = sorted(kept - carried)
+        counts["units_kept"] = len(kept)
+        counts["units_orphaned"] = len(orphaned)
+        if orphaned:
+            shown = ", ".join(orphaned[:5])
+            more = f" (+{len(orphaned) - 5} more)" if len(orphaned) > 5 else ""
+            # Reported, never raised. Spec §21 lists orphan rate as a quality
+            # metric rather than an acceptance criterion, and some loss is
+            # legitimate -- a duplicate unit need not appear twice. What must not
+            # happen is losing it silently, so the count is always in `counts`
+            # and a non-zero rate always says which units went missing. Whether
+            # the loss is acceptable is judged in Pass 5, which can read the
+            # units; this check only makes it impossible to miss.
+            warnings.append(
+                f"{len(orphaned)} of {len(kept)} kept units reach no approved candidate "
+                f"and are lost between extraction and the queue: {shown}{more}"
+            )
+
     for audit_record in audits:
         audit_id = audit_record.get("audit_id", "<no id>")
         if audit_record.get("candidate_id") not in candidate_ids:

@@ -12,7 +12,14 @@ from __future__ import annotations
 
 from typing import Any
 
-from .artifacts import RunContext, envelope, seal, text_hash, write_jsonl_atomic
+from .artifacts import (
+    RunContext,
+    envelope,
+    seal,
+    text_hash,
+    write_json_atomic,
+    write_jsonl_atomic,
+)
 from .candidates import slugify
 from .config import Config
 from .llm import LLMClient
@@ -376,7 +383,159 @@ def audit_candidates(
 
     write_jsonl_atomic(ctx.audits, audits)
     write_jsonl_atomic(ctx.approved, approved)
+
+    # Every audit above judges one candidate against its own sources. None of
+    # them can see what the corpus lost, because a unit that reached no
+    # candidate appears in no candidate's audit. This last call is the only
+    # place in the pipeline that reads the extraction and the output together.
+    coverage = audit_corpus_coverage(ctx, cfg, client, units, approved)
+    write_json_atomic(ctx.corpus_coverage, coverage)
     return audits, approved
+
+
+CORPUS_PROMPT_VERSION = "pass-05b-corpus-coverage-v1.0"
+
+CORPUS_SYSTEM = """You judge whether a knowledge base fairly represents the corpus it came from.
+
+You are given every knowledge unit extracted from the sources, and every
+assertion that reached the approved output. Answer one question: would a reader
+who has only the output know what the corpus contains?
+
+Two failures matter, and they are different:
+
+  - LOST CONTENT. A unit that reached no assertion. Definitions, rules and
+    procedures are the ones that go missing, because they assert nothing to
+    argue with and a synthesis step describes them instead of carrying them
+    across. A reader must be able to APPLY a definition from the output alone.
+    "The codebook defines fifteen labels" is not the definitions.
+  - MISREPRESENTATION. The output is complete but skewed -- a minor point
+    promoted to a headline, a central one buried, or a caveat dropped so a
+    finding reads as firmer than the corpus supports.
+
+Deduplication is NOT loss. If two units say the same thing and one assertion
+carries it, that is correct. Say so rather than counting it as missing.
+
+Judge the corpus as a whole. Name what is missing specifically enough to act on:
+which unit, and what a consumer can no longer do because of it."""
+
+CORPUS_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "reasoning": {"type": "string", "description": "Think it through. 2-5 sentences."},
+        "verdict": {"type": "string", "enum": ["represented", "gaps", "misrepresented"]},
+        "key_insights_captured": {"type": "boolean"},
+        "definitions_captured": {"type": "boolean"},
+        "fairly_represented": {"type": "boolean"},
+        "missing": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "unit_ids": {"type": "array", "items": {"type": "string"}},
+                    "what_is_lost": {"type": "string"},
+                    "consequence": {"type": "string"},
+                },
+                "required": ["what_is_lost", "consequence"],
+                "additionalProperties": False,
+            },
+        },
+        "notes": {"type": "array", "items": {"type": "string"}},
+    },
+    "required": [
+        "reasoning", "verdict", "key_insights_captured", "definitions_captured",
+        "fairly_represented", "missing",
+    ],
+    "additionalProperties": False,
+}
+
+
+def audit_corpus_coverage(
+    ctx: RunContext,
+    cfg: Config,
+    client: LLMClient,
+    units: list[dict[str, Any]],
+    approved: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Judge the output against the whole extraction, not candidate by candidate.
+
+    Spec §21 lists an orphan rate as a quality metric and §7.7 forbids losing a
+    source silently. Neither is enforced between Pass 1 and Pass 4, which is how
+    a run can drop most of what it extracted and pass every per-record check.
+    `kip validate` reports the arithmetic; this pass reads the content and says
+    whether the loss mattered.
+    """
+    kept = [u for u in units if u.get("decision") == "keep"]
+    carried: set[str] = set()
+    for candidate in approved:
+        carried.update(candidate.get("source_unit_ids", []))
+    orphaned = [u for u in kept if u.get("unit_id") not in carried]
+
+    mechanical = {
+        "units_kept": len(kept),
+        "units_carried": len([u for u in kept if u.get("unit_id") in carried]),
+        "units_orphaned": len(orphaned),
+        "assertions_out": sum(len(c.get("assertions", [])) for c in approved),
+    }
+
+    if not kept or not approved:
+        return {
+            **envelope(ctx, prompt_version=CORPUS_PROMPT_VERSION,
+                       model_role="corpus-coverage-auditor",
+                       parent_artifacts=["02_units/units.jsonl",
+                                         "06_audit/candidates.approved.jsonl"]),
+            "mechanical": mechanical, "verdict": "represented",
+            "key_insights_captured": True, "definitions_captured": True,
+            "fairly_represented": True, "missing": [],
+            "notes": ["nothing to judge: the run produced no kept units or no approved output"],
+            "auditor_model": cfg.model_for("auditor"),
+        }
+
+    def line(u: dict[str, Any]) -> str:
+        mark = " [REACHED NO ASSERTION]" if u.get("unit_id") not in carried else ""
+        return f"- {u.get('unit_id')}{mark}: {u.get('canonical_statement', '')}"
+
+    out_lines = []
+    for c in approved:
+        out_lines.append(f"## {c.get('title', '')}")
+        out_lines += [f"- {a.get('text', '')}" for a in c.get("assertions", [])]
+
+    user = (
+        f"EXTRACTED UNITS ({len(kept)}), {len(orphaned)} of which reached no assertion:\n"
+        + "\n".join(line(u) for u in kept)
+        + f"\n\nAPPROVED OUTPUT ({mechanical['assertions_out']} assertions across "
+        f"{len(approved)} entries):\n"
+        + "\n".join(out_lines)
+        + "\n\nDoes the output fairly represent the corpus?"
+    )
+
+    try:
+        result = client.complete_json(
+            system=CORPUS_SYSTEM, user=user, schema=CORPUS_SCHEMA,
+            model=cfg.model_for("auditor"), max_tokens=16384,
+        )
+    except Exception as exc:  # a judgement that fails is recorded, never fatal
+        print(f"[pass5] corpus coverage audit failed: {exc}")
+        result = {
+            "verdict": "gaps", "key_insights_captured": False,
+            "definitions_captured": False, "fairly_represented": False,
+            "missing": [], "notes": [f"coverage audit did not run: {exc}"],
+        }
+
+    return {
+        **envelope(ctx, prompt_version=CORPUS_PROMPT_VERSION,
+                   model_role="corpus-coverage-auditor",
+                   parent_artifacts=["02_units/units.jsonl",
+                                     "06_audit/candidates.approved.jsonl"]),
+        "mechanical": mechanical,
+        "verdict": result.get("verdict", "gaps"),
+        "key_insights_captured": result.get("key_insights_captured", False),
+        "definitions_captured": result.get("definitions_captured", False),
+        "fairly_represented": result.get("fairly_represented", False),
+        "missing": result.get("missing", []),
+        "notes": result.get("notes", []),
+        "reasoning": result.get("reasoning", ""),
+        "auditor_model": cfg.model_for("auditor"),
+    }
 
 
 def _approve(

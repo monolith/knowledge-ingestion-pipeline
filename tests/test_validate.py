@@ -23,6 +23,7 @@ import pytest
 
 from kip.artifacts import (
     RunContext,
+    read_jsonl,
     seal,
     text_hash,
     write_json_atomic,
@@ -476,3 +477,54 @@ def test_imported_context_without_a_supporting_citation_is_flagged(tmp_path):
         errors, warnings, counts,
     )
     assert any("cites no supporting excerpt" in w for w in warnings)
+
+
+# --- Pass 4 orphan check: extraction must survive planning --------------------
+
+def _run_with_units_and_candidate(root: Path, unit_ids: list[str], cited: list[str]) -> dict:
+    """A complete run whose kept units and cited units are set independently."""
+    ctx = _build_run(root)
+    base = read_jsonl(ctx.units)[0]
+    write_jsonl_atomic(ctx.units, [
+        seal({**{k: v for k, v in base.items() if k != "content_sha256"},
+              "unit_id": uid, "decision": "keep"})
+        for uid in unit_ids
+    ])
+    for path in (ctx.candidates, ctx.approved):
+        records = read_jsonl(path)
+        for rec in records:
+            rec.pop("content_sha256", None)
+            rec["source_unit_ids"] = list(cited)
+        write_jsonl_atomic(path, [seal(r) for r in records])
+    return validate_run(ctx)
+
+
+def test_a_kept_unit_that_reaches_no_approved_candidate_is_an_error(tmp_path):
+    """The Pass 4 counterpart of the spec's Pass 2 orphan rate (§21).
+
+    Every other integrity check validates a record against its parent, so a
+    planning pass can silently drop most of what was extracted and still pass.
+    Spec §7.7 forbids exactly this one pass earlier -- a source is quarantined
+    with a reason, "never silently skipped, because a skip corrupts every
+    coverage metric downstream".
+    """
+    report = _run_with_units_and_candidate(
+        tmp_path,
+        unit_ids=["u-1", "u-2", "u-3"],
+        cited=["u-1"],
+    )
+    assert report["counts"]["units_kept"] == 3
+    assert report["counts"]["units_orphaned"] == 2
+    # Reported, not raised: some loss is legitimate, silent loss never is.
+    assert any("reach no approved candidate" in w for w in report["warnings"])
+    assert any("u-2" in w for w in report["warnings"])
+
+
+def test_a_run_that_carries_every_kept_unit_forward_is_clean(tmp_path):
+    report = _run_with_units_and_candidate(
+        tmp_path,
+        unit_ids=["u-1", "u-2"],
+        cited=["u-1", "u-2"],
+    )
+    assert report["counts"]["units_orphaned"] == 0
+    assert not [w for w in report["warnings"] if "approved candidate" in w]

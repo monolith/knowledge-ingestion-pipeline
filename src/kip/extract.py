@@ -625,6 +625,55 @@ def _materialize_units(
     return units
 
 
+def _locate_reflowed(excerpt: str, text: str) -> tuple[int, int] | None:
+    """Find `excerpt` in `text` ignoring whitespace and line-break hyphenation.
+
+    Returns the raw (start, end) offsets in `text`, or None if the words are not
+    there. Deliberately NOT a similarity search: every non-space character must
+    match in order. A paraphrase, a dropped clause or an invented sentence still
+    fails, which is the property Pass 5's citation check depends on -- the point
+    is to stop losing quotes the document really contains, not to start
+    accepting quotes it does not.
+
+    The two things forgiven are both artifacts of normalization rather than of
+    the model: runs of whitespace differing from the source's hard wraps, and a
+    word split across a line break as `evi- dence`.
+    """
+    # Collapse both sides to comparable character streams, keeping a map from
+    # each kept character back to its offset in the raw text.
+    def stream(s: str, track: bool) -> tuple[str, list[int]]:
+        chars: list[str] = []
+        offsets: list[int] = []
+        i = 0
+        while i < len(s):
+            ch = s[i]
+            if ch.isspace():
+                i += 1
+                continue
+            # A hyphen immediately before a line break is a wrap artifact.
+            if ch == "-":
+                j = i + 1
+                while j < len(s) and s[j] in " \t":
+                    j += 1
+                if j < len(s) and s[j] == "\n":
+                    i = j + 1
+                    continue
+            chars.append(ch)
+            if track:
+                offsets.append(i)
+            i += 1
+        return "".join(chars), offsets
+
+    needle, _ = stream(excerpt, track=False)
+    if not needle:
+        return None
+    hay, offsets = stream(text, track=True)
+    at = hay.find(needle)
+    if at < 0:
+        return None
+    return offsets[at], offsets[at + len(needle) - 1] + 1
+
+
 def _resolve_evidence(
     manifest: dict[str, Any],
     raw: dict[str, Any],
@@ -642,6 +691,21 @@ def _resolve_evidence(
     excerpt = (raw.get("excerpt") or "").strip()
     char_start = text.find(excerpt) if excerpt else -1
     verified = char_start >= 0
+    corrected = False
+
+    if not verified and excerpt:
+        # Exact match failed. Before calling it a fabrication, look for the same
+        # words in the source: Pass 0 hard-wraps text, so a real quote can arrive
+        # as `evi- dence` in the document and `evidence` from the model, and a
+        # model reflowing a quote is not the same thing as inventing one. If the
+        # words are there, the SOURCE's bytes become the excerpt -- the record
+        # never stores the model's wording -- and the correction is recorded.
+        located = _locate_reflowed(excerpt, text)
+        if located is not None:
+            char_start, char_end = located
+            excerpt = text[char_start:char_end]
+            verified = True
+            corrected = True
 
     if verified:
         char_end = char_start + len(excerpt)
@@ -667,6 +731,10 @@ def _resolve_evidence(
         "excerpt": excerpt,
         "excerpt_sha256": text_hash(excerpt),
         "excerpt_verified": verified,
+        # True when the quote was located by reflowing rather than matched
+        # byte-for-byte. The excerpt stored is still the source's own text; this
+        # records that the model's wording differed in whitespace or hyphenation.
+        "excerpt_corrected": corrected,
         # Which claim this quote is here to license. Defaults to primary so a
         # record written before roles existed still reads correctly.
         "role": raw.get("role", "primary"),

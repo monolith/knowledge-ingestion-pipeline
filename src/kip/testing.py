@@ -110,6 +110,7 @@ class ScriptedClientBase:
         ("coarse stance", "assess", "_pass_assess"),
         ("proposed knowledge-base operations", "plan", "_pass_plan"),
         ("adversarial auditor", "audit", "_pass_audit"),
+        ("fairly represents the corpus", "corpus_coverage", "_pass_corpus_coverage"),
     )
 
     def __init__(self) -> None:

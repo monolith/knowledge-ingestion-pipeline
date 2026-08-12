@@ -179,6 +179,10 @@ class RunContext:
         return self.path("06_audit", "candidates.approved.jsonl")
 
     @property
+    def corpus_coverage(self) -> Path:
+        return self.path("06_audit", "corpus_coverage.json")
+
+    @property
     def enqueue(self) -> Path:
         return self.path("07_enqueue", "enqueue.jsonl")
 

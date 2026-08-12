@@ -226,6 +226,37 @@ class ScriptedClient(ScriptedClientBase):
 
     # -- Pass 5 ---------------------------------------------------------------
 
+    # -- Pass 5b ---------------------------------------------------------------
+
+    def _pass_corpus_coverage(self, user: str) -> dict[str, Any]:
+        """The demo plans one leaf from ten units, so most of them are orphaned.
+
+        Answered honestly rather than optimistically: this transcript exists to
+        exercise the wiring, and a canned "represented" would make the one pass
+        that detects lost content useless as a demonstration of it.
+        """
+        return {
+            "reasoning": (
+                "Ten units were extracted and one candidate reached the queue, carrying two "
+                "of them. The trial's design details and the review's qualifying statements "
+                "are not deduplication -- they say different things and none of them reached "
+                "an assertion."),
+            "verdict": "gaps",
+            "key_insights_captured": True,
+            "definitions_captured": True,
+            "fairly_represented": False,
+            "missing": [{
+                "what_is_lost": (
+                    "The trial's sample size and duration, and the review's scope "
+                    "qualifications, reached no assertion."),
+                "consequence": (
+                    "A reader of the output cannot tell how large or how long the trial was, "
+                    "so cannot weigh it against the replication that disagrees."),
+            }],
+            "notes": ["scripted demo transcript; the single-leaf plan is the demo's, not a "
+                      "recommendation"],
+        }
+
     def _pass_audit(self, user: str) -> dict[str, Any]:
         assessment_ids = _ids(user, r"asmt-\d+")
         overstated = "knowledge_state: established" in user

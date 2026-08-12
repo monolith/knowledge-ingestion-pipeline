@@ -272,6 +272,34 @@ class FakeClient(ScriptedClientBase):
             },
         }
 
+    def _pass_corpus_coverage(self, user: str) -> dict[str, Any]:
+        """Answer honestly for the fixture: it plans one leaf from five units.
+
+        A canned "represented" would make the pass that exists to detect lost
+        content incapable of demonstrating it, so the fixture reports the gap
+        its own plan creates.
+        """
+        orphaned = user.count("[REACHED NO ASSERTION]")
+        return {
+            "reasoning": (
+                f"{orphaned} extracted units reached no assertion. They are not duplicates "
+                "of what did reach one, so the output is narrower than the corpus."),
+            "verdict": "gaps" if orphaned else "represented",
+            "key_insights_captured": True,
+            "definitions_captured": True,
+            "fairly_represented": not orphaned,
+            "missing": ([{
+                "what_is_lost": "Units carrying the trial's design detail reached no assertion.",
+                "consequence": "A reader cannot weigh the finding against its qualifications.",
+            }] if orphaned else []),
+            "notes": [],
+        }
+
+
+# --- kt-v1: the derived block, end to end -------------------------------------
+
+
+
 
 def write_sources(tmp_path: Path) -> Path:
     sources = tmp_path / "src"
@@ -470,12 +498,10 @@ def test_entity_mentions_reach_enriched_units(run):
 
 def test_pipeline_called_every_expected_pass(run):
     """Guard against a pass being silently skipped by a wiring change."""
-    assert set(run["client"].calls) == {"extract", "omission", "enrich", "label", "assess", "plan", "audit"}
-
-
-# --- kt-v1: the derived block, end to end -------------------------------------
-
-
+    assert set(run["client"].calls) == {
+        "extract", "omission", "enrich", "label", "assess", "plan", "audit",
+        "corpus_coverage",
+    }
 
 def test_a_deontic_unit_keeps_its_modality_and_its_computed_quantitative_flag(run):
     """Modality survives digestion to disk, and `quantitative` is the regex's
@@ -1136,3 +1162,30 @@ def test_cli_run_refuses_to_replace_an_archived_original_without_force(tmp_path:
     assert cli.main(argv + ["--force"]) == 0
     ctx = RunContext(run_id="run-arch", root=workspace)
     assert "A late addition." in (ctx.sources_dir / "trial.txt").read_text(encoding="utf-8")
+
+
+def test_pass_five_judges_the_corpus_and_not_only_each_candidate(run):
+    """Spec §21's orphan rate has no Pass 4 counterpart, so nothing saw the loss.
+
+    Every per-candidate audit judges a candidate against its own sources; a unit
+    that reached no candidate appears in no candidate's audit. This is the one
+    place the extraction and the output are read together.
+    """
+    coverage = json.loads(run["ctx"].corpus_coverage.read_text())
+    m = coverage["mechanical"]
+    assert m["units_kept"] == m["units_carried"] + m["units_orphaned"]
+    assert m["units_orphaned"] > 0, "the demo plan orphans units; the check must see it"
+    assert coverage["fairly_represented"] is False
+    assert coverage["missing"], "a gaps verdict must name what is lost"
+    assert coverage["missing"][0]["consequence"]
+    assert coverage["auditor_model"] and coverage["prompt_version"]
+
+
+def test_corpus_coverage_counts_agree_with_validate(run):
+    """The two places that count orphans must not be able to disagree."""
+    from kip.validate import validate_run
+
+    coverage = json.loads(run["ctx"].corpus_coverage.read_text())
+    report = validate_run(run["ctx"])
+    assert report["counts"]["units_orphaned"] == coverage["mechanical"]["units_orphaned"]
+    assert report["counts"]["units_kept"] == coverage["mechanical"]["units_kept"]

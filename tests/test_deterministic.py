@@ -391,3 +391,55 @@ def test_manifest_records_error_rate_relevant_config():
     assert fragment["audit"]["require_distinct_auditor"] is True
     assert fragment["batch"]["target_size"] <= fragment["batch"]["hard_split_above"]
     assert 20 <= fragment["batch"]["target_size"] <= 50, "spec §17 band"
+
+
+# --- Citation resolution: locate a near-miss quote rather than failing it ------
+
+def _evidence_for(quote: str, text: str) -> dict:
+    """Run one excerpt through the real resolver against `text`."""
+    from kip.extract import _resolve_evidence
+
+    manifest = {"source_id": "src-x", "normalized_path": "01_normalized/src-x/normalized.txt"}
+    return _resolve_evidence(manifest, {"excerpt": quote, "role": "primary"},
+                             text, text.splitlines())
+
+
+HYPHENATED = (
+    "There is also considerable evi-\n"
+    "dence that professional forecasters display the same overreaction bias.\n"
+)
+
+
+def test_a_quote_broken_by_a_line_wrap_is_located_and_corrected():
+    """A word split across a line break must not sink an otherwise real quote.
+
+    Pass 0 hard-wraps normalized text, so `evidence` can appear as `evi- dence`.
+    A model quoting faithfully writes the unbroken word; an exact-match-only
+    check calls that a fabrication and drags the unit's grounding down with it.
+    """
+    ev = _evidence_for("considerable evidence that professional forecasters", HYPHENATED)
+    assert ev["excerpt_verified"] is True
+    assert ev["excerpt_corrected"] is True
+    # The stored excerpt is the source's own bytes, not the model's paraphrase.
+    assert ev["excerpt"] in HYPHENATED
+    assert HYPHENATED[ev["normalized_char_start"]:ev["normalized_char_end"]] == ev["excerpt"]
+
+
+def test_a_quote_whose_whitespace_differs_is_located_and_corrected():
+    ev = _evidence_for("display the same    overreaction\tbias", HYPHENATED)
+    assert ev["excerpt_verified"] is True
+    assert ev["excerpt_corrected"] is True
+    assert ev["excerpt"] in HYPHENATED
+
+
+def test_an_exact_quote_is_not_marked_corrected():
+    ev = _evidence_for("the same overreaction bias", HYPHENATED)
+    assert ev["excerpt_verified"] is True
+    assert ev["excerpt_corrected"] is False
+
+
+def test_an_invented_quote_is_still_unverified():
+    """Loosening the match must not become accepting anything."""
+    ev = _evidence_for("forecasters are usually correct about the future", HYPHENATED)
+    assert ev["excerpt_verified"] is False
+    assert ev["excerpt_corrected"] is False

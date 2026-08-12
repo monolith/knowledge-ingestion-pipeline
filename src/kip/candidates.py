@@ -12,7 +12,7 @@ from .artifacts import RunContext, envelope, seal, write_jsonl_atomic
 from .config import Config
 from .llm import LLMClient
 
-PROMPT_VERSION = "pass-04-candidate-planning-v3.0"
+PROMPT_VERSION = "pass-04-candidate-planning-v3.1"  # v3.1: combine, never drop
 
 OPERATIONS = ["create", "update", "create_or_update", "merge", "split", "link", "no_op", "defer"]
 KNOWLEDGE_STATES = [
@@ -31,7 +31,19 @@ RULES
   larger independent replication disagrees is "contested", not "supported".
 - Every assertion must cite the assessment IDs it rests on.
 - Create coherent topics, not one leaf per unit. Avoid fragmentation: prefer
-  incorporating a narrow finding into a broader leaf when the ontology allows.
+  COMBINING a narrow finding into a broader leaf when the ontology allows.
+  Combining means carrying it across as its own assertion under a wider title --
+  it does NOT mean summarizing several units into one sentence. The point of
+  grouping is to remove duplication and noise, never to drop content: if two
+  units say the same thing, keep one; if they say different things, keep both.
+- EVERY unit you were given must end up somewhere. Each one either becomes an
+  assertion, is folded into an assertion that already carries its content, or is
+  a duplicate of one that is. A unit that is none of those has not been
+  incorporated -- it has been lost, and a definition or a rule is exactly the
+  kind of content that gets lost this way, because it states no claim to argue
+  with. When a unit is a definition, a rule, or a procedure, carry its content
+  across rather than describing it: a reader must be able to apply it from the
+  assertion alone, without going back to the source.
 - Preserve negative and null findings. A well-evidenced "no effect" is
   knowledge.
 - NEVER convert a dependent convergence into independent support. If the

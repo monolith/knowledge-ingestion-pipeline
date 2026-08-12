@@ -299,7 +299,8 @@ runs/<run-id>/
 │   └── candidates.initial.jsonl  proposed knowledge-base operations
 ├── 06_audit/
 │   ├── audits.jsonl              every verdict, including the rejections
-│   └── candidates.approved.jsonl what survived the audit
+│   ├── candidates.approved.jsonl what survived the audit
+│   └── corpus_coverage.json      did the output keep what was extracted?
 ├── 07_enqueue/
 │   └── enqueue.jsonl             idempotent events for the leaf engine
 ├── run_manifest.json             config in force + summary counts
@@ -330,6 +331,7 @@ which is where the offset comes from.
 | `candidates.initial.jsonl` | LLM | Proposed knowledge-base operations — create, update, merge, split, link, defer — with a knowledge state and the assessment ids each assertion rests on. Proposals only; nothing is written to the wiki. |
 | `audits.jsonl` | code + LLM | Every audit verdict, rejections included. A `fix`, `merge` or `split` never edits the proposal in place — it emits a **new candidate version**, so the original stays on disk beside it and a rewrite remains followable. |
 | `candidates.approved.jsonl` | code | The subset that survived. Only these reach Pass 6. |
+| `corpus_coverage.json` | code + LLM | The one judgment made over the **whole** run rather than one candidate. Counts how many kept units reached an approved candidate and how many were orphaned, then asks a reasoning-class model whether the key insights and definitions survived and whether the corpus is fairly represented. Every other check validates a record against its parent; this is the only one that validates a parent against its children. |
 | `enqueue.jsonl` | code | Idempotent events for the downstream leaf engine, which remains the sole authority for durable writes. Re-running produces the same events rather than duplicates. |
 | `run_manifest.json` | code | The evidence-tier configuration in force — models per role, whether the auditor differed from the proposer, batch sizing, datamarking — plus summary counts. Recorded because all of it changes the output's error rate. |
 | `stage_fingerprints.json` | code | A digest of what each stage consumed. Resuming a run whose inputs moved is **refused** with the changed stage named, rather than silently producing a half-old corpus. |
