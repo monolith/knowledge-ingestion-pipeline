@@ -1,25 +1,14 @@
-# Verifying this run without the source document
+# Verifying this run
 
-Runs 01–03 ship their `source.md`, so you can search it for any quote in
-`UNITS.md` and confirm the ✓ yourself. This run does not ship its source, so
-that check is not available here — and a ✓ you cannot check is worth very
-little. This file is how you check it anyway.
+This run is complete: `source.md` is the normalized text every excerpt was cut
+from, so the fastest check is to open it and search for any quote in `UNITS.md`.
+The rest of this file is for checking the run mechanically rather than by eye.
 
-## Why the text is absent
+The source is the JSTOR scan of De Bondt & Thaler (1985), *The Journal of
+Finance* 40(3), pp. 793–805, [stable URL
+2327804](http://www.jstor.org/stable/2327804).
 
-Two of the files a complete run would carry hold the entire article:
-
-- `source.md` — the normalized full text, 6,284 words.
-- `handoff-requests.jsonl` — each model request embeds the whole document in its
-  user message. (Compare `03-spec-long/handoff-requests.jsonl`, 260 KB for a
-  document whose `source.md` is 78 KB.)
-
-De Bondt & Thaler (1985) is a copyrighted journal article. The 82 excerpts in
-`units.jsonl` are short, non-contiguous, and each is attached to commentary
-about its role in the argument — ordinary quotation. Reproducing the article in
-full in a public repository is a different act, so neither file is here.
-
-## What is here instead
+## The digests
 
 `manifest.json` carries the two digests Pass 0 recorded:
 
@@ -34,13 +23,22 @@ Every excerpt in `units.jsonl` additionally records `normalized_char_start`,
 `normalized_char_end`, `normalized_line_start` and `normalized_line_end` against
 that exact normalized text. The 82 spans run from character 2,993 to 35,559.
 
-## Reproducing it
+## Reproducing it from the original PDF
 
-Obtain the article yourself — the run used the JSTOR scan of
-*The Journal of Finance* 40(3), pp. 793–805, [stable URL
-2327804](http://www.jstor.org/stable/2327804) — then:
+`source.md` is Pass 0's output, not the original. To check that Pass 0 itself is
+faithful, obtain the article and re-run it:
 
 ```bash
+# 0. Fastest check, no PDF needed: every excerpt sits at its recorded offsets.
+python - <<'EOF'
+import json, pathlib
+txt = pathlib.Path("source.md").read_text()
+bad = [e for l in pathlib.Path("units.jsonl").read_text().splitlines()
+       for e in json.loads(l)["evidence"]
+       if txt[e["normalized_char_start"]:e["normalized_char_end"]] != e["excerpt"]]
+print(f"{len(bad)} mismatches" if bad else "all 82 excerpts verified")
+EOF
+
 # 1. Confirm you have byte-identical input.
 sha256sum your-copy.pdf     # must equal original_sha256 above
 
@@ -51,18 +49,8 @@ kip --workspace /tmp/dt run --sources <dir-with-the-pdf> \
 # 3. Confirm the normalized text matches.
 sha256sum /tmp/dt/runs/dt1/01_normalized/*/normalized.txt   # == normalized_sha256
 
-# 4. Check every excerpt lands where the unit says it does.
-python - <<'EOF'
-import json, pathlib
-txt = next(pathlib.Path("/tmp/dt/runs/dt1/01_normalized").rglob("normalized.txt")).read_text()
-bad = 0
-for line in pathlib.Path("units.jsonl").read_text().splitlines():
-    for e in json.loads(line)["evidence"]:
-        if txt[e["normalized_char_start"]:e["normalized_char_end"]] != e["excerpt"]:
-            bad += 1
-            print("MISMATCH", e["excerpt"][:60])
-print("all excerpts verified" if not bad else f"{bad} mismatches")
-EOF
+# 4. Confirm Pass 0 reproduced this run's source.md byte for byte.
+diff /tmp/dt/runs/dt1/01_normalized/*/normalized.txt source.md && echo identical
 ```
 
 If step 1 fails your scan differs from the one used here, and steps 3–4 will not

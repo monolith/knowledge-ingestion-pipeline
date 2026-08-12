@@ -2,7 +2,7 @@
 
 **Source.** De Bondt, W. F. M. & Thaler, R. (1985). "Does the Stock Market Overreact?" The Journal of Finance 40(3), 793-805.
 
-The source document is **not included**. It is a copyrighted journal article; the units below quote it, which is ordinary citation, but redistributing the full text in this repo is not. The run was made from the JSTOR scan, whose text layer normalizes to 6,284 words.
+The source is included as `source.md` (Pass 0's normalized text, 6,284 words). It was obtained from a publicly accessible JSTOR scan. See VERIFY.md to check the run against it, or to reproduce Pass 0 from the original PDF.
 
 - source: 6,284 words
 - units: 35  (one per 179 words)
