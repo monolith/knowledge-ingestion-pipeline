@@ -143,7 +143,14 @@ def run_pipeline(
         return _finish(ctx, cfg, summary, client)
 
     # --- Pass 5 ---------------------------------------------------------------
-    if ctx.audits.exists() and not force:
+    # Three artifacts, and the stage is only complete when all three exist. The
+    # audits are written before the corpus-coverage call is made, so a run that
+    # stops at that call -- which every handoff run does, since the call is
+    # pending on an answer that has not been written yet -- leaves audits.jsonl
+    # on disk with no coverage beside it. Resuming on audits alone declared the
+    # stage done and skipped coverage permanently.
+    coverage_done = ctx.corpus_coverage.exists()
+    if ctx.audits.exists() and coverage_done and not force:
         audits = read_jsonl(ctx.audits)
         approved = read_jsonl(ctx.approved) if ctx.approved.exists() else []
         print(f"[pass5-audit] resume: {len(audits)} audits, {len(approved)} approved")

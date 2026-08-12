@@ -27,6 +27,7 @@ from kip.artifacts import (
     write_jsonl_atomic,
 )
 from kip.config import SCHEMA_VERSION, Config
+from kip.handoff import HandoffPending
 from kip.pipeline import run_pipeline
 from kip.testing import ScriptedClientBase, check_schema, declared_properties
 from kip.trace import trace_leaf
@@ -1207,6 +1208,41 @@ def test_corpus_coverage_names_a_protected_unit_it_lost(tmp_path):
     assert result["mechanical"]["units_orphaned"] == 1
     assert result["mechanical"]["units_orphaned_protected"] == 1
     assert result["definitions_captured"] is False
+
+
+def test_a_run_interrupted_at_the_coverage_call_still_gets_coverage(tmp_path: Path):
+    """Pass 5 writes its audits before it asks the coverage question.
+
+    So an interruption at that one call -- which is every handoff run, since the
+    answer has not been written yet -- leaves audits.jsonl on disk with no
+    coverage beside it. Resuming on the audits alone declared the stage finished
+    and skipped the corpus judgment for the life of the run: the artifact was
+    never written and nothing complained, because each per-candidate audit had
+    passed.
+    """
+    sources = write_sources(tmp_path)
+    ctx = RunContext(run_id="interrupted", root=tmp_path / "ws")
+
+    class _StopsAtCoverage(FakeClient):
+        def complete_json(self, *, system, user, schema, model, **kw):
+            if "fairly represents the corpus" in system:
+                # The shape a handoff run stops in: a BaseException, so the
+                # `except Exception` around the coverage call cannot swallow it.
+                raise HandoffPending({"call_id": "pending-coverage"})
+            return super().complete_json(system=system, user=user, schema=schema,
+                                         model=model, **kw)
+
+    with pytest.raises(HandoffPending):
+        run_pipeline(ctx, Config(), sources, client=_StopsAtCoverage())
+    assert ctx.audits.exists(), "the audits are on disk before the coverage call"
+    assert not ctx.corpus_coverage.exists()
+
+    run_pipeline(ctx, Config(), sources, client=FakeClient())
+    assert ctx.corpus_coverage.exists(), "resume skipped the corpus judgment"
+    coverage = json.loads(ctx.corpus_coverage.read_text())
+    assert coverage["mechanical"]["units_kept"] == len(
+        [u for u in read_jsonl(ctx.units) if u.get("decision") == "keep"]
+    )
 
 
 def test_corpus_coverage_counts_agree_with_validate(run):
