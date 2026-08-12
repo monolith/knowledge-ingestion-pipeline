@@ -218,10 +218,9 @@ files ─▶ 0 normalize ─▶ 1 extract ─▶ 2 route ─▶ 3 assess ─▶ 
   sole authority for durable writes.
 
 Artifacts land under `runs/<run-id>/`, one JSONL file per pass, each record
-carrying a content hash and pointers to its parents. What each of those files is
-and why you would open it is documented in
-[`demo/real-runs/`](demo/real-runs/README.md#what-the-files-in-a-run-folder-are),
-against four real runs you can read.
+carrying a content hash and pointers to its parents. They are listed in full
+under [What a run writes](#what-a-run-writes) below, and four real runs you can
+open are in [`demo/real-runs/`](demo/real-runs/README.md).
 
 ### Not built yet: documents too long to hold at once
 
@@ -271,6 +270,83 @@ and the excerpt is silently marked unverified. And running heads are kept as
 body text, landing mid-sentence wherever a sentence spans a page. §8 of the
 specification already requires header/footer stripping. Details in
 [`demo/real-runs/`](demo/real-runs/README.md).
+
+## What a run writes
+
+Everything a run produces lives under `<workspace>/runs/<run-id>/`. Nothing is
+hidden in a database; every file below is plain text you can open, diff, and
+grep.
+
+```
+runs/<run-id>/
+├── 00_original_sources/          the input files, copied and never modified
+├── 01_normalized/
+│   ├── source_registry.jsonl     one record per source: id, hashes, status
+│   └── <source-id>/
+│       ├── normalized.txt        the full text everything downstream reads
+│       ├── manifest.json         per-source provenance and digests
+│       └── locator_map.jsonl     character spans → page / slide / sheet
+├── 02_units/
+│   ├── units.jsonl               THE KNOWLEDGE UNITS — the primary output
+│   ├── omissions.jsonl           what the omission check found missing
+│   └── rejects.jsonl             malformed answers, recorded not raised
+├── 03_clusters/
+│   ├── enriched_units.jsonl      units plus a retrieval context, for indexing
+│   └── clusters.jsonl            comparison sets, with no verdict attached
+├── 04_assessments/
+│   └── claim_assessments.jsonl   relationship judgments on presented pairs
+├── 05_candidates/
+│   └── candidates.initial.jsonl  proposed knowledge-base operations
+├── 06_audit/
+│   ├── audits.jsonl              every verdict, including the rejections
+│   └── candidates.approved.jsonl what survived the audit
+├── 07_enqueue/
+│   └── enqueue.jsonl             idempotent events for the leaf engine
+├── run_manifest.json             config in force + summary counts
+├── stage_fingerprints.json       what each stage consumed, for resume
+└── _handoff/                     `--mode handoff` only
+    ├── pending.jsonl             the request the run is waiting on
+    └── responses.jsonl           answers, keyed by content-addressed call id
+```
+
+**The directory numbers are one ahead of the pass numbers.** Pass 0 (normalize)
+writes `01_normalized/`, Pass 1 (extract) writes `02_units/`, and so on to Pass 6
+writing `07_enqueue/`. `00_original_sources/` holds inputs rather than output,
+which is where the offset comes from.
+
+| artifact | written by | what it is |
+|---|---|---|
+| `00_original_sources/` | code | Byte-for-byte copies of the input files. Immutable: everything downstream refers back here by hash, never re-reads the user's originals. |
+| `source_registry.jsonl` | code | One record per discovered source — `source_id`, original and normalized sha256, media type, and `normalization_status`. A source that failed to parse is **quarantined here rather than dropped**, so it shows up in coverage counts instead of vanishing. |
+| `normalized.txt` | code | The plain-text form of one source, with `[[PAGE n]]` / `[[SLIDE n]]` / `[[SHEET name]]` markers. **This is what every quote is checked against**, so it is the file to open when an excerpt is disputed. |
+| `manifest.json` | code | Per-source provenance: both digests, normalizer name and version, line count, language, warnings. What proves two runs read the same bytes. |
+| `locator_map.jsonl` | code | Maps character spans in `normalized.txt` back to a location in the original — page, slide, sheet. How an excerpt resolves to "page 801". |
+| **`units.jsonl`** | **LLM** | **The primary output.** One record per knowledge unit: the standalone statement, evidence (verbatim quote, char and line offsets, `excerpt_verified`, `primary`/`supporting` role), the five scores, keep/drop/review, `grounding`, `context_note`, entity mentions, and a `content_sha256` over the assertion. |
+| `omissions.jsonl` | LLM | One record per completeness finding: kind, description, the excerpt it concerns, and a suggested action. This is where a run records its own gaps. |
+| `rejects.jsonl` | code | Units the model returned malformed — a truncated answer, a missing required field. Recorded with the reason instead of raising, so one bad record cannot discard a corpus. Absent when there were none. |
+| `enriched_units.jsonl` | LLM | Each unit plus a short retrieval context for indexing. **Index-time only** — it never replaces `canonical_statement` and never leaks into evidence. |
+| `clusters.jsonl` | LLM + code | Units grouped into comparison sets, deliberately with **no** judgment about whether members agree. Deciding that is Pass 3's job on specific pairs. |
+| `claim_assessments.jsonl` | code + LLM | Relationship judgments over pairs the code selected, each with a coarse stance, an optional finer subtype, and both orderings of the pair. |
+| `candidates.initial.jsonl` | LLM | Proposed knowledge-base operations — create, update, merge, split, link, defer — with a knowledge state and the assessment ids each assertion rests on. Proposals only; nothing is written to the wiki. |
+| `audits.jsonl` | code + LLM | Every audit verdict, rejections included. A `fix`, `merge` or `split` never edits the proposal in place — it emits a **new candidate version**, so the original stays on disk beside it and a rewrite remains followable. |
+| `candidates.approved.jsonl` | code | The subset that survived. Only these reach Pass 6. |
+| `enqueue.jsonl` | code | Idempotent events for the downstream leaf engine, which remains the sole authority for durable writes. Re-running produces the same events rather than duplicates. |
+| `run_manifest.json` | code | The evidence-tier configuration in force — models per role, whether the auditor differed from the proposer, batch sizing, datamarking — plus summary counts. Recorded because all of it changes the output's error rate. |
+| `stage_fingerprints.json` | code | A digest of what each stage consumed. Resuming a run whose inputs moved is **refused** with the changed stage named, rather than silently producing a half-old corpus. |
+| `_handoff/pending.jsonl` | code | The request the run is currently blocked on, in `--mode handoff`. |
+| `_handoff/responses.jsonl` | you | Answers keyed by a `call_id` that hashes the system prompt, user message, schema and model — which is what makes a run resumable and replayable. |
+
+Two files are transient: `units.partial.jsonl` and `omissions.partial.jsonl` are
+written after each document so a failure on document nine of ten does not
+discard the first eight, and are removed when the pass completes. Seeing them in
+a finished run means the run did not finish.
+
+`kip show <run-id> <artifact>` prints eight of them by short name — `units`,
+`omissions`, `clusters`, `assessments`, `candidates`, `audits`, `approved`,
+`enqueue`. The rest are read directly from disk. `kip trace <run-id> <id>` walks
+the chain from a candidate back to the sentence it came from, and
+`kip validate <run-id>` checks the whole tree for the integrity failures the
+design leans on.
 
 ## Design decisions worth knowing
 
