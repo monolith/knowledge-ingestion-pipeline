@@ -23,6 +23,21 @@ from __future__ import annotations
 
 import re
 
+#: How far a unit can be traced to the document it came from. The vocabulary
+#: follows established retrieval-evaluation practice, where this property is
+#: called *grounding* (equivalently *faithfulness*), and where the underlying
+#: test is attribution: would a reader affirm "according to this source, X"?
+#: A three-value scale rather than a boolean because the middle case is the
+#: common one -- a model that expands an acronym or names a standard measure
+#: the document assumes has not smuggled in a claim, and collapsing that into
+#: "used outside knowledge" would make the flag fire on everything and mean
+#: nothing.
+GROUNDING: tuple[str, ...] = (
+    "attributable",           # every claim traces to a cited excerpt
+    "conventions_added",      # claims trace; standard terminology supplied
+    "unattributed_content",   # carries substance no cited excerpt supports
+)
+
 MODALITIES: tuple[str, ...] = ("required", "permitted", "prohibited")
 
 FLAGS: tuple[str, ...] = ("negative_result", "caveat")

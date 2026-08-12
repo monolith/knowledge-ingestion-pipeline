@@ -356,10 +356,11 @@ TRIAL_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 5,
                 "line_end": 5,
+                "role": "primary",
             }
         ],
         "scores": _scores(),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         # Two tests fire on purpose: a measurement taken on one sample is a
@@ -381,10 +382,11 @@ TRIAL_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 10,
                 "line_end": 10,
+                "role": "primary",
             }
         ],
         "scores": _scores(novelty=3),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         "node_kind": "unit",
@@ -398,10 +400,11 @@ TRIAL_UNITS: list[dict[str, Any]] = [
                 "excerpt": "Total sleep time rose by 47 minutes per night in the extension group.",
                 "line_start": 11,
                 "line_end": 11,
+                "role": "primary",
             }
         ],
         "scores": _scores(),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         "flags": ["caveat"],
@@ -420,10 +423,11 @@ TRIAL_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 15,
                 "line_end": 15,
+                "role": "primary",
             }
         ],
         "scores": _scores(novelty=1),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         # Nothing fires: a question has no truth value to check, no procedure to
@@ -441,10 +445,11 @@ TRIAL_UNITS: list[dict[str, Any]] = [
                 "excerpt": "Whether the same effect holds in adults over sixty-five remains untested.",
                 "line_start": 19,
                 "line_end": 19,
+                "role": "primary",
             }
         ],
         "scores": _scores(specificity=2, evidence_strength=1),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
 ]
 
@@ -465,10 +470,11 @@ REVIEW_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 5,
                 "line_end": 5,
+                "role": "primary",
             }
         ],
         "scores": _scores(novelty=1),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         "node_kind": "unit",
@@ -486,10 +492,11 @@ REVIEW_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 9,
                 "line_end": 9,
+                "role": "primary",
             }
         ],
         "scores": _scores(),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         # The one unanimous flag. "X had no effect" reads to a search index
@@ -511,10 +518,11 @@ REVIEW_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 13,
                 "line_end": 13,
+                "role": "primary",
             }
         ],
         "scores": _scores(novelty=3),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         "modality": "prohibited",
@@ -533,10 +541,11 @@ REVIEW_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 17,
                 "line_end": 17,
+                "role": "primary",
             }
         ],
         "scores": _scores(novelty=1),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         "node_kind": "unit",
@@ -554,10 +563,11 @@ REVIEW_UNITS: list[dict[str, Any]] = [
                 ),
                 "line_start": 18,
                 "line_end": 18,
+                "role": "primary",
             }
         ],
         "scores": _scores(novelty=1),
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
 ]
 

@@ -84,9 +84,10 @@ SOURCE_C_UNITS: list[dict[str, Any]] = [
                 "Clients must not exceed 100 requests per minute against the ingestion endpoint."
             ),
             "line_start": 2, "line_end": 2,
+            "role": "primary",
         }],
         "scores": _SCORES,
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         # No test fires. A question has no truth value to check, no procedure to
@@ -103,9 +104,10 @@ SOURCE_C_UNITS: list[dict[str, Any]] = [
         "evidence": [{
             "excerpt": "Whether the limit should apply per user or per organization is unresolved.",
             "line_start": 3, "line_end": 3,
+            "role": "primary",
         }],
         "scores": {**_SCORES, "specificity": 2, "evidence_strength": 1},
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
     {
         # `observation` is one of the five legacy labels the migration refuses to
@@ -122,9 +124,10 @@ SOURCE_C_UNITS: list[dict[str, Any]] = [
         "evidence": [{
             "excerpt": "The on-call engineer restarted the limiter during the March 2026 incident.",
             "line_start": 4, "line_end": 4,
+            "role": "primary",
         }],
         "scores": _SCORES,
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
     },
 ]
 
@@ -176,10 +179,11 @@ class FakeClient(ScriptedClientBase):
                 "evidence": [{
                     "excerpt": "Delayed word recall improved 8.2% in the extension group versus 1.1% in controls.",
                     "line_start": 2, "line_end": 2,
+                    "role": "primary",
                 }],
                 "scores": {"specificity": 3, "retrieval_value": 3, "connection_value": 2,
                            "evidence_strength": 3, "novelty": 2},
-                "decision": "keep",
+                "decision": "keep", "grounding": "attributable",
             }]}
         if "limiter" in user:
             return {"units": SOURCE_C_UNITS}
@@ -192,10 +196,11 @@ class FakeClient(ScriptedClientBase):
             "evidence": [{
                 "excerpt": "The replication found no statistically significant overall effect on delayed recall.",
                 "line_start": 2, "line_end": 2,
+                "role": "primary",
             }],
             "scores": {"specificity": 3, "retrieval_value": 3, "connection_value": 3,
                        "evidence_strength": 3, "novelty": 2},
-            "decision": "keep",
+            "decision": "keep", "grounding": "attributable",
         }]}
 
     def _pass_assess(self, user: str) -> dict:
@@ -509,7 +514,7 @@ def legacy_run(tmp_path: Path):
                 lines,
             )],
             "scores": _SCORES,
-            "decision": "keep",
+            "decision": "keep", "grounding": "attributable",
             "granularity_policy": "molecular-v1",
         }))
 
@@ -996,9 +1001,10 @@ def test_a_paraphrased_excerpt_is_marked_unverified(tmp_path: Path):
                 "evidence": [{
                     "excerpt": "Recall was better for people who slept longer.",
                     "line_start": 2, "line_end": 2,
+                    "role": "primary",
                 }],
                 "scores": _SCORES,
-                "decision": "keep",
+                "decision": "keep", "grounding": "attributable",
             }]}
 
     ctx = RunContext(run_id="run-para", root=tmp_path / "ws")

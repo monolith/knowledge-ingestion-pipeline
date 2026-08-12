@@ -14,7 +14,7 @@ from .config import Config
 from .llm import DATA_BOUNDARY_NOTE, LLMClient, wrap_untrusted
 from .vocab import FLAGS, MODALITIES, NODE_KINDS, detect_quantitative, normalize_flags, normalize_modality
 
-PROMPT_VERSION = "pass-01-molecular-extraction-v3.1"
+PROMPT_VERSION = "pass-01-molecular-extraction-v4.2"  # v4.2: grounding flag
 OMISSION_PROMPT_VERSION = "pass-01b-omission-check-v3.0"
 
 # --- System prompt ------------------------------------------------------------
@@ -27,11 +27,29 @@ EXTRACTION_SYSTEM = """You extract durable, source-backed knowledge units from d
 
 GRANULARITY — this is the most important rule.
 Each unit must be MOLECULAR, which means both of:
-  - DECONTEXTUALITY: it can be interpreted correctly standing alone, without
-    its neighbours or the surrounding prose. Resolve pronouns and vague
-    references ("the study", "this policy") into what they refer to.
-  - MINIMALITY: it adds the LEAST information required to achieve
-    decontextuality, and no more.
+
+  - SUFFICIENCY: the unit stands alone as an INSIGHT, not merely as a grammatical
+    sentence. A reader who has never seen the document must be able to:
+      * answer a reading-comprehension question about the point it makes;
+      * follow the reasoning, if it is an argument -- including what it rests on
+        and what follows from it;
+      * apply the formula or procedure, if it is one, without going back to the
+        source for a term it uses.
+    Resolving pronouns is the FLOOR, not the goal. "Each passive manager obtains
+    the market return" resolves nothing and explains nothing: it does not say
+    that this is the premise from which the whole result follows. Pull in
+    whatever the point needs to survive being read cold -- the definition a term
+    depends on, the condition the claim is scoped to, the role it plays in the
+    argument.
+
+  - CONCISION: carry what the point needs and nothing else. Do not restate the
+    document, do not repeat context already inside the statement, do not pad
+    with background a reader does not need for THIS point. If a sentence of the
+    surrounding argument is not required to understand or use this unit, leave
+    it out.
+
+  The test: if this unit were the only thing a reader ever saw from this
+  document, would they have the point, or only a true sentence?
 
 Do NOT decompose maximally. A fragment that cannot be interpreted on its own is
 a defect, not a smaller unit. Split a statement only when the parts are BOTH
@@ -46,9 +64,34 @@ LENGTH: canonical_statement is normally one sentence, two only when the second
 carries an inseparable qualifier. Target {lo}-{hi} words; warn past {warn}.
 There is NO character cap.
 
-EVIDENCE: every unit cites one to three minimal excerpts, quoted VERBATIM from
-the document, under {eviwords} words total. Quote exactly -- excerpts are
-verified by exact string match downstream, and a paraphrased excerpt fails.
+EVIDENCE: quote VERBATIM, under {eviwords} words total. Excerpts are verified by
+exact string match downstream and a paraphrased excerpt fails.
+
+  Every unit has exactly ONE excerpt with role "primary": the passage the unit
+  is principally about.
+
+  SUFFICIENCY LICENSES IMPORTING CONTEXT; IT DOES NOT LICENSE ASSERTING IT
+  UNCITED. If the statement carries anything the primary excerpt does not say --
+  a definition it relies on, a condition it is scoped to, a consequence it
+  names, the role it plays in an argument -- cite the passage that says it, with
+  role "supporting". Usually one to three supporting excerpts; more when the
+  point genuinely rests on more.
+
+  The standard is a citation in a thesis, not a gloss in a summary. A reader who
+  disagrees with this unit must be able to go to the document, find every claim
+  it makes, and argue with the source rather than with you. If a claim in the
+  statement is in the document but you cannot quote it, quote it. If it is NOT
+  in the document, it does not belong in the statement.
+
+GROUNDING: report whether this unit could have been written from this document
+alone. The citation rule above is what makes the answer checkable -- if every
+claim traces to a cited excerpt, the unit is "attributable" by construction.
+Report "unattributed_content" whenever the statement carries something you know
+but cannot quote, and expect it to be reviewed rather than trusted.
+
+This matters most where it is least obvious: on a famous document your prior is
+strongest and your answer looks most authoritative. Familiarity with the subject
+is exactly the condition under which outside knowledge slips in unnoticed.
 
 SCORING: score 0-3 on specificity, retrieval_value, connection_value,
 evidence_strength, novelty. The decision is NOT a simple sum: mandatory
@@ -176,8 +219,19 @@ EVIDENCE_SCHEMA = {
         "excerpt": {"type": "string", "description": "Verbatim quote from the document."},
         "line_start": {"type": "integer"},
         "line_end": {"type": "integer"},
+        "role": {
+            "type": "string",
+            "enum": ["primary", "supporting"],
+            "description": (
+                "primary: the passage this unit is principally about. supporting: a "
+                "passage from elsewhere in the document that licenses context the unit "
+                "imported -- a definition it relies on, a condition it is scoped to, a "
+                "consequence it names. Every claim in the statement must trace to one "
+                "or the other."
+            ),
+        },
     },
-    "required": ["excerpt", "line_start", "line_end"],
+    "required": ["excerpt", "line_start", "line_end", "role"],
     "additionalProperties": False,
 }
 
@@ -206,8 +260,41 @@ UNIT_SCHEMA = {
                     "flags": {"type": "array", "items": {"type": "string", "enum": list(FLAGS)}},
                     "node_kind": {"type": "string", "enum": list(NODE_KINDS)},
                     "entity_mentions": {"type": "array", "items": ENTITY_MENTION_SCHEMA},
-                    "canonical_statement": {"type": "string"},
-                    "context_note": {"type": "string"},
+                    "canonical_statement": {
+                        "type": "string",
+                        "description": (
+                            "The point, stated so it survives being read cold. Not a "
+                            "quotation -- the evidence field carries the source's words."
+                        ),
+                    },
+                    "grounding": {
+                        "type": "string",
+                        "enum": ["attributable", "conventions_added", "unattributed_content"],
+                        "description": (
+                            "Answer the counterfactual, not a question about your training: "
+                            "IF THIS DOCUMENT WERE THE ONLY THING YOU HAD EVER READ, could you "
+                            "have written this unit? "
+                            "attributable = yes; every claim is supported by the cited "
+                            "excerpts. "
+                            "conventions_added = the claims are supported, but you supplied "
+                            "standard terminology or a field convention the document assumes "
+                            "(expanding an acronym, naming a well-known measure). "
+                            "unattributed_content = no; the unit carries substance no cited "
+                            "excerpt supports. Prefer unattributed_content when unsure -- an "
+                            "over-cautious flag costs a review, an over-confident one launders "
+                            "outside knowledge as source material."
+                        ),
+                    },
+                    "context_note": {
+                        "type": "string",
+                        "description": (
+                            "One sentence on what this unit is DOING in the source: the "
+                            "role it plays in the argument, what it supports or depends "
+                            "on, or what it is an instance of. Not a summary of the "
+                            "statement -- a reader has that already. This is what the "
+                            "statement cannot say about itself."
+                        ),
+                    },
                     "decontextualization_note": {
                         "type": "string",
                         "description": "What was added to make this stand alone.",
@@ -235,7 +322,7 @@ UNIT_SCHEMA = {
                     "extraction_confidence": {"type": "number"},
                 },
                 "required": [
-                    "canonical_statement", "evidence", "scores", "decision",
+                    "canonical_statement", "evidence", "scores", "decision", "grounding",
                 ],
                 "additionalProperties": False,
             },
@@ -520,6 +607,10 @@ def _materialize_units(
             # ------------------------------------------------------------------
             "canonical_statement": statement,
             "context_note": raw.get("context_note", ""),
+            # Self-reported, and treated as such: it is a claim to be checked
+            # against the citations, not a fact about the run. `validate` fails
+            # a unit that claims attributable while carrying an unverified quote.
+            "grounding": raw.get("grounding", "unattributed_content"),
             "decontextualization_note": raw.get("decontextualization_note", ""),
             "qualifiers": raw.get("qualifiers", []),
             "candidate_topics": raw.get("candidate_topics", []),
@@ -576,6 +667,9 @@ def _resolve_evidence(
         "excerpt": excerpt,
         "excerpt_sha256": text_hash(excerpt),
         "excerpt_verified": verified,
+        # Which claim this quote is here to license. Defaults to primary so a
+        # record written before roles existed still reads correctly.
+        "role": raw.get("role", "primary"),
     }
 
 

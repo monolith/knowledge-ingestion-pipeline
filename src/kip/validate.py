@@ -31,6 +31,68 @@ def _reseal(record: dict[str, Any]) -> str:
     return stable_hash(seal_payload(record))
 
 
+
+from .vocab import GROUNDING as GROUNDING_VALUES
+
+
+def _check_grounding(
+    units: list[dict[str, Any]],
+    errors: list[str],
+    warnings: list[str],
+    counts: dict[str, int],
+) -> None:
+    """Hold the self-reported grounding flag to the citations it claims.
+
+    `grounding` is the model's answer to "could you have written this from the
+    document alone". It is self-report, and self-report in this pipeline has
+    already been measured unreliable once -- so it is checked rather than
+    trusted. The check is the one thing that IS mechanical: a unit cannot claim
+    every clause is attributable while resting on a quote that could not be
+    found in the source.
+
+    The counts are health metrics, not failures. A corpus with some
+    unattributed content is a corpus that needs review, not a broken run, and
+    failing it would delete the evidence needed to do the review.
+    """
+    flagged = [u for u in units if u.get("grounding")]
+    if not flagged:
+        return
+
+    unattributed = 0
+    for unit in flagged:
+        unit_id = unit.get("unit_id", "?")
+        value = unit.get("grounding")
+        if value not in GROUNDING_VALUES:
+            errors.append(f"{unit_id}: unknown grounding {value!r}")
+            continue
+        if value == "unattributed_content":
+            unattributed += 1
+        if value == "attributable":
+            unverified = [
+                e for e in unit.get("evidence", []) if not e.get("excerpt_verified")
+            ]
+            if unverified:
+                errors.append(
+                    f"{unit_id}: claims grounding 'attributable' but "
+                    f"{len(unverified)} of its excerpts could not be found in the "
+                    "source, so the claim cannot be checked"
+                )
+        # An import without a supporting citation is the failure mode the flag
+        # exists to catch: the statement went beyond its primary passage and
+        # nothing licenses the difference.
+        roles = {e.get("role", "primary") for e in unit.get("evidence", [])}
+        if unit.get("decontextualization_note") and "supporting" not in roles:
+            warnings.append(
+                f"{unit_id}: records imported context but cites no supporting excerpt"
+            )
+
+    counts["units_unattributed"] = unattributed
+    if unattributed:
+        warnings.append(
+            f"{unattributed} of {len(flagged)} units carry content no cited excerpt "
+            "supports and are marked for review"
+        )
+
 # Which id field names a record of each kind. Carried alongside the records so
 # a hash mismatch can name the offending RECORD; reporting `list(record)[0]`
 # named the first key of a key-sorted dict, which is a field name and is the
@@ -178,6 +240,8 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
     _ids(events, "queue_event_id", "queue event", errors)
 
     _check_originals(ctx, registry, errors)
+
+    _check_grounding(units, errors, warnings, counts)
 
     # --- Content hashes -------------------------------------------------------
     # `approved` and `enriched_unit` are in this loop because they are sealed:

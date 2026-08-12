@@ -68,7 +68,7 @@ def _build_run(root: Path) -> RunContext:
         "node_kind": "unit",
         "entity_mentions": [],
         "classifier_model": "m",
-        "decision": "keep",
+        "decision": "keep", "grounding": "attributable",
         "evidence": [{
             "source_id": "src-doc",
             "normalized_path": rel,
@@ -339,7 +339,7 @@ def test_a_hand_assembled_tree_is_checked_but_not_held_to_a_full_chain(tmp_path:
     ctx = RunContext(run_id="run-partial", root=tmp_path)
     write_jsonl_atomic(ctx.units, [seal({
         "unit_id": "u-1", "source_id": "s", "canonical_statement": "x",
-        "evidence": [], "decision": "keep",
+        "evidence": [], "decision": "keep", "grounding": "attributable",
     })])
     report = validate_run(ctx)
     assert report["ok"], report["errors"]
@@ -412,3 +412,67 @@ def test_two_originals_sharing_a_filename_are_compared_separately(tmp_path: Path
     ]))
     report = validate_run(ctx)
     assert not any("original_sha256" in e for e in report["errors"]), report["errors"]
+
+
+def test_a_unit_cannot_claim_attributable_on_a_quote_that_was_never_found(tmp_path):
+    """`grounding` is self-report, and self-report has already been measured
+    unreliable once in this pipeline. So it is checked against the one thing
+    that is mechanical: a unit claiming every clause traces to the source, while
+    resting on an excerpt that could not be found in that source, is making a
+    claim nobody can check.
+    """
+    from kip.validate import _check_grounding
+
+    errors: list[str] = []
+    warnings: list[str] = []
+    counts: dict[str, int] = {}
+    _check_grounding(
+        [{
+            "unit_id": "u-1",
+            "grounding": "attributable",
+            "evidence": [{"excerpt": "invented", "excerpt_verified": False, "role": "primary"}],
+        }],
+        errors, warnings, counts,
+    )
+    assert any("cannot be checked" in e for e in errors)
+
+
+def test_unattributed_content_is_counted_for_review_not_failed(tmp_path):
+    """A corpus carrying outside knowledge needs review, not deletion. Failing
+    the run would destroy the evidence needed to do the review.
+    """
+    from kip.validate import _check_grounding
+
+    errors: list[str] = []
+    warnings: list[str] = []
+    counts: dict[str, int] = {}
+    _check_grounding(
+        [{"unit_id": "u-1", "grounding": "unattributed_content", "evidence": []},
+         {"unit_id": "u-2", "grounding": "attributable", "evidence": []}],
+        errors, warnings, counts,
+    )
+    assert errors == []
+    assert counts["units_unattributed"] == 1
+    assert any("marked for review" in w for w in warnings)
+
+
+def test_imported_context_without_a_supporting_citation_is_flagged(tmp_path):
+    """Sufficiency licenses importing context; it does not license asserting it
+    uncited. A unit that records an import but cites only its primary passage
+    has gone beyond that passage with nothing licensing the difference.
+    """
+    from kip.validate import _check_grounding
+
+    errors: list[str] = []
+    warnings: list[str] = []
+    counts: dict[str, int] = {}
+    _check_grounding(
+        [{
+            "unit_id": "u-1",
+            "grounding": "attributable",
+            "decontextualization_note": "Imported the definitional precondition.",
+            "evidence": [{"excerpt": "q", "excerpt_verified": True, "role": "primary"}],
+        }],
+        errors, warnings, counts,
+    )
+    assert any("cites no supporting excerpt" in w for w in warnings)
