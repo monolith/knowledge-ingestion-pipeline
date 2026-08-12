@@ -14,6 +14,7 @@ the pipeline wrote; `render.py` turns them into the markdown.
 | `01-sharpe-v31` | Sharpe excerpt, 223 words | 9 | 1 per 25 words | the original **minimality** prompt |
 | `02-sharpe-v41` | same 223 words | 7 | 1 per 31 words | **sufficiency + cited imports** |
 | `03-spec-long` | the statement-classifier spec, 12,311 words | 12 | **1 per 1,025 words** | **the windowing failure** |
+| `04-debondt-thaler` | De Bondt & Thaler (1985), 6,284 words | 35 | 1 per 179 words | a long document that did **not** collapse |
 
 The run-03 source is the taxonomy specification from the sibling
 `statement-classifier` repo, copied in as
@@ -90,7 +91,60 @@ durable content a knowledge base exists to hold.
 
 **Everything else held at 12k words.** Every citation verified against the
 source, all twelve units `attributable`, median 45 words. The quality machinery
-works; the coverage does not. Windowing is the fix and it is not built.
+works; the coverage does not.
+
+## 04: length alone is not what breaks it
+
+Run 04 digests De Bondt & Thaler's 1985 *Does the Stock Market Overreact?* —
+6,284 words of argument rather than a reference document — and produced 35 units
+at one per 179 words, with `kip validate` clean: no errors, no warnings, all 82
+excerpts verified, all 35 units `attributable`.
+
+```
+Sharpe excerpt      223 words →  7 units   (1 per    32 words)
+De Bondt & Thaler 6,284 words → 35 units   (1 per   179 words)
+classifier spec  12,311 words → 12 units   (1 per 1,025 words)
+```
+
+So a document five times longer than the Sharpe excerpt did not collapse. Two
+things confound reading this as proof that coverage is fine:
+
+**The agent answering the call knew what was being tested.** These runs are
+answered by the agent operating the CLI, and this one was made while
+investigating the density question. Treat one-per-179 as an existence proof —
+6,000 words *can* yield 35 verified standalone units in a single call — not as a
+measurement of unprompted model behaviour. The clean version of the test runs
+this document through `--mode sdk`.
+
+**The omission check still found eight gaps**, concentrated in the statistical
+apparatus of Section I.A and in the footnotes, which is where the competing
+explanations and the caveats live. It also caught that Table I's strongest row —
+the five-year experiment, reversing 0.319 at 60 months with t = 3.28 — is
+stronger than the three-year result the extraction treated as the headline. So
+coverage degrades gradually with length rather than falling off a cliff, and it
+is already imperfect at 6,000 words.
+
+The source document is not in the repo; see
+[`04-debondt-thaler/meta.json`](04-debondt-thaler/meta.json).
+
+## What run 04 exposed in `normalize`
+
+Three of the extraction's quotes failed verbatim verification on the first
+attempt, and the cause is in Pass 0 rather than in the model:
+
+1. **Words split across a line break are never rejoined.** The text contains
+   `evi- dence`, `follow- ing`, `com- panies`, `predict- able`. The word
+   `evidence` does not occur in `normalized.txt` at all. A model quoting
+   faithfully writes "evidence", the exact-match check fails, and the excerpt is
+   silently marked unverified — which then degrades the unit's grounding. This
+   fires on every page, not only at page boundaries.
+2. **Running heads are kept as body text.** `Does the Stock Market Overreact? 801`
+   and `794 The Journal of Finance` appear twelve times as if they were prose,
+   in the middle of sentences that span a page. `docs/SPECIFICATION.md` §8
+   already requires "deterministic-and-logged header/footer stripping only"; it
+   was specified and never implemented.
+3. `[[PAGE n]]` markers themselves are **correct** and should stay — they are how
+   an excerpt resolves back to a page in the original.
 
 ## The handoff protocol
 

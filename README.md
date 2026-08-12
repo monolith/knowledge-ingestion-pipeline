@@ -223,15 +223,22 @@ carrying a content hash and pointers to its parents.
 ### Not built yet: documents too long to hold at once
 
 Everything above assumes the document fits in one call. Measured on the same
-extractor and the same prompt, against a 223-word excerpt of Sharpe and the
-12,311-word [statement-classifier
-specification](demo/real-runs/03-spec-long/source.md) — a dense nine-section
-technical document, not prose:
+extractor and the same prompt:
 
 ```
 Sharpe excerpt      223 words →  7 units   (1 per    32 words)
+De Bondt & Thaler 6,284 words → 35 units   (1 per   179 words)
 classifier spec  12,311 words → 12 units   (1 per 1,025 words)
 ```
+
+Length alone is not the variable. [De Bondt &
+Thaler (1985)](demo/real-runs/04-debondt-thaler/UNITS.md) is five times longer
+than the Sharpe excerpt and held up: 35 units, `kip validate` clean, all 82
+excerpts verified. The [classifier
+specification](demo/real-runs/03-spec-long/source.md) is a dense reference
+document — fifteen label definitions, twenty-two pairwise rules, an evidence
+register — and it is the one that collapsed. Some of the 32× gap is document
+shape rather than extractor failure.
 
 Everything except coverage held at 12,000 words: all fourteen citations verified
 against the source, all twelve units `attributable`, statements the same length
@@ -243,10 +250,24 @@ coverage does not. See
 
 Two separate limits are tangled in that number and neither is addressed.
 `max_tokens` on the shared model-call seam is 8,192 — about 28 units at the
-observed cost per unit — so the answer had nowhere to go. And a document large
-enough to strain the context window has to be cut regardless of the output
-budget, at boundaries where a section is self-contained enough that nothing it
-rests on falls outside the cut.
+observed cost per unit — so a dense document's answer has nowhere to go. And a
+document large enough to strain the context window has to be cut regardless of
+the output budget, at boundaries where a section is self-contained enough that
+nothing it rests on falls outside the cut.
+
+Coverage is imperfect before either limit binds: at 6,284 words the omission
+check still found eight gaps, concentrated in the statistical apparatus and the
+footnotes. It degrades gradually with length rather than at a cliff.
+
+### Not built yet: line-break repair in `normalize`
+
+Run 04 exposed two Pass 0 defects that corrupt verbatim quoting of any paginated
+PDF. Words split across a line break are never rejoined — the document holds
+`evi- dence` and `follow- ing`, so a faithful quote fails the exact-match check
+and the excerpt is silently marked unverified. And running heads are kept as
+body text, landing mid-sentence wherever a sentence spans a page. §8 of the
+specification already requires header/footer stripping. Details in
+[`demo/real-runs/`](demo/real-runs/README.md).
 
 ## Design decisions worth knowing
 

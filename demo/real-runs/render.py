@@ -19,12 +19,30 @@ def render(run_dir: Path) -> str:
     omissions = ([json.loads(l) for l in om_path.read_text().splitlines() if l.strip()]
                  if om_path.exists() else [])
 
-    words = sum(len((run_dir / "source.md").read_text().split()))if False else len(
-        (run_dir / "source.md").read_text().split())
-    out = [f"# {run_dir.name}", "",
-           f"- source: {words:,} words",
-           f"- units: {len(units)}  (one per {words // max(len(units),1):,} words)",
-           f"- omissions flagged: {len(omissions)}", ""]
+    # Most runs ship their source beside the artifacts. A run over a copyrighted
+    # document cannot, so it records the word count in meta.json instead -- the
+    # density figure is the point of these runs and must not depend on whether
+    # the source could be redistributed.
+    source = run_dir / "source.md"
+    meta_path = run_dir / "meta.json"
+    if source.exists():
+        words = len(source.read_text().split())
+    elif meta_path.exists():
+        words = int(json.loads(meta_path.read_text())["source_words"])
+    else:
+        raise SystemExit(f"{run_dir}: needs source.md or meta.json with source_words")
+
+    header = [f"# {run_dir.name}", ""]
+    if meta_path.exists():
+        meta_doc = json.loads(meta_path.read_text())
+        if meta_doc.get("source"):
+            header += [f"**Source.** {meta_doc['source']}", ""]
+        if meta_doc.get("source_note"):
+            header += [meta_doc["source_note"], ""]
+    out = header + [
+        f"- source: {words:,} words",
+        f"- units: {len(units)}  (one per {words // max(len(units),1):,} words)",
+        f"- omissions flagged: {len(omissions)}", ""]
 
     for i, u in enumerate(units, 1):
         out += [f"## {i}. {u['canonical_statement']}", ""]
