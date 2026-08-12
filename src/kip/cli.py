@@ -15,6 +15,7 @@ from pathlib import Path
 from .artifacts import PipelineError, RunContext, file_hash, read_jsonl
 from .auth import format_status, resolve_auth
 from .config import default_config
+from .handoff import EXIT_PENDING, HandoffClient, HandoffPending, format_request
 from .pipeline import discover_sources, run_pipeline
 from .trace import trace_leaf
 from .validate import validate_run
@@ -65,10 +66,32 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     print(f"run_id: {ctx.run_id}")
     print(f"workspace: {ctx.run_dir}")
+
+    # Two runtimes, one pipeline. `sdk` calls Anthropic and needs a credential;
+    # `handoff` writes each request to disk for the agent running the CLI to
+    # answer, which is what lets kip run inside a Claude Code session with no
+    # API key at all.
+    client = None
+    if args.mode == "handoff":
+        client = HandoffClient(root=ctx.run_dir / "_handoff")
+
     try:
         summary = run_pipeline(
-            ctx, cfg, ctx.sources_dir, stop_after=args.stop_after, force=args.force
+            ctx, cfg, ctx.sources_dir, stop_after=args.stop_after,
+            force=args.force, client=client,
         )
+    except HandoffPending as pending:
+        req = pending.request
+        print(f"\n--- awaiting answer ({len(client.answers)} answered so far) ---")
+        print(f"request  : {client.pending_path}")
+        print(f"answers  : {client.responses_path}")
+        print(f"call_id  : {req['call_id']}")
+        print(f"\nAnswer it by appending one line to the answers file:")
+        print(f'  {{"call_id": "{req["call_id"]}", "response": {{...}}}}')
+        print("then re-run the same command. Completed stages resume.")
+        if args.show_request:
+            print("\n" + format_request(req))
+        return EXIT_PENDING
     except PipelineError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
@@ -165,6 +188,15 @@ def main(argv: list[str] | None = None) -> int:
         "--no-datamark",
         action="store_true",
         help="Disable injection datamarking (not recommended; see spec §20.4)",
+    )
+    run.add_argument(
+        "--mode", choices=["sdk", "handoff"], default="sdk",
+        help="sdk: call Anthropic (needs a credential). handoff: write each request "
+             "to disk for the agent running this CLI to answer (no credential).",
+    )
+    run.add_argument(
+        "--show-request", action="store_true",
+        help="In handoff mode, print the pending request instead of just its path.",
     )
     run.set_defaults(func=cmd_run)
 
