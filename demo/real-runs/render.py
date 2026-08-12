@@ -35,10 +35,12 @@ def render(workspace: Path) -> str:
 
     # The normalized text is what every excerpt was cut from and what the density
     # figure is measured against -- not the original file, which may be a PDF.
+    # A run may ingest several documents, so sum them.
     normalized = sorted((run_dir / "01_normalized").glob("*/normalized.txt"))
-    if len(normalized) != 1:
-        raise SystemExit(f"{run_dir}: expected one normalized.txt, found {len(normalized)}")
-    words = len(normalized[0].read_text().split())
+    if not normalized:
+        raise SystemExit(f"{run_dir}: no normalized.txt under 01_normalized/")
+    words = sum(len(p.read_text().split()) for p in normalized)
+    n_sources = len(normalized)
     meta_path = workspace / "meta.json"
 
     header = [f"# {workspace.name}", "",
@@ -50,8 +52,9 @@ def render(workspace: Path) -> str:
             header += [f"**Source.** {meta_doc['source']}", ""]
         if meta_doc.get("source_note"):
             header += [meta_doc["source_note"], ""]
+    src_label = f"{words:,} words" if n_sources == 1 else f"{words:,} words across {n_sources} documents"
     out = header + [
-        f"- source: {words:,} words",
+        f"- source: {src_label}",
         f"- units: {len(units)}  (one per {words // max(len(units),1):,} words)",
         f"- omissions flagged: {len(omissions)}", ""]
 

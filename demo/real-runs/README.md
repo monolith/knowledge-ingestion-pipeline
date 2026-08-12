@@ -1,8 +1,12 @@
 # Real runs
 
-Four complete runs on real documents, produced by the CLI in `--mode handoff`
-with **no API key** — the agent running the CLI answered every model call. These
-are the pipeline's actual output, not fixtures.
+Five runs, all produced through the CLI in `--mode handoff` with **no API key**.
+
+Runs **01–04 are real model output** on real documents — the agent running the
+CLI answered every call. Run **`00-full-pipeline` is the structural reference**:
+the only run taken through all seven passes, so the only one whose tree shows
+every artifact the top-level README documents. Its answers come from the repo's
+canned transcript, so its structure is real and its content is fixture data.
 
 **Start with `UNITS.md` in any run folder.** Everything else is the machine-
 readable material behind it.
@@ -19,7 +23,10 @@ kip --workspace demo/real-runs/04-debondt-thaler validate dt1
 kip --workspace demo/real-runs/01-sharpe-v31 trace sharpe <candidate-id>
 ```
 
-All four pass `kip validate` with zero errors and zero warnings.
+All five pass `kip validate` with zero errors. Runs 01–04 also have zero
+warnings; `00-full-pipeline` has ten, all the same one — its fixture units
+record imported context without citing a supporting excerpt, which is the
+warning the `grounding` check exists to raise and which the fixtures predate.
 
 ```
 04-debondt-thaler/
@@ -51,9 +58,15 @@ produced. **For runs 01 and 02 it is not** — see
 
 **Runs differ in how far they got**, which is why their trees differ:
 
-- **`01-sharpe-v31` is the only run taken past extraction**, so it alone has
-  `03_clusters/`, `04_assessments/`, `05_candidates/` and `06_audit/`. Runs
-  02–04 stop after Pass 1, the pass under study.
+- **`00-full-pipeline` is the only run taken through all seven passes**, so it
+  is the only one carrying `03_clusters/enriched_units.jsonl`,
+  `06_audit/candidates.approved.jsonl` and `07_enqueue/`. It is what to open if
+  you want to see the whole tree.
+- **`01-sharpe-v31` is the only *model* run taken past extraction**, so among
+  runs 01–04 it alone has `03_clusters/`, `04_assessments/`, `05_candidates/`
+  and `06_audit/`. Runs 02–04 stop after Pass 1, the pass under study.
+- **No run carries `02_units/rejects.jsonl`**, because it is written only when
+  the model returns a malformed unit and none did.
 - **`02-sharpe-v41/runs/sharpe-v41/02_units/omissions.jsonl` is empty on
   purpose** — the omission check ran and found nothing missing.
 - **Only run 04 has a binary original** under `00_original_sources/`; the others
@@ -91,6 +104,7 @@ Runs 03 and 04 have no such gap: their fingerprint files record both
 
 | run | source | units | density | what it demonstrates |
 |---|---|---|---|---|
+| `00-full-pipeline` | 2 fixture documents, 206 words | 10 | — | **all seven passes** — the complete artifact tree |
 | `01-sharpe-v31` | Sharpe excerpt, 223 words | 9 | 1 per 24 words | the original **minimality** prompt |
 | `02-sharpe-v41` | same 223 words | 7 | 1 per 31 words | **sufficiency + cited imports** |
 | `03-spec-long` | the statement-classifier spec, 12,311 words | 12 | **1 per 1,025 words** | **the windowing failure** |
