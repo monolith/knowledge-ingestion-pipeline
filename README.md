@@ -29,7 +29,7 @@ that to *"mixed evidence: contested"* and keeps the original on disk beside it.
 ## Install
 
 ```bash
-pip install -e ".[parse-lite,dev]"
+pip install -e ".[parse-lite,parse-pdf,dev]"
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
 

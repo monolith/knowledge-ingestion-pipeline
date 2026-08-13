@@ -22,7 +22,7 @@ from dataclasses import replace
 
 from kip import llm as llm_module
 from kip.config import default_config
-from kip.llm import LLMClient, LLMError, datamark, with_thinking_field
+from kip.llm import OutputBudgetExceeded, LLMClient, LLMError, datamark, with_thinking_field
 
 SCHEMA = {
     "type": "object",
@@ -91,7 +91,16 @@ def _text(payload: dict) -> _Response:
 
 
 def _tool(payload: dict) -> _Response:
-    return _Response([_Block(type="tool_use", input=payload)])
+    """A forced-tool response.
+
+    `reasoning` is included because `complete_json` wraps every schema with
+    `with_thinking_field`, so a real model answering this call would emit it.
+    The tool path is now schema-checked client-side -- the API does not enforce
+    a tool's input_schema the way it enforces output_config -- so a payload
+    missing it is correctly rejected.
+    """
+    return _Response([_Block(type="tool_use",
+                             input={"reasoning": "because", **payload})])
 
 
 def test_the_native_schema_path_returns_the_parsed_object(client_factory):
@@ -219,3 +228,38 @@ def test_datamarking_survives_a_round_trip_through_the_client(client_factory):
     # Declared FIRST, because a reasoning field the model fills in after its
     # answer is a rationalization rather than a reasoning step.
     assert with_thinking_field(SCHEMA)["required"][0] == "reasoning"
+
+
+def test_the_tool_fallback_rejects_an_answer_that_does_not_match_the_schema(client_factory):
+    """The gap this closes: the API enforces `output_config` and does NOT
+    enforce a tool's `input_schema`, so the fallback path validated nothing
+    while the handoff runtime validated everything. The same answer passed
+    under one runtime and failed under the other."""
+    bad = _Response([_Block(type="tool_use", input={"reasoning": "r", "answer": 7})])
+    client, stub = client_factory([
+        RuntimeError("unexpected parameter: output_config"),
+        bad, bad, bad, bad,
+    ])
+    with pytest.raises(LLMError):
+        client.complete_json(system="s", user="u", schema=SCHEMA, model="m")
+
+
+def test_a_truncated_response_is_named_rather_than_reported_as_bad_json(client_factory):
+    """`stop_reason == "max_tokens"` means the ceiling was too low, not that
+    the model misbehaved. Unchecked it surfaced as a JSON decode error four
+    retries later, at full cost, blaming the wrong thing."""
+    cut = _Response([_Block(type="text", text='{"reasoning": "r", "ans')])
+    cut.stop_reason = "max_tokens"
+    client, _ = client_factory([cut])
+    with pytest.raises(OutputBudgetExceeded):
+        client.complete_json(system="s", user="u", schema=SCHEMA, model="m")
+
+
+def test_an_unsupported_media_type_does_not_downgrade_the_whole_run(client_factory):
+    """A permanent downgrade to the unvalidated tool path is a large
+    consequence for a transient 400 about something else entirely."""
+    from kip.llm import _is_unsupported_param
+
+    assert not _is_unsupported_param(RuntimeError("Unsupported media type: image/tiff"))
+    assert not _is_unsupported_param(RuntimeError("unsupported model"))
+    assert _is_unsupported_param(RuntimeError("unexpected parameter: output_config"))

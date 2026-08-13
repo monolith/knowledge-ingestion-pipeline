@@ -641,3 +641,69 @@ def test_a_title_row_does_not_hide_the_header_row_beneath_it():
     assert got["value"] == "$8,698"
     assert got["column_headers"] == ["2025"], "the year the figure belongs to"
     assert got["row_headers"][0] == "Net income (loss)"
+
+
+# --- Markdown: the format nobody thinks of as a format --------------------------
+
+
+MEMO = """# Assessment
+
+## Cost
+
+**Table 2. Pack economics at 2025 volumes**
+
+| Chemistry | Energy density (Wh/kg) | Pack cost ($/kWh) |
+|---|---|---|
+| Sodium-ion | 165 | 87 |
+| LFP | 280 | 95 |
+
+The total cost of ownership is
+
+$$
+TCO = C_{pack} N_{replace} + C_{install}
+$$
+
+where N is the replacement count.
+"""
+
+
+def test_a_markdown_table_becomes_a_grid_not_a_flattened_row():
+    """The gap this closes. A memo's comparison table used to reach the corpus
+    as `| Sodium-ion | 165 | 87 |` — readable, and no grid, so a unit quoting
+    that row proved the digits were copied and not that they were assigned to
+    the right column. That is the failure the asset layer exists to prevent,
+    sitting in the format most likely to be handed to it."""
+    from kip.assets import FIDELITY_EXACT, resolve_cell
+    from kip.md_assets import markdown_assets
+
+    table = [a for a in markdown_assets(MEMO, "s") if a["kind"] == "table"][0]
+    assert table["fidelity"] == FIDELITY_EXACT, "the columns are the author's, not a guess"
+    got = resolve_cell(table, 1, 2)
+    assert got["value"] == "87"
+    assert got["column_headers"] == ["Pack cost ($/kWh)"]
+    assert got["row_headers"][0] == "Sodium-ion"
+
+
+def test_a_markdown_table_carries_its_caption_and_heading():
+    from kip.md_assets import markdown_assets
+
+    table = [a for a in markdown_assets(MEMO, "s") if a["kind"] == "table"][0]
+    assert table["payload"]["caption"] == "Table 2. Pack economics at 2025 volumes"
+    assert table["payload"]["heading"] == "Cost"
+
+
+def test_display_math_is_captured_and_inline_dollars_are_not():
+    """A lone `$` is a dollar sign far more often than it is mathematics, and
+    this refuses to guess which — the memo above prices packs in $/kWh."""
+    from kip.md_assets import extract_formulas
+
+    found = extract_formulas(MEMO)
+    assert len(found) == 1
+    assert found[0]["latex"].startswith("TCO =")
+
+
+def test_a_pipe_table_needs_its_delimiter_row():
+    """`|` appears in prose and in code. The delimiter row is the grammar."""
+    from kip.md_assets import extract_tables
+
+    assert extract_tables("a | b\nc | d\n") == []

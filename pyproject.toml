@@ -1,6 +1,6 @@
 [project]
 name = "kip"
-version = "0.1.0"
+version = "0.2.0"
 description = "Knowledge Ingestion Pipeline — spec v3.0 reference implementation"
 requires-python = ">=3.10"
 dependencies = [
@@ -23,7 +23,7 @@ parse-lite = [
     "openpyxl>=3.1.0",
 ]
 # Pass 2 lexical retrieval. Pure-python BM25 keeps the default install light.
-retrieval = ["rank-bm25>=0.2.2"]
+# BM25 is implemented in `route.py`; no package is needed for it.
 dev = ["pytest>=8.0"]
 
 [project.scripts]
@@ -35,6 +35,13 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+# Without this a non-editable `pip install .` omits the taxonomy JSON, and the
+# retention guard -- which decides which units are flagged [MUST CARRY] -- comes
+# up empty on a fresh machine while every test passes on the developer's,
+# because an editable install reads it straight from the source tree.
+[tool.setuptools.package-data]
+kip = ["taxonomies/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

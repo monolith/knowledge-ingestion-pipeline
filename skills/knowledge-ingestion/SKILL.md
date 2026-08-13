@@ -42,7 +42,8 @@ Two extras, and you want both for anything but plain text:
   quiet.
 
 `[parse]` adds Docling instead, which gives bounding-box provenance but pulls a
-multi-GB ML stack. `[retrieval]` adds BM25 for Pass 2 clustering.
+multi-GB ML stack. Pass 2's BM25 needs no package — it is implemented in
+`route.py`.
 
 Credentials resolve in three tiers: `ANTHROPIC_API_KEY`, then a Claude Code
 OAuth token, then Bedrock/Vertex settings. A 401 mid-run re-reads the token from
@@ -111,9 +112,16 @@ So a source is a **bundle**: the flat text, plus typed assets in
 
 | kind | recovered from |
 |---|---|
-| `table` | HTML `<table>` markup; PDF ruling lines; a rendered page read by a model |
-| `formula` | MathML `<annotation encoding="application/x-tex">`; a rendered page |
+| `table` | HTML `<table>`; a Markdown pipe table; PDF ruling lines; a rendered page read by a model |
+| `formula` | MathML `<annotation encoding="application/x-tex">`; Markdown `$$…$$` or a ```math fence; a rendered page |
 | `figure` | HTML `<img>`; a PDF page carrying a `Figure N.` caption; an image file given as a source |
+
+Markdown is worth calling out because it is the format most documents arrive in
+that nobody thinks of as a format. A pipe table's columns are delimited by the
+author, so the grid is `exact` — the same standing as HTML. Inline `$…$` is
+deliberately NOT read as mathematics: a lone `$` is a dollar sign far more often
+than it is an equation, and a memo pricing something in $/kWh would produce
+nonsense.
 
 **Fidelity is part of the record**, because the kinds are not equally
 trustworthy and a consumer must not compare them the same way:
@@ -178,29 +186,12 @@ kip --workspace .kip show <run-id> units --pretty --limit 5
 kip --workspace .kip show <run-id> audits --pretty
 kip --workspace .kip validate <run-id>      # provenance + integrity check
 kip --workspace .kip trace <run-id> <queue-event-id|candidate-id|unit-id>
-kip --workspace .kip migrate-taxonomy <run-id>   # backfill kt-v1 types (idempotent)
 ```
 
 `trace` prints the full chain from a queue event back to the original file and
 the exact quoted excerpt. `validate` fails loudly if any excerpt no longer
 matches its source, any ID dangles, or any audit ran without a distinct auditor;
 it warns on orphaned assets and on duplicate slugs.
-
-`migrate-taxonomy` adds the `kt-v1` type fields to a run extracted before the
-taxonomy existed. It maps 15 of the 20 legacy labels deterministically and
-leaves the other 5 as `unclassified` with a note explaining why the label alone
-cannot decide them — it never guesses. Content hashes are unaffected, so
-`validate` still passes afterward.
-
-It refuses two things, and both refusals matter more than they look. A unit that
-already carries a real `kt-v1` classification is **left alone and counted**:
-rebuilding a model's six independent answers from one coarse legacy label is a
-downgrade, and every field involved is excluded from the content hash, so no
-later check could detect it. Pass `--reclassify` if that is genuinely what you
-want. And a unit whose stored hash matches neither the current nor the old
-sealing rule has had its statement edited since extraction; the migration stops
-rather than re-seal it, because re-sealing would make `kip validate` pass on
-text nobody wrote.
 
 ## Reading the output honestly
 

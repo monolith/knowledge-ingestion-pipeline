@@ -5,8 +5,12 @@ Six complete runs on real documents, all produced through the CLI in
 operating the CLI, one call at a time, against the request the pipeline actually
 wrote — so these are model output on real sources, not fixtures.
 
-All six go through **all seven passes** and pass `kip validate` with zero
-errors and zero warnings. Four are argument, evidence and reference; one is a
+All six go through **all seven passes** and pass `kip validate` with **zero
+errors**. Four carry warnings, and the warnings are the point rather than an
+oversight: assets sitting in text nobody read (De Bondt 1, GE 1), and slugs
+claimed by more than one approved entry where a leaf spans two routing clusters
+(GE 11, the specification 14) — which the consumer merges, as the warning says.
+Black–Scholes predates asset anchoring and says so. Four are argument, evidence and reference; one is a
 narrative, included because it is the shape the others are not; and one is
 almost entirely mathematics, included because that is the shape a text pipeline
 handles worst.

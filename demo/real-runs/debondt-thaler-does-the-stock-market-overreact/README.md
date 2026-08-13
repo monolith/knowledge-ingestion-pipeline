@@ -301,7 +301,7 @@ Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`
 
 #### `tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021`
 
-table · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 244/244 figures corroborated by the text layer · page 10 · not cited by any unit
+table · **transcribed** · extractor `visual_read_v1` · anchored by `own_text` · 244/244 figures corroborated by the text layer · page 10 · not cited by any unit
 
 **Table I. Differences in Cumulative Average (Market-Adjusted) Residual Returns Between the Winner and Loser Portfolios at the End of the Formation Period, and 1, 12, 13, 18, 24, 25, 36, and 60 Months into the Test Period. (a) formation month is December in all uneven years between 1933 and 1979; (b) formation month is December in all even years between 1932 and 1980; NA = not applicable.**
 
