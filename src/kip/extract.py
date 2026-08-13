@@ -13,11 +13,69 @@ from .artifacts import RunContext, envelope, read_jsonl, seal, text_hash, write_
 from .config import Config
 from .retention import annotate as annotate_protected, load_taxonomy
 from .llm import DATA_BOUNDARY_NOTE, LLMClient, wrap_untrusted
+from .pdf_assets import formula_asset
 from .vocab import FLAGS, MODALITIES, NODE_KINDS, detect_quantitative, normalize_flags, normalize_modality
 
 PROMPT_VERSION = "pass-01-molecular-extraction-v4.2"  # v4.2: grounding flag
 OMISSION_PROMPT_VERSION = "pass-01b-omission-check-v3.0"
 REPAIR_PROMPT_VERSION = "pass-01c-omission-repair-v1.0"
+READ_PROMPT_VERSION = "pass-00b-visual-read-v1.0"
+
+READ_SYSTEM = """You read a page image that a text extractor could not represent.
+
+A PDF stores tables and equations as positioned glyphs, so the text layer for
+this page is damaged: table columns lost their headers, and mathematics arrived
+as characters that merely resemble it. You are looking at what the page actually
+says.
+
+Return every TABLE and every DISPLAY EQUATION on the page.
+
+For a table, give the grid as rows of cells, header row first. Column headers
+matter more than anything else here -- a figure whose column is unknown is not
+recoverable later. Where headers are nested, flatten them into the most specific
+label a reader would use.
+
+For an equation, give LaTeX.
+
+Transcribe. Do not summarize, do not interpret, do not correct what the page
+says. If part of the page is illegible, say so for that item rather than
+guessing at it."""
+
+READ_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "tables": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "caption": {"type": "string"},
+                    "rows": {"type": "array",
+                             "items": {"type": "array", "items": {"type": "string"}}},
+                    "header_rows": {"type": "integer"},
+                    "illegible": {"type": "string"},
+                },
+                "required": ["rows"],
+                "additionalProperties": False,
+            },
+        },
+        "formulas": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "latex": {"type": "string"},
+                    "surrounding_text": {"type": "string"},
+                    "illegible": {"type": "string"},
+                },
+                "required": ["latex"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    "required": ["tables", "formulas"],
+    "additionalProperties": False,
+}
 
 # --- System prompt ------------------------------------------------------------
 # Every rule below is a spec decision, and the wording is deliberately close to
@@ -459,6 +517,13 @@ def extract_units(
         text = normalized_path.read_text(encoding="utf-8")
         assets_path = normalized_path.parent / "assets.jsonl"
         assets = read_jsonl(assets_path) if assets_path.exists() else []
+        if assets:
+            recovered = _read_rendered_pages(ctx, cfg, client, manifest, assets)
+            if recovered:
+                assets = assets + recovered
+                write_jsonl_atomic(assets_path, assets)
+                print(f"[pass1] {source_id}: read {len(recovered)} asset(s) off "
+                      "rendered pages")
 
         result = client.complete_json(
             system=system,
@@ -631,6 +696,83 @@ def _reject(source_id: str, index: int, raw: object, reason: str) -> dict[str, A
         "reason": reason,
         "statement_prefix": prefix,
     }
+
+
+def _read_rendered_pages(ctx, cfg, client, manifest: dict[str, Any],
+                         assets: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Turn each rendered page into the tables and formulas it actually shows.
+
+    Pass 0 renders a page and records that something on it could not be
+    represented as text; it deliberately makes no model call. This is where the
+    reading happens, before extraction, so units are built from the recovered
+    structure rather than from the damage.
+
+    Everything produced here is `transcribed`. The page image stays attached, so
+    a consumer can check the reading against what was read -- which is the only
+    check that works: string comparison rejects correct transcriptions about a
+    third of the time.
+    """
+    from .assets import ASSET_TABLE, FIDELITY_TRANSCRIBED, Cell, Table, build_asset
+
+    renders = [a for a in assets
+               if a.get("kind") == "figure" and a.get("payload", {}).get("image")]
+    if not renders:
+        return []
+    base = (ctx.run_dir / manifest["normalized_path"]).parent
+    source_id = manifest["source_id"]
+    # Numbered above everything Pass 0 wrote, so a reading cannot collide with
+    # a render. Ids are what a citation resolves by; a duplicate is not cosmetic.
+    existing = max((int(a["asset_id"][-4:]) for a in assets
+                    if a.get("asset_id", "")[-4:].isdigit()), default=len(assets))
+    out: list[dict[str, Any]] = []
+
+    for render in renders:
+        image = base / render["payload"]["image"]
+        if not image.exists():
+            continue
+        try:
+            result = client.complete_json(
+                system=READ_SYSTEM,
+                user=(f"Page {render.get('page')} of {manifest['title']}.\n"
+                      "Return every table and display equation this page shows."),
+                schema=READ_SCHEMA,
+                model=cfg.model_for("extractor"),
+                images=[str(image)],
+            )
+        except Exception as exc:
+            if type(exc).__name__ in ("HandoffPending", "HandoffInvalid"):
+                raise
+            print(f"[pass1] could not read {image.name}: {exc}")
+            continue
+
+        for raw in result.get("tables", []):
+            rows = raw.get("rows", [])
+            header_rows = max(0, int(raw.get("header_rows", 1)))
+            cells = [Cell(row=r, col=c, text=(v or "").strip(), is_header=r < header_rows)
+                     for r, row in enumerate(rows)
+                     for c, v in enumerate(row) if (v or "").strip()]
+            if len(cells) < 4:
+                continue
+            grid = Table(cells=cells, n_rows=len(rows),
+                         n_cols=max((len(r) for r in rows), default=0),
+                         caption=raw.get("caption", ""))
+            out.append(build_asset(
+                kind=ASSET_TABLE, source_id=source_id, index=existing + len(out) + 1,
+                fidelity=FIDELITY_TRANSCRIBED, extractor="visual_read_v1",
+                payload={**grid.as_dict(), "image": render["payload"]["image"],
+                         "illegible": raw.get("illegible", "")},
+                text=grid.to_text(), page=render.get("page")))
+
+        for raw in result.get("formulas", []):
+            if not raw.get("latex"):
+                continue
+            out.append(formula_asset(
+                source_id=source_id, index=existing + len(out) + 1,
+                page=render.get("page") or 0,
+                image_rel=render["payload"]["image"],
+                latex=raw["latex"], surrounding=raw.get("surrounding_text", ""),
+                extractor="visual_read_v1"))
+    return out
 
 
 def _render_assets(assets: list[dict[str, Any]], *, limit: int = 60) -> str:

@@ -102,6 +102,30 @@ def check_answer_size(*, answer_tokens: int, max_tokens: int | None, call_id_: s
     )
 
 
+def _user_content(user: str, images: list[str] | None) -> Any:
+    """A user message, with page renders attached when there are any.
+
+    Reading a rendered page is how formulas and PDF tables are recovered, so the
+    transport has to carry an image. Under the handoff runtime the agent reads
+    the file itself; here it is base64 in an image block.
+    """
+    if not images:
+        return user
+    import base64
+    import mimetypes
+    from pathlib import Path
+
+    blocks: list[dict[str, Any]] = []
+    for image in images:
+        path = Path(image)
+        media = mimetypes.guess_type(path.name)[0] or "image/png"
+        blocks.append({"type": "image", "source": {
+            "type": "base64", "media_type": media,
+            "data": base64.standard_b64encode(path.read_bytes()).decode("ascii")}})
+    blocks.append({"type": "text", "text": user})
+    return blocks
+
+
 def _is_auth_error(exc: Exception) -> bool:
     """True for a 401, by SDK class where available and by status code always.
 
@@ -276,6 +300,7 @@ class LLMClient:
         max_tokens: int | None = None,
         cache_system: bool = True,
         add_thinking: bool = True,
+        images: list[str] | None = None,
     ) -> dict[str, Any]:
         """One schema-constrained call returning a validated dict."""
         check_request_size(system=system, user=user, model=model, cfg=self.cfg)
@@ -300,6 +325,7 @@ class LLMClient:
                 text = self._call(
                     system_blocks=system_blocks,
                     user=user,
+                    images=images,
                     schema=schema,
                     model=model,
                     max_tokens=max_tokens,
@@ -369,17 +395,19 @@ class LLMClient:
         *,
         system_blocks: list[dict[str, Any]],
         user: str,
+        images: list[str] | None = None,
         schema: dict[str, Any],
         model: str,
         max_tokens: int,
     ) -> str:
+        content = _user_content(user, images)
         if self._use_native_schema:
             try:
                 response = self._client.messages.create(
                     model=model,
                     max_tokens=max_tokens,
                     system=system_blocks,
-                    messages=[{"role": "user", "content": user}],
+                    messages=[{"role": "user", "content": content}],
                     output_config={"format": {"type": "json_schema", "schema": schema}},
                 )
                 self._record_usage(response)
@@ -399,7 +427,7 @@ class LLMClient:
             model=model,
             max_tokens=max_tokens,
             system=system_blocks,
-            messages=[{"role": "user", "content": user}],
+            messages=[{"role": "user", "content": content}],
             tools=[{
                 "name": tool_name,
                 "description": "Emit the structured result. This is the only way to answer.",

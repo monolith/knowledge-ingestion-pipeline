@@ -59,6 +59,14 @@ _MATH_DAMAGE = re.compile(
 #: occasional false positive; a page of mathematics produces many.
 _MIN_MARKS = 2
 
+#: A row of a table, after a text extractor has flattened it: several numeric
+#: groups separated only by spaces, with no separator and no header in sight.
+_TABLE_ROW = re.compile(r"(?:(?<=\s)|^)-?[\d(][\d,.()%]{2,}(?:\s+-?[\d(][\d,.()%]{2,}){2,}")
+
+#: How many such rows make a page worth rendering. Two numbers on a line is
+#: prose quoting figures; four rows of them is a table that lost its structure.
+_MIN_TABLE_ROWS = 3
+
 
 def pages_with_math(text: str, page_marker: re.Pattern[str] | None = None) -> list[int]:
     """Page numbers whose text shows the damage mathematics leaves behind.
@@ -80,6 +88,78 @@ def pages_with_math(text: str, page_marker: re.Pattern[str] | None = None) -> li
         if hits:
             pages[current] = pages.get(current, 0) + hits
     return sorted(page for page, count in pages.items() if count >= _MIN_MARKS and page)
+
+
+def pages_with_flattened_tables(text: str,
+                                page_marker: re.Pattern[str] | None = None) -> list[int]:
+    """Pages holding rows of numbers that have lost their column headers.
+
+    The HTML path recovers a table from markup, exactly, because the markup says
+    where the cells are. A PDF says no such thing -- a table is glyphs at
+    coordinates -- and on a scanned document the text layer is degraded enough
+    that alignment clustering produces nonsense: run on the De Bondt scan it
+    splits the running head into seven columns.
+
+    So the signal here is the same shape as the formula one: not the table, but
+    the damage. A run of numeric groups with no separator and no header is what
+    a flattened table row looks like, and a page carrying several of them is
+    worth rendering for a model to read.
+    """
+    marker = page_marker or re.compile(r"\[\[PAGE (\d+)\]\]")
+    pages: dict[int, int] = {}
+    current = 0
+    for line in text.splitlines():
+        found = marker.search(line)
+        if found:
+            current = int(found.group(1))
+            continue
+        if _TABLE_ROW.search(line):
+            pages[current] = pages.get(current, 0) + 1
+    return sorted(p for p, n in pages.items() if n >= _MIN_TABLE_ROWS and p)
+
+
+def ruled_tables(pdf: Path, source_id: str, start_index: int = 1) -> list[dict[str, Any]]:
+    """Tables a PDF draws with ruling lines, read from their geometry.
+
+    `transcribed`, not `exact`: the grid is inferred from where lines and words
+    sit, which is a reading of a picture however deterministic the code. Only
+    the `lines` strategy is used. Text-alignment clustering finds a table on
+    every page of ordinary prose -- measured on the De Bondt paper, all fourteen
+    -- and a false table is worse than no table, because a consumer cannot tell
+    it is false.
+    """
+    try:
+        import pdfplumber
+    except ImportError:
+        return []
+    from .assets import ASSET_TABLE, FIDELITY_TRANSCRIBED, build_asset
+    from .html_tables import compact
+    from .assets import Cell, Table
+
+    out: list[dict[str, Any]] = []
+    with pdfplumber.open(str(pdf)) as document:
+        for page_no, page in enumerate(document.pages, start=1):
+            try:
+                found = page.extract_tables({"vertical_strategy": "lines",
+                                             "horizontal_strategy": "lines"})
+            except Exception:
+                continue
+            for raw in found:
+                cells = [Cell(row=r, col=c, text=(value or "").strip())
+                         for r, row in enumerate(raw)
+                         for c, value in enumerate(row) if (value or "").strip()]
+                if len(cells) < 4:
+                    continue
+                grid = compact(Table(cells=cells, n_rows=len(raw),
+                                     n_cols=max((len(r) for r in raw), default=0)))
+                if grid.n_rows < 2 or grid.n_cols < 2:
+                    continue
+                out.append(build_asset(
+                    kind=ASSET_TABLE, source_id=source_id,
+                    index=start_index + len(out), fidelity=FIDELITY_TRANSCRIBED,
+                    extractor="pdfplumber_lines_v1", payload=grid.as_dict(),
+                    text=grid.to_text(), page=page_no))
+    return out
 
 
 def render_pages(pdf: Path, pages: list[int], out_dir: Path, *,

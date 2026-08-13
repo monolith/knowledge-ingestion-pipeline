@@ -141,6 +141,7 @@ class HandoffClient:
         max_tokens: int | None = None,
         cache_system: bool = True,
         add_thinking: bool = True,
+        images: list[str] | None = None,
     ) -> dict[str, Any]:
         # `add_thinking` is honoured so the request the agent sees is the same
         # shape the API runtime would send, and an answer produced under one
@@ -157,7 +158,11 @@ class HandoffClient:
             check_request_size(system=system, user=user, model=model, cfg=self.cfg)
         max_tokens = resolve_max_output(self.cfg, max_tokens)
         effective = with_thinking_field(schema) if add_thinking else schema
-        cid = call_id(system=system, user=user, schema=effective, model=model)
+        # Images are part of the question, so they are part of its identity --
+        # otherwise two readings of different pages would collide on one id.
+        cid = call_id(system=system,
+                      user=user + ("\n[[IMAGES]] " + " ".join(images) if images else ""),
+                      schema=effective, model=model)
 
         if cid in self.answers:
             answer = self.answers[cid]
@@ -190,6 +195,7 @@ class HandoffClient:
             "max_tokens": max_tokens,
             "system": system,
             "user": user,
+            "images": list(images or []),
             "schema": effective,
         }
         self.seen.append(request)

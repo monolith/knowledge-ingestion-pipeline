@@ -395,19 +395,38 @@ def _pdf_assets(path: Path, source_id: str, text: str,
     `latex` is honest -- it says a formula exists on this page and has not been
     read -- where omitting it says nothing at all.
     """
-    from .pdf_assets import page_image_asset, pages_with_math, render_pages
+    from .pdf_assets import (
+        page_image_asset,
+        pages_with_flattened_tables,
+        pages_with_math,
+        render_pages,
+        ruled_tables,
+    )
 
-    pages = pages_with_math(text)
+    # Tables the PDF draws with ruling lines can be read from geometry. Most
+    # cannot: a scan has no lines and a degraded text layer, so those pages are
+    # rendered for a model to read instead. Both are `transcribed` -- neither is
+    # markup, and calling either `exact` would overstate what was recovered.
+    out = ruled_tables(path, source_id)
+    if out:
+        print(f"[pass0] {source_id}: {len(out)} ruled table(s) read from geometry")
+
+    pages = sorted(set(pages_with_math(text)) | set(pages_with_flattened_tables(text)))
     if not pages:
-        return []
+        return out
     written = render_pages(path, pages, assets_dir)
     if not written:
-        print(f"[pass0] {source_id}: {len(pages)} page(s) carry damaged mathematics "
-              "but no renderer is installed (pip install -e '.[parse-pdf]')")
-        return []
-    return [page_image_asset(source_id=source_id, index=i, page=page,
-                             image_rel=f"{image.parent.name}/{image.name}")
-            for i, (page, image) in enumerate(sorted(written.items()), start=1)]
+        print(f"[pass0] {source_id}: {len(pages)} page(s) need visual reading but no "
+              "renderer is installed (pip install -e '.[parse-pdf]')")
+        return out
+    # Base fixed before extending: `len(out)` inside the generator is evaluated
+    # lazily, so it grows as items are appended and the numbering skips -- which
+    # produced two assets sharing an id, and ids are what a citation resolves by.
+    base = len(out)
+    out.extend(page_image_asset(source_id=source_id, index=base + i, page=page,
+                                image_rel=f"{image.parent.name}/{image.name}")
+               for i, (page, image) in enumerate(sorted(written.items()), start=1))
+    return out
 
 
 def normalize_sources(ctx: RunContext, source_paths: list[Path]) -> list[dict[str, Any]]:
