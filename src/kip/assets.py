@@ -115,15 +115,32 @@ class Table:
                 return cell
         return None
 
+    def _is_title_row(self, row: int) -> bool:
+        """A row carrying the table's title and nothing else.
+
+        Filings typeset the title inside the grid, so the header row is not row
+        zero and a walk that stops at the first non-header cell finds no headers
+        at all. Measured on the GE 10-K: the cash-flow statement's year columns
+        were unreachable for exactly this reason, which defeats the one thing a
+        stored grid is for -- knowing which year a figure belongs to.
+        """
+        populated = [c for c in self.cells if c.row == row and c.text.strip()]
+        return len(populated) == 1 and self.n_cols > 1
+
     def column_headers(self, col: int) -> list[str]:
         """Header labels governing a column, outermost first."""
         out: list[str] = []
         for row in range(self.n_rows):
             cell = self.cell_at(row, col)
-            if cell is None or not cell.is_header:
-                break
-            if cell.text and cell.text not in out:
-                out.append(cell.text)
+            if cell is not None and cell.is_header:
+                if cell.text and cell.text not in out:
+                    out.append(cell.text)
+                continue
+            # Step over a title row rather than stopping at it; stop at the
+            # first row of actual data.
+            if not out and self._is_title_row(row):
+                continue
+            break
         return out
 
     def row_headers(self, row: int) -> list[str]:

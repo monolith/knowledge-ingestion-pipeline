@@ -217,8 +217,20 @@ def _promote_header_row(table: Table) -> None:
     """
     if table.n_rows < 2 or any(c.is_header for c in table.cells):
         return
-    first = [c for c in table.cells if c.row == 0 and c.text]
-    second = [c for c in table.cells if c.row == 1 and c.text]
+    # Step over a title row. A filing typesets the statement's name inside the
+    # grid, so the header row is row 1 and a test that only ever looks at row 0
+    # finds a title, decides it is not a header, and leaves every column of the
+    # cash-flow statement unlabelled -- which is precisely the failure a stored
+    # grid exists to prevent.
+    top = 0
+    while top + 2 < table.n_rows:
+        populated = [c for c in table.cells if c.row == top and c.text.strip()]
+        if len(populated) == 1 and table.n_cols > 1:
+            top += 1
+            continue
+        break
+    first = [c for c in table.cells if c.row == top and c.text]
+    second = [c for c in table.cells if c.row == top + 1 and c.text]
     if not first or not second:
         return
     # A year is numeric and is still a header. That is not an edge case in

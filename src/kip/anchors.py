@@ -108,6 +108,52 @@ def _first_lines(text: str, n: int = 2) -> str:
     return "\n".join(lines[:n])
 
 
+def _row_labels(payload: dict[str, Any]) -> list[str]:
+    """The most findable phrase in each row, top to bottom.
+
+    Used to span a table rather than to point at it. Anchoring to one cell gives
+    a span a few dozen characters wide, and a fifty-four-row cash-flow statement
+    then relates only to a unit that happened to quote that one cell -- which is
+    the citation rule again, wearing a different hat. Locating a label from the
+    top of the grid and one from the bottom gives a range covering the whole
+    object, which is what "the text this table sits in" means.
+    """
+    by_row: dict[int, str] = {}
+    for cell in payload.get("cells", []):
+        value = (cell.get("text") or "").strip()
+        if len(value) < 12 or not any(ch.isalpha() for ch in value):
+            continue
+        row = cell.get("row", 0)
+        if len(value) > len(by_row.get(row, "")):
+            by_row[row] = value
+    return [by_row[r] for r in sorted(by_row)]
+
+
+def _distinctive_cell(payload: dict[str, Any]) -> str:
+    """The longest label in a grid: the phrase most likely to be findable.
+
+    A table cannot be anchored by its own rendering, and the GE filing shows why
+    with no ambiguity. The normalizer puts a row holding one populated cell on a
+    line of its own; the grid renderer keeps that row's empty columns as `|`
+    separators. So the same table reads `STATEMENT OF COMPREHENSIVE INCOME
+    (LOSS)` in the flat file and `STATEMENT OF COMPREHENSIVE INCOME (LOSS) | | |`
+    in the asset, and the two disagree on exactly the characters a whitespace-
+    insensitive search does not forgive. Ninety-four of a hundred tables failed
+    to anchor on that difference alone.
+
+    A cell has no separators in it, so it reads the same in both. The longest
+    one is chosen because length is what makes a phrase unique in a 3MB filing:
+    `2025` appears everywhere, `Less: net income attributable to noncontrolling
+    interests` appears once.
+    """
+    best = ""
+    for cell in payload.get("cells", []):
+        value = (cell.get("text") or "").strip()
+        if len(value) > len(best) and any(ch.isalpha() for ch in value):
+            best = value
+    return best
+
+
 def locate(asset: dict[str, Any], text: str,
            page_spans: dict[int, tuple[int, int]] | None = None) -> dict[str, Any]:
     """Where in `text` this asset belongs.
@@ -120,6 +166,35 @@ def locate(asset: dict[str, Any], text: str,
     page it came from.
     """
     payload = asset.get("payload", {})
+
+    if asset.get("kind") == "table":
+        # Locate a label from each end of the grid and span between them, so the
+        # anchor covers the table rather than pointing at one cell of it.
+        ordered = _row_labels(payload)
+        probes = ordered[:2] + ordered[-2:] if len(ordered) > 2 else ordered
+        hits = [h for h in (locate_reflowed(probe, text) for probe in probes) if h]
+        if hits:
+            # A label like "Total revenues" occurs in a dozen tables of a
+            # filing, so a probe taken from the bottom of this grid can match
+            # text belonging to another one three hundred thousand characters
+            # away. The table's own rendered length bounds how far its region
+            # can plausibly reach; hits outside that are matches on some other
+            # table and are dropped.
+            own_len = len(asset.get("text", ""))
+            reach = 3 * own_len + 1000
+            seat = min(h[0] for h in hits)
+            near = [h for h in hits if h[0] - seat <= reach]
+            end = max(h[1] for h in near)
+            # The located labels cluster; the table between and around them does
+            # not. A grid rendering five hundred characters wide occupies about
+            # that much of the flat file, so the span is extended to its own
+            # footprint rather than left covering only the phrases that matched.
+            # Erring wide is the recoverable direction: a slightly generous
+            # anchor relates one extra neighbouring unit, a short one drops the
+            # table from the paragraph it belongs to.
+            return {"char_start": seat,
+                    "char_end": min(len(text), max(end, seat + own_len)),
+                    "method": OWN_TEXT}
 
     own = asset.get("text", "") or payload.get("latex", "")
     if own.strip():

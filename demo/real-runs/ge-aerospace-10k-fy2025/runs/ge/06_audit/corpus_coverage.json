@@ -1,48 +1,41 @@
 {
   "auditor_model": "claude-opus-5",
-  "created_at": "2026-08-13T10:37:17.901616+00:00",
+  "created_at": "2026-08-13T14:22:53.320324+00:00",
   "definitions_captured": true,
   "fairly_represented": false,
-  "key_insights_captured": true,
+  "key_insights_captured": false,
   "mechanical": {
-    "assertions_out": 128,
-    "units_carried": 112,
-    "units_kept": 112,
+    "assertions_out": 116,
+    "units_carried": 116,
+    "units_kept": 116,
     "units_orphaned": 0,
     "units_orphaned_protected": 0
   },
   "missing": [
     {
-      "consequence": "A consumer can read what management says about the results and cannot check it against the statements. Every figure in the output arrives through the narrative sections that discuss it.",
-      "what_is_lost": "The consolidated financial statements themselves -- statement of operations, financial position, cash flows, comprehensive income and changes in shareholders' equity -- and most note schedules. No line item from any of them reached a unit."
+      "consequence": "A consumer asking what GE Aerospace earned or is worth in 2025 finds net income and operating cash flow -- recovered this round -- and nothing else from the primary statements. The tables are in the record and anchored, so the material is not lost; nothing points at it, because nothing was read from around it.",
+      "unit_ids": [],
+      "what_is_lost": "The Statement of Operations, the Statement of Financial Position and the Statement of Comprehensive Income sit in regions that produced no units. Total revenue, total assets, total shareholders' equity and comprehensive income each have no representation in the output."
     },
     {
-      "consequence": "The output carries both critical audit matters and the policies behind them, but not the balances those estimates produce, so the size of what is being estimated is absent.",
-      "what_is_lost": "Note 8 on contract assets and liabilities, and Note 12 on insurance -- the two notes the auditor's critical audit matters refer the reader to."
-    },
-    {
-      "consequence": "The $5.4 billion deficit is carried without the assumptions it is most sensitive to, so a reader cannot tell how much of it is a rate artifact.",
-      "what_is_lost": "Actuarial assumptions behind the pension obligation, including the discount rate, and the plan asset composition."
-    },
-    {
-      "consequence": "The effective rate is explained in words but the arithmetic cannot be followed.",
-      "what_is_lost": "The reconciliation of the US federal statutory rate to the consolidated effective rate, and the unrecognized tax benefits reconciliation."
+      "consequence": "The extraction reads this filing's narrative and does not read its tables. That is a property of the reading, not of the asset layer: the tables were all recovered, all but one anchored, and thirty-nine of them travel with the text that was read. The remaining sixty-one mark where the reading did not go.",
+      "unit_ids": [],
+      "what_is_lost": "Thirty-eight substantive financial tables in total carry four or more money figures and relate to no unit: remaining performance obligations, adjusted non-GAAP revenue and margin, the pension plan funded status, accumulated other comprehensive income, and segment revenue and operating profit among them."
     }
   ],
   "model_role": "corpus-coverage-auditor",
   "notes": [
-    "Coverage failed by position, not by judgment. The first thirty pages produced most of the units; everything from Note 3 onward produced almost none until the repair round was invoked. The omission check diagnosed this in its own run and named ten sections, all of which the repair round then recovered.",
-    "That the repair round worked is the most useful result here. Sixteen units entered the corpus through it, including the entire pension deficit, the shareholder litigation running since 2018, roughly $190 million a year of environmental remediation, and the fact that non-US revenue exceeds US revenue. None of it was in the first pass and all of it is material.",
-    "Within what was extracted, the output is not skewed. Obligations, litigation and qualifications survive alongside the results; the insurance sensitivities are carried with their numbers rather than compressed into assurance; and the audit corrected a results entry that quoted a backlog figure without the definition that qualifies it.",
-    "Two entries were corrected during audit for framing rather than fact: the results entry now carries the backlog definition, and the risk entry was retitled and now records which risk factors it does not represent -- because its original title implied a selection the filing never made.",
-    "Everything here is one company's account of itself. It is audited as to its financial statements, which is not the same as corroborated, and no second source appears anywhere in this corpus."
+    "This is the first run where the gap is measurable. Before assets were anchored, the same hole showed only as an unexplained count of uncited tables, which could equally have meant the extractor had no reason to quote them. An anchored table in a passage that produced no units is a different and sharper claim: nothing was read there.",
+    "Thirty-nine tables now relate to units, against eight cited before. Twenty-eight of those relate because they sit in text that was read, with no unit quoting them -- which is the behaviour the anchoring was built for.",
+    "Not a gap: twenty-nine of the sixty-one unrelated tables are the cover page, the filer-status checkboxes, the securities-registered list and similar. They should produce no units and their absence misrepresents nothing.",
+    "The density figure and this count are the same finding seen twice: 116 units for 56,836 words is one per 490 words, the sparsest of the six demo runs, and the sparsity is concentrated exactly where the tables are."
   ],
   "parent_artifacts": [
     "02_units/units.jsonl",
     "06_audit/candidates.approved.jsonl"
   ],
   "prompt_version": "pass-05b-corpus-coverage-v1.0",
-  "reasoning": "All 112 units reached an assertion, so nothing extracted was lost. But this pass reads the output against the extraction, and the extraction is not the document: 96 of these units came from the front half of the filing and 16 from a repair round that recovered ten named sections the first pass missed entirely. Judged against what is here, the output is faithful and well proportioned -- the accounting policies are carried in applicable form, the insurance sensitivities keep every shock and dollar figure, the negative and qualifying facts survive, and the results entry was corrected during audit to carry the backlog definition it was quoting a figure against. Judged against the source, coverage is uneven by position rather than by importance, and a consumer reading only this output would not know that the consolidated statements and most note schedules exist.",
+  "reasoning": "Every unit reaches an assertion, and the four figures recovered this round are cited to cells rather than to quoted rows, which is the right shape for a document that prints three years side by side. But the corpus is not fairly represented and the reason is now measurable rather than suspected: sixty-one of the hundred tables sit in passages from which nothing was extracted. Twenty-nine of those are cover page, checkboxes and small lists and should produce nothing. The rest are the filing's financial statements. This output describes what GE Aerospace does and barely says what it earned.",
   "run_id": "ge",
   "schema_version": "3.1.0",
   "verdict": "gaps"

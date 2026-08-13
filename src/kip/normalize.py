@@ -120,7 +120,7 @@ def _html_assets(path: Path, source_id: str,
     from .assets import ASSET_TABLE, FIDELITY_EXACT, build_asset
     from .html_figures import figure_assets
     from .html_formulas import formula_assets
-    from .html_tables import compact, extract_tables
+    from .html_tables import _promote_title_row, compact, extract_tables
 
     raw = path.read_text(encoding="utf-8", errors="replace")
     out: list[dict[str, Any]] = []
@@ -128,6 +128,12 @@ def _html_assets(path: Path, source_id: str,
         grid = compact(table)
         if grid.n_rows < 2 or grid.n_cols < 2:
             continue
+        # Again after compaction. A filing lays its title row out across thirty
+        # columns of padding, so before compaction the row does not look like a
+        # title at all and the promotion cannot recognize it.
+        if not grid.caption:
+            _promote_title_row(grid)
+        grid.heading = grid.heading or table.heading
         out.append(build_asset(
             kind=ASSET_TABLE, source_id=source_id, index=len(out) + 1,
             fidelity=FIDELITY_EXACT, extractor="html_tables_v1",

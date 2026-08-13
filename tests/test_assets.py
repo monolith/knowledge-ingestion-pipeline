@@ -617,3 +617,27 @@ def test_a_pdf_page_carrying_a_figure_caption_is_found_with_its_caption():
             "Portfolios of 35 Stocks\n")
     assert pages_with_figures(text) == {
         9: "Figure 1. Cumulative Average Residuals for Winner and Loser"}
+
+
+def test_a_title_row_does_not_hide_the_header_row_beneath_it():
+    """Measured on the GE 10-K, and it defeats the whole point of a stored grid.
+
+    A filing typesets the statement's name inside the table, so the header row
+    is row 1. A header test that only ever looks at row 0 finds the title,
+    decides it is not a header, and leaves every column unlabelled -- so
+    `$8,698` resolves with no year attached, which is exactly the confusion the
+    asset layer exists to prevent.
+    """
+    from kip.assets import resolve_cell
+    from kip.html_tables import extract_tables
+
+    html = ("<table>"
+            "<tr><td>STATEMENT OF CASH FLOWS</td><td></td><td></td></tr>"
+            "<tr><td>For the years ended December 31</td><td>2025</td><td>2024</td></tr>"
+            "<tr><td>Net income (loss)</td><td>$8,698</td><td>$6,566</td></tr></table>")
+    table = extract_tables(html)[0]
+    asset = {"kind": "table", "payload": table.as_dict()}
+    got = resolve_cell(asset, 2, 1)
+    assert got["value"] == "$8,698"
+    assert got["column_headers"] == ["2025"], "the year the figure belongs to"
+    assert got["row_headers"][0] == "Net income (loss)"

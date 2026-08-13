@@ -38,18 +38,18 @@
   "run_id": "ge",
   "spec_version": "3.1.0",
   "summary": {
-    "approved": 24,
-    "assessments": 27,
-    "audits": 24,
-    "candidates": 24,
+    "approved": 31,
+    "assessments": 107,
+    "audits": 31,
+    "candidates": 31,
     "clusters": 2,
-    "finished_at": "2026-08-13T10:37:17.937186+00:00",
+    "finished_at": "2026-08-13T14:22:53.357114+00:00",
     "quarantined": 0,
-    "queue_events": 24,
+    "queue_events": 31,
     "run_id": "ge",
     "sources": 1,
-    "started_at": "2026-08-13T10:37:17.824506+00:00",
-    "units": 112,
+    "started_at": "2026-08-13T14:22:53.212077+00:00",
+    "units": 116,
     "usage": {
       "cache_read_tokens": 0,
       "calls": 0,
@@ -57,8 +57,8 @@
       "output_tokens": 0
     },
     "verdicts": {
-      "fix": 4,
-      "pass_with_label": 20
+      "pass": 30,
+      "pass_with_label": 1
     }
   }
 }

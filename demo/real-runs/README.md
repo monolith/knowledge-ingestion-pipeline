@@ -24,10 +24,10 @@ own artifacts and nothing else.
 | run | source | words | units | density | approved entries |
 |---|---|---|---|---|---|
 | [`sharpe-arithmetic-of-active-management`](sharpe-arithmetic-of-active-management/README.md) | Sharpe, *The Arithmetic of Active Management* (1991) | 1,650 | 38 | 1 per 43 words | 7 |
-| [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/README.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 58 | 1 per 108 words | 20 |
+| [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/README.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 68 | 1 per 92 words | 23 |
 | [`andersen-the-little-mermaid`](andersen-the-little-mermaid/README.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
 | [`statement-classifier-specification`](statement-classifier-specification/README.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
-| [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/README.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 112 | 1 per 507 words | 24 |
+| [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/README.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 116 | 1 per 490 words | 31 |
 | [`wikipedia-black-scholes-model`](wikipedia-black-scholes-model/README.md) | Wikipedia, *Black–Scholes model* (CC BY-SA) | 10,507 | 73 | 1 per 144 words | 12 |
 
 Density is not a function of length. The densest source is the shortest: Sharpe
@@ -345,6 +345,70 @@ The practical consequence is that provenance quality is an input decision, not
 something the pipeline can repair. Where the original is paywalled and the
 available copy is a transcription, that fact belongs in the record rather than
 in a footnote to it.
+
+## An asset belongs to a place in the text
+
+An asset used to reach the output only if some unit quoted it — the rule for
+text, applied to things that are not text. On the GE filing that lost almost
+everything: 63 of its 100 tables carry four or more money figures, the Statement
+of Cash Flows among them, and nothing pointed at any of them.
+
+Now each asset anchors to a **character range** in `normalized.txt`, and every
+unit whose evidence overlaps that range is related to it, quoted or not. From
+which the rule follows: **if a unit reaches the output, the assets anchored to
+its text go with it.** An asset is dropped only when the text it sits in was
+dropped — a decision about the text, made on the text's merits.
+
+The anchor records how precisely it was placed, because the methods differ by an
+order of magnitude: `own_text` (the object located in the flat file),
+`caption_located`, `context_located`, `page_region` (a whole page, so every unit
+on it relates), or `none`.
+
+| run | assets | anchored | related to text | of those, cited | travelling on text alone |
+|---|---|---|---|---|---|
+| De Bondt & Thaler | 21 | 20 | 20 | 13 | **7** |
+| GE Aerospace 10-K | 100 | 99 | 39 | 11 | **28** |
+
+De Bondt's Table I is the clearest case: no unit cites it, and it now travels
+with the leaf titled *"The reversal grows with the extremity of the prior move —
+Table I"*, because that leaf's units were extracted from the passage the table
+sits in.
+
+**What the anchoring measured on GE is a hole in the reading.** 61 tables sit in
+passages that produced no units. 29 are cover page, checkboxes and lists and
+should produce nothing; the other 38 are financial statements. Before anchoring,
+the same hole showed only as a count of uncited tables — which could equally
+have meant the extractor had no reason to quote them. An anchored table in a
+passage that produced no units is a sharper claim: **nothing was read there.**
+The run's coverage audit returns `gaps` and `fairly_represented: false` on that
+basis, and it is the correct verdict: this output describes what GE Aerospace
+does and barely says what it earned.
+
+Two prerequisites had to be fixed before any of it worked on a filing:
+
+- **A table anchors on a cell, not on its own rendering.** The normalizer puts a
+  one-cell row on its own line; the grid renderer keeps that row's empty columns
+  as `|` separators. The same table therefore reads `STATEMENT OF COMPREHENSIVE
+  INCOME (LOSS)` in one and `STATEMENT OF COMPREHENSIVE INCOME (LOSS) | | |` in
+  the other, and 94 of 100 tables failed to anchor on that difference alone.
+- **A title row must not hide the header row beneath it.** Filings typeset the
+  statement's name inside the grid, so the header row is row 1. A header test
+  that only looked at row 0 left every column unlabelled — `$8,698` resolved
+  with no year attached, which defeats the one thing a stored grid is for. It
+  now resolves as *2025 × Net income (loss)*.
+
+**Verifying a transcription.** Digits usually survive a damaged text layer even
+when structure does not, so a transcribed asset records what fraction of its
+numbers appear in that page's raw text: `verification {numeric_tokens,
+found_in_text_layer, ratio, not_found}`. Compared after stripping `$ , % ( )`,
+so `$8,698` matches `8698` — formatting is not misreading. It gates nothing; a
+low ratio is a reason to open the page image, which is kept beside the asset.
+
+**Charts are captured and never interpreted.** An HTML `<img>` becomes a figure
+asset; a PDF page carrying a `Figure N.` caption is rendered, with its caption.
+De Bondt has three and the pipeline had never looked at them — two now travel
+with their text. No model describes what a chart shows, so the `inferred`
+fidelity class stays unused and no unreviewable claim enters the record.
 
 ## The retention guard
 
