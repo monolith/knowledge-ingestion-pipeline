@@ -1,31 +1,29 @@
 {
   "auditor_model": "claude-opus-5",
-  "created_at": "2026-08-12T19:50:55.426104+00:00",
+  "created_at": "2026-08-13T11:45:14.555901+00:00",
   "definitions_captured": true,
   "fairly_represented": true,
   "key_insights_captured": true,
   "mechanical": {
-    "assertions_out": 27,
-    "units_carried": 23,
-    "units_kept": 23,
+    "assertions_out": 38,
+    "units_carried": 38,
+    "units_kept": 38,
     "units_orphaned": 0,
     "units_orphaned_protected": 0
   },
   "missing": [],
   "model_role": "corpus-coverage-auditor",
   "notes": [
-    "Definitions are carried rather than described. The passive definition appears with its numeric example and the active definition with its complement relation, which is what makes the two-segment decomposition legible -- a reader can apply both without the source.",
-    "The distinction between the arithmetic steps and the empirical cost premise survives into the output. That is the corpus's most important structural feature, since it is the only place the result could fail, and burying it would have made the entry read as unfalsifiable.",
-    "Scope caveats are not trimmed: the minority share, the majority-of-funds condition, and the assumption that passive managers do not trade within the period are all present with the claims they qualify.",
-    "The output states repeatedly that this is a single independence group. For a corpus consisting of one paper that is the correct emphasis rather than hedging.",
-    "The footnoted scope conditions sit in their own entry. Nothing is lost, but a consumer who retrieves only the main result would not meet them, so the link between the two is doing real work and should not be dropped."
+    "This source has no non-textual content of any kind -- no mathematical notation, no tables, no figures. Pass 0 produced an empty assets.jsonl, which is the correct result and not a gap: the paper's argument is arithmetic stated in words, and Sharpe says so ('they depend only on the laws of addition, subtraction, multiplication and division').",
+    "The footnotes carry more weight in this document than in the others: three of the five state conditions without which a body claim is false. Treating them as content rather than apparatus is what keeps the output honest, and it is worth noting because a pipeline that discarded footnotes would produce an output that still looked complete.",
+    "Not loss: the repair round's five units overlap the first round in subject (both cover the argument's setup) but not in content -- the first round cited one of the four opening quotations and the repair round carried the other three."
   ],
   "parent_artifacts": [
     "02_units/units.jsonl",
     "06_audit/candidates.approved.jsonl"
   ],
   "prompt_version": "pass-05b-corpus-coverage-v1.0",
-  "reasoning": "Every one of the twenty-three units reached an assertion, so there is no lost content to report. The harder question is misrepresentation, and I checked the two places this corpus could skew. First, the definitions: passive holding at market weight, active as its complement, and the requirement that a market be named are all carried in applicable form, including the three-per-cent worked example -- a reader can classify a fund from the output without the paper. Second, the caveats: the minority-share condition, the majority-of-funds condition, the liquidity assumption and the netting of cross-holdings all survive, and the output states in more than one place that this is one paper and one argument rather than replicated evidence. The proportions also look right: the arithmetic and the measurement failures are the largest entries, which matches where the paper spends its words.",
+  "reasoning": "All 38 units reached an assertion and the definitions -- the part most often lost when this result is repeated -- are carried in full, so a reader can apply them: what counts as a market, what a passive holding is, and that active means not-passive, which is the step the proof actually turns on. The proportions match the source: the arithmetic and the three measurement failures dominate, as they do in the paper, and the practitioner quotations are present as exhibits rather than as claims. The one thing I would flag is placement, not loss: the footnoted conditions live in a leaf of their own, so a consumer who retrieves the arithmetic leaf alone gets two claims stated more flatly than the source states them. The auditor already required that fix on both affected leaves.",
   "run_id": "sharpe",
   "schema_version": "3.1.0",
   "verdict": "represented"

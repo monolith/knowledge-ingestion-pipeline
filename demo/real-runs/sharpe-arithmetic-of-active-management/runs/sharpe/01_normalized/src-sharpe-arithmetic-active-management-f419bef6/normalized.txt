@@ -1,10 +1,12 @@
 active
+ 
 The Arithmetic of Active Management
 William F. Sharpe
 Reprinted with permission from The Financial
 Analysts' Journal Vol. 47, No. 1, January/February 1991. pp. 7-9
 Copyright, 1991, Association for
 Investment Management and Research Charlottesville, VA
+ 
 "Today's fad is index funds that track the Standard
 and Poor's 500. True, the average soundly beat most stock funds over
 the past decade. But is this an eternal truth or a transitory one?"
@@ -170,6 +172,7 @@ period over which performance is measured. Only when this type of
 measurement is in place can an active manager (or one who hires
 active managers) know whether he or she is in the minority of
 those who have beaten viable passive alternatives.
+ 
 Footnotes
 1. The first two quotations can
 be found in the September 3, 1990 issue of Forbes.

@@ -7,7 +7,8 @@
       "require_distinct_auditor": true
     },
     "batch": {
-      "context_reservation": 0.4,
+      "context_cap": 0.8,
+      "default_context_window": 1000000,
       "hard_split_above": 75,
       "rotate_ordering": true,
       "target_size": 35
@@ -37,18 +38,18 @@
   "run_id": "sharpe",
   "spec_version": "3.1.0",
   "summary": {
-    "approved": 6,
-    "assessments": 9,
-    "audits": 6,
-    "candidates": 6,
+    "approved": 7,
+    "assessments": 35,
+    "audits": 7,
+    "candidates": 7,
     "clusters": 1,
-    "finished_at": "2026-08-12T19:50:55.434376+00:00",
+    "finished_at": "2026-08-13T11:45:14.595987+00:00",
     "quarantined": 0,
-    "queue_events": 6,
+    "queue_events": 7,
     "run_id": "sharpe",
     "sources": 1,
-    "started_at": "2026-08-12T19:50:55.400227+00:00",
-    "units": 23,
+    "started_at": "2026-08-13T11:45:14.488255+00:00",
+    "units": 38,
     "usage": {
       "cache_read_tokens": 0,
       "calls": 0,
@@ -56,8 +57,7 @@
       "output_tokens": 0
     },
     "verdicts": {
-      "fix": 2,
-      "pass_with_label": 4
+      "fix": 7
     }
   }
 }

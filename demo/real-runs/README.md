@@ -19,17 +19,20 @@ Everything else is the machine-readable material behind it.
 
 | run | source | words | units | density | approved entries |
 |---|---|---|---|---|---|
-| [`sharpe-arithmetic-of-active-management`](sharpe-arithmetic-of-active-management/enqueue.md) | Sharpe, *The Arithmetic of Active Management* (1991) | 1,650 | 23 | 1 per 72 words | 6 |
+| [`sharpe-arithmetic-of-active-management`](sharpe-arithmetic-of-active-management/enqueue.md) | Sharpe, *The Arithmetic of Active Management* (1991) | 1,650 | 38 | 1 per 43 words | 7 |
 | [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/enqueue.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 58 | 1 per 108 words | 20 |
 | [`andersen-the-little-mermaid`](andersen-the-little-mermaid/enqueue.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
 | [`statement-classifier-specification`](statement-classifier-specification/enqueue.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
 | [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/enqueue.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 112 | 1 per 507 words | 24 |
 | [`wikipedia-black-scholes-model`](wikipedia-black-scholes-model/enqueue.md) | Wikipedia, *Black–Scholes model* (CC BY-SA) | 10,507 | 73 | 1 per 144 words | 12 |
 
-Density is not a function of length. Across a 7× range the three non-fiction
-documents sit between one unit per 72 and one per 119 words, and the longest of
-them is the second-densest — it is a reference document whose fifteen label
-definitions and nineteen pairwise separations each have to survive individually.
+Density is not a function of length. The densest source is the shortest: Sharpe
+packs a proof, its definitions, three named measurement failures and five
+load-bearing footnotes into 1,650 words. The longest non-fiction source is the
+sparsest by a wide margin, and the second-longest is the second-densest — it is
+a reference document whose fifteen label definitions and nineteen pairwise
+separations each have to survive individually. Length predicts nothing; what
+predicts density is how much of the document is doing work.
 
 The fairy tale is the outlier at one unit per 219 words, and that is the
 expected result rather than a failure: a narrative carries long stretches that
@@ -147,8 +150,8 @@ judgment, and the two disagree here on purpose.
 
 The audit is adversarial by construction — it is told to disprove, narrow or
 reject, and its model must differ from the planner's. Across the six runs it
-returned `fix` 30 times and `pass_with_label` 71 times, against exactly **one**
-bare `pass` in 102 audits. A one-percent clean rate is worth reading skeptically
+returned `fix` 35 times and `pass_with_label` 67 times, against exactly **one**
+bare `pass` in 103 audits. A one-percent clean rate is worth reading skeptically
 rather than as a compliment to the planner: an auditor that almost never
 approves anything outright is either finding real defects or has a standard no
 candidate can meet, and the corrections below are the evidence for the first
@@ -177,11 +180,12 @@ Three kinds of correction recur:
 ## The omission check finds real gaps at every length
 
 `02_units/omissions.jsonl` is Pass 1's self-check: it reads the source against
-the units just extracted and reports what is missing or mis-shaped. It found 5,
+the units just extracted and reports what is missing or mis-shaped. It found 6,
 7, 7, 8, 11 and 13 findings across the six runs — including on the shortest.
 
-On Sharpe it found the footnote stating that the three measurement failures are
-**not** an exhaustive list, and the provenance of the opening quotations. On De
+On Sharpe it found that three of the four opening quotations — the practitioner
+claims the whole paper is written to refute — had reached no unit at all, so a
+reader of the output would not know what was being answered. On De
 Bondt & Thaler it found the abstract's own summary of the contribution. On the
 specification it found the thirty missing exemplars and the eleven unanchored
 rows of the mapping table. On Black–Scholes it found the entire Greeks table:
@@ -190,9 +194,10 @@ touched them.
 
 Findings marked `add` now feed a **repair round** — one extra extraction call
 over the same document, given the findings and the assets. It recovered 18 units
-on Black–Scholes, including all five Greeks. One round, never a loop: a
-check-repair cycle has no natural fixed point and each turn costs a call over the
-whole document.
+on Black–Scholes, including all five Greeks, and 5 on Sharpe — which is why the
+Sharpe run now carries 38 units against the 23 it produced before the round
+existed. One round, never a loop: a check-repair cycle has no natural fixed
+point and each turn costs a call over the whole document.
 
 Findings the repair round does not act on — `split`, `merge`, `downgrade`,
 `drop` — stay diagnostic, because reshaping a sealed unit is a larger change than
@@ -201,9 +206,10 @@ density, not at a cliff with length.
 
 ## What the narrative run showed
 
-The three non-fiction documents share a property the fairy tale does not: they
-make claims. Sharpe argues, De Bondt & Thaler measure, the specification
-stipulates — and a knowledge unit is a natural output for all three. A story
+The non-fiction documents share a property the fairy tale does not: they make
+claims. Sharpe argues, De Bondt & Thaler measure, the specification stipulates,
+Wikipedia states a model — and a knowledge unit is a natural output for all of
+them. A story
 asserts nothing about the world, so the question was open: what is a unit here?
 
 The answer, on this document, is that the extractable content is the world's
