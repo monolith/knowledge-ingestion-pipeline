@@ -1,5 +1,10 @@
 __pycache__/
 *.py[cod]
+# setuptools scratch. `pip wheel .` leaves a full copy of src/kip here, which
+# was committed by accident once -- a duplicate source tree in the repo is worse
+# than clutter, because a reader cannot tell which copy is the real one.
+build/
+dist/
 .pytest_cache/
 *.egg-info/
 .kip/
