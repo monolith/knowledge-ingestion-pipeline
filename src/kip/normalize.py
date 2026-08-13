@@ -26,6 +26,9 @@ from .config import SCHEMA_VERSION
 
 TEXT_SUFFIXES = {".txt", ".md", ".markdown", ".rst", ".log", ".csv"}
 HTML_SUFFIXES = {".html", ".htm"}
+#: An image is a source with no text layer at all. Everything in it is recovered
+#: by the visual read in Pass 1 -- the same machinery a scanned PDF page uses.
+IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".tif", ".tiff", ".bmp"}
 EMAIL_SUFFIXES = {".eml"}
 DOCLING_SUFFIXES = {".pdf", ".docx", ".pptx", ".xlsx", ".epub", ".msg"}
 
@@ -111,6 +114,7 @@ def _html_assets(path: Path, source_id: str) -> list[dict[str, Any]]:
     which row is a header, and that is confined to a flag.
     """
     from .assets import ASSET_TABLE, FIDELITY_EXACT, build_asset
+    from .html_formulas import formula_assets
     from .html_tables import compact, extract_tables
 
     raw = path.read_text(encoding="utf-8", errors="replace")
@@ -124,7 +128,26 @@ def _html_assets(path: Path, source_id: str) -> list[dict[str, Any]]:
             fidelity=FIDELITY_EXACT, extractor="html_tables_v1",
             payload=grid.as_dict(), text=grid.to_text(),
         ))
+    # Formulas come from the markup when the document carries MathML, which
+    # makes them `exact` -- the author's own TeX, copied rather than read. That
+    # is strictly better than rendering the page and transcribing it, and it is
+    # why HTML and PDF take opposite routes to the same asset type.
+    out.extend(formula_assets(raw, source_id, start_index=len(out) + 1))
     return out
+
+
+def _normalize_image(path: Path) -> tuple[str, dict[int, dict[str, Any]]]:
+    """A picture has no text layer, so Pass 0 records what it is and stops.
+
+    Everything a scanned page or a screenshot of a table contains is recovered
+    by the visual read in Pass 1, which is the same machinery the PDF path uses
+    -- an image source is simply a PDF page that arrived on its own. Pass 0 stays
+    deterministic and makes no model call, so what it writes here is a
+    placeholder naming the file, and the asset that carries the actual content.
+    """
+    return (f"[[IMAGE {path.name}]]\n"
+            "This source is an image. Its content is recovered by the visual read "
+            "in Pass 1; see assets.jsonl.\n"), {}
 
 
 def _normalize_email(path: Path) -> tuple[str, dict[int, dict[str, Any]]]:
@@ -312,6 +335,8 @@ def _handler_for(path: Path):
         return _normalize_html, "html_v1"
     if suffix in EMAIL_SUFFIXES:
         return _normalize_email, "email_v1"
+    if suffix in IMAGE_SUFFIXES:
+        return _normalize_image, "image_v1"
     if suffix in DOCLING_SUFFIXES:
         return _normalize_rich, "rich_v1"
     return None, None
@@ -378,11 +403,32 @@ def _assets_for(path: Path, source_id: str, normalizer: str | None, *,
     try:
         if normalizer == "html_v1":
             return _html_assets(path, source_id)
+        if normalizer == "image_v1":
+            return _image_assets(path, source_id, assets_dir)
         if normalizer == "rich_v1" and path.suffix.lower() == ".pdf":
             return _pdf_assets(path, source_id, text, assets_dir)
     except Exception as exc:  # never let an asset failure quarantine a source
         print(f"[pass0] {source_id}: asset extraction failed ({exc})")
     return []
+
+
+def _image_assets(path: Path, source_id: str, assets_dir: Path) -> list[dict[str, Any]]:
+    """The image itself, as the asset the visual read will work from.
+
+    Copied into the run rather than referenced in place, so the artifact tree
+    stays self-contained -- a run that cites an image must still resolve after
+    the source directory has moved.
+    """
+    import shutil
+
+    from .pdf_assets import page_image_asset
+
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    target = assets_dir / path.name
+    shutil.copyfile(path, target)
+    return [page_image_asset(source_id=source_id, index=1, page=1,
+                             image_rel=f"{target.parent.name}/{target.name}",
+                             extractor="image_source_v1")]
 
 
 def _pdf_assets(path: Path, source_id: str, text: str,
