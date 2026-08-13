@@ -134,3 +134,84 @@ def test_an_asset_is_sealed_against_edits():
                     fidelity=FIDELITY_TRANSCRIBED, extractor="x",
                     payload=_grid(FILING_TABLE).as_dict())
     assert c["content_sha256"] != a["content_sha256"]
+
+
+# --- Formulas: a reading of a picture, not a quote -----------------------------
+
+
+def test_math_damage_is_detected_from_what_the_text_extractor_left_behind():
+    """The signal is the damage, not the mathematics.
+
+    A PDF stores an equation as positioned glyphs, so a text extractor returns
+    something that looks like text and is not: the De Bondt & Thaler t-statistic
+    reached this pipeline as `Tt = ARw,t/(st/ViN)`, in which `Vi` is a square
+    root. Those marks are what identify a page worth rendering.
+    """
+    from kip.pdf_assets import pages_with_math
+
+    damaged = "\n".join([
+        "[[PAGE 7]]",
+        "means equals 2S2/N and the t-statistic is therefore",
+        "Tt = [ACARL, t- ACARw,J]/ 2St/N.",
+        "Tt = ARw,t/(st/ViN).",
+    ])
+    assert pages_with_math(damaged) == [7]
+
+
+def test_ordinary_prose_is_not_mistaken_for_mathematics():
+    from kip.pdf_assets import pages_with_math
+
+    prose = "\n".join([
+        "[[PAGE 1]]",
+        "The little mermaid swam to the surface and saw the ship.",
+        "Revenue increased 18% compared with the prior year.",
+    ])
+    assert pages_with_math(prose) == []
+
+
+def test_a_formula_is_transcribed_and_never_exact():
+    """Fidelity is the whole point.
+
+    A transcription is a reading of a picture. The field's own evidence says
+    string comparison is the wrong check for one -- UniMERNet scores 0.48
+    exact-match against 0.81 rendered-and-compared -- so the asset carries the
+    crop it was read from and is never marked `exact`.
+    """
+    from kip.assets import FIDELITY_EXACT, FIDELITY_TRANSCRIBED
+    from kip.pdf_assets import formula_asset
+
+    asset = formula_asset(source_id="dt", index=1, page=7,
+                          image_rel="assets/page-0007.png",
+                          latex=r"T_t = AR_{W,t} / (s_t/\sqrt{N})")
+    assert asset["fidelity"] == FIDELITY_TRANSCRIBED
+    assert asset["fidelity"] != FIDELITY_EXACT
+    assert asset["payload"]["image"], "a transcription must carry what it was read from"
+    assert asset["payload"]["transcribed"] is True
+    assert asset["page"] == 7
+
+
+def test_an_unread_formula_is_recorded_rather_than_omitted():
+    """Honest about not having been read, which an omitted asset is not."""
+    from kip.pdf_assets import formula_asset
+
+    asset = formula_asset(source_id="dt", index=1, page=7,
+                          image_rel="assets/page-0007.png")
+    assert asset["payload"]["transcribed"] is False
+    assert asset["payload"]["image"]
+
+
+def test_rendering_without_the_renderer_is_not_fatal(tmp_path, monkeypatch):
+    """A source whose formulas cannot be rendered still has usable text."""
+    import builtins
+
+    from kip.pdf_assets import render_pages
+
+    real_import = builtins.__import__
+
+    def no_pypdfium(name, *args, **kwargs):
+        if name == "pypdfium2":
+            raise ImportError("not installed")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", no_pypdfium)
+    assert render_pages(tmp_path / "x.pdf", [1], tmp_path) == {}

@@ -366,7 +366,8 @@ def build_locator_map(
 # --- Pass entry point ---------------------------------------------------------
 
 
-def _assets_for(path: Path, source_id: str, normalizer: str | None) -> list[dict[str, Any]]:
+def _assets_for(path: Path, source_id: str, normalizer: str | None, *,
+                text: str = "", assets_dir: Path | None = None) -> list[dict[str, Any]]:
     """Assets a normalizer can recover, or none.
 
     Kept separate from the text handler because the two answer different
@@ -377,9 +378,36 @@ def _assets_for(path: Path, source_id: str, normalizer: str | None) -> list[dict
     try:
         if normalizer == "html_v1":
             return _html_assets(path, source_id)
+        if normalizer == "rich_v1" and path.suffix.lower() == ".pdf":
+            return _pdf_assets(path, source_id, text, assets_dir)
     except Exception as exc:  # never let an asset failure quarantine a source
         print(f"[pass0] {source_id}: asset extraction failed ({exc})")
     return []
+
+
+def _pdf_assets(path: Path, source_id: str, text: str,
+                assets_dir: Path) -> list[dict[str, Any]]:
+    """Pages whose mathematics the text layer destroyed, rendered for reading.
+
+    The transcription itself is not done here. Pass 0 is deterministic and takes
+    no model calls; what it produces is the crop and the record that a formula
+    is there, which a later vision pass fills in. An asset with an empty
+    `latex` is honest -- it says a formula exists on this page and has not been
+    read -- where omitting it says nothing at all.
+    """
+    from .pdf_assets import page_image_asset, pages_with_math, render_pages
+
+    pages = pages_with_math(text)
+    if not pages:
+        return []
+    written = render_pages(path, pages, assets_dir)
+    if not written:
+        print(f"[pass0] {source_id}: {len(pages)} page(s) carry damaged mathematics "
+              "but no renderer is installed (pip install -e '.[parse-pdf]')")
+        return []
+    return [page_image_asset(source_id=source_id, index=i, page=page,
+                             image_rel=f"{image.parent.name}/{image.name}")
+            for i, (page, image) in enumerate(sorted(written.items()), start=1)]
 
 
 def normalize_sources(ctx: RunContext, source_paths: list[Path]) -> list[dict[str, Any]]:
@@ -445,7 +473,8 @@ def normalize_sources(ctx: RunContext, source_paths: list[Path]) -> list[dict[st
         # Non-textual content, kept as addressable assets rather than flattened
         # into the line above. Written even when empty so a consumer can tell
         # "this source had no tables" from "this run predates assets".
-        assets = _assets_for(path, source_id, normalizer)
+        assets = _assets_for(path, source_id, normalizer,
+                             text=text, assets_dir=target_dir / "assets")
         write_jsonl_atomic(target_dir / "assets.jsonl", assets)
         if assets:
             print(f"[pass0] {source_id}: {len(assets)} asset(s) recovered")

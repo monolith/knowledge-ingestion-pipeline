@@ -229,6 +229,51 @@ def decode_g4(data: bytes, columns: int, rows: int) -> list[bytearray]:
     return out
 
 
+def _png_bytes(width: int, height: int, raw: bytes, colour_type: int) -> bytes:
+    """PNG framing, shared by the bilevel and truecolour writers."""
+    def chunk(tag: bytes, payload: bytes) -> bytes:
+        return (struct.pack(">I", len(payload)) + tag + payload
+                + struct.pack(">I", zlib.crc32(tag + payload) & 0xFFFFFFFF))
+
+    depth = 1 if colour_type == 0 else 8
+    header = struct.pack(">IIBBBBB", width, height, depth, colour_type, 0, 0, 0)
+    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", header)
+            + chunk(b"IDAT", zlib.compress(bytes(raw), 6)) + chunk(b"IEND", b""))
+
+
+def write_png_rgb(width: int, height: int, pixels: bytes, path: Path, *,
+                  channels: int = 4, bgr: bool = True, stride: int | None = None) -> Path:
+    """Write an 8-bit truecolour PNG from a raw framebuffer.
+
+    The bilevel writer below exists for decoded fax pages. This one exists for
+    rendered PDF pages, which arrive as BGRA from PDFium. Same framing, colour
+    type 2 instead of 0, and no bit packing.
+
+    Still no image dependency: Pillow would do this in one call and would also
+    be the only reason this pipeline needed it.
+    """
+    row_bytes = bytearray()
+    # A renderer's rows are padded to an alignment boundary, so the distance
+    # between rows is not width*channels and assuming it is walks off the end.
+    stride = stride or width * channels
+    for y in range(height):
+        row_bytes.append(0)  # filter type: none
+        start = y * stride
+        row = pixels[start:start + width * channels]
+        if bgr:
+            # PDFium hands back BGR (or BGRA). Reorder to RGB and drop any alpha.
+            for x in range(0, width * channels, channels):
+                b, g, r = row[x], row[x + 1], row[x + 2]
+                row_bytes.extend((r, g, b))
+        elif channels == 4:
+            for x in range(0, width * 4, 4):
+                row_bytes.extend(row[x:x + 3])
+        else:
+            row_bytes.extend(row)
+    path.write_bytes(_png_bytes(width, height, bytes(row_bytes), 2))
+    return path
+
+
 def write_png(rows: list[bytearray], path: Path) -> Path:
     """Write a 1-bit greyscale PNG. zlib is stdlib; PNG framing is a dozen lines."""
     height, width = len(rows), (len(rows[0]) if rows else 0)
