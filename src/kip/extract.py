@@ -250,6 +250,22 @@ EVIDENCE_SCHEMA = {
                 "or the other."
             ),
         },
+        "asset_ref": {
+            "type": "object",
+            "description": (
+                "Cite a table cell or a formula instead of a text span. Use this "
+                "whenever the fact came from a table: quoting the flattened row "
+                "proves the digits were copied and NOT that they were assigned to "
+                "the right column, which is how a misread table passes verification."
+            ),
+            "properties": {
+                "asset_id": {"type": "string"},
+                "row": {"type": "integer"},
+                "col": {"type": "integer"},
+            },
+            "required": ["asset_id"],
+            "additionalProperties": False,
+        },
     },
     "required": ["excerpt", "line_start", "line_end", "role"],
     "additionalProperties": False,
@@ -441,6 +457,8 @@ def extract_units(
             continue
         normalized_path = ctx.run_dir / manifest["normalized_path"]
         text = normalized_path.read_text(encoding="utf-8")
+        assets_path = normalized_path.parent / "assets.jsonl"
+        assets = read_jsonl(assets_path) if assets_path.exists() else []
 
         result = client.complete_json(
             system=system,
@@ -448,6 +466,7 @@ def extract_units(
                 f"Document title: {manifest['title']}\n"
                 f"Media type: {manifest['media_type']}\n\n"
                 f"{wrap_untrusted(_numbered(text), cfg)}\n\n"
+                f"{_render_assets(assets)}"
                 "Extract every durable, source-backed molecular knowledge unit."
             ),
             schema=UNIT_SCHEMA,
@@ -455,7 +474,8 @@ def extract_units(
         )
 
         rejects: list[dict[str, Any]] = []
-        units = _materialize_units(ctx, cfg, manifest, result.get("units", []), text, rejects)
+        units = _materialize_units(ctx, cfg, manifest, result.get("units", []), text,
+                                   rejects, assets=assets)
         # Flag the kinds a proposition-shaped synthesis step is known to drop,
         # before sealing, so the flag is part of the record rather than a thing
         # recomputed later and liable to drift from what the planner was told.
@@ -521,7 +541,7 @@ def extract_units(
             )
             repaired = _materialize_units(
                 ctx, cfg, manifest, repair.get("units", []), text, rejects,
-                start_index=len(units) + 1,
+                start_index=len(units) + 1, assets=assets,
             )
             annotate_protected(repaired, taxonomy)
             print(
@@ -613,6 +633,36 @@ def _reject(source_id: str, index: int, raw: object, reason: str) -> dict[str, A
     }
 
 
+def _render_assets(assets: list[dict[str, Any]], *, limit: int = 60) -> str:
+    """Show the extractor the tables as grids, with their ids.
+
+    The flattened text says `Total segment revenue | $ | 33,314 | $ | 26,881`.
+    A model reading that has to guess which year each figure belongs to, and
+    quoting the row back proves only that the digits were copied. Rendering the
+    grid removes the guess, and giving each table an id lets a unit cite the
+    cell rather than the row.
+    """
+    tables = [a for a in assets if a.get("kind") == "table"]
+    if not tables:
+        return ""
+    lines = [
+        "TABLES IN THIS DOCUMENT, recovered as grids from the source markup.",
+        "Cite a figure taken from one with asset_ref {asset_id, row, col} rather "
+        "than by quoting the flattened row -- a quote proves the digits were "
+        "copied, not that they were read from the right column. Row and column "
+        "are 0-based, as printed below.",
+        "",
+    ]
+    for asset in tables[:limit]:
+        lines.append(f"[{asset['asset_id']}]")
+        lines.append(asset.get("text", ""))
+        lines.append("")
+    if len(tables) > limit:
+        lines.append(f"({len(tables) - limit} further tables not shown.)")
+        lines.append("")
+    return "\n".join(lines) + "\n"
+
+
 def _materialize_units(
     ctx: RunContext,
     cfg: Config,
@@ -621,6 +671,7 @@ def _materialize_units(
     text: str,
     rejects: list[dict[str, Any]] | None = None,
     start_index: int = 1,
+    assets: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     source_id = manifest["source_id"]
     lines = text.splitlines()
@@ -649,7 +700,7 @@ def _materialize_units(
         # the same thing on a re-run as it did on the first.
         unit_id = f"u-{source_id}-{index:04d}"
         evidence = [
-            _resolve_evidence(manifest, e, text, lines)
+            _resolve_evidence(manifest, e, text, lines, assets)
             for e in raw.get("evidence", [])
             if isinstance(e, dict)
         ]
@@ -748,11 +799,53 @@ def _locate_reflowed(excerpt: str, text: str) -> tuple[int, int] | None:
     return offsets[at], offsets[at + len(needle) - 1] + 1
 
 
+def _verify_asset_ref(ref: dict[str, Any] | None,
+                      assets: list[dict[str, Any]]) -> dict[str, Any]:
+    """Resolve a cited table cell, and record what it actually holds.
+
+    This is the check that closes the defect. Quoting a flattened row proves the
+    digits were copied; it cannot prove they were read from the right column,
+    because the fused string reads the same either way. Resolving the cited cell
+    against the stored grid produces the value AND the headers governing it, so
+    a unit that read the columns backwards is now detectable.
+
+    Verification here is deliberately looser than the verbatim text rule: the
+    cell's value must appear in the unit's quoted excerpt, not match it byte for
+    byte, because a model writing `$33,314 million` about a cell holding
+    `$33,314` is right. Demanding equality would reject correct readings, which
+    is the same mistake as scoring a transcription by string comparison.
+    """
+    if not ref or not ref.get("asset_id"):
+        return {}
+    from .assets import resolve_cell
+
+    asset = next((a for a in assets if a.get("asset_id") == ref["asset_id"]), None)
+    if asset is None:
+        return {"asset_ref": ref, "asset_verified": False,
+                "asset_note": f"no asset {ref['asset_id']} in this source"}
+    row, col = ref.get("row"), ref.get("col")
+    if row is None or col is None:
+        return {"asset_ref": ref, "asset_verified": True,
+                "asset_note": "asset cited without a cell"}
+    cell = resolve_cell(asset, row, col)
+    if cell is None:
+        return {"asset_ref": ref, "asset_verified": False,
+                "asset_note": f"no cell at row {row}, col {col}"}
+    return {
+        "asset_ref": ref,
+        "asset_verified": True,
+        "asset_value": cell["value"],
+        "asset_column_headers": cell["column_headers"],
+        "asset_row_headers": cell["row_headers"],
+    }
+
+
 def _resolve_evidence(
     manifest: dict[str, Any],
     raw: dict[str, Any],
     text: str,
     lines: list[str],
+    assets: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Turn a model-reported excerpt into a verifiable evidence record.
 
@@ -805,6 +898,7 @@ def _resolve_evidence(
         "excerpt": excerpt,
         "excerpt_sha256": text_hash(excerpt),
         "excerpt_verified": verified,
+        **_verify_asset_ref(raw.get("asset_ref"), assets or []),
         # True when the quote was located by reflowing rather than matched
         # byte-for-byte. The excerpt stored is still the source's own text; this
         # records that the model's wording differed in whitespace or hyphenation.

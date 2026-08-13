@@ -215,3 +215,63 @@ def test_rendering_without_the_renderer_is_not_fatal(tmp_path, monkeypatch):
 
     monkeypatch.setattr(builtins, "__import__", no_pypdfium)
     assert render_pages(tmp_path / "x.pdf", [1], tmp_path) == {}
+
+
+# --- Citing a cell, and what that catches --------------------------------------
+
+
+def _asset_from(html: str, asset_id: str = "tbl-s-0001"):
+    from kip.assets import ASSET_TABLE, FIDELITY_EXACT, build_asset
+
+    grid = _grid(html)
+    asset = build_asset(kind=ASSET_TABLE, source_id="s", index=1,
+                        fidelity=FIDELITY_EXACT, extractor="html_tables_v1",
+                        payload=grid.as_dict(), text=grid.to_text())
+    asset["asset_id"] = asset_id
+    return asset
+
+
+def test_a_cited_cell_resolves_with_the_headers_that_govern_it():
+    """The check the flattened row could not perform.
+
+    `Total segment revenue$33,314 $26,881 $23,855` reads identically whichever
+    order the columns are in, so quoting it proves the digits were copied and
+    not that they were read from the right year.
+    """
+    from kip.extract import _verify_asset_ref
+
+    assets = [_asset_from(FILING_TABLE)]
+    out = _verify_asset_ref({"asset_id": "tbl-s-0001", "row": 1, "col": 1}, assets)
+    assert out["asset_verified"] is True
+    assert out["asset_value"] == "$8,304"
+    assert out["asset_column_headers"] == ["2025"]
+    assert out["asset_row_headers"] == ["Equipment"]
+
+
+def test_citing_a_cell_that_does_not_exist_is_reported_not_ignored():
+    from kip.extract import _verify_asset_ref
+
+    assets = [_asset_from(FILING_TABLE)]
+    out = _verify_asset_ref({"asset_id": "tbl-s-0001", "row": 99, "col": 99}, assets)
+    assert out["asset_verified"] is False
+    assert "no cell" in out["asset_note"]
+
+    out = _verify_asset_ref({"asset_id": "tbl-nope-0001", "row": 0, "col": 0}, assets)
+    assert out["asset_verified"] is False
+
+
+def test_evidence_without_an_asset_reference_is_unaffected():
+    """Text citation is untouched; the asset path is additive."""
+    from kip.extract import _verify_asset_ref
+
+    assert _verify_asset_ref(None, []) == {}
+
+
+def test_the_extractor_is_shown_the_grid_and_told_to_cite_cells():
+    from kip.extract import _render_assets
+
+    rendered = _render_assets([_asset_from(FILING_TABLE)])
+    assert "tbl-s-0001" in rendered
+    assert "SEGMENT REVENUE AND PROFIT | 2025 | 2024" in rendered
+    assert "asset_ref" in rendered
+    assert _render_assets([]) == "", "no tables, no section"
