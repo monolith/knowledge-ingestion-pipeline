@@ -440,3 +440,22 @@ def test_the_extractor_is_shown_statements_not_symbol_names():
     ]
     shown = _significant_formulas(assets)
     assert [a["payload"]["latex"] for a in shown] == ["N(d_{+})=e^{x}", "rV"]
+
+
+def test_an_image_source_asset_is_the_shape_the_visual_read_looks_for(tmp_path):
+    """The wiring between the two halves, which nothing else checks.
+
+    Pass 0 emits the asset and Pass 1 selects which assets to read. Each is
+    tested; the seam between them is where an image source would silently
+    produce a figure nobody ever reads.
+    """
+    from kip.normalize import _image_assets
+
+    img = tmp_path / "scan.png"
+    img.write_bytes(b"\x89PNG\r\n\x1a\n" + b"\0" * 32)
+    assets = _image_assets(img, "s", tmp_path / "assets")
+
+    assert len(assets) == 1
+    selected = [a for a in assets
+                if a.get("kind") == "figure" and a.get("payload", {}).get("image")]
+    assert selected == assets, "the visual read's own filter must select it"
