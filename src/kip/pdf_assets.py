@@ -51,7 +51,18 @@ _MATH_DAMAGE = re.compile(
     r"[=<>]\s*\[|\]\s*/|"          # bracketed expressions with operators
     r"\bV[iI'’]\s*[A-Z]|"          # a square-root sign read as V + a letter
     r"\b\d\s*S\d\s*/\s*[A-Z]|"     # squared terms flattened, e.g. 2S2/N
-    r"[A-Za-z]\s*,\s*[a-z]\s*[/)]" # subscript commas surviving as punctuation
+    r"[A-Za-z]\s*,\s*[a-z]\s*[/)]|"  # subscript commas surviving as punctuation
+    # An operator ending a line: the right-hand side did not survive at all.
+    # This is the most valuable signal and the most general one, because the
+    # loss it marks is total -- `CU_j = \sum_{t=-35}^{0} u_{jt}` reaches the
+    # text layer as `CUj = ` and the summation is simply gone. Prose does not
+    # end a line with an equals sign.
+    r"(?<=\s)[=<>]\s*$|"
+    # A capital I standing where a vertical bar was. Conditional expectations
+    # are the densest notation in an empirical finance paper and the bar is
+    # what a scan loses first: `E(u_jt | F_{t-1})` arrives as `E(li2t 1IF-)`.
+    # Bounded to the inside of a parenthesis so the pronoun does not match.
+    r"\([^()]*\b[A-Za-z][A-Za-z0-9,.\-]*\s+I\s+[A-Za-z]"
     r")"
 )
 

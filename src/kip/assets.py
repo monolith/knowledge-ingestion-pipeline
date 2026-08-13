@@ -262,6 +262,32 @@ def from_payload(payload: dict[str, Any]) -> Table:
                  n_cols=payload.get("n_cols", 0), caption=payload.get("caption", ""))
 
 
+def asset_for(run_dir, normalized_rel: str, asset_id: str,
+              cache: dict[str, dict[str, dict]]) -> dict[str, Any] | None:
+    """The named asset from one source's bundle, or None.
+
+    Lives here rather than in either checker because BOTH the audit and the
+    validator have to resolve an asset citation the same way. They did not, for
+    one run: the validator learned about asset-backed excerpts and the audit did
+    not, so a formula citation passed one gate and was rejected by the other as
+    a fabrication. Two copies of a rule is one copy that will be updated.
+
+    Assets sit beside `normalized.txt` rather than in a central file, so a
+    citation resolves within its own source and an id cannot accidentally match
+    one belonging to a different document.
+    """
+    from pathlib import Path
+
+    from .artifacts import read_jsonl
+
+    if normalized_rel not in cache:
+        assets_path = Path(run_dir) / normalized_rel
+        assets_path = assets_path.parent / "assets.jsonl"
+        rows = read_jsonl(assets_path) if assets_path.exists() else []
+        cache[normalized_rel] = {a["asset_id"]: a for a in rows if a.get("asset_id")}
+    return cache[normalized_rel].get(asset_id)
+
+
 def write_assets(path, assets: Iterable[dict[str, Any]]) -> None:
     from .artifacts import write_jsonl_atomic
 

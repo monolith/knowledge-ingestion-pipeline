@@ -38,18 +38,18 @@
   "run_id": "dt",
   "spec_version": "3.1.0",
   "summary": {
-    "approved": 20,
-    "assessments": 21,
-    "audits": 20,
-    "candidates": 20,
+    "approved": 23,
+    "assessments": 68,
+    "audits": 23,
+    "candidates": 23,
     "clusters": 1,
-    "finished_at": "2026-08-13T10:35:29.991111+00:00",
+    "finished_at": "2026-08-13T12:30:54.147778+00:00",
     "quarantined": 0,
-    "queue_events": 20,
+    "queue_events": 23,
     "run_id": "dt",
     "sources": 1,
-    "started_at": "2026-08-13T10:35:29.899288+00:00",
-    "units": 58,
+    "started_at": "2026-08-13T12:30:54.066433+00:00",
+    "units": 68,
     "usage": {
       "cache_read_tokens": 0,
       "calls": 0,
@@ -57,8 +57,8 @@
       "output_tokens": 0
     },
     "verdicts": {
-      "fix": 1,
-      "pass_with_label": 19
+      "pass": 15,
+      "pass_with_label": 8
     }
   }
 }

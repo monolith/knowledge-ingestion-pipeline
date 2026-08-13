@@ -12,6 +12,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .assets import asset_for
+from .extract import _matches_asset
 from .artifacts import (
     RunContext,
     envelope,
@@ -131,6 +133,7 @@ def check_citation_accuracy(
     checked = mismatched = missing = 0
     details: list[str] = []
     cache: dict[str, str] = {}
+    asset_cache: dict[str, dict[str, dict]] = {}
 
     # A candidate citing no units checks out zero excerpts and used to come back
     # "pass" -- a leaf with no provenance chain at all, sailing through every
@@ -162,6 +165,22 @@ def check_citation_accuracy(
             if excerpt and text_hash(excerpt) != evidence.get("excerpt_sha256"):
                 mismatched += 1
                 details.append(f"{unit_id}: excerpt hash mismatch")
+                continue
+
+            # An asset-backed excerpt cannot be in the flat text, because
+            # normalization is what destroyed the thing it quotes -- the De Bondt
+            # scan reduced `CU_j = \sum_{t=-35}^{0} u_{jt}` to `CUj = `. It is
+            # checked against the asset instead, which is stored source and
+            # content-hashed, so this is still an independent verification and
+            # not an exemption. The validator applies the same rule; both must,
+            # or a citation passes one gate and fails the other.
+            if evidence.get("excerpt_source") == "asset":
+                asset = asset_for(ctx.run_dir, path_rel,
+                                  (evidence.get("asset_ref") or {}).get("asset_id", ""),
+                                  asset_cache)
+                if asset is None or not _matches_asset(excerpt, asset):
+                    mismatched += 1
+                    details.append(f"{unit_id}: excerpt does not match its cited asset")
                 continue
 
             if path_rel not in cache:

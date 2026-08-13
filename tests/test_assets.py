@@ -459,3 +459,84 @@ def test_an_image_source_asset_is_the_shape_the_visual_read_looks_for(tmp_path):
     selected = [a for a in assets
                 if a.get("kind") == "figure" and a.get("payload", {}).get("image")]
     assert selected == assets, "the visual read's own filter must select it"
+
+
+# --- Detecting mathematics by the damage it leaves ------------------------------
+
+
+def test_an_operator_ending_a_line_means_its_right_hand_side_is_gone():
+    """The most valuable signal, because the loss it marks is total.
+
+    Measured on the De Bondt scan: `CU_j = \\sum_{t=-35}^{0} u_{jt}` reaches the
+    text layer as `CUj = ` and the summation is simply absent -- not garbled,
+    absent. Nothing downstream can recover a definition whose right-hand side
+    was never extracted, so the page has to be rendered and read.
+    """
+    from kip.pdf_assets import pages_with_math
+
+    text = ("[[PAGE 1]]\n"
+            "we compute the cumulative excess returns CUj = \n"
+            "t_35 ujt for the prior 36 months (the portfolio formation period\n"
+            "and the portfolios are ranked from low to high, so that ACARw,t < \n")
+    assert pages_with_math(text) == [1]
+
+
+def test_prose_is_not_flagged():
+    from kip.pdf_assets import pages_with_math
+
+    text = ("[[PAGE 1]]\n"
+            "The main principle behind the model is to hedge the option by buying\n"
+            "and selling the underlying asset in a specific way to eliminate risk.\n"
+            "This type of hedging is called continuously revised delta hedging.\n")
+    assert pages_with_math(text) == []
+
+
+def test_a_capital_I_where_a_vertical_bar_belongs():
+    """Conditional expectation is the densest notation in an empirical paper,
+    and the bar is what a scan loses first: `E(u_jt | F_{t-1})` arrives as
+    `E(li2t 1IF-)`, which no amount of better text extraction repairs."""
+    from kip.pdf_assets import pages_with_math
+
+    text = ("[[PAGE 4]]\n"
+            "(Rjt -Em(Rjt I Fm 1) I Ft-,) = E(li2t 1IF-) = 0\n"
+            "where Ft-1 represents the complete set of information at time t - 1\n"
+            "hypothesis implies that E(twt I Ft-,) = E(i2Lt I Ft-) = 0. As explained\n")
+    assert pages_with_math(text) == [4], (
+        "one mark is prose noise; a page of mathematics produces many")
+
+
+def test_the_pronoun_I_does_not_look_like_a_vertical_bar():
+    """`I` is a common English word; the signal has to be narrower than that."""
+    from kip.pdf_assets import pages_with_math
+
+    text = ("[[PAGE 2]]\n"
+            "In this paper I argue that the market overreacts, and I show that\n"
+            "the effect (which I first noticed in 1980) is asymmetric.\n"
+            "As I noted above (see I. Introduction), the evidence is mixed.\n")
+    assert pages_with_math(text) == []
+
+
+def test_both_gates_accept_an_asset_backed_citation(tmp_path):
+    """The audit and the validator must resolve a citation the same way.
+
+    They did not, for one run: the validator learned about asset-backed
+    excerpts and the audit did not, so seven candidates whose units cited a
+    transcribed formula were failed by the auditor as fabrications and never
+    reached the queue. The excerpt was correct; only one of the two checkers
+    knew where to look for it.
+    """
+    import json
+
+    from kip.assets import asset_for
+
+    src = tmp_path / "01_normalized" / "s"
+    src.mkdir(parents=True)
+    (src / "normalized.txt").write_text("CUj = \nt_35 ujt for the prior 36 months\n")
+    asset = {"asset_id": "fml-s-0001", "kind": "formula", "fidelity": "transcribed",
+             "payload": {"latex": r"CU_j = \sum_{t=-35}^{t=0} u_{jt}"}}
+    (src / "assets.jsonl").write_text(json.dumps(asset) + "\n")
+
+    cache: dict = {}
+    found = asset_for(tmp_path, "01_normalized/s/normalized.txt", "fml-s-0001", cache)
+    assert found is not None, "resolved relative to the source that owns it"
+    assert asset_for(tmp_path, "01_normalized/s/normalized.txt", "fml-s-9999", cache) is None
