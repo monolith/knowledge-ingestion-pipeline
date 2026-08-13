@@ -2,7 +2,7 @@
 
 A complete run of the `kip` ingestion pipeline over `SPECIFICATION`.
 
-**136 knowledge units** · **488 citations** (488 verified) · **33 entries handed off** · run `spec` · schema `3.1.0`
+**140 knowledge units** · **516 citations** (516 verified) · **53 entries handed off** · run `spec` · schema `3.1.0`
 
 ---
 
@@ -38,76 +38,62 @@ Everything else records how the output was arrived at: the routing, the judgment
 
 The run's own corpus-coverage audit returned **`represented`**.
 
-> All fifteen label definitions are carried with cue and exclusions, not described. A reader can classify a statement from the output alone, which is the test that matters for a codebook -- and it is the failure this pass exists to catch.
+> The two unrelated tables are both from section 2.8, the third collision test. The section's finding IS carried as prose; what no unit points at is the two tables showing the per-pair numbers behind it. A consumer gets the conclusion and not the measurements it rests on, which is a thin gap rather than a hole -- the tables are in the record and the section's claim is stated.
 
-> The per-label internal tests survive: the strip test, the breach test, the elevator test, the third-party test, the actual-not-proposed test. These are the operative content of the definitions they sit in and are the easiest thing to lose when a definition is summarized.
+> This is the first pass over this document where its tables exist at all. They were Markdown pipe tables, which had no asset path until now, so the label mapping reached the corpus as flattened rows and the completeness check's own finding -- that a reader 'cannot determine from the output that `distinction` maps to `concept`' -- had no mechanism behind it to fix.
 
-> Negative and reversed results are given the same standing as positive ones: the confounded second collision test, the rejected generality test, the boolean mechanism measuring worse than single choice, and the finding that the priority order is worse than resolving alphabetically. A skewed output would have kept the design and dropped the refutations.
-
-> The specification's epistemic labelling survives into the output. Entries are marked authoritative where the source stipulates, internal-observation where the evidence is in-house, and contested where the corpus contains both sides -- and four entries were downgraded from established during audit because a single specification cannot corroborate the studies it cites.
+> The reliability figures are this codebook's own in-house measurement: 8 raters, 160 statements, eight sources. The leaf carrying them is `internal-observation` rather than a stronger state, which is the honest label for a document measuring itself.
 
 Full judgment: [`06_audit/corpus_coverage.json`](runs/spec/06_audit/corpus_coverage.json).
 
 ## What the checks found
 
 - The completeness check reported **8 finding(s)** against the first extraction: [`02_units/omissions.jsonl`](runs/spec/02_units/omissions.jsonl).
-- The adversarial audit reviewed **33 candidate(s)** and passed 21 without requiring a correction: [`06_audit/audits.jsonl`](runs/spec/06_audit/audits.jsonl).
+- The adversarial audit reviewed **53 candidate(s)** and passed 41 without requiring a correction: [`06_audit/audits.jsonl`](runs/spec/06_audit/audits.jsonl).
 
 ## Assets
 
-None. This source carried no tables, formulas or figures — the flat text in `01_normalized/` is the whole of it. An empty asset bundle is a result, not a gap.
+**14 assets** — 14 table. 12 related to at least one unit, 2 related to none.
+
+An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+
+Fidelity is part of the record, because the kinds are not equally trustworthy:
+
+- **exact** (14) — structure recovered from markup the source itself carried — citable as a quote
+
+Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, or `{asset_id}` for a formula. A cell reference resolves to the value **and** the headers governing it, which is what makes a figure checkable rather than merely quoted.
+
+### `src-specification-bf9781a3`
+
+[`normalized.txt`](runs/spec/01_normalized/src-specification-bf9781a3/normalized.txt) · [`assets.jsonl`](runs/spec/01_normalized/src-specification-bf9781a3/assets.jsonl) · [`manifest.json`](runs/spec/01_normalized/src-specification-bf9781a3/manifest.json)
+
+| asset | kind · fidelity · anchor | caption | related to |
+|---|---|---|---|
+| [`tbl-src-specification-bf9781a3-0001`](#tbl-src-specification-bf9781a3-0001) | table · exact · own_text | Statement Classifier — Specification v1.0 | 2 unit(s) |
+| [`tbl-src-specification-bf9781a3-0002`](#tbl-src-specification-bf9781a3-0002) | table · exact · own_text | 2.1 Coarse types | 2 unit(s) |
+| [`tbl-src-specification-bf9781a3-0003`](#tbl-src-specification-bf9781a3-0003) | table · exact · own_text | 2.2 Fine labels, with measured reliability where it exists | 5 unit(s) |
+| [`tbl-src-specification-bf9781a3-0004`](#tbl-src-specification-bf9781a3-0004) | table · exact · own_text | 2.4 `general` | 1 unit(s) |
+| [`tbl-src-specification-bf9781a3-0005`](#tbl-src-specification-bf9781a3-0005) | table · exact · own_text | 2.6 `status`, and why `claim` no longer exists | 3 unit(s) |
+| [`tbl-src-specification-bf9781a3-0006`](#tbl-src-specification-bf9781a3-0006) | table · exact · own_text | 2.7 What the second collision test changed | 1 unit(s) |
+| [`tbl-src-specification-bf9781a3-0007`](#tbl-src-specification-bf9781a3-0007) | table · exact · own_text | 2.8 What the third collision test measured | 1 unit(s) |
+| [`tbl-src-specification-bf9781a3-0008`](#tbl-src-specification-bf9781a3-0008) | table · exact · own_text | 2.8 What the third collision test measured | **no units** |
+| [`tbl-src-specification-bf9781a3-0009`](#tbl-src-specification-bf9781a3-0009) | table · exact · own_text | 2.9 A change that was tested and rejected | 1 unit(s) |
+| [`tbl-src-specification-bf9781a3-0010`](#tbl-src-specification-bf9781a3-0010) | table · exact · own_text | 3.3 Pairwise separations | 13 unit(s) |
+| [`tbl-src-specification-bf9781a3-0011`](#tbl-src-specification-bf9781a3-0011) | table · exact · own_text | 4.1 Independent boolean tests, resolved in code | 2 unit(s) |
+| [`tbl-src-specification-bf9781a3-0012`](#tbl-src-specification-bf9781a3-0012) | table · exact · own_text | Measured, verified, cited above | **no units** |
+| [`tbl-src-specification-bf9781a3-0013`](#tbl-src-specification-bf9781a3-0013) | table · exact · own_text | Headline, measured with 8 raters on 160 statements from eigh | 2 unit(s) |
+| [`tbl-src-specification-bf9781a3-0014`](#tbl-src-specification-bf9781a3-0014) | table · exact · own_text | Measured on this codebook, in-house | 5 unit(s) |
+Contents of each are at the end, under [Assets in full](#assets-in-full).
 
 ## The knowledge handed off
 
-Rendered from [`07_enqueue/enqueue.jsonl`](runs/spec/07_enqueue/enqueue.jsonl) — 33 event(s), target `existing-leaf-engine`.
+Rendered from [`07_enqueue/enqueue.jsonl`](runs/spec/07_enqueue/enqueue.jsonl) — 53 event(s), target `existing-leaf-engine`.
 
 ---
 
-### 1. Statement classifier: measured reliability and evidence convention
+### 1. The statement taxonomy: five coarse types, fifteen fine labels
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-001-r1` v2
-
-**Slug** `statement-classifier-measured-reliability-and-evidence-convention`
-
-What the classifier's agreement figures are, on which corpora and with how many raters, and the three-way labelling scheme the specification uses to mark what backs each of its claims. The figures are reproducibility among model raters on this codebook; no human gold set exists.
-
-**Assertions (1)**
-
-1. Current measured reliability, from eight blind raters using the codebook verbatim with no answer key in existence: inter-rater Krippendorff alpha is 0.934 on 160 statements from eight generated sources and 0.894 on 85 statements from three published documents. The form field reaches 1.000, status 0.861-0.906, and scope 0.799-0.940.
-
-   *backed by* `asmt-0001`
-
-**Related topics** `Krippendorff alpha`, `inter-rater reliability`, `evidence labelling`
-
-**Labels**
-
-- The alphas measure agreement among model raters, not correctness. The entry says so; a consumer quoting 0.934 as accuracy would be misreading it and the number is quotable.
-- The comparison to published schemes is not like-for-like: those are human annotators on full documents, this is model raters on isolated statements. The entry does not flag that difference, and the specification's own evidence register does.
-- Declared as create_or_update. This audit sees one comparison set's worth of the entry and judges coverage on what is here.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
-
-**Source units (1)** `u-src-specification-bf9781a3-0002`
-
-**Traceability** — idempotency key `ded2af8870aaa21896d55d13551e1c251489761b4abc671f639af406399e5f80` · queue event `q-ded2af8870aaa218` · audits `audit-cand-001`
-
-<details><summary>Provenance chain</summary>
-
-- `approved_candidates` → `06_audit/candidates.approved.jsonl`
-- `assessments` → `04_assessments/claim_assessments.jsonl`
-- `audits` → `06_audit/audits.jsonl`
-- `clusters` → `03_clusters/clusters.jsonl`
-- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
-- `omissions` → `02_units/omissions.jsonl`
-- `source_registry` → `01_normalized/source_registry.jsonl`
-- `units` → `02_units/units.jsonl`
-
-</details>
-
----
-
-### 2. The statement taxonomy: five coarse types, fifteen fine labels
-
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-002-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-001-r1` v2
 
 **Slug** `the-statement-taxonomy-five-coarse-types-fifteen-fine-labels`
 
@@ -115,19 +101,33 @@ The structure of the taxonomy and the provenance of its reliability figures. Fou
 
 **Assertions (2)**
 
-1. The full mapping, which the entry asserts is a lookup rather than a judgment: observation, event -> case; obligation, prohibition, decision, procedure, recommendation -> method; definition, distinction, background -> concept; principle, formula, assumption -> model; architecture, dependency -> system. A sixth value, general, is assigned by code when no test fires. Four labels carry a published anchor -- observation 0.79, procedure 0.74, definition 0.81, background 0.87, all CoreSC -- and the remaining eleven are DESIGN decisions with no measured reliability of their own.
+1. Each fine label is anchored where possible on a category with a published inter-annotator agreement figure, and the kappa quoted is the agreement for the anchor category in the cited scheme rather than for the label as written here. Four labels carry anchors: observation on CoreSC Observation at 0.79, procedure on CoreSC Method at 0.74, definition on CoreSC Object at 0.81, and background on CoreSC Background at 0.87. The other eleven are marked DESIGN.
 
-   *backed by* `asmt-0002`
+   *backed by* `asmt-0005`
 
-2. The taxonomy has five coarse types and fifteen fine labels, each fine label mapping to exactly one coarse type. The mapping is a lookup table, not a judgment. The coarse types and the question each answers: case -- what happened, on one occasion; method -- what is done, required, forbidden, advised, or settled; concept -- what does this term mean; model -- why does this hold, what does it rest on, and how is it computed; system -- what is the thing built from, and what does it need to run. A sixth value, general, is assigned by code when no test fires.
+2. The CoreSC figures come from Liakata et al., LREC 2010: per-category one-vs-rest Cohen's kappa over 41 chemistry and biochemistry papers with expert annotators. The AZ-II figures come from Teufel et al., EMNLP 2009: fifteen categories, three annotators, N=3745.
 
-   *backed by* `asmt-0002`
+   *backed by* `asmt-0001`
 
-**Related topics** `taxonomy`, `CoreSC anchors`, `coarse types`
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0002</code> — table, exact, not cited</summary>
+
+| Coarse | The question it answers |
+|---|---|
+| `case` | What happened, on one occasion? |
+| `method` | What is done, required, forbidden, advised, or settled? |
+| `concept` | What does this term mean? |
+| `model` | Why does this hold, what does it rest on, and how is it computed? |
+| `system` | What is the thing built from, and what does it need to run? |
+
+*(1 further rows in the stored grid.)*
+
+</details>
 
 **Source units (1)** `u-src-specification-bf9781a3-0010`
 
-**Traceability** — idempotency key `8ece40fab1e85fe6f7079775d7fa4a6ae4b2847cbe0c7224bc04b2e0f830a680` · queue event `q-8ece40fab1e85fe6` · audits `audit-cand-002`
+**Traceability** — idempotency key `ccf5749130ed29484a5b6a72b744b6671da6da2321b082588989d32dc05e287f` · queue event `q-ccf5749130ed2948` · audits `audit-cand-001`
 
 <details><summary>Provenance chain</summary>
 
@@ -144,29 +144,23 @@ The structure of the taxonomy and the provenance of its reliability figures. Fou
 
 ---
 
-### 3. Per-category reliability varies twofold, and abstract categories are worst
+### 2. Per-category reliability varies twofold, and abstract categories are worst
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-003-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-002-r1` v2
 
 **Slug** `per-category-reliability-varies-twofold-and-abstract-categories-are-worst`
 
 The measured regularity that governs how every definition in this codebook had to be written, and the three rules it imposes.
 
-**Assertions (2)**
+**Assertions (1)**
 
 1. The first consequence of the reliability spread is that the model coarse type is the known weak point, since its anchor is the lowest measured category in the scheme. Principle is therefore defined primarily as a surface test -- does the statement contain a causal or structural connective linking two named things -- rather than as a judgment about explanatory intent. This was tested directly: a non-surface generality test, asking whether a causal claim outlives the occasion it describes, measured worse than the surface definition it replaced.
 
-   *backed by* `asmt-0003`
+   *backed by* `asmt-0007`
 
-2. The second and third consequences of the reliability spread: any category that cannot be written as a surface test should be expected to land near 0.45 regardless of codebook quality, and per-category agreement must be reported separately in evaluation, because a single aggregate number hides exactly the failure this spread predicts.
+**Source units (1)** `u-src-specification-bf9781a3-0014`
 
-   *backed by* `asmt-0003`
-
-**Related topics** `per-category reliability`, `surface tests`, `CoreSC`
-
-**Source units (2)** `u-src-specification-bf9781a3-0014`, `u-src-specification-bf9781a3-0015`
-
-**Traceability** — idempotency key `3bcefdffb56ff48fb3f499f1d21028bb084132fabea5541a8cb72d1449ff2d2e` · queue event `q-3bcefdffb56ff48f` · audits `audit-cand-003`
+**Traceability** — idempotency key `5361edcb333d495a3835e8a75467465025b8fbaac0d2f72e033bd321a71e7fcb` · queue event `q-5361edcb333d495a` · audits `audit-cand-002`
 
 <details><summary>Provenance chain</summary>
 
@@ -183,47 +177,23 @@ The measured regularity that governs how every definition in this codebook had t
 
 ---
 
-### 4. The `general` residual: assign by code, never by confidence
+### 3. The `general` residual: assign by code, never by confidence
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-004-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-003-r1` v2
 
 **Slug** `the-general-residual-assign-by-code-never-by-confidence`
 
 Why the residual label is hidden from the model and why self-reported confidence cannot trigger it, with the threshold experiment that settles it and the generalization that follows.
 
-**Assertions (5)**
+**Assertions (1)**
 
-1. The general label is assigned by code. It is never offered as a label, never named in the prompt, and has no definition the model can see.
+1. Four labels were removed after the collision test. Conclusion merged into finding: they were the worst-colliding pair in the set at 11 co-occurrences with alphas of 0.607 and 0.680, and the measured-versus-inferred distinction between them did not survive contact with real statements. Study, permission and tradeoff were dropped as not carrying their weight; all three drew zero assignments in the test, but that was an item-set coverage gap, so the test did not independently show them to be weak and the decision is editorial. Event was retained deliberately for historical recording despite drawing zero assignments for the same reason.
 
-   *backed by* `asmt-0004`
+   *backed by* `asmt-0009`
 
-2. Self-reported confidence does not work as the trigger for general, and this was tested directly. Raters scored all fifteen labels 0-100 on the full corpus and code assigned general when no label cleared a bar or when several did: picking one label directly reaches alpha 0.934; argmax over the scores 0.930 with 0 per cent sent to general; margin at least 5 gives 0.893 at 4 per cent; margin at least 20 gives 0.866 at 25 per cent; an absolute threshold of 75 gives 0.892 at 42 per cent; a threshold of 90 gives 0.605 at 86 per cent; and a threshold of 95 gives 0.140 at 99 per cent.
+**Source units (1)** `u-src-specification-bf9781a3-0023`
 
-   *backed by* `asmt-0004`
-
-3. Two findings from the abstention experiment: the ordering is sound, since argmax over the scores reaches 0.930, statistically level with asking for one label; and every abstention rule loses.
-
-   *backed by* `asmt-0004`
-
-4. The reason abstention fails is not miscalibration: raters disagree about their own uncertainty more than they disagree about the label. Eight raters can all pick procedure and score it 95, 88, 72, 91, 60, 85, 78 and 93; under any threshold some abstain and some do not, so a statement they unanimously agreed on becomes a disagreement between procedure and general. Abstention does not filter noise, it manufactures it, by adding a second judgement noisier than the first.
-
-   *backed by* `asmt-0004`
-
-5. Four labels were removed after the collision test. Conclusion merged into finding: they were the worst-colliding pair in the set at 11 co-occurrences with alphas of 0.607 and 0.680, and the measured-versus-inferred distinction between them did not survive contact with real statements. Study, permission and tradeoff were dropped as not carrying their weight; all three drew zero assignments in the test, but that was an item-set coverage gap, so the test did not independently show them to be weak and the decision is editorial. Event was retained deliberately for historical recording despite drawing zero assignments for the same reason.
-
-   *backed by* `asmt-0004`
-
-**Related topics** `residual labels`, `abstention`, `confidence thresholds`
-
-**Labels**
-
-- The replacement mechanism is DESIGN-marked in the source: the number of runs and the disagreement rule are evaluation parameters and are not yet measured. The entry carries that, but it sits beside heavily-measured claims and reads stronger than it is.
-- The generalization -- anything turning one classification decision into two costs more in the second step than it gains in the first -- is the most transferable claim in this corpus and rests on three in-house instances, one model family, four raters.
-- The MultiSoc-4D finding is published and independent; the threshold table is not. Both reach this entry through one specification.
-
-**Source units (5)** `u-src-specification-bf9781a3-0016`, `u-src-specification-bf9781a3-0018`, `u-src-specification-bf9781a3-0019`, `u-src-specification-bf9781a3-0020`, `u-src-specification-bf9781a3-0023`
-
-**Traceability** — idempotency key `50c62b6ec74936117c2ec5f81265559342e5838bcc7ca62b6ecd7154f65a39a3` · queue event `q-50c62b6ec7493611` · audits `audit-cand-004`
+**Traceability** — idempotency key `a98647f29263f313283c08327c62f3b396d5d903726674ac1b5c3f189d1ba598` · queue event `q-a98647f29263f313` · audits `audit-cand-003`
 
 <details><summary>Provenance chain</summary>
 
@@ -240,71 +210,27 @@ Why the residual label is hidden from the model and why self-reported confidence
 
 ---
 
-### 5. The `status` field: floated, proposed, evidenced, settled
+### 4. The `status` field: floated, proposed, evidenced, settled
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-005-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-004-r1` v2
 
 **Slug** `the-status-field-floated-proposed-evidenced-settled`
 
 The four-rung epistemic-maturity field that replaced a coarse type, its measured reliability, and where it carries information type does not.
 
-**Assertions (11)**
+**Assertions (2)**
 
-1. Status is one field carried by every type, taking the values floated, proposed, evidenced and settled. Floated is a point raised without being worked out -- to act on it you would have to invent the details yourself. Proposed is one approach, specified enough to build or test, with nothing validating it. Evidenced means something backs it and the backing is what makes it hold. Settled means indisputable, not the kind of thing the next study overturns.
+1. A known gap, worse than predicted: a measured result that drives nothing -- 'the signal earned 0.82 Sharpe net of costs over the full sample' -- has no obvious home once claim and finding are gone. This was expected to fall to general and the control run shows it does not. Raters do not reach for the escape hatch, 0 of 288. They split, with 37 disagreeing rater-pairs between observation and principle, the largest collision measured in any run -- and on a research corpus these statements are roughly a quarter of the text. So general's share is not the metric that surfaces this; fine-tier alpha on a results-dense corpus is.
 
-   *backed by* `asmt-0006`
+   *backed by* `asmt-0001`
 
-2. Each rung of the status ladder adds a different thing: floated puts a point on the table, proposed adds specification, evidenced adds evidence, settled adds certainty. The test separating the first two is the one used throughout the codebook -- could you act on this sentence as written, or would you first have to invent the parameters?
+2. The restructure was re-tested on 80 fresh statements with four blind raters and agreement rose on both tiers: fine alpha from 0.778 to 0.858, coarse from 0.866 to 0.927, and unanimity from 0.67 to 0.78. No statement fell outside the taxonomy, 0 of 320.
 
-   *backed by* `asmt-0006`
+   *backed by* `asmt-0012`
 
-3. The status ladder was tested on 160 fresh statements from eight sources with four blind raters and reaches alpha 0.896, higher than the type taxonomy scores on the same items at 0.877. Per rung: floated 0.938, settled 0.914, evidenced 0.906, proposed 0.851.
+**Source units (2)** `u-src-specification-bf9781a3-0037`, `u-src-specification-bf9781a3-0038`
 
-   *backed by* `asmt-0006`
-
-4. Floated and proposed separate cleanly at 2 disagreeing rater-pairs, the least confused pair in the ladder. This was predicted to be the weak boundary on the reasoning that both are hedged and differ only by degree of specification, and the prediction was wrong. Merging them changes alpha by +0.001, so the fourth rung costs nothing and buys resolution. The real trouble is at the top: evidenced against settled at 21 and evidenced against proposed at 20.
-
-   *backed by* `asmt-0006`
-
-5. The gain from status as a field is that an idea's lifecycle stops being a retyping. A statement begins as floated, becomes proposed once it names its parameters, evidenced when the backtest holds, and may harden to settled. As separate types that path required changing what the statement is; as a status it is an update, which is what actually happens -- and it makes a query like 'show me every principle still at proposed' a query rather than an archaeology exercise.
-
-   *backed by* `asmt-0006`
-
-6. Asking for status does not cost type agreement -- it improves it. On the same 160 items, raters asked for type alone reached fine alpha 0.841 while raters asked for type and status reached 0.877, with coarse moving from 0.840 to 0.896. This was the main risk in the two-field design and it inverted. The likely mechanism is unproven: with nowhere to record how established a statement is, raters were folding that judgment into the type choice. It is the largest effect of its kind measured here, but on four raters with no confidence intervals, so the direction is more solid than the magnitude.
-
-   *backed by* `asmt-0006`
-
-7. Status is not a restatement of type, but its value is concentrated. Cramér's V is 0.595 and mutual information 0.845 of 1.721 bits, so 49 per cent of status is predictable from type and 51 per cent is not -- dependent, not collapsed. The same test was run because the published two-axis design this spec cites failed when its axes turned out statistically dependent and collapsed into a few cells.
-
-   *backed by* `asmt-0006`
-
-8. The independent half of status is concentrated by type, measured as residual entropy of status given type: dependency 1.84 bits on n=7, procedure 1.74 on n=48, recommendation 1.73 on n=94, principle 1.72 on n=44, architecture 1.53, distinction 1.39, decision 1.18, event 0.82, background 0.50, observation 0.19 at 97 per cent evidenced, and definition 0.00 on n=40 at 100 per cent settled. Status earns its place on proposals, approaches and causal claims; on definition it is a constant. That is an argument for scoping the field rather than dropping it, and v1 does not act on it -- it asks for status on every type.
-
-   *backed by* `asmt-0006`
-
-9. The n/a status value is nearly unused: 9 of 640, or 1.4 per cent. Status applies to almost every statement raters saw, including rules and events. The one exception is general, where half the assignments were n/a -- consistent with general being a residual rather than a kind.
-
-   *backed by* `asmt-0006`
-
-10. A known gap, worse than predicted: a measured result that drives nothing -- 'the signal earned 0.82 Sharpe net of costs over the full sample' -- has no obvious home once claim and finding are gone. This was expected to fall to general and the control run shows it does not. Raters do not reach for the escape hatch, 0 of 288. They split, with 37 disagreeing rater-pairs between observation and principle, the largest collision measured in any run -- and on a research corpus these statements are roughly a quarter of the text. So general's share is not the metric that surfaces this; fine-tier alpha on a results-dense corpus is.
-
-   *backed by* `asmt-0006`
-
-11. The restructure was re-tested on 80 fresh statements with four blind raters and agreement rose on both tiers: fine alpha from 0.778 to 0.858, coarse from 0.866 to 0.927, and unanimity from 0.67 to 0.78. No statement fell outside the taxonomy, 0 of 320.
-
-   *backed by* `asmt-0006`
-
-**Related topics** `epistemic status`, `residual entropy`, `two-field design`
-
-**Labels**
-
-- Four raters, no confidence intervals, one model family. The source says to treat the direction as more solid than the magnitude on the largest of these effects, and that instruction should travel with the +0.036 figure.
-- The entry records that status is worthless on some types and carries everything on others, and that v1 does not act on it. That unacted-on finding is the most likely thing to be dropped in a summary.
-- The mechanism proposed for why status improves type agreement is explicitly unproven in the source and must not harden into an explanation.
-
-**Source units (11)** `u-src-specification-bf9781a3-0027`, `u-src-specification-bf9781a3-0028`, `u-src-specification-bf9781a3-0029`, `u-src-specification-bf9781a3-0030`, `u-src-specification-bf9781a3-0031`, `u-src-specification-bf9781a3-0032`, `u-src-specification-bf9781a3-0033`, `u-src-specification-bf9781a3-0034`, `u-src-specification-bf9781a3-0035`, `u-src-specification-bf9781a3-0037`, `u-src-specification-bf9781a3-0038`
-
-**Traceability** — idempotency key `418af76f0dcd1683e8b91c6818067299009cc6254aca024771ca7800d94d580d` · queue event `q-418af76f0dcd1683` · audits `audit-cand-005`
+**Traceability** — idempotency key `bd18dec0180205ae9df41cc8511d69479c8c4233f5f672e552722467cffb59bc` · queue event `q-bd18dec0180205ae` · audits `audit-cand-004`
 
 <details><summary>Provenance chain</summary>
 
@@ -321,9 +247,9 @@ The four-rung epistemic-maturity field that replaced a coarse type, its measured
 
 ---
 
-### 6. The second collision test was confounded by its item set
+### 5. The second collision test was confounded by its item set
 
-`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-006-r1` v2
+`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-005-r1` v2
 
 **Slug** `the-second-collision-test-was-confounded-by-its-item-set`
 
@@ -333,31 +259,46 @@ A headline improvement, and the control that shows it came from the items rather
 
 1. That comparison was confounded, and a control says the gain was not the taxonomy. The first and second tests used different item sets, so the headline moved for two reasons at once. Re-running the first test's 72 items through the second codebook isolates the taxonomy: the headline v1 to v2 change was +0.080 fine and +0.061 coarse with both taxonomy and items changing; the taxonomy alone moved +0.009 fine and -0.075 coarse; the item set alone moved +0.071 fine and +0.136 coarse. The restructure bought approximately nothing on a fixed item set and lost ground at the coarse tier.
 
-   *backed by* `asmt-0007`
+   *backed by* `asmt-0013`
 
 2. The claim that dissolving claim cost nothing was read off the second item set, which happens to contain few of the statements that make it costly. On the first item set the cost is plain: principle and observation disagreed on 37 rater pairs, the largest collision in any test so far, concentrated entirely on empirical research results -- sentences that report a measurement in order to assert a generalization. Claim and finding had absorbed those; with them gone they scatter across two coarse types.
 
-   *backed by* `asmt-0007`
+   *backed by* `asmt-0011`
 
 3. The response to the 37-pair collision is a mechanical tie-break rather than a restored label: the strip test assigns a measured result to observation even when the author generalizes from it, and reserves principle for the explanation stated without its measurement. A second contributing cause is established: through v2 the codebook's observation definition still pointed raters at finding, study and conclusion -- labels the restructure had removed. Eleven such dangling pointers were found and repaired, and how much of the 37 was the missing label and how much was the broken codebook is not yet separated.
 
-   *backed by* `asmt-0007`
+   *backed by* `asmt-0001`
 
 4. The third collision test measured the renames, the strip test and the eleven repaired pointers on both earlier item sets at once -- 152 statements, four blind raters, two arms differing only in whether the strip test was present. Holding items fixed in both directions: the 72 results-dense items went from fine 0.787 and coarse 0.791 under v2 to 0.883 and 0.874 under v3; the 80 mixed items went from 0.858 and 0.927 to 0.930 and 0.927. That is +0.096 and +0.072 fine alpha with the item set held fixed in each pair -- what §2.7 claimed and could not show.
 
-   *backed by* `asmt-0007`
+   *backed by* `asmt-0017`
 
-**Related topics** `confounding`, `item sets`, `collision testing`
+**Assets carried with this entry (2)** — 2 table. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
 
-**Labels**
+<details><summary><code>tbl-src-specification-bf9781a3-0006</code> — table, exact, not cited</summary>
 
-- The entry preserves both readings but does not record that the control is the one the specification acted on. A reader could take this as an unresolved dispute rather than a settled correction.
-- The two fixes that shipped in response -- the strip test and eleven repaired pointers -- are confounded with each other, and the source states it cannot separate them.
-- This is one project's internal testing, four raters, one model family. Nothing here is independent replication.
+|   | fine α | coarse α |
+|---|---|---|
+| headline, v1 → v2 (taxonomy **and** items changed) | +0.080 | +0.061 |
+| **taxonomy alone** (v1 items, both codebooks) | **+0.009** | **−0.075** |
+| item set alone (v2 codebook, both item sets) | +0.071 | +0.136 |
+
+</details>
+
+<details><summary><code>tbl-src-specification-bf9781a3-0007</code> — table, exact, not cited</summary>
+
+|   | fine α | coarse α |
+|---|---|---|
+| 72 results-dense items, v2 codebook (the control) | 0.787 | 0.791 |
+| the same 72, v3 codebook | **0.883** | **0.874** |
+| 80 mixed items, v2 codebook | 0.858 | 0.927 |
+| the same 80, v3 codebook | **0.930** | 0.927 |
+
+</details>
 
 **Source units (4)** `u-src-specification-bf9781a3-0039`, `u-src-specification-bf9781a3-0040`, `u-src-specification-bf9781a3-0041`, `u-src-specification-bf9781a3-0044`
 
-**Traceability** — idempotency key `3338074a1640a62c1d9020c0a1d90aad6c037b0c2d36d0206c38d80d39cdb237` · queue event `q-3338074a1640a62c` · audits `audit-cand-006`
+**Traceability** — idempotency key `19b0445d29224ac22b1f210129829ac90fc41ca973956b7e2a637157e33a4f05` · queue event `q-19b0445d29224ac2` · audits `audit-cand-005`
 
 <details><summary>Provenance chain</summary>
 
@@ -374,9 +315,9 @@ A headline improvement, and the control that shows it came from the items rather
 
 ---
 
-### 7. The third collision test: renames measured, item set held fixed
+### 6. The third collision test: renames measured, item set held fixed
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-007-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-006-r1` v2
 
 **Slug** `the-third-collision-test-renames-measured-item-set-held-fixed`
 
@@ -386,39 +327,47 @@ The experiment run to answer the previous control, with the per-label gains and 
 
 1. The strip test does its job locally and disappears in aggregate. On the principle-against-observation boundary it targets, disagreeing rater-pairs went from 37 under the control to 17 once the pointers and names were fixed, and to 11 with the strip test -- a further 35 per cent. On aggregate alpha its effect is plus or minus 0.012, which four raters cannot distinguish from noise. It is retained because the boundary it fixes is cross-coarse, and the coarse tier is the one consumers read.
 
-   *backed by* `asmt-0008`
+   *backed by* `asmt-0019`
 
 2. Two collisions the third test surfaced are new, both cross-coarse, and both are one sentence doing two jobs: principle against recommendation at 12 rater-pairs, exemplified by an explanation with an instruction attached; and decision against procedure at 7 rater-pairs, exemplified by a settled choice stated as how the thing is done. §3.3 now carries a rule for each.
 
-   *backed by* `asmt-0008`
+   *backed by* `asmt-0020`
 
 3. A generality test for principle was written and rejected. Principle's three remaining collisions were reviewed: two were judged genuine semantic overlap that no wording fixes, and the third, principle against observation, was traced to a specific gap -- the strip test resolves a measurement that also generalizes but says nothing about a causal diagnosis with no measurement in it. The generality test held that being causal is not enough, the claim must still apply to the next case.
 
-   *backed by* `asmt-0008`
+   *backed by* `asmt-0022`
 
 4. The generality test was rejected on measurement. It resolved five of the six items it was written for and broke five others that had been unanimous. With the strip test only, principle-observation collisions were 17 and fine alpha across all 152 items was 0.904; adding the generality test made collisions 19 and alpha 0.901, dropped the results-dense subset from 0.871 to 0.848, dropped principle's own alpha from 0.861 to 0.797, and cut principle assignments from 123 to 77.
 
-   *backed by* `asmt-0008`
+   *backed by* `asmt-0023`
 
 5. The generality test cut both ways, which is the tell. Two previously unanimous measured results were pulled toward principle, because a measured relation is also a standing one and the two tests point opposite ways on the same sentence; three previously unanimous system-behaviour claims were pulled toward observation, because raters disagreed whether a claim about our own autoscaler generalizes. Fifty-one assignments migrated from principle to observation in total.
 
-   *backed by* `asmt-0008`
+   *backed by* `asmt-0024`
 
 6. The event label has not been exercised by three consecutive item sets: 2 of 608 assignments with alpha near zero on those two, while background drew zero across 152 items. Event is retained deliberately for historical recording. It is untested, not disproven -- but three item sets drawn from six source types failing to produce it is itself a statement about how often it will fire.
 
-   *backed by* `asmt-0008`
+   *backed by* `asmt-0001`
 
-**Related topics** `renames`, `collision testing`, `strip test`
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
 
-**Labels**
+<details><summary><code>tbl-src-specification-bf9781a3-0009</code> — table, exact, not cited</summary>
 
-- The strip test's aggregate effect is inside the noise floor the source itself defines. Its retention rests on a judgment about which tier consumers read, not on a measurement, and the entry should say so.
-- The renames and the eleven repaired pointers shipped together and cannot be attributed between them. The +0.096 figure therefore belongs to the revision, not to the renames.
-- Four raters. The source's own noise-floor row says one four-rater run cannot distinguish designs, which bounds how far these per-label figures can be pushed.
+|   | with strip test only | + generality test |
+|---|---|---|
+| `principle`/`observation` collisions | 17 | **19** |
+| fine α, all 152 | 0.904 | 0.901 |
+| fine α, results-dense subset | 0.871 | **0.848** |
+| fine α, mixed subset | 0.930 | 0.943 |
+| `principle` α | 0.861 | **0.797** |
+
+*(1 further rows in the stored grid.)*
+
+</details>
 
 **Source units (6)** `u-src-specification-bf9781a3-0046`, `u-src-specification-bf9781a3-0047`, `u-src-specification-bf9781a3-0049`, `u-src-specification-bf9781a3-0050`, `u-src-specification-bf9781a3-0051`, `u-src-specification-bf9781a3-0048`
 
-**Traceability** — idempotency key `7e931d1adbc49906372dc88c43e0d6faa208e25b779fe83361e4a8fc3be66822` · queue event `q-7e931d1adbc49906` · audits `audit-cand-007`
+**Traceability** — idempotency key `003f39b1fa708763383e0cb67ba64040eee5d7e3311b660fd2c75fbc2ead7fac` · queue event `q-003f39b1fa708763` · audits `audit-cand-006`
 
 <details><summary>Provenance chain</summary>
 
@@ -435,9 +384,9 @@ The experiment run to answer the previous control, with the per-label gains and 
 
 ---
 
-### 8. Codebook depth beats label count, but is not sufficient on its own
+### 7. Codebook depth beats label count, but is not sufficient on its own
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-008-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-007-r1` v2
 
 **Slug** `codebook-depth-beats-label-count-but-is-not-sufficient-on-its-own`
 
@@ -447,13 +396,11 @@ The three published findings that justify writing definitions as surface tests a
 
 1. DEFINITION -- observation (coarse: case, anchor kappa 0.79). Cue: insight extrapolated from multiple events -- a pattern or reading drawn across more than one occasion, not definitive enough to be a rule or a recommendation, anecdotal by nature in that it holds so far, on what has been seen. A single occurrence reported as fact is an event; it becomes an observation when the sentence reads across occasions -- a rate, a repetition, a sample, a trend, a mean. Excludes: the occurrence itself, however quantified (event); an established difference between two options (distinction); reasoning from fundamentals (principle); something definitive enough to be followed (procedure, obligation, prohibition or recommendation).
 
-   *backed by* `asmt-0009`
-
-**Related topics** `codebook design`, `annotator training`, `surface tests`
+   *backed by* `asmt-0008`
 
 **Source units (1)** `u-src-specification-bf9781a3-0058`
 
-**Traceability** — idempotency key `c6940ee17d500f9d2c5e901adc30b44e3f5135dffb996b79249f3bbac43d9b20` · queue event `q-c6940ee17d500f9d` · audits `audit-cand-008`
+**Traceability** — idempotency key `ebb7b9ad916df11c253ed7436ffb9f80a4a6ca37621bf67071740b95056e6d10` · queue event `q-ebb7b9ad916df11c` · audits `audit-cand-007`
 
 <details><summary>Provenance chain</summary>
 
@@ -470,9 +417,9 @@ The three published findings that justify writing definitions as surface tests a
 
 ---
 
-### 9. Required shape of every label definition
+### 8. Required shape of every label definition
 
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-009-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-008-r1` v2
 
 **Slug** `required-shape-of-every-label-definition`
 
@@ -482,21 +429,15 @@ What each of the fifteen definitions must contain, and why boundaries are factor
 
 1. RULE -- the strip test, which separates observation from principle. An empirical result is an observation even when the author generalizes from it. Delete the numbers and the sample from the sentence: if nothing of substance survives, it was an observation; if a causal claim survives on its own, it is a principle.
 
-   *backed by* `asmt-0010`
+   *backed by* `asmt-0015`
 
 2. DEFINITION -- event (coarse: case). Cue: a single thing that happened, reported as fact. Singular and factual; quantity does not disqualify it, since an incident report full of counts and losses is still one occurrence. An event is one occasion while an observation extrapolates across several. Excludes: a reading drawn from what happened (observation); a settled choice (decision); a generally accepted state of affairs (background).
 
-   *backed by* `asmt-0010`
-
-**Related topics** `definition shape`, `cue`, `exclusions`
-
-**Labels**
-
-- Note that the exemplars this rule requires are not carried into the definitions entry.
+   *backed by* `asmt-0030`
 
 **Source units (2)** `u-src-specification-bf9781a3-0059`, `u-src-specification-bf9781a3-0060`
 
-**Traceability** — idempotency key `8b84043c3d9ecb179a514973c9abcf8b96cf6967b7c6a26f3d929bb92551a36e` · queue event `q-8b84043c3d9ecb17` · audits `audit-cand-009`
+**Traceability** — idempotency key `4c1b2182c29ae4e1edf6457cfc2a50a18da5160c4f8b3b04096d939fc79c1332` · queue event `q-4c1b2182c29ae4e1` · audits `audit-cand-008`
 
 <details><summary>Provenance chain</summary>
 
@@ -513,97 +454,47 @@ What each of the fifteen definitions must contain, and why boundaries are factor
 
 ---
 
-### 10. The fifteen label definitions
+### 9. The fifteen label definitions
 
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-010-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-009-r1` v2
 
 **Slug** `the-fifteen-label-definitions`
 
 The codebook itself: each label's surface cue and its explicit exclusions, stated so a rater can check a sentence against them without inferring intent. This is the content the specification's own evidence identifies as determining whether the classifier works.
 
-**Assertions (19)**
+**Assertions (3)**
 
-1. Not carried from the source: each of the fifteen definitions ships one document-style exemplar and one conversational exemplar, required by §3.1 as a component of every definition. None of the thirty is reproduced here. A rater can apply the cues and exclusions below without the source, but the worked examples are in the specification only.
+1. Background was previously written as a positive category -- context a reader needs, presented as generally accepted -- which describes a large share of all expository prose, and it collided with event 11 times, obligation 4 and principle 4 on the first corpus that exercised it. That is why it is now written as a residual.
 
-   *backed by* `asmt-0011`
+   *backed by* `asmt-0095`
 
-2. DEFINITION -- obligation (coarse: method). Cue: what is owed to a third party. A requirement is an obligation only when there is someone outside the doing party to whom it is owed -- a regulator, an exchange, a counterparty, a client, a contract. It is the positive counterpart of prohibition. Internal requirements are procedure: a rule the organisation imposes on itself, however mandatory it sounds, is how the organisation works and belongs in the manual. Judge the action, not the grammar -- a requirement stated with a negation is still an obligation if what it demands is an action. Excludes: what must not be done (prohibition); an internal requirement (procedure); advice with no accountability (recommendation).
+2. Pairwise distinction rules are the bulk of a working codebook, not a garnish: the scheme that reached kappa 0.71 shipped 75 of them alongside a decision tree, in 111 pages of guidelines. This specification's nineteen rules cover the pairs judged to genuinely collide; that judgment is the author's and is worth challenging, and a pair that turns out to collide in practice should be added to §3.3 rather than patched into a definition.
 
-   *backed by* `asmt-0011`
+   *backed by* `asmt-0001`
 
-3. DEFINITION -- prohibition (coarse: method). Cue: the negative case of procedure -- where a procedure says what to do, a prohibition says what must not be done. A hard rule, manual-grade: it would be printed as an absolute and it can be violated. Test: could someone be in breach of it? A prohibition was set by someone with standing, and doing it anyway is a breach; a peer pointing away from something out of experience creates no breach and is a recommendation, however imperative it sounds. Excludes: a positively-stated requirement (obligation); advice against an action with no accountability behind it (recommendation).
+3. Assumption is judged high value for this corpus specifically: quantitative models fail at their assumptions far more often than at their arithmetic, and assumptions are usually the least recorded part of a model. This is marked DESIGN.
 
-   *backed by* `asmt-0012`
+   *backed by* `asmt-0097`
 
-4. DEFINITION -- decision (coarse: method). Cue: a choice reported as settled, which governs what happens after it. Typically past-tense and agentive -- adopted, chose, approved, standardised on, agreed to. This is the one rule label with no deontic modal to key on. Excludes: something that merely occurred with no choice made (event); a choice still being proposed (recommendation); a statement carrying an explicit modal, which the deontic labels take instead.
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
 
-   *backed by* `asmt-0012`
+<details><summary><code>tbl-src-specification-bf9781a3-0010</code> — table, exact, not cited</summary>
 
-5. DEFINITION -- procedure (coarse: method, anchor kappa 0.74). Cue: an established operational instruction -- how the system is used. It could be pasted into a user manual unchanged and read as something to be followed every time. Test: is the sentence reporting practice or putting something forward? Reporting is procedure -- we use, backtests are charged, the loader runs at 07:00, positions are marked daily. Excludes: anything put forward rather than reported, anything hedged, anything announced as a contribution to a discussion (all recommendation); how the system is built rather than used (architecture); a settled configuration choice among real alternatives (decision); the arithmetic defining a quantity (formula); a constraint someone is accountable to (obligation).
+| Pair | The test that separates them |
+|---|---|
+| `observation` / `event` | Was anything measured? An observation records a quantity or behaviour; an event records that something occurred. |
+| `event` / `decision` | Was a choice made? An event happened to you; a decision was chosen and constrains later action. |
+| `decision` / `obligation` | Is there a modal? An obligation states a standing requirement in modal form; a decision states one was established. If both fit, the modal wins. |
+| `decision` / `recommendation` | Settled or proposed? A decision is closed; a recommendation is still advice. |
+| `obligation` / `prohibition` | **What to do** versus **what not to do.** Judge by the action demanded, not by grammatical polarity — a negatively-phrased requirement that demands an action is an `obligation`. `[MEASURED]` Both items in the 21-pair collision were compound, carrying a requirement and a forbidding in one sentence; under §2.4 both tests score above 90 and the statement resolves to `general` with `multi_fire`. |
 
-   *backed by* `asmt-0012`
+*(19 further rows in the stored grid.)*
 
-6. DEFINITION -- recommendation (coarse: method). Cue: prescribes a course of action -- advice on what ought to be done, with no requirement force and nothing settled. Practical and experiential, bearing on a choice where more than one valid option exists, and usually conversational in register. Excludes: a requirement someone is accountable to (obligation); a choice already made (decision); a bare description of an approach (procedure).
+</details>
 
-   *backed by* `asmt-0012`
+**Source units (17)** `u-src-specification-bf9781a3-0061`, `u-src-specification-bf9781a3-0062`, `u-src-specification-bf9781a3-0063`, `u-src-specification-bf9781a3-0064`, `u-src-specification-bf9781a3-0065`, `u-src-specification-bf9781a3-0066`, `u-src-specification-bf9781a3-0067`, `u-src-specification-bf9781a3-0068`, `u-src-specification-bf9781a3-0070`, `u-src-specification-bf9781a3-0072`, `u-src-specification-bf9781a3-0073`, `u-src-specification-bf9781a3-0074`, `u-src-specification-bf9781a3-0076`, `u-src-specification-bf9781a3-0079`, `u-src-specification-bf9781a3-0080`, `u-src-specification-bf9781a3-0078`, `u-src-specification-bf9781a3-0081`
 
-7. DEFINITION -- definition (coarse: concept, anchor kappa 0.81). Cue: fixes a key topic. It states what a term means, and the term is load-bearing -- remove the definition and the reader cannot follow what follows. The grammatical centre is X is / means / refers to / is defined as Y. Against background: a definition defines the topic, while background adds colour around it without defining anything. Excludes: a contingent statement that could turn out false, which fixes no terminology (principle); a contrast drawn between two terms (distinction).
-
-   *backed by* `asmt-0012`
-
-8. DEFINITION -- distinction (coarse: concept). Cue: a qualifier between multiple methods or options, resting on established differences rather than on one occasion's measurement. The contrast is the payload: two things are named and what separates them is the point. Proven, not anecdotal -- a distinction cites differences that hold, such as fee schedules, contract terms or published behaviour; if the contrast rests on what someone saw once, it is an observation. Excludes: a single term being defined (definition); a theoretical claim reasoned from fundamentals (principle); a one-off comparison someone happened to measure (observation).
-
-   *backed by* `asmt-0012`
-
-9. DEFINITION -- background (coarse: concept, anchor kappa 0.87). Cue: additional colour or history. It enriches understanding of the surround but does not define the topic itself -- strip it out and the topic is still defined, you have only lost context. It is contextual and usually announced, and is decided from the surrounding context. Background is a last resort: it loses every tie, so if any other test fires that label wins. It is what remains when a statement informs but claims nothing, instructs nothing and defines nothing. Excludes: everything else -- that is the point.
-
-   *backed by* `asmt-0012`
-
-10. DEFINITION -- principle (coarse: model). Cue: the theory or rule behind something -- reasoning from fundamentals about why it holds or why it is built that way. First principles, not comparison, not measurement, and not implementation. Test: would it survive without the specific case in front of you? A principle is stated at the level of the idea; a statement that compares two named options is a distinction, and one that reports what was seen is an observation, even when it explains itself. Excludes: how the thing is built or sourced (architecture); the equation that computes it (formula); what must be true for it to hold (assumption); what it needs in order to run (dependency); a single measured occasion (observation).
-
-   *backed by* `asmt-0012`
-
-11. Principle carries status, as every type does: floated when raised but not worked out, proposed when specified but unvalidated, evidenced when something backs it, settled when indisputable. The status is not part of choosing the label -- a principle is a principle whether or not it is proven.
-
-   *backed by* `asmt-0012`
-
-12. DEFINITION -- architecture (coarse: system). Cue: implementational design -- the construction of a physical or software system: what it is built out of, what components it has, what they are. Not a logical scheme and not a configuration. Against principle: architecture is the implementation, principle is the theory or rule behind it; the same system has both. The elevator test: what the doors are made of and how the hoist is assembled is architecture, how to call the car is procedure. Actual, not proposed: architecture describes a real implementation, including a specification of one that has been committed to, while a system being put forward is a recommendation however concrete its detail. Excludes: how the system is used (procedure); a settled setting or configuration choice (decision); why it works (principle); the arithmetic (formula); something separate the build needs present (dependency).
-
-   *backed by* `asmt-0012`
-
-13. DEFINITION -- formula (coarse: model). Cue: mathematical or scientific in nature -- an equation, an arithmetic definition in prose, or a statement that defines something in mathematical or scientific terms. A formula says what a quantity equals; it instructs nobody. No opinions in a formula: a formula computes and stops, and if the sentence also evaluates, judges or hedges the result, that part is not formula. Test: is the arithmetic the payload, or machinery inside a policy? Excludes: a term's meaning with no computation given (definition); a reported value rather than the rule producing it (observation); arithmetic in service of an operational instruction (procedure).
-
-   *backed by* `asmt-0012`
-
-14. DEFINITION -- assumption (coarse: model). Cue: a leap of faith -- something taken on trust for the rest to hold, asserted without evidence and without proof, and the sentence knows it. Marker words: assumes, presupposes, conditional on, holds only if, provided that, on the standing assumption that. Against architecture: an assumption is believed, an architecture is built -- if it could be inspected in the system, it is not an assumption. Excludes: something needed to run rather than to be true (dependency); a limit on where it applies stated as a result (observation or principle); a rule someone must follow (obligation).
-
-   *backed by* `asmt-0012`
-
-15. DEFINITION -- dependency (coarse: system). Cue: an established requirement -- a hard fact that the thing cannot run without. Marker words: requires, depends on, needs, is a prerequisite for, without X you cannot. Hard, not casual: a dependency holds as a matter of fact about the system, whereas someone noting that a piece of data would be handy, or that they wish a mapping existed, is reporting their situation and that is an observation, which is anecdotal by nature. Excludes: something taken for granted for a claim to hold (assumption); what the thing is built from (architecture); an anecdotal note about what is missing (observation).
-
-   *backed by* `asmt-0012`
-
-16. SEPARATIONS among the deontic labels. Decision against obligation: is there a modal? An obligation states a standing requirement in modal form, a decision states one was established -- and if both fit, the modal wins. Decision against recommendation: settled or proposed? A decision is closed, a recommendation is still advice. Recommendation against obligation: is anyone accountable? Advice can be ignored without violation, an obligation cannot.
-
-   *backed by* `asmt-0012`
-
-17. SEPARATION -- obligation against prohibition: what to do versus what not to do, judged by the action demanded rather than by grammatical polarity, so a negatively-phrased requirement that demands an action is an obligation. Both items in the measured 21-pair collision were compound, carrying a requirement and a forbidding in one sentence; under the general rule both tests score above 90 and the statement resolves to general with multi_fire.
-
-   *backed by* `asmt-0012`
-
-18. SEPARATIONS within the case family. Observation against event: was anything measured? An observation records a quantity or behaviour, an event records that something occurred. Event against decision: was a choice made? An event happened to you, a decision was chosen and constrains later action.
-
-   *backed by* `asmt-0012`
-
-19. SEPARATION -- background against event, 13 rater-pairs. Both report what happened; the difference is what the sentence is for. An event records an occurrence in its own right, while background uses occurrences to explain how things came to be, defines nothing, and is normally signalled or positioned as context. Decide from the surrounding context, not the sentence alone.
-
-   *backed by* `asmt-0012`
-
-**Related topics** `label definitions`, `codebook`, `surface cues`
-
-**Source units (18)** `u-src-specification-bf9781a3-0061`, `u-src-specification-bf9781a3-0062`, `u-src-specification-bf9781a3-0063`, `u-src-specification-bf9781a3-0064`, `u-src-specification-bf9781a3-0065`, `u-src-specification-bf9781a3-0066`, `u-src-specification-bf9781a3-0067`, `u-src-specification-bf9781a3-0068`, `u-src-specification-bf9781a3-0070`, `u-src-specification-bf9781a3-0071`, `u-src-specification-bf9781a3-0072`, `u-src-specification-bf9781a3-0073`, `u-src-specification-bf9781a3-0074`, `u-src-specification-bf9781a3-0076`, `u-src-specification-bf9781a3-0079`, `u-src-specification-bf9781a3-0080`, `u-src-specification-bf9781a3-0078`, `u-src-specification-bf9781a3-0081`
-
-**Traceability** — idempotency key `4789bd26fdc8016c10700bba661753d07b84c4e915e2ce9839020efd60a1bbc8` · queue event `q-4789bd26fdc8016c` · audits `audit-cand-010`
+**Traceability** — idempotency key `67524ccf7b27224c46e2d5141b66cf6bca561254daba20b2c387be0f4b026866` · queue event `q-67524ccf7b27224c` · audits `audit-cand-009`
 
 <details><summary>Provenance chain</summary>
 
@@ -620,72 +511,48 @@ The codebook itself: each label's surface cue and its explicit exclusions, state
 
 ---
 
-### 11. Pairwise separations between colliding labels
+### 10. Pairwise separations between colliding labels
 
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-011-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-010-r1` v2
 
 **Slug** `pairwise-separations-between-colliding-labels`
 
 The rules that bound each label against the ones it collides with, several carrying the measured collision count that prompted them, plus two any-label overrides.
 
-**Assertions (11)**
+**Assertions (1)**
 
-1. SEPARATIONS involving principle. Against architecture, the largest collision in the second test at 17 disagreeing rater-pairs: why it works versus how it is built -- if deleting the sentence would leave you unable to explain the idea it is a principle, if it would leave you unable to rebuild the thing it is architecture. Against obligation: explanatory or normative? A principle says why something holds, an obligation says someone must do something. Against assumption: is it the reason it works, or a precondition for it working?
+1. RULE -- the reassurance marker: procedures and principles do not have feelings. Language that soothes, warns off, or manages the reader's reaction -- don't panic, no need to worry, don't stress, ignore me -- marks the sentence as advice from a person, not an operational instruction or a standing relation, and routes to recommendation. This is marked DESIGN.
 
-   *backed by* `asmt-0013`
+   *backed by* `asmt-0130`
 
-2. SEPARATION -- principle against recommendation, the theoretical/practical test, 18 rater-pairs. Is it theoretical or hands-on? A principle is a general, logical guide that would hold for anyone, stated at concept level. A recommendation is practical advice drawn from experience, bearing on a choice at hand where more than one valid option exists, and it usually sounds conversational.
+**Assets carried with this entry (2)** — 2 table. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
 
-   *backed by* `asmt-0013`
+<details><summary><code>tbl-src-specification-bf9781a3-0010</code> — table, exact, not cited</summary>
 
-3. SEPARATION -- decision against procedure, 7 disagreeing rater-pairs across two coarse types. Does the sentence name what was chosen instead of something else? Surface cues: rather than, not X but Y, instead of, we standardised on. Naming the rejected alternative makes it a decision; stating only how the thing is done makes it a procedure.
+| Pair | The test that separates them |
+|---|---|
+| `observation` / `event` | Was anything measured? An observation records a quantity or behaviour; an event records that something occurred. |
+| `event` / `decision` | Was a choice made? An event happened to you; a decision was chosen and constrains later action. |
+| `decision` / `obligation` | Is there a modal? An obligation states a standing requirement in modal form; a decision states one was established. If both fit, the modal wins. |
+| `decision` / `recommendation` | Settled or proposed? A decision is closed; a recommendation is still advice. |
+| `obligation` / `prohibition` | **What to do** versus **what not to do.** Judge by the action demanded, not by grammatical polarity — a negatively-phrased requirement that demands an action is an `obligation`. `[MEASURED]` Both items in the 21-pair collision were compound, carrying a requirement and a forbidding in one sentence; under §2.4 both tests score above 90 and the statement resolves to `general` with `multi_fire`. |
 
-   *backed by* `asmt-0013`
+*(19 further rows in the stored grid.)*
 
-4. SEPARATION -- principle against observation, the largest collision measured in any run: 37 rater-pairs in the control, 17 after repair and renaming, 11 with the strip test. Apply the strip test: delete the numbers and the sample from the sentence; if nothing of substance survives it is an observation, even if the author generalizes from it, and if a causal claim stands on its own without any measurement it is a principle. A second, scope-judging test was written for this boundary and measured worse; do not reintroduce one without re-testing.
+</details>
 
-   *backed by* `asmt-0013`
+<details><summary><code>tbl-src-specification-bf9781a3-0011</code> — table, exact, not cited</summary>
 
-5. SEPARATIONS among the structural labels. Architecture against formula: parts or arithmetic? Architecture names components, a formula computes a value. Architecture against dependency: inside or outside? Architecture is what the thing is made of, a dependency is something separate it needs. Assumption against dependency: must be true, or must be present? An assumption is a belief the model rests on, a dependency is an input it consumes.
+|   | fine α | coarse α |
+|---|---|---|
+| single choice of fifteen | **0.877** | **0.896** |
+| this mechanism, resolved by the priority order below | 0.785 | 0.805 |
 
-   *backed by* `asmt-0013`
+</details>
 
-6. SEPARATIONS involving procedure. Obligation against procedure, a cross-coarse leak in the first test at 6 disagreeing rater-pairs: a procedure tells you the steps, an obligation tells you that doing it is required, and a numbered list with a must in it is an obligation. Procedure against definition, 15 rater-pairs all on one naming-convention statement: does the sentence describe what a thing is, or what to do with it? A naming scheme, a schema, a set of valid values is a definition even when following it requires action. Procedure against principle: is the payload the instruction or the reason? Where a sentence carries both, the instruction wins -- unless it is hedged or reassuring.
+**Source units (9)** `u-src-specification-bf9781a3-0082`, `u-src-specification-bf9781a3-0083`, `u-src-specification-bf9781a3-0084`, `u-src-specification-bf9781a3-0085`, `u-src-specification-bf9781a3-0086`, `u-src-specification-bf9781a3-0088`, `u-src-specification-bf9781a3-0089`, `u-src-specification-bf9781a3-0095`, `u-src-specification-bf9781a3-0087`
 
-   *backed by* `asmt-0013`
-
-7. RULE -- the put-forward rule, measured at 15 rater-pairs on proposed architectures and the dominant signal in the 72-pair procedure collision: anything proposed is a recommendation, whatever it proposes. Markers: we propose, proposal:, this RFC proposes, we recommend, is preferable, should, worth, what if, try, suggest. Content does not override this -- a fully specified system architecture that is being put forward is a recommendation, not an architecture.
-
-   *backed by* `asmt-0013`
-
-8. RULE -- the reassurance marker: procedures and principles do not have feelings. Language that soothes, warns off, or manages the reader's reaction -- don't panic, no need to worry, don't stress, ignore me -- marks the sentence as advice from a person, not an operational instruction or a standing relation, and routes to recommendation. This is marked DESIGN.
-
-   *backed by* `asmt-0013`
-
-9. The inference has now been tested directly and does not hold. Five coarse families with four blind raters each, every agent seeing one family's definitions and nothing else, on the same 160 items as the single-choice run: single choice of fifteen reached fine alpha 0.877 and coarse 0.896, while the boolean mechanism resolved by the priority order reached 0.785 and 0.805.
-
-   *backed by* `asmt-0013`
-
-10. Per-test agreement in the boolean battery is good -- eleven of fifteen tests exceed alpha 0.87. The loss is entirely in resolution: raters fire slightly different sets, and priority turns a small difference in the set into a different label. On 27 of 160 items all four raters fired a label in common and still resolved differently.
-
-   *backed by* `asmt-0013`
-
-11. SEPARATIONS involving definition. Formula against definition: does it compute? A formula produces a number, a definition fixes a meaning. Definition against background: fixing a term or setting the scene? A definition pins meaning, background situates the reader. Definition against distinction: one term or two? A definition fixes one, a distinction separates two.
-
-   *backed by* `asmt-0013`
-
-**Related topics** `pairwise separations`, `label collisions`, `codebook`
-
-**Labels**
-
-- Which pairs collide is an unmeasured editorial judgment. The source says so and invites challenge; the entry carries the rules more prominently than the caveat.
-- Nineteen rules against 75 in the scheme this specification cites as the benchmark for what a working codebook ships.
-- This is a large entry and a reader typically arrives asking about one boundary. The rules are individually retrievable within it, which mitigates that.
-- The reassurance-marker override has no measurement behind it at all and sits beside rules with collision counts.
-
-**Source units (11)** `u-src-specification-bf9781a3-0082`, `u-src-specification-bf9781a3-0083`, `u-src-specification-bf9781a3-0084`, `u-src-specification-bf9781a3-0085`, `u-src-specification-bf9781a3-0086`, `u-src-specification-bf9781a3-0088`, `u-src-specification-bf9781a3-0089`, `u-src-specification-bf9781a3-0090`, `u-src-specification-bf9781a3-0094`, `u-src-specification-bf9781a3-0095`, `u-src-specification-bf9781a3-0087`
-
-**Traceability** — idempotency key `660ecc68a244a83fc3283059a826f037f04252ac57fcd30bbd4934bd8348dd2b` · queue event `q-660ecc68a244a83f` · audits `audit-cand-011`
+**Traceability** — idempotency key `17d6b2d45fe48580e73d1aca6adfabe13d0c08ea4dc4009bcd8e7c64d1895784` · queue event `q-17d6b2d45fe48580` · audits `audit-cand-010`
 
 <details><summary>Provenance chain</summary>
 
@@ -702,9 +569,9 @@ The rules that bound each label against the ones it collides with, several carry
 
 ---
 
-### 12. How the classifier is asked, and why its mechanism measured worse
+### 11. How the classifier is asked, and why its mechanism measured worse
 
-`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-012-r1` v2
+`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-011-r1` v2
 
 **Slug** `how-the-classifier-is-asked-and-why-its-mechanism-measured-worse`
 
@@ -714,28 +581,19 @@ The boolean-battery mechanism, the published evidence it was inferred from, the 
 
 1. The priority order is worse than resolving alphabetically -- 0.785 against 0.801. Of six rules tried on the same fired sets, the best was 'the most reliable test wins' at 0.829, still 0.048 below simply asking for one label. The section is retained for its one irreplaceable property, multi-label output: 38 per cent of statements fire two or more tests, and asked separately raters say yes to both. That is information single choice destroys. It is not, on this evidence, a way to raise agreement.
 
-   *backed by* `asmt-0014`
+   *backed by* `asmt-0054`
 
 2. Resolution is a fixed priority order over the coarse types, applied by code: case, then method, then concept, then model, then system -- most surface-recognizable first -- with background last of all. Background is exempted from its coarse type's position and resolved below every other fine label: it wins only when nothing else fired at all. Within a coarse type, the fine label whose test fired; if several fired, the first in table order.
 
-   *backed by* `asmt-0014`
+   *backed by* `asmt-0055`
 
 3. One consequence of the priority order is named explicitly: a dated decision fires both is_event and is_decision, and because rule outranks case, it resolves to decision. That is intended -- the reason to store a decision is that it governs later action, not that it occurred -- but it means dated decisions leave the case bucket entirely, and multi_fire is the only record that the event reading existed.
 
-   *backed by* `asmt-0014`
-
-**Related topics** `binary framing`, `priority resolution`, `prompt versioning`
-
-**Labels**
-
-- The mechanism is retained despite measuring worse, on the ground that it produces information single choice destroys. That is a trade-off, not a refutation of the measurement, and the entry keeps both.
-- The prompt-sensitivity and option-ID findings are published and carry large effects -- 26 to 36 points, and standard deviation 5.5 to 1.0. They are the best-evidenced rules in the entry and are unrelated to the contested part.
-- The priority order's named side effect -- dated decisions leaving the case bucket entirely -- is intended behaviour, and a consumer querying for events will not find them.
-- One specification. The in-house refutation is four raters on 160 items.
+   *backed by* `asmt-0001`
 
 **Source units (3)** `u-src-specification-bf9781a3-0096`, `u-src-specification-bf9781a3-0097`, `u-src-specification-bf9781a3-0098`
 
-**Traceability** — idempotency key `dbbbe4ad0e6c99cb0d3c859010e69013c115b09948d20e579392fbda57cc0235` · queue event `q-dbbbe4ad0e6c99cb` · audits `audit-cand-012`
+**Traceability** — idempotency key `2577b41b14b54293211fec7c5f264a9444e32dd01ca4634b29b17d23519cb579` · queue event `q-2577b41b14b54293` · audits `audit-cand-011`
 
 <details><summary>Provenance chain</summary>
 
@@ -752,9 +610,9 @@ The boolean-battery mechanism, the published evidence it was inferred from, the 
 
 ---
 
-### 13. Conversational statements classify materially worse
+### 12. Conversational statements classify materially worse
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-013-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-012-r1` v2
 
 **Slug** `conversational-statements-classify-materially-worse`
 
@@ -764,13 +622,11 @@ The evidence that chat is harder, the exemplar finding that conflicts with a fro
 
 1. The rollup question is open. The in-house collision test ran exactly the right experiment on this codebook -- same annotations, mapping fixed in advance, agreement measured at both tiers -- and coarse scored 0.866 against fine 0.778, which settles it for this taxonomy on that item set but not in general. It remains unestablished in the literature: the direct experiment does not exist in the reviewed work, and what exists is mixed -- one scheme's collapse from 15 labels to 2 moved kappa 0.65 to 0.65 for zero gain, another moved 0.71 to 0.78, and the canonical survey warns that post-hoc merging is not equivalent to designing the coarse scheme up front, since merges are typically chosen exactly where coders disagreed. Until the gold set is measured at both tiers, the two-tier design is a bet.
 
-   *backed by* `asmt-0015`
-
-**Related topics** `conversational text`, `few-shot exemplars`, `evidence gaps`
+   *backed by* `asmt-0001`
 
 **Source units (1)** `u-src-specification-bf9781a3-0119`
 
-**Traceability** — idempotency key `063db5cd899d457ec712ab4e2d323d66700088cf530a77cac929f3d6738101b0` · queue event `q-063db5cd899d457e` · audits `audit-cand-013`
+**Traceability** — idempotency key `e0c0d5a06a68ba0b982efef62a6babc71deea00002086bc0c662be7c3f1d5b3e` · queue event `q-e0c0d5a06a68ba0b` · audits `audit-cand-012`
 
 <details><summary>Provenance chain</summary>
 
@@ -787,37 +643,23 @@ The evidence that chat is harder, the exemplar finding that conflicts with a fro
 
 ---
 
-### 14. Evaluation, and the pre-registered condition for abandoning the classifier
+### 13. Evaluation, and the pre-registered condition for abandoning the classifier
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-014-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-013-r1` v2
 
 **Slug** `evaluation-and-the-pre-registered-condition-for-abandoning-the-classifier`
 
 Why the acceptance test must be human agreement, what must be measured, and the negative evidence that produced a kill criterion written before any results exist.
 
-**Assertions (4)**
+**Assertions (1)**
 
 1. The in-house measurement base: twenty-two runs, codebook verbatim, no answer key in existence at any point, roughly 10,000 assignments. The measurements that matter are the ones taken with eight raters, because a four-rater run cannot distinguish designs.
 
-   *backed by* `asmt-0016`
+   *backed by* `asmt-0063`
 
-2. The definition pass is the single largest effect measured: with 8 raters on 160 statements from eight sources, the codebook before the definition pass scored fine alpha 0.844 with unanimity 0.72, and after it scored 0.934 with unanimity 0.86, 95 per cent CI [0.905, 0.956], winning in 100 per cent of 400 paired resamples. On a 40-statement subset the same codebook reaches 0.947 to 0.954.
+**Source units (1)** `u-src-specification-bf9781a3-0124`
 
-   *backed by* `asmt-0016`
-
-3. The definition-pass gain came from domain judgment, not from the measurements: sixteen structural designs moved plus or minus 0.05 or lost, while fourteen rewritten definitions moved +0.090. A second round of refinements landed in the noise -- nine further rulings took 0.954 to 0.947, beating the prior version in 36 per cent of resamples.
-
-   *backed by* `asmt-0016`
-
-4. On real published documents -- 85 statements extracted from Sharpe's The Arithmetic of Active Management (1991), De Bondt and Thaler's Does the Stock Market Overreact? (1985), and a Goldman Sachs market note -- fine alpha is 0.894 with 95 per cent CI [0.840, 0.942]. Real prose costs roughly 0.05 against generated statements.
-
-   *backed by* `asmt-0017`
-
-**Related topics** `gold set`, `ablation`, `kill criterion`, `temporal validity`
-
-**Source units (4)** `u-src-specification-bf9781a3-0124`, `u-src-specification-bf9781a3-0125`, `u-src-specification-bf9781a3-0126`, `u-src-specification-bf9781a3-0127`
-
-**Traceability** — idempotency key `977320d1f2545cd41b20550cbfef4de47bda7714b0e082c1608e2c62058bcbc6` · queue event `q-977320d1f2545cd4` · audits `audit-cand-014`
+**Traceability** — idempotency key `0174a4f2a12a62419e7f3f2e6492af530e1b2437bd8a6111b3478b7cc91dfb05` · queue event `q-0174a4f2a12a6241` · audits `audit-cand-013`
 
 <details><summary>Provenance chain</summary>
 
@@ -834,41 +676,47 @@ Why the acceptance test must be human agreement, what must be measured, and the 
 
 ---
 
-### 15. The evidence register: what is measured, what is design, what is contradicted
+### 14. The evidence register: what is measured, what is design, what is contradicted
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-015-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-014-r1` v2
 
 **Slug** `the-evidence-register-what-is-measured-what-is-design-what-is-contradicted`
 
 The specification's account of its own confidence, sorted by what backs each claim -- including the decisions with no measurement behind them and the claims the evidence contradicts.
 
-**Assertions (4)**
+**Assertions (3)**
 
-1. Two labels carry three-quarters of real financial writing: observation at 44 per cent and principle at 32 per cent. Their boundary is judged irreducible rather than ill-defined -- it accounts for 42 per cent of all disagreement on real documents, after seven attempts to separate it.
+1. The noise floor: one four-rater run cannot distinguish designs, because the same design run twice scored 0.898 and 0.844. Every effect at the plus-or-minus 0.01 scale -- the strip test's aggregate figure in particular -- is below what four raters can distinguish from noise; only the per-boundary collision counts move far enough to read.
 
-   *backed by* `asmt-0018`
+   *backed by* `asmt-0001`
 
-2. The noise floor: one four-rater run cannot distinguish designs, because the same design run twice scored 0.898 and 0.844. Every effect at the plus-or-minus 0.01 scale -- the strip test's aggregate figure in particular -- is below what four raters can distinguish from noise; only the per-boundary collision counts move far enough to read.
+2. Two confounds remain unresolved in the in-house evidence: the renames shipped in the same revision as the eleven repaired pointers, so v3's +0.096 and +0.072 cannot be attributed between them; and the caveats on everything are four raters per arm from one model family, no human gold set, 72 to 152 items per run, no confidence intervals, and item sets that never exercised every label. It measures reproducibility, not correctness.
 
-   *backed by* `asmt-0018`
+   *backed by* `asmt-0001`
 
-3. Two confounds remain unresolved in the in-house evidence: the renames shipped in the same revision as the eleven repaired pointers, so v3's +0.096 and +0.072 cannot be attributed between them; and the caveats on everything are four raters per arm from one model family, no human gold set, 72 to 152 items per run, no confidence intervals, and item sets that never exercised every label. It measures reproducibility, not correctness.
+3. A zero escape-hatch rate was first read as evidence that no label was missing, and it is not: a missing label surfaces as a collision, not an escape. Raters do not reach for the escape hatch even when the right label is absent -- 0 of 320 in v2 and 0 of 288 in the control. The control found the collision the escape rate could not. This is the methodological correction the evidence register exists to record.
 
-   *backed by* `asmt-0018`
+   *backed by* `asmt-0066`
 
-4. A zero escape-hatch rate was first read as evidence that no label was missing, and it is not: a missing label surfaces as a collision, not an escape. Raters do not reach for the escape hatch even when the right label is absent -- 0 of 320 in v2 and 0 of 288 in the control. The control found the collision the escape rate could not. This is the methodological correction the evidence register exists to record.
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
 
-   *backed by* `asmt-0018`
+<details><summary><code>tbl-src-specification-bf9781a3-0014</code> — table, exact, not cited</summary>
 
-**Related topics** `evidence register`, `design decisions`, `noise floor`
+| Claim | Number |
+|---|---|
+| **The definition pass is the single largest effect measured** | fine α 0.844 → **0.934**, 8 raters, 160 statements, 100% of paired resamples |
+| It came from domain judgment, not from the measurements | sixteen structural designs moved ±0.05 or lost; fourteen rewritten definitions moved +0.090 |
+| A second round of refinements landed in the noise | nine further rulings: 0.954 → 0.947, beating the prior version in 36% of resamples |
+| Real documents cost about 0.05 against generated statements | 0.894 on 85 statements from three published sources |
+| Two labels carry three-quarters of real financial writing | `observation` 44%, `principle` 32% |
 
-**Labels**
+*(38 further rows in the stored grid.)*
 
-- Split the ten unmeasured design decisions into separately retrievable assertions.
+</details>
 
-**Source units (4)** `u-src-specification-bf9781a3-0129`, `u-src-specification-bf9781a3-0130`, `u-src-specification-bf9781a3-0131`, `u-src-specification-bf9781a3-0132`
+**Source units (3)** `u-src-specification-bf9781a3-0130`, `u-src-specification-bf9781a3-0131`, `u-src-specification-bf9781a3-0132`
 
-**Traceability** — idempotency key `b6c40375bc51b573ebc8329906f721714785964b8e49a4ee406860a7cc50ac31` · queue event `q-b6c40375bc51b573` · audits `audit-cand-015`
+**Traceability** — idempotency key `cdd4ce93185cd382c198ce6ee56d20061bd9e5d9d3d46e56f95a0c6a1bcb1bdb` · queue event `q-cdd4ce93185cd382` · audits `audit-cand-014`
 
 <details><summary>Provenance chain</summary>
 
@@ -885,9 +733,980 @@ The specification's account of its own confidence, sorted by what backs each cla
 
 ---
 
-### 16. Labels cut from the taxonomy, and which cuts the data justified
+### 15. Statement classifier: measured reliability and evidence convention
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-016-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-015-r1` v2
+
+**Slug** `statement-classifier-measured-reliability-and-evidence-convention`
+
+What the classifier's agreement figures are, on which corpora and with how many raters, and the three-way labelling scheme the specification uses to mark what backs each of its claims. The figures are reproducibility among model raters on this codebook; no human gold set exists.
+
+**Assertions (1)**
+
+1. For scale, the argumentative-zoning scheme reached kappa 0.71 with seven categories and a 111-page codebook, and CoreSC reached 0.50-0.57 with eleven categories. This taxonomy has fifteen labels.
+
+   *backed by* `asmt-0001`
+
+**Source units (1)** `u-src-specification-bf9781a3-0003`
+
+**Traceability** — idempotency key `0c6c91a80b7aee46bcc7a19b1d66caa4e303bacd5c9e472bf1872f1267021740` · queue event `q-0c6c91a80b7aee46` · audits `audit-cand-015`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 16. Statement classifier: the contract
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-016-r1` v2
+
+**Slug** `statement-classifier-the-contract`
+
+The interface, the record it returns, and the two things it refuses to do. Stated as the specification states it, so a consumer can build against it.
+
+**Assertions (3)**
+
+1. Classifications are appended, never overwritten. A classification is a pure function of (statement, prompt_version, classifier_model); re-running with a different triple appends a new record rather than replacing the old one, and consumers pick the record whose stamps they trust.
+
+   *backed by* `asmt-0071`
+
+2. The classifier does not judge truth. It answers what kind of statement this is, never whether it is correct; epistemic status lives elsewhere.
+
+   *backed by* `asmt-0072`
+
+3. The output record carries the statement hash, the fine and coarse labels, the per-label boolean tests with a tests_fired count and a multi_fire flag, status, form, modality, flags, provenance, and four stamps: taxonomy_version, prompt_version, classifier_model and classified_at.
+
+   *backed by* `asmt-0070`
+
+**Source units (2)** `u-src-specification-bf9781a3-0005`, `u-src-specification-bf9781a3-0006`
+
+**Traceability** — idempotency key `2ce2675ac56532523f1ccbe6c255c860c9c44a6a78c9eeebec94715427519e90` · queue event `q-2ce2675ac5653252` · audits `audit-cand-016`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 17. The statement taxonomy: five coarse types, fifteen fine labels
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-017-r1` v2
+
+**Slug** `the-statement-taxonomy-five-coarse-types-fifteen-fine-labels`
+
+The structure of the taxonomy and the provenance of its reliability figures. Four labels borrow an anchor category's published agreement; eleven have none.
+
+**Assertions (2)**
+
+1. Each fine label is anchored where possible on a category with a published inter-annotator agreement figure, and the kappa quoted is the agreement for the anchor category in the cited scheme rather than for the label as written here. Four labels carry anchors: observation on CoreSC Observation at 0.79, procedure on CoreSC Method at 0.74, definition on CoreSC Object at 0.81, and background on CoreSC Background at 0.87. The other eleven are marked DESIGN.
+
+   *backed by* `asmt-0005`
+
+2. The CoreSC figures come from Liakata et al., LREC 2010: per-category one-vs-rest Cohen's kappa over 41 chemistry and biochemistry papers with expert annotators. The AZ-II figures come from Teufel et al., EMNLP 2009: fifteen categories, three annotators, N=3745.
+
+   *backed by* `asmt-0001`
+
+**Assets carried with this entry (2)** — 2 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0003</code> — table, exact</summary>
+
+| Fine label | Coarse | Anchor κ | Anchored on |
+|---|---|---|---|
+| `observation` | case | **0.79** | CoreSC `Observation` [VERIFIED] |
+| `event` | case | — | [DESIGN] — concrete by construction (actor + time) |
+| `obligation` | method | — | [DESIGN] — deontic modal is a surface cue |
+| `prohibition` | method | — | [DESIGN] — deontic modal is a surface cue |
+| `decision` | method | — | [DESIGN] — a settled choice governs what happens next; note it is the one `rule` label with NO deontic modal to key on (§3.3) |
+
+*(10 further rows in the stored grid.)*
+
+</details>
+
+<details><summary><code>tbl-src-specification-bf9781a3-0005</code> — table, exact, not cited</summary>
+
+| type | n | bits | reading |
+|---|---|---|---|
+| `dependency` | 7 | 1.84 | status carries almost everything |
+| `procedure` | 48 | 1.74 |   |
+| `recommendation` | 94 | 1.73 |   |
+| `principle` | 44 | 1.72 |   |
+| `architecture` | 18 | 1.53 |   |
+
+*(6 further rows in the stored grid.)*
+
+</details>
+
+**Source units (2)** `u-src-specification-bf9781a3-0011`, `u-src-specification-bf9781a3-0012`
+
+**Traceability** — idempotency key `58f8169b271a8fb5e3e2e63e139cd5420b2a77597d3d51bb9a3bacc19eb97991` · queue event `q-58f8169b271a8fb5` · audits `audit-cand-017`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 18. Per-category reliability varies twofold, and abstract categories are worst
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-018-r1` v2
+
+**Slug** `per-category-reliability-varies-twofold-and-abstract-categories-are-worst`
+
+The measured regularity that governs how every definition in this codebook had to be written, and the three rules it imposes.
+
+**Assertions (1)**
+
+1. Within a single annotation scheme, per-category reliability varies by a factor of two and the abstract categories are systematically the worst: CoreSC measured Conclusion 0.89, Background 0.87, Object 0.81, Observation 0.79, Result 0.78 and Method 0.74, against Hypothesis 0.46, Motivation 0.46 and Model 0.43. This is marked VERIFIED.
+
+   *backed by* `asmt-0006`
+
+**Source units (1)** `u-src-specification-bf9781a3-0013`
+
+**Traceability** — idempotency key `96b4cf90c4433494374c827ac38d9a15f0e8ba1da2bb970aef06c84b668e1e6f` · queue event `q-96b4cf90c4433494` · audits `audit-cand-018`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 19. The `general` residual: assign by code, never by confidence
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-019-r1` v2
+
+**Slug** `the-general-residual-assign-by-code-never-by-confidence`
+
+Why the residual label is hidden from the model and why self-reported confidence cannot trigger it, with the threshold experiment that settles it and the generalization that follows.
+
+**Assertions (1)**
+
+1. General is therefore triggered by disagreement across runs rather than by self-report: classify a statement more than once and, where the runs disagree, assign general. That reads the same signal the confidence rule was after -- nothing fits cleanly -- from a source that is not self-assessment. The number of runs and the disagreement rule are evaluation parameters and are not yet measured. General's share of the corpus is a standing health metric.
+
+   *backed by* `asmt-0001`
+
+**Source units (1)** `u-src-specification-bf9781a3-0022`
+
+**Traceability** — idempotency key `b090e79c574022c87782122accc8e802630dcd405bef842299eba5c4c59aafdc` · queue event `q-b090e79c574022c8` · audits `audit-cand-019`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 20. Labels cut from the taxonomy, and which cuts the data justified
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-020-r1` v2
+
+**Slug** `labels-cut-from-the-taxonomy-and-which-cuts-the-data-justified`
+
+Four labels were removed. One removal was measured; three were editorial and the specification says so. Two gaps remain.
+
+**Assertions (1)**
+
+1. Merging conclusion into finding cuts against the other change in that revision: finding already took 24 per cent of all assignments and was behaving as a de-facto residual, and widening it increases that risk. The merged definition therefore tightens its exclusions against fact and observation rather than loosening them, and whether that holds is a re-test rather than a claim.
+
+   *backed by* `asmt-0001`
+
+**Source units (1)** `u-src-specification-bf9781a3-0025`
+
+**Traceability** — idempotency key `b9620c6e8f2e21051ff53747a79abee679cbc51fba3baa0c09b672c8de55fca5` · queue event `q-b9620c6e8f2e2105` · audits `audit-cand-020`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 21. The second collision test was confounded by its item set
+
+`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-021-r1` v2
+
+**Slug** `the-second-collision-test-was-confounded-by-its-item-set`
+
+A headline improvement, and the control that shows it came from the items rather than the taxonomy. Both are kept.
+
+**Assertions (2)**
+
+1. Three label changes followed the second collision test. Technique was removed and merged into procedure: it measured alpha 0.588, the weakest label, with six confusions against procedure -- the one change the data made on its own. Driver was renamed principle: driver measured 0.623 and collided with structure seventeen times, the largest collision in that test, and the likely cause is that in engineering a driver is a component, so the label read as machinery rather than as the causal idea. Structure was renamed architecture, which is naming only: architecture is the native word in ML model cards.
+
+   *backed by* `asmt-0016`
+
+2. The two renames account for most of the third test's gain: driver at 0.623 became principle at 0.910, structure at 0.727 became architecture at 0.851, and procedure at 0.760 became 0.834 absorbing technique. The renames are confounded with the pointer repair; both shipped in the same revision and the experiment cannot separate them.
+
+   *backed by* `asmt-0001`
+
+**Source units (2)** `u-src-specification-bf9781a3-0042`, `u-src-specification-bf9781a3-0045`
+
+**Traceability** — idempotency key `680beaf14cc27a71e10ca03ac18d2e231995400190ca0748086be6673ac75dcb` · queue event `q-680beaf14cc27a71` · audits `audit-cand-021`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 22. A scope-judging test for `principle` was measured and rejected
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-022-r1` v2
+
+**Slug** `a-scope-judging-test-for-principle-was-measured-and-rejected`
+
+A design change that was written, tested and reversed, and what its failure confirms about non-surface criteria.
+
+**Assertions (2)**
+
+1. The definitions section, not the label count, determines whether the classifier works. Codebook depth and annotator training moved kappa by 0.15 to 0.36 on identical documents with an identical label set: trained coders with a 17-page codebook, a decision tree and four training papers reached kappa 0.65, 0.85 and 0.87, while untrained coders given one page reached 0.35, 0.49 and 0.72. Growing the label set from 3 to 7 cost only 0.07.
+
+   *backed by* `asmt-0025`
+
+2. Codebook depth is necessary but not sufficient: a 45-page codebook with a decision tree, category semantics, pairwise-distinction rules and worked examples still yielded only kappa 0.50 to 0.57, in CoreSC.
+
+   *backed by* `asmt-0001`
+
+**Source units (2)** `u-src-specification-bf9781a3-0053`, `u-src-specification-bf9781a3-0055`
+
+**Traceability** — idempotency key `b16d4b6deb496d5295c87b0311221de942de2ee42f80496bd9f31b821f57764b` · queue event `q-b16d4b6deb496d52` · audits `audit-cand-022`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 23. Codebook depth beats label count, but is not sufficient on its own
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-023-r1` v2
+
+**Slug** `codebook-depth-beats-label-count-but-is-not-sufficient-on-its-own`
+
+The three published findings that justify writing definitions as surface tests and writing them at length.
+
+**Assertions (1)**
+
+1. Every one of the fifteen fine labels carries three things: a Cue -- the surface pattern, stated so a reader can check it without inferring intent; Excludes -- at least two explicit non-firing conditions; and Exemplars -- one document-style statement and one conversational. Pairwise separations live in §3.3 rather than inside each definition, so that a boundary is stated once rather than twice and cannot drift between two entries.
+
+   *backed by* `asmt-0027`
+
+**Source units (1)** `u-src-specification-bf9781a3-0056`
+
+**Traceability** — idempotency key `f55ca05fe3397af9afc92adeb98e15d3f51814595119fb727de5863ac5c9b845` · queue event `q-f55ca05fe3397af9` · audits `audit-cand-023`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 24. How the classifier is asked, and why its mechanism measured worse
+
+`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-024-r1` v2
+
+**Slug** `how-the-classifier-is-asked-and-why-its-mechanism-measured-worse`
+
+The boolean-battery mechanism, the published evidence it was inferred from, the in-house test that refuted the inference, and the one property that keeps it in the design anyway.
+
+**Assertions (3)**
+
+1. The form field takes statement, question or answer. It is orthogonal to type and available under every coarse category: a question about a procedure is type procedure with form question, and the answer that follows is type procedure with form answer. A statement asserts something and is the default; a question asks for something and asserts nothing, defines nothing and instructs nothing; an answer is supplied in response to a question and is only meaningful with one.
+
+   *backed by* `asmt-0057`
+
+2. The type still applies to a question: 'Did the rope theta get bumped to 500k before or after we forked off main?' is a question about a decision. Typing the subject keeps questions retrievable alongside what they are about, which is what makes 'show me the open questions on this topic' a query rather than a scan. The answer value is the one value that implies a relation to another statement; recording it is useful now, but linking it to its question needs the edge layer that is out of scope for v1.
+
+   *backed by* `asmt-0059`
+
+3. The form field closes the largest uncovered source of disagreement. Four questions in the 160-statement corpus produced roughly 50 disagreeing rater-pairs scattered across six different pairs -- background/observation, background/event, background/general, dependency/observation, general/observation and event/general. Raters had no way to record that a statement was a question, so each was filed by its subject matter instead: a question about a data vendor landed near dependency, a question about history landed near event, and no two raters chose alike.
+
+   *backed by* `asmt-0058`
+
+**Source units (3)** `u-src-specification-bf9781a3-0104`, `u-src-specification-bf9781a3-0106`, `u-src-specification-bf9781a3-0105`
+
+**Traceability** — idempotency key `558d8ab5c6bc19982841037bb93a9e7f8e7008371a1a24ce14923b47d93d03e3` · queue event `q-558d8ab5c6bc1998` · audits `audit-cand-024`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 25. Secondary fields: form, provenance, modality and flags
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-025-r1` v2
+
+**Slug** `secondary-fields-form-provenance-modality-and-flags`
+
+Five fields with sharply different evidential standing, and what the classifier deliberately does not emit.
+
+**Assertions (2)**
+
+1. No evidence was found on three questions: resolving pronouns and ellipsis before classification, splitting one message into several statements, and how much surrounding context a conversational statement needs. Three separate research angles returned nothing that survived verification, and the only context datapoint anywhere in the evidence base is a 20-30 line window used as an unablated design choice.
+
+   *backed by* `asmt-0001`
+
+2. Four consequences follow for conversational input, all marked DESIGN: conversational input may carry an optional context window used only for reference resolution; a statement whose references cannot be resolved is classified general rather than guessed; splitting a multi-statement message is out of scope for v1 and the caller supplies one statement; and conversational accuracy is expected to be materially below document accuracy, with the two measured separately.
+
+   *backed by* `asmt-0060`
+
+**Source units (2)** `u-src-specification-bf9781a3-0114`, `u-src-specification-bf9781a3-0115`
+
+**Traceability** — idempotency key `32466ff41ab3655b2762f3cc997725f3a4cf6aeec3ad635b0d18938d6be801e3` · queue event `q-32466ff41ab3655b` · audits `audit-cand-025`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 26. The evidence register: what is measured, what is design, what is contradicted
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-026-r1` v2
+
+**Slug** `the-evidence-register-what-is-measured-what-is-design-what-is-contradicted`
+
+The specification's account of its own confidence, sorted by what backs each claim -- including the decisions with no measurement behind them and the claims the evidence contradicts.
+
+**Assertions (2)**
+
+1. Further in-house findings: all fifteen labels were exercised for the first time, with event going from 2 to 45, background from 0 to 35 and distinction from 7 to 17. Research-results prose is the hardest source, at type alpha 0.642 against 0.899 for an RFC on a fourth independent corpus. And the definitions separate at all -- fine alpha went from 0.778 to 0.934 across twenty-two runs.
+
+   *backed by* `asmt-0067`
+
+2. Four claims are recorded as contradicted or unsupported by the evidence: that typing improves retrieval -- no source isolates it, zero measured evidence; that fine-to-coarse rollup buys reliability -- the direct experiment does not exist and existing evidence is mixed and confounded; that type-matched pairing improves contradiction detection -- zero evidence in either direction; and structured-output reliability across model families -- zero confirmed claims despite being explicitly researched, which is called the largest open risk for a classifier that must return parseable output from several vendors.
+
+   *backed by* `asmt-0001`
+
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0014</code> — table, exact, not cited</summary>
+
+| Claim | Number |
+|---|---|
+| **The definition pass is the single largest effect measured** | fine α 0.844 → **0.934**, 8 raters, 160 statements, 100% of paired resamples |
+| It came from domain judgment, not from the measurements | sixteen structural designs moved ±0.05 or lost; fourteen rewritten definitions moved +0.090 |
+| A second round of refinements landed in the noise | nine further rulings: 0.954 → 0.947, beating the prior version in 36% of resamples |
+| Real documents cost about 0.05 against generated statements | 0.894 on 85 statements from three published sources |
+| Two labels carry three-quarters of real financial writing | `observation` 44%, `principle` 32% |
+
+*(38 further rows in the stored grid.)*
+
+</details>
+
+**Source units (2)** `u-src-specification-bf9781a3-0133`, `u-src-specification-bf9781a3-0135`
+
+**Traceability** — idempotency key `1d7b2ed9f7dd823066a9ec39b5d029bbbca0b076cacd0153c1aca24c760a0307` · queue event `q-1d7b2ed9f7dd8230` · audits `audit-cand-026`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 27. The codebook's measurements, carried from its tables
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-027-r1` v2
+
+**Slug** `the-codebook-s-measurements-carried-from-its-tables`
+
+The label-to-coarse mapping, the per-label anchor kappas and the headline reliability, each cited to a CELL of the table it comes from rather than to a quoted row. The reliability figures are this codebook's own in-house measurement.
+
+**Assertions (3)**
+
+1. The codebook maps fifteen fine labels onto six coarse types: `observation` to case; `event` to case; `obligation` to method; `prohibition` to method; `decision` to method; `procedure` to method; `recommendation` to method; `definition` to concept; `distinction` to concept; `background` to concept; `principle` to model; `architecture` to system; `formula` to model; `assumption` to model; `dependency` to system.
+
+   *backed by* `asmt-0001`
+
+2. Four of the codebook's fine labels carry a measured anchor kappa: `background` 0.87, `definition` 0.81, `observation` 0.79 and `procedure` 0.74. Every other label is marked [DESIGN] and rests on reasoning rather than measurement.
+
+   *backed by* `asmt-0001`
+
+3. The four measured labels are anchored on CoreSC categories and marked [VERIFIED]: `observation` on CoreSC `Observation`, `procedure` on `Method`, `definition` on `Object` and `background` on `Background`. The distinction between [VERIFIED] and [DESIGN] is the specification's own account of how much of the codebook rests on evidence.
+
+   *backed by* `asmt-0001`
+
+**Assets carried with this entry (3)** — 3 table. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0002</code> — table, exact, not cited</summary>
+
+| Coarse | The question it answers |
+|---|---|
+| `case` | What happened, on one occasion? |
+| `method` | What is done, required, forbidden, advised, or settled? |
+| `concept` | What does this term mean? |
+| `model` | Why does this hold, what does it rest on, and how is it computed? |
+| `system` | What is the thing built from, and what does it need to run? |
+
+*(1 further rows in the stored grid.)*
+
+</details>
+
+<details><summary><code>tbl-src-specification-bf9781a3-0003</code> — table, exact</summary>
+
+| Fine label | Coarse | Anchor κ | Anchored on |
+|---|---|---|---|
+| `observation` | case | **0.79** | CoreSC `Observation` [VERIFIED] |
+| `event` | case | — | [DESIGN] — concrete by construction (actor + time) |
+| `obligation` | method | — | [DESIGN] — deontic modal is a surface cue |
+| `prohibition` | method | — | [DESIGN] — deontic modal is a surface cue |
+| `decision` | method | — | [DESIGN] — a settled choice governs what happens next; note it is the one `rule` label with NO deontic modal to key on (§3.3) |
+
+*(10 further rows in the stored grid.)*
+
+</details>
+
+<details><summary><code>tbl-src-specification-bf9781a3-0005</code> — table, exact, not cited</summary>
+
+| type | n | bits | reading |
+|---|---|---|---|
+| `dependency` | 7 | 1.84 | status carries almost everything |
+| `procedure` | 48 | 1.74 |   |
+| `recommendation` | 94 | 1.73 |   |
+| `principle` | 44 | 1.72 |   |
+| `architecture` | 18 | 1.53 |   |
+
+*(6 further rows in the stored grid.)*
+
+</details>
+
+**Source units (3)** `u-src-specification-bf9781a3-0137`, `u-src-specification-bf9781a3-0138`, `u-src-specification-bf9781a3-0139`
+
+**Traceability** — idempotency key `bd3a0f96200ee29baef4c04652c770311f734202a876c04d4080dc975d1442fa` · queue event `q-bd3a0f96200ee29b` · audits `audit-cand-027`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 28. Statement classifier: measured reliability and evidence convention
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-028-r1` v2
+
+**Slug** `statement-classifier-measured-reliability-and-evidence-convention`
+
+What the classifier's agreement figures are, on which corpora and with how many raters, and the three-way labelling scheme the specification uses to mark what backs each of its claims. The figures are reproducibility among model raters on this codebook; no human gold set exists.
+
+**Assertions (1)**
+
+1. Current measured reliability, from eight blind raters using the codebook verbatim with no answer key in existence: inter-rater Krippendorff alpha is 0.934 on 160 statements from eight generated sources and 0.894 on 85 statements from three published documents. The form field reaches 1.000, status 0.861-0.906, and scope 0.799-0.940.
+
+   *backed by* `asmt-0068`
+
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0001</code> — table, exact, not cited</summary>
+
+| corpus | α |
+|---|---|
+| 160 statements from eight generated sources | **0.934** |
+| 85 statements from three published documents | **0.894** |
+| `form` field | **1.000** |
+| `status` field | 0.861–0.906 |
+| `scope` field | 0.799–0.940 |
+
+</details>
+
+**Source units (1)** `u-src-specification-bf9781a3-0002`
+
+**Traceability** — idempotency key `607543990d0625e46e8dd8c6666e0035b21152b3e0c2c501807c037b42bced35` · queue event `q-607543990d0625e4` · audits `audit-cand-028`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 29. Per-category reliability varies twofold, and abstract categories are worst
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-029-r1` v2
+
+**Slug** `per-category-reliability-varies-twofold-and-abstract-categories-are-worst`
+
+The measured regularity that governs how every definition in this codebook had to be written, and the three rules it imposes.
+
+**Assertions (1)**
+
+1. The second and third consequences of the reliability spread: any category that cannot be written as a surface test should be expected to land near 0.45 regardless of codebook quality, and per-category agreement must be reported separately in evaluation, because a single aggregate number hides exactly the failure this spread predicts.
+
+   *backed by* `asmt-0073`
+
+**Source units (1)** `u-src-specification-bf9781a3-0015`
+
+**Traceability** — idempotency key `c364e4a8a156d2e2d93fbf4b7a8790e07cfd0513ba923788817ad90a3380f68e` · queue event `q-c364e4a8a156d2e2` · audits `audit-cand-029`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 30. The `general` residual: assign by code, never by confidence
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-030-r1` v2
+
+**Slug** `the-general-residual-assign-by-code-never-by-confidence`
+
+Why the residual label is hidden from the model and why self-reported confidence cannot trigger it, with the threshold experiment that settles it and the generalization that follows.
+
+**Assertions (4)**
+
+1. The general label is assigned by code. It is never offered as a label, never named in the prompt, and has no definition the model can see.
+
+   *backed by* `asmt-0074`
+
+2. Self-reported confidence does not work as the trigger for general, and this was tested directly. Raters scored all fifteen labels 0-100 on the full corpus and code assigned general when no label cleared a bar or when several did: picking one label directly reaches alpha 0.934; argmax over the scores 0.930 with 0 per cent sent to general; margin at least 5 gives 0.893 at 4 per cent; margin at least 20 gives 0.866 at 25 per cent; an absolute threshold of 75 gives 0.892 at 42 per cent; a threshold of 90 gives 0.605 at 86 per cent; and a threshold of 95 gives 0.140 at 99 per cent.
+
+   *backed by* `asmt-0076`
+
+3. Two findings from the abstention experiment: the ordering is sound, since argmax over the scores reaches 0.930, statistically level with asking for one label; and every abstention rule loses.
+
+   *backed by* `asmt-0077`
+
+4. The reason abstention fails is not miscalibration: raters disagree about their own uncertainty more than they disagree about the label. Eight raters can all pick procedure and score it 95, 88, 72, 91, 60, 85, 78 and 93; under any threshold some abstain and some do not, so a statement they unanimously agreed on becomes a disagreement between procedure and general. Abstention does not filter noise, it manufactures it, by adding a second judgement noisier than the first.
+
+   *backed by* `asmt-0078`
+
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0004</code> — table, exact, not cited</summary>
+
+| rule | α | share sent to `general` |
+|---|---|---|
+| pick one label directly | **0.934** | — |
+| score all fifteen, take the highest | 0.930 | 0% |
+| margin ≥ 5 between first and second | 0.893 | 4% |
+| margin ≥ 20 | 0.866 | 25% |
+| absolute threshold 75 | 0.892 | 42% |
+
+*(2 further rows in the stored grid.)*
+
+</details>
+
+**Source units (4)** `u-src-specification-bf9781a3-0016`, `u-src-specification-bf9781a3-0018`, `u-src-specification-bf9781a3-0019`, `u-src-specification-bf9781a3-0020`
+
+**Traceability** — idempotency key `77da4b16bd739da73268ea4e1f867cd73f9712039bca5b15bec456c4ff9dae75` · queue event `q-77da4b16bd739da7` · audits `audit-cand-030`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 31. The `status` field: floated, proposed, evidenced, settled
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-031-r1` v2
+
+**Slug** `the-status-field-floated-proposed-evidenced-settled`
+
+The four-rung epistemic-maturity field that replaced a coarse type, its measured reliability, and where it carries information type does not.
+
+**Assertions (9)**
+
+1. Status is one field carried by every type, taking the values floated, proposed, evidenced and settled. Floated is a point raised without being worked out -- to act on it you would have to invent the details yourself. Proposed is one approach, specified enough to build or test, with nothing validating it. Evidenced means something backs it and the backing is what makes it hold. Settled means indisputable, not the kind of thing the next study overturns.
+
+   *backed by* `asmt-0082`
+
+2. Each rung of the status ladder adds a different thing: floated puts a point on the table, proposed adds specification, evidenced adds evidence, settled adds certainty. The test separating the first two is the one used throughout the codebook -- could you act on this sentence as written, or would you first have to invent the parameters?
+
+   *backed by* `asmt-0001`
+
+3. The status ladder was tested on 160 fresh statements from eight sources with four blind raters and reaches alpha 0.896, higher than the type taxonomy scores on the same items at 0.877. Per rung: floated 0.938, settled 0.914, evidenced 0.906, proposed 0.851.
+
+   *backed by* `asmt-0083`
+
+4. Floated and proposed separate cleanly at 2 disagreeing rater-pairs, the least confused pair in the ladder. This was predicted to be the weak boundary on the reasoning that both are hedged and differ only by degree of specification, and the prediction was wrong. Merging them changes alpha by +0.001, so the fourth rung costs nothing and buys resolution. The real trouble is at the top: evidenced against settled at 21 and evidenced against proposed at 20.
+
+   *backed by* `asmt-0084`
+
+5. The gain from status as a field is that an idea's lifecycle stops being a retyping. A statement begins as floated, becomes proposed once it names its parameters, evidenced when the backtest holds, and may harden to settled. As separate types that path required changing what the statement is; as a status it is an update, which is what actually happens -- and it makes a query like 'show me every principle still at proposed' a query rather than an archaeology exercise.
+
+   *backed by* `asmt-0085`
+
+6. Asking for status does not cost type agreement -- it improves it. On the same 160 items, raters asked for type alone reached fine alpha 0.841 while raters asked for type and status reached 0.877, with coarse moving from 0.840 to 0.896. This was the main risk in the two-field design and it inverted. The likely mechanism is unproven: with nowhere to record how established a statement is, raters were folding that judgment into the type choice. It is the largest effect of its kind measured here, but on four raters with no confidence intervals, so the direction is more solid than the magnitude.
+
+   *backed by* `asmt-0086`
+
+7. Status is not a restatement of type, but its value is concentrated. Cramér's V is 0.595 and mutual information 0.845 of 1.721 bits, so 49 per cent of status is predictable from type and 51 per cent is not -- dependent, not collapsed. The same test was run because the published two-axis design this spec cites failed when its axes turned out statistically dependent and collapsed into a few cells.
+
+   *backed by* `asmt-0087`
+
+8. The independent half of status is concentrated by type, measured as residual entropy of status given type: dependency 1.84 bits on n=7, procedure 1.74 on n=48, recommendation 1.73 on n=94, principle 1.72 on n=44, architecture 1.53, distinction 1.39, decision 1.18, event 0.82, background 0.50, observation 0.19 at 97 per cent evidenced, and definition 0.00 on n=40 at 100 per cent settled. Status earns its place on proposals, approaches and causal claims; on definition it is a constant. That is an argument for scoping the field rather than dropping it, and v1 does not act on it -- it asks for status on every type.
+
+   *backed by* `asmt-0088`
+
+9. The n/a status value is nearly unused: 9 of 640, or 1.4 per cent. Status applies to almost every statement raters saw, including rules and events. The one exception is general, where half the assignments were n/a -- consistent with general being a residual rather than a kind.
+
+   *backed by* `asmt-0089`
+
+**Source units (9)** `u-src-specification-bf9781a3-0027`, `u-src-specification-bf9781a3-0028`, `u-src-specification-bf9781a3-0029`, `u-src-specification-bf9781a3-0030`, `u-src-specification-bf9781a3-0031`, `u-src-specification-bf9781a3-0032`, `u-src-specification-bf9781a3-0033`, `u-src-specification-bf9781a3-0034`, `u-src-specification-bf9781a3-0035`
+
+**Traceability** — idempotency key `192bfced545d3c5eb2c49f3a4a7a2b739e377c01d216191c4612c0f95a00da17` · queue event `q-192bfced545d3c5e` · audits `audit-cand-031`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 32. The fifteen label definitions
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-032-r1` v2
+
+**Slug** `the-fifteen-label-definitions`
+
+The codebook itself: each label's surface cue and its explicit exclusions, stated so a rater can check a sentence against them without inferring intent. This is the content the specification's own evidence identifies as determining whether the classifier works.
+
+**Assertions (3)**
+
+1. Background was previously written as a positive category -- context a reader needs, presented as generally accepted -- which describes a large share of all expository prose, and it collided with event 11 times, obligation 4 and principle 4 on the first corpus that exercised it. That is why it is now written as a residual.
+
+   *backed by* `asmt-0095`
+
+2. Pairwise distinction rules are the bulk of a working codebook, not a garnish: the scheme that reached kappa 0.71 shipped 75 of them alongside a decision tree, in 111 pages of guidelines. This specification's nineteen rules cover the pairs judged to genuinely collide; that judgment is the author's and is worth challenging, and a pair that turns out to collide in practice should be added to §3.3 rather than patched into a definition.
+
+   *backed by* `asmt-0001`
+
+3. Assumption is judged high value for this corpus specifically: quantitative models fail at their assumptions far more often than at their arithmetic, and assumptions are usually the least recorded part of a model. This is marked DESIGN.
+
+   *backed by* `asmt-0097`
+
+**Source units (1)** `u-src-specification-bf9781a3-0071`
+
+**Traceability** — idempotency key `0b470cab19c6e7207702a8d784a864357e8b3c147fb99226d592fe4e7ce0f84f` · queue event `q-0b470cab19c6e720` · audits `audit-cand-032`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 33. Pairwise separations between colliding labels
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-033-r1` v2
+
+**Slug** `pairwise-separations-between-colliding-labels`
+
+The rules that bound each label against the ones it collides with, several carrying the measured collision count that prompted them, plus two any-label overrides.
+
+**Assertions (1)**
+
+1. RULE -- the reassurance marker: procedures and principles do not have feelings. Language that soothes, warns off, or manages the reader's reaction -- don't panic, no need to worry, don't stress, ignore me -- marks the sentence as advice from a person, not an operational instruction or a standing relation, and routes to recommendation. This is marked DESIGN.
+
+   *backed by* `asmt-0130`
+
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0011</code> — table, exact, not cited</summary>
+
+|   | fine α | coarse α |
+|---|---|---|
+| single choice of fifteen | **0.877** | **0.896** |
+| this mechanism, resolved by the priority order below | 0.785 | 0.805 |
+
+</details>
+
+**Source units (1)** `u-src-specification-bf9781a3-0094`
+
+**Traceability** — idempotency key `beb13ecee109ffb2d80c69a4c91c49ce9779d8b4d459b1a35562f8984e3f03de` · queue event `q-beb13ecee109ffb2` · audits `audit-cand-033`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 34. Evaluation, and the pre-registered condition for abandoning the classifier
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-034-r1` v2
+
+**Slug** `evaluation-and-the-pre-registered-condition-for-abandoning-the-classifier`
+
+Why the acceptance test must be human agreement, what must be measured, and the negative evidence that produced a kill criterion written before any results exist.
+
+**Assertions (3)**
+
+1. The definition pass is the single largest effect measured: with 8 raters on 160 statements from eight sources, the codebook before the definition pass scored fine alpha 0.844 with unanimity 0.72, and after it scored 0.934 with unanimity 0.86, 95 per cent CI [0.905, 0.956], winning in 100 per cent of 400 paired resamples. On a 40-statement subset the same codebook reaches 0.947 to 0.954.
+
+   *backed by* `asmt-0121`
+
+2. The definition-pass gain came from domain judgment, not from the measurements: sixteen structural designs moved plus or minus 0.05 or lost, while fourteen rewritten definitions moved +0.090. A second round of refinements landed in the noise -- nine further rulings took 0.954 to 0.947, beating the prior version in 36 per cent of resamples.
+
+   *backed by* `asmt-0122`
+
+3. On real published documents -- 85 statements extracted from Sharpe's The Arithmetic of Active Management (1991), De Bondt and Thaler's Does the Stock Market Overreact? (1985), and a Goldman Sachs market note -- fine alpha is 0.894 with 95 per cent CI [0.840, 0.942]. Real prose costs roughly 0.05 against generated statements.
+
+   *backed by* `asmt-0123`
+
+**Assets carried with this entry (2)** — 2 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0013</code> — table, exact</summary>
+
+**Headline, measured with 8 raters on 160 statements from eight sources:**
+
+|   | fine α | unanimity |
+|---|---|---|
+| codebook before the definition pass | 0.844 | 0.72 |
+| **codebook after the definition pass** | **0.934** | **0.86** |
+
+</details>
+
+<details><summary><code>tbl-src-specification-bf9781a3-0014</code> — table, exact, not cited</summary>
+
+| Claim | Number |
+|---|---|
+| **The definition pass is the single largest effect measured** | fine α 0.844 → **0.934**, 8 raters, 160 statements, 100% of paired resamples |
+| It came from domain judgment, not from the measurements | sixteen structural designs moved ±0.05 or lost; fourteen rewritten definitions moved +0.090 |
+| A second round of refinements landed in the noise | nine further rulings: 0.954 → 0.947, beating the prior version in 36% of resamples |
+| Real documents cost about 0.05 against generated statements | 0.894 on 85 statements from three published sources |
+| Two labels carry three-quarters of real financial writing | `observation` 44%, `principle` 32% |
+
+*(38 further rows in the stored grid.)*
+
+</details>
+
+**Source units (3)** `u-src-specification-bf9781a3-0125`, `u-src-specification-bf9781a3-0126`, `u-src-specification-bf9781a3-0127`
+
+**Traceability** — idempotency key `31099d6a13db80ef0a2563f8af181c880ada8c90b50997c9a7a405f07d37367a` · queue event `q-31099d6a13db80ef` · audits `audit-cand-034`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 35. The evidence register: what is measured, what is design, what is contradicted
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-035-r1` v2
+
+**Slug** `the-evidence-register-what-is-measured-what-is-design-what-is-contradicted`
+
+The specification's account of its own confidence, sorted by what backs each claim -- including the decisions with no measurement behind them and the claims the evidence contradicts.
+
+**Assertions (1)**
+
+1. Two labels carry three-quarters of real financial writing: observation at 44 per cent and principle at 32 per cent. Their boundary is judged irreducible rather than ill-defined -- it accounts for 42 per cent of all disagreement on real documents, after seven attempts to separate it.
+
+   *backed by* `asmt-0125`
+
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0014</code> — table, exact, not cited</summary>
+
+| Claim | Number |
+|---|---|
+| **The definition pass is the single largest effect measured** | fine α 0.844 → **0.934**, 8 raters, 160 statements, 100% of paired resamples |
+| It came from domain judgment, not from the measurements | sixteen structural designs moved ±0.05 or lost; fourteen rewritten definitions moved +0.090 |
+| A second round of refinements landed in the noise | nine further rulings: 0.954 → 0.947, beating the prior version in 36% of resamples |
+| Real documents cost about 0.05 against generated statements | 0.894 on 85 statements from three published sources |
+| Two labels carry three-quarters of real financial writing | `observation` 44%, `principle` 32% |
+
+*(38 further rows in the stored grid.)*
+
+</details>
+
+**Source units (1)** `u-src-specification-bf9781a3-0129`
+
+**Traceability** — idempotency key `ba2f33580acf7d2625f3c499dc8d0dacc92f300b034f1ea5c5bf20fbd6e120f8` · queue event `q-ba2f33580acf7d26` · audits `audit-cand-035`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 36. Labels cut from the taxonomy, and which cuts the data justified
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-036-r1` v2
 
 **Slug** `labels-cut-from-the-taxonomy-and-which-cuts-the-data-justified`
 
@@ -897,19 +1716,11 @@ Four labels were removed. One removal was measured; three were editorial and the
 
 1. The claim coarse type was removed because it contradicted the contract. An earlier revision had a claim coarse type whose three labels -- fact, finding and proposition -- differed mainly by how established a statement was, which conflicts with §1's statement that the classifier does not judge truth and that epistemic status lives elsewhere.
 
-   *backed by* `asmt-0005`
-
-**Related topics** `label removal`, `coverage gaps`, `permission statements`
-
-**Labels**
-
-- The merge risk is stated but not resolved here. The later collision tests bear on whether it materialized and this entry does not point at them.
-- The permission gap remains open: a permission-shaped statement lands in general or is pulled into obligation by the modal, and no later section closes it.
-- One of the two gaps is marked superseded in the source. Reading the entry without that marker would leave a consumer believing the model coarse type still has one label.
+   *backed by* `asmt-0081`
 
 **Source units (1)** `u-src-specification-bf9781a3-0026`
 
-**Traceability** — idempotency key `2f7c260ffcf13cf0092a9682001caf34aa114fe13046d75e9661768530458ffd` · queue event `q-2f7c260ffcf13cf0` · audits `audit-cand-016`
+**Traceability** — idempotency key `b830c5949bb062ee134a4351b77b44a455664467d8a8970b82db67281871e5ea` · queue event `q-b830c5949bb062ee` · audits `audit-cand-036`
 
 <details><summary>Provenance chain</summary>
 
@@ -926,40 +1737,27 @@ Four labels were removed. One removal was measured; three were editorial and the
 
 ---
 
-### 17. Statement classifier: measured reliability and evidence convention
+### 37. Statement classifier: measured reliability and evidence convention
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-017-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-037-r1` v2
 
 **Slug** `statement-classifier-measured-reliability-and-evidence-convention`
 
 What the classifier's agreement figures are, on which corpora and with how many raters, and the three-way labelling scheme the specification uses to mark what backs each of its claims. The figures are reproducibility among model raters on this codebook; no human gold set exists.
 
-**Assertions (3)**
+**Assertions (2)**
 
 1. The statement classifier assigns a knowledge type to a short statement: one statement in, one classification record out. It works on statements extracted from documents and on statements taken from conversation.
 
-   *backed by* `asmt-0037`
+   *backed by* `asmt-0129`
 
-2. For scale, the argumentative-zoning scheme reached kappa 0.71 with seven categories and a 111-page codebook, and CoreSC reached 0.50-0.57 with eleven categories. This taxonomy has fifteen labels.
+2. The specification uses a three-way evidence convention. A claim marked VERIFIED survived three-vote adversarial verification against a primary source, with the study, the number and the sample named inline. MEASURED means it comes from the in-house runs, which measured this codebook rather than a published one. DESIGN means an engineering decision with no supporting measurement. Nothing is presented as evidence-backed unless a number is attached to it.
 
-   *backed by* `asmt-0019`
+   *backed by* `asmt-0069`
 
-3. The specification uses a three-way evidence convention. A claim marked VERIFIED survived three-vote adversarial verification against a primary source, with the study, the number and the sample named inline. MEASURED means it comes from the in-house runs, which measured this codebook rather than a published one. DESIGN means an engineering decision with no supporting measurement. Nothing is presented as evidence-backed unless a number is attached to it.
+**Source units (2)** `u-src-specification-bf9781a3-0001`, `u-src-specification-bf9781a3-0004`
 
-   *backed by* `asmt-0019`
-
-**Related topics** `Krippendorff alpha`, `inter-rater reliability`, `evidence labelling`
-
-**Labels**
-
-- The alphas measure agreement among model raters, not correctness. The entry says so; a consumer quoting 0.934 as accuracy would be misreading it and the number is quotable.
-- The comparison to published schemes is not like-for-like: those are human annotators on full documents, this is model raters on isolated statements. The entry does not flag that difference, and the specification's own evidence register does.
-- Declared as create_or_update. This audit sees one comparison set's worth of the entry and judges coverage on what is here.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
-
-**Source units (3)** `u-src-specification-bf9781a3-0001`, `u-src-specification-bf9781a3-0003`, `u-src-specification-bf9781a3-0004`
-
-**Traceability** — idempotency key `badc3c6223201ad6d867addf615dc42345d46890fd6c3cab54015f7240e72389` · queue event `q-badc3c6223201ad6` · audits `audit-cand-017`
+**Traceability** — idempotency key `d6d1bf88d3743f943538796808b0a8cce3130ab8b6ac129535bb577f015b8aab` · queue event `q-d6d1bf88d3743f94` · audits `audit-cand-037`
 
 <details><summary>Provenance chain</summary>
 
@@ -976,45 +1774,31 @@ What the classifier's agreement figures are, on which corpora and with how many 
 
 ---
 
-### 18. Statement classifier: the contract
+### 38. Statement classifier: the contract
 
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-018-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-038-r1` v2
 
 **Slug** `statement-classifier-the-contract`
 
 The interface, the record it returns, and the two things it refuses to do. Stated as the specification states it, so a consumer can build against it.
 
-**Assertions (5)**
+**Assertions (3)**
 
-1. The contract is classify(statement, context?) -> Classification. The input is one statement plus the surrounding context it appeared in; the context is used to classify that statement, because a line is often only readable against what came before it, but never to reclassify the neighbours themselves.
+1. Classifications are appended, never overwritten. A classification is a pure function of (statement, prompt_version, classifier_model); re-running with a different triple appends a new record rather than replacing the old one, and consumers pick the record whose stamps they trust.
 
-   *backed by* `asmt-0020`
+   *backed by* `asmt-0071`
 
-2. The context rule reverses an earlier restriction that limited context to pronoun and ellipsis resolution. Several statements measured as unclassifiable in isolation are unambiguous in place, and no evidence was found either way on how much context a conversational statement needs. This is marked DESIGN.
+2. The classifier does not judge truth. It answers what kind of statement this is, never whether it is correct; epistemic status lives elsewhere.
 
-   *backed by* `asmt-0020`
+   *backed by* `asmt-0072`
 
-3. Classifications are appended, never overwritten. A classification is a pure function of (statement, prompt_version, classifier_model); re-running with a different triple appends a new record rather than replacing the old one, and consumers pick the record whose stamps they trust.
+3. The output record carries the statement hash, the fine and coarse labels, the per-label boolean tests with a tests_fired count and a multi_fire flag, status, form, modality, flags, provenance, and four stamps: taxonomy_version, prompt_version, classifier_model and classified_at.
 
-   *backed by* `asmt-0020`
+   *backed by* `asmt-0070`
 
-4. The classifier does not judge truth. It answers what kind of statement this is, never whether it is correct; epistemic status lives elsewhere.
+**Source units (3)** `u-src-specification-bf9781a3-0008`, `u-src-specification-bf9781a3-0009`, `u-src-specification-bf9781a3-0007`
 
-   *backed by* `asmt-0020`
-
-5. The output record carries the statement hash, the fine and coarse labels, the per-label boolean tests with a tests_fired count and a multi_fire flag, status, form, modality, flags, provenance, and four stamps: taxonomy_version, prompt_version, classifier_model and classified_at.
-
-   *backed by* `asmt-0020`
-
-**Related topics** `classification API`, `append-only records`, `scope boundaries`
-
-**Labels**
-
-- Link to the mechanism entry, which defines the test fields this record carries.
-
-**Source units (5)** `u-src-specification-bf9781a3-0005`, `u-src-specification-bf9781a3-0006`, `u-src-specification-bf9781a3-0008`, `u-src-specification-bf9781a3-0009`, `u-src-specification-bf9781a3-0007`
-
-**Traceability** — idempotency key `e1127b970075b1abddb7293462a58cf4032aa7021d2c52ea1bbd3c865ad95ee4` · queue event `q-e1127b970075b1ab` · audits `audit-cand-018`
+**Traceability** — idempotency key `7d133acfa13baa06d6f56ef89cecdd9bc9186b1f87ac744a8fec5bcb74fdb4bd` · queue event `q-7d133acfa13baa06` · audits `audit-cand-038`
 
 <details><summary>Provenance chain</summary>
 
@@ -1031,118 +1815,27 @@ The interface, the record it returns, and the two things it refuses to do. State
 
 ---
 
-### 19. The statement taxonomy: five coarse types, fifteen fine labels
+### 39. The `general` residual: assign by code, never by confidence
 
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-019-r1` v2
-
-**Slug** `the-statement-taxonomy-five-coarse-types-fifteen-fine-labels`
-
-The structure of the taxonomy and the provenance of its reliability figures. Four labels borrow an anchor category's published agreement; eleven have none.
-
-**Assertions (2)**
-
-1. The full mapping, which the entry asserts is a lookup rather than a judgment: observation, event -> case; obligation, prohibition, decision, procedure, recommendation -> method; definition, distinction, background -> concept; principle, formula, assumption -> model; architecture, dependency -> system. A sixth value, general, is assigned by code when no test fires. Four labels carry a published anchor -- observation 0.79, procedure 0.74, definition 0.81, background 0.87, all CoreSC -- and the remaining eleven are DESIGN decisions with no measured reliability of their own.
-
-   *backed by* `asmt-0002`
-
-2. The taxonomy has five coarse types and fifteen fine labels, each fine label mapping to exactly one coarse type. The mapping is a lookup table, not a judgment. The coarse types and the question each answers: case -- what happened, on one occasion; method -- what is done, required, forbidden, advised, or settled; concept -- what does this term mean; model -- why does this hold, what does it rest on, and how is it computed; system -- what is the thing built from, and what does it need to run. A sixth value, general, is assigned by code when no test fires.
-
-   *backed by* `asmt-0002`
-
-**Related topics** `taxonomy`, `CoreSC anchors`, `coarse types`
-
-**Source units (2)** `u-src-specification-bf9781a3-0011`, `u-src-specification-bf9781a3-0012`
-
-**Traceability** — idempotency key `81488c4776a91af2871077ccd1ec3ada0cdc88b91a26fe0321f0c976aaa1bdc5` · queue event `q-81488c4776a91af2` · audits `audit-cand-019`
-
-<details><summary>Provenance chain</summary>
-
-- `approved_candidates` → `06_audit/candidates.approved.jsonl`
-- `assessments` → `04_assessments/claim_assessments.jsonl`
-- `audits` → `06_audit/audits.jsonl`
-- `clusters` → `03_clusters/clusters.jsonl`
-- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
-- `omissions` → `02_units/omissions.jsonl`
-- `source_registry` → `01_normalized/source_registry.jsonl`
-- `units` → `02_units/units.jsonl`
-
-</details>
-
----
-
-### 20. Per-category reliability varies twofold, and abstract categories are worst
-
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-020-r1` v2
-
-**Slug** `per-category-reliability-varies-twofold-and-abstract-categories-are-worst`
-
-The measured regularity that governs how every definition in this codebook had to be written, and the three rules it imposes.
-
-**Assertions (2)**
-
-1. The first consequence of the reliability spread is that the model coarse type is the known weak point, since its anchor is the lowest measured category in the scheme. Principle is therefore defined primarily as a surface test -- does the statement contain a causal or structural connective linking two named things -- rather than as a judgment about explanatory intent. This was tested directly: a non-surface generality test, asking whether a causal claim outlives the occasion it describes, measured worse than the surface definition it replaced.
-
-   *backed by* `asmt-0003`
-
-2. The second and third consequences of the reliability spread: any category that cannot be written as a surface test should be expected to land near 0.45 regardless of codebook quality, and per-category agreement must be reported separately in evaluation, because a single aggregate number hides exactly the failure this spread predicts.
-
-   *backed by* `asmt-0003`
-
-**Related topics** `per-category reliability`, `surface tests`, `CoreSC`
-
-**Source units (1)** `u-src-specification-bf9781a3-0013`
-
-**Traceability** — idempotency key `2c50066cfcc9a7cb2a52e3dd640352a96cef9a460e7a8608e20dbf7a604518a3` · queue event `q-2c50066cfcc9a7cb` · audits `audit-cand-020`
-
-<details><summary>Provenance chain</summary>
-
-- `approved_candidates` → `06_audit/candidates.approved.jsonl`
-- `assessments` → `04_assessments/claim_assessments.jsonl`
-- `audits` → `06_audit/audits.jsonl`
-- `clusters` → `03_clusters/clusters.jsonl`
-- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
-- `omissions` → `02_units/omissions.jsonl`
-- `source_registry` → `01_normalized/source_registry.jsonl`
-- `units` → `02_units/units.jsonl`
-
-</details>
-
----
-
-### 21. The `general` residual: assign by code, never by confidence
-
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-021-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-039-r1` v2
 
 **Slug** `the-general-residual-assign-by-code-never-by-confidence`
 
 Why the residual label is hidden from the model and why self-reported confidence cannot trigger it, with the threshold experiment that settles it and the generalization that follows.
 
-**Assertions (3)**
+**Assertions (2)**
 
 1. A named fallback given to the model is catastrophic: four frontier models given one plus the instruction to assign it for unknown cases recorded 96.1 per cent agreement with Fleiss kappa -0.001 and identified the minority class zero times, on MultiSoc-4D with over 58,000 comments. Whatever triggers general, the model must not see it. This is marked VERIFIED.
 
-   *backed by* `asmt-0023`
+   *backed by* `asmt-0075`
 
 2. This is the third measured instance of one pattern, after booleans plus priority resolution at -0.092 and interior tiers at -0.11: anything that turns one classification decision into two costs more in the second step than it gains in the first.
 
-   *backed by* `asmt-0023`
+   *backed by* `asmt-0079`
 
-3. General is therefore triggered by disagreement across runs rather than by self-report: classify a statement more than once and, where the runs disagree, assign general. That reads the same signal the confidence rule was after -- nothing fits cleanly -- from a source that is not self-assessment. The number of runs and the disagreement rule are evaluation parameters and are not yet measured. General's share of the corpus is a standing health metric.
+**Source units (2)** `u-src-specification-bf9781a3-0017`, `u-src-specification-bf9781a3-0021`
 
-   *backed by* `asmt-0023`
-
-**Related topics** `residual labels`, `abstention`, `confidence thresholds`
-
-**Labels**
-
-- The replacement mechanism is DESIGN-marked in the source: the number of runs and the disagreement rule are evaluation parameters and are not yet measured. The entry carries that, but it sits beside heavily-measured claims and reads stronger than it is.
-- The generalization -- anything turning one classification decision into two costs more in the second step than it gains in the first -- is the most transferable claim in this corpus and rests on three in-house instances, one model family, four raters.
-- The MultiSoc-4D finding is published and independent; the threshold table is not. Both reach this entry through one specification.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
-
-**Source units (3)** `u-src-specification-bf9781a3-0017`, `u-src-specification-bf9781a3-0021`, `u-src-specification-bf9781a3-0022`
-
-**Traceability** — idempotency key `9a6e37e86558c1f13aefa2299a8903854d8feeaa8cd6b94f6e1f269ffcf55656` · queue event `q-9a6e37e86558c1f1` · audits `audit-cand-021`
+**Traceability** — idempotency key `00f6cb8797fefec729a0bf0fbfa5025dbcb2eb1fb4f8a38465108f4abc5870b6` · queue event `q-00f6cb8797fefec7` · audits `audit-cand-039`
 
 <details><summary>Provenance chain</summary>
 
@@ -1159,36 +1852,23 @@ Why the residual label is hidden from the model and why self-reported confidence
 
 ---
 
-### 22. Labels cut from the taxonomy, and which cuts the data justified
+### 40. Labels cut from the taxonomy, and which cuts the data justified
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-022-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-040-r1` v2
 
 **Slug** `labels-cut-from-the-taxonomy-and-which-cuts-the-data-justified`
 
 Four labels were removed. One removal was measured; three were editorial and the specification says so. Two gaps remain.
 
-**Assertions (2)**
+**Assertions (1)**
 
 1. Two gaps follow from the cuts, both routed to general. First, the model coarse type is left with exactly one fine label, so for that branch the fine and coarse tiers carry identical information -- a degenerate tier, harmless but worth knowing; this is later superseded, as model now carries five labels. Second, permission-shaped statements have no home: a sentence like 'Analysts may exceed the intraday limit provided the book is flat at close' carries a deontic modal but is neither required nor prohibited, so it will land in general or be pulled into obligation by the modal. The spec advises watching general's share for permission-heavy corpora such as policy documents.
 
-   *backed by* `asmt-0024`
+   *backed by* `asmt-0001`
 
-2. Merging conclusion into finding cuts against the other change in that revision: finding already took 24 per cent of all assignments and was behaving as a de-facto residual, and widening it increases that risk. The merged definition therefore tightens its exclusions against fact and observation rather than loosening them, and whether that holds is a re-test rather than a claim.
+**Source units (1)** `u-src-specification-bf9781a3-0024`
 
-   *backed by* `asmt-0024`
-
-**Related topics** `label removal`, `coverage gaps`, `permission statements`
-
-**Labels**
-
-- The merge risk is stated but not resolved here. The later collision tests bear on whether it materialized and this entry does not point at them.
-- The permission gap remains open: a permission-shaped statement lands in general or is pulled into obligation by the modal, and no later section closes it.
-- One of the two gaps is marked superseded in the source. Reading the entry without that marker would leave a consumer believing the model coarse type still has one label.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
-
-**Source units (2)** `u-src-specification-bf9781a3-0024`, `u-src-specification-bf9781a3-0025`
-
-**Traceability** — idempotency key `7a58ea0956a6b1104a86547ca28d2a839852b5db54247984677c8a52b210cad4` · queue event `q-7a58ea0956a6b110` · audits `audit-cand-022`
+**Traceability** — idempotency key `47fd6e48d09349a4ef38950df3c7813ff28f560422ab8317b0db5a8f2490eace` · queue event `q-47fd6e48d09349a4` · audits `audit-cand-040`
 
 <details><summary>Provenance chain</summary>
 
@@ -1205,9 +1885,9 @@ Four labels were removed. One removal was measured; three were editorial and the
 
 ---
 
-### 23. The `status` field: floated, proposed, evidenced, settled
+### 41. The `status` field: floated, proposed, evidenced, settled
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-023-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-041-r1` v2
 
 **Slug** `the-status-field-floated-proposed-evidenced-settled`
 
@@ -1217,20 +1897,11 @@ The four-rung epistemic-maturity field that replaced a coarse type, its measured
 
 1. Provenance is a separate field and is not classified. Where a record came from -- chat or document, human or model, which thread -- is known at ingestion, so recording it costs no agreement because nobody infers it. It is not status's job: status says how firmly a statement is held now, provenance says where it was born. Both are worth having; only one of them can be got wrong.
 
-   *backed by* `asmt-0025`
-
-**Related topics** `epistemic status`, `residual entropy`, `two-field design`
-
-**Labels**
-
-- Four raters, no confidence intervals, one model family. The source says to treat the direction as more solid than the magnitude on the largest of these effects, and that instruction should travel with the +0.036 figure.
-- The entry records that status is worthless on some types and carries everything on others, and that v1 does not act on it. That unacted-on finding is the most likely thing to be dropped in a summary.
-- The mechanism proposed for why status improves type agreement is explicitly unproven in the source and must not harden into an explanation.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
+   *backed by* `asmt-0090`
 
 **Source units (1)** `u-src-specification-bf9781a3-0036`
 
-**Traceability** — idempotency key `3ea04516f16ca97b6c6ed74377f129af60ff7fb33bc53c68ae0c80747179499e` · queue event `q-3ea04516f16ca97b` · audits `audit-cand-023`
+**Traceability** — idempotency key `f621e77d8e231cd4e71d7999a3b0fb25b4b330f6e8f025fa2ad1cb5c68e77ada` · queue event `q-f621e77d8e231cd4` · audits `audit-cand-041`
 
 <details><summary>Provenance chain</summary>
 
@@ -1247,40 +1918,23 @@ The four-rung epistemic-maturity field that replaced a coarse type, its measured
 
 ---
 
-### 24. The second collision test was confounded by its item set
+### 42. The second collision test was confounded by its item set
 
-`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-024-r1` v2
+`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-042-r1` v2
 
 **Slug** `the-second-collision-test-was-confounded-by-its-item-set`
 
 A headline improvement, and the control that shows it came from the items rather than the taxonomy. Both are kept.
 
-**Assertions (3)**
+**Assertions (1)**
 
-1. Three label changes followed the second collision test. Technique was removed and merged into procedure: it measured alpha 0.588, the weakest label, with six confusions against procedure -- the one change the data made on its own. Driver was renamed principle: driver measured 0.623 and collided with structure seventeen times, the largest collision in that test, and the likely cause is that in engineering a driver is a component, so the label read as machinery rather than as the causal idea. Structure was renamed architecture, which is naming only: architecture is the native word in ML model cards.
+1. One risk the revision introduces: principle can be read normatively. 'Prefer small reversible steps' is a principle in ordinary English but is advice, not an explanation, so §3.3 carries an explicit principle-against-obligation separation for exactly that.
 
-   *backed by* `asmt-0026`
+   *backed by* `asmt-0001`
 
-2. One risk the revision introduces: principle can be read normatively. 'Prefer small reversible steps' is a principle in ordinary English but is advice, not an explanation, so §3.3 carries an explicit principle-against-obligation separation for exactly that.
+**Source units (1)** `u-src-specification-bf9781a3-0043`
 
-   *backed by* `asmt-0026`
-
-3. The two renames account for most of the third test's gain: driver at 0.623 became principle at 0.910, structure at 0.727 became architecture at 0.851, and procedure at 0.760 became 0.834 absorbing technique. The renames are confounded with the pointer repair; both shipped in the same revision and the experiment cannot separate them.
-
-   *backed by* `asmt-0026`
-
-**Related topics** `confounding`, `item sets`, `collision testing`
-
-**Labels**
-
-- The entry preserves both readings but does not record that the control is the one the specification acted on. A reader could take this as an unresolved dispute rather than a settled correction.
-- The two fixes that shipped in response -- the strip test and eleven repaired pointers -- are confounded with each other, and the source states it cannot separate them.
-- This is one project's internal testing, four raters, one model family. Nothing here is independent replication.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
-
-**Source units (3)** `u-src-specification-bf9781a3-0042`, `u-src-specification-bf9781a3-0043`, `u-src-specification-bf9781a3-0045`
-
-**Traceability** — idempotency key `e1fbe44560a897a7d42421c83ebbd93cfa066cdf0ab2d008c8ba82b69be22cdf` · queue event `q-e1fbe44560a897a7` · audits `audit-cand-024`
+**Traceability** — idempotency key `9128f76247dec98be205c68b515e3616388909379693284a7a09705247ba0bb2` · queue event `q-9128f76247dec98b` · audits `audit-cand-042`
 
 <details><summary>Provenance chain</summary>
 
@@ -1297,43 +1951,27 @@ A headline improvement, and the control that shows it came from the items rather
 
 ---
 
-### 25. A scope-judging test for `principle` was measured and rejected
+### 43. A scope-judging test for `principle` was measured and rejected
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-025-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-043-r1` v2
 
 **Slug** `a-scope-judging-test-for-principle-was-measured-and-rejected`
 
 A design change that was written, tested and reversed, and what its failure confirms about non-surface criteria.
 
-**Assertions (4)**
+**Assertions (2)**
 
 1. The rejection confirms the §2.3 prediction on this codebook, on the label §2.3 named: a criterion that cannot be checked against the surface of the sentence introduces a judgment, and the judgment does not converge -- even when the criterion is correct in every individual case. The causal-diagnosis gap it was written for is real and remains open; the spec judges it not worth a scope judgment to close.
 
-   *backed by* `asmt-0027`
+   *backed by* `asmt-0092`
 
-2. The definitions section, not the label count, determines whether the classifier works. Codebook depth and annotator training moved kappa by 0.15 to 0.36 on identical documents with an identical label set: trained coders with a 17-page codebook, a decision tree and four training papers reached kappa 0.65, 0.85 and 0.87, while untrained coders given one page reached 0.35, 0.49 and 0.72. Growing the label set from 3 to 7 cost only 0.07.
+2. Definitions must be written as surface tests, not judgment calls. Concretely-described features reached F1 above 0.60 while features requiring interpretive inference fell below 0.30, and model difficulty tracked human inter-coder difficulty at r = 0.61, so human disagreement is the practical ceiling. Measured over 7 models, 121 features and 567 excerpts.
 
-   *backed by* `asmt-0027`
+   *backed by* `asmt-0093`
 
-3. Definitions must be written as surface tests, not judgment calls. Concretely-described features reached F1 above 0.60 while features requiring interpretive inference fell below 0.30, and model difficulty tracked human inter-coder difficulty at r = 0.61, so human disagreement is the practical ceiling. Measured over 7 models, 121 features and 567 excerpts.
+**Source units (2)** `u-src-specification-bf9781a3-0052`, `u-src-specification-bf9781a3-0054`
 
-   *backed by* `asmt-0027`
-
-4. Codebook depth is necessary but not sufficient: a 45-page codebook with a decision tree, category semantics, pairwise-distinction rules and worked examples still yielded only kappa 0.50 to 0.57, in CoreSC.
-
-   *backed by* `asmt-0027`
-
-**Related topics** `generality test`, `principle`, `surface tests`
-
-**Labels**
-
-- The rejection is a four-rater result and the differences it turns on are small; the collision counts move further than the alphas and are the more readable signal.
-- The causal-diagnosis gap remains open. An entry reporting only the rejection would leave a reader believing the boundary is solved.
-- This confirms a prediction registered earlier in the same document, which is self-consistency rather than independent confirmation.
-
-**Source units (4)** `u-src-specification-bf9781a3-0052`, `u-src-specification-bf9781a3-0053`, `u-src-specification-bf9781a3-0054`, `u-src-specification-bf9781a3-0055`
-
-**Traceability** — idempotency key `cbe2b0c26b81e33efc32a18e7ca159fc026950ddbce950b8f2b3f8057a7f49c7` · queue event `q-cbe2b0c26b81e33e` · audits `audit-cand-025`
+**Traceability** — idempotency key `3a05d0a3a91beac79e282f793b44b55b4c4f245e43dab2a9fd10a40c75f7dd80` · queue event `q-3a05d0a3a91beac7` · audits `audit-cand-043`
 
 <details><summary>Provenance chain</summary>
 
@@ -1350,9 +1988,9 @@ A design change that was written, tested and reversed, and what its failure conf
 
 ---
 
-### 26. Codebook depth beats label count, but is not sufficient on its own
+### 44. Codebook depth beats label count, but is not sufficient on its own
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-026-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-044-r1` v2
 
 **Slug** `codebook-depth-beats-label-count-but-is-not-sufficient-on-its-own`
 
@@ -1360,15 +1998,13 @@ The three published findings that justify writing definitions as surface tests a
 
 **Assertions (1)**
 
-1. DEFINITION -- observation (coarse: case, anchor kappa 0.79). Cue: insight extrapolated from multiple events -- a pattern or reading drawn across more than one occasion, not definitive enough to be a rule or a recommendation, anecdotal by nature in that it holds so far, on what has been seen. A single occurrence reported as fact is an event; it becomes an observation when the sentence reads across occasions -- a rate, a repetition, a sample, a trend, a mean. Excludes: the occurrence itself, however quantified (event); an established difference between two options (distinction); reasoning from fundamentals (principle); something definitive enough to be followed (procedure, obligation, prohibition or recommendation).
+1. The exemplars are drawn from quantitative finance and LLM/ML research because those are the domains the classifier runs on, and the spec notes the drift: the anchor categories were measured on chemistry and computational-linguistics papers, so the kappa figures transfer to these definitions only as far as the category shapes do. §9 records this as a weakness in the evidence base, not as something the exemplars fix.
 
-   *backed by* `asmt-0009`
+   *backed by* `asmt-0001`
 
-**Related topics** `codebook design`, `annotator training`, `surface tests`
+**Source units (1)** `u-src-specification-bf9781a3-0057`
 
-**Source units (2)** `u-src-specification-bf9781a3-0056`, `u-src-specification-bf9781a3-0057`
-
-**Traceability** — idempotency key `467ee815511590e7c2dc74ee33148b0a4ab68541877ebc3c10c07a4e62d6e7e8` · queue event `q-467ee815511590e7` · audits `audit-cand-026`
+**Traceability** — idempotency key `c4f46c133b56c061fafb75daf215da228f240a802e343b83e8ee55ecbfcb31b6` · queue event `q-c4f46c133b56c061` · audits `audit-cand-044`
 
 <details><summary>Provenance chain</summary>
 
@@ -1385,97 +2021,31 @@ The three published findings that justify writing definitions as surface tests a
 
 ---
 
-### 27. The fifteen label definitions
+### 45. The fifteen label definitions
 
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-027-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-045-r1` v2
 
 **Slug** `the-fifteen-label-definitions`
 
 The codebook itself: each label's surface cue and its explicit exclusions, stated so a rater can check a sentence against them without inferring intent. This is the content the specification's own evidence identifies as determining whether the classifier works.
 
-**Assertions (19)**
+**Assertions (3)**
 
-1. Not carried from the source: each of the fifteen definitions ships one document-style exemplar and one conversational exemplar, required by §3.1 as a component of every definition. None of the thirty is reproduced here. A rater can apply the cues and exclusions below without the source, but the worked examples are in the specification only.
+1. Background was previously written as a positive category -- context a reader needs, presented as generally accepted -- which describes a large share of all expository prose, and it collided with event 11 times, obligation 4 and principle 4 on the first corpus that exercised it. That is why it is now written as a residual.
 
-   *backed by* `asmt-0011`
+   *backed by* `asmt-0095`
 
-2. DEFINITION -- obligation (coarse: method). Cue: what is owed to a third party. A requirement is an obligation only when there is someone outside the doing party to whom it is owed -- a regulator, an exchange, a counterparty, a client, a contract. It is the positive counterpart of prohibition. Internal requirements are procedure: a rule the organisation imposes on itself, however mandatory it sounds, is how the organisation works and belongs in the manual. Judge the action, not the grammar -- a requirement stated with a negation is still an obligation if what it demands is an action. Excludes: what must not be done (prohibition); an internal requirement (procedure); advice with no accountability (recommendation).
+2. Pairwise distinction rules are the bulk of a working codebook, not a garnish: the scheme that reached kappa 0.71 shipped 75 of them alongside a decision tree, in 111 pages of guidelines. This specification's nineteen rules cover the pairs judged to genuinely collide; that judgment is the author's and is worth challenging, and a pair that turns out to collide in practice should be added to §3.3 rather than patched into a definition.
 
-   *backed by* `asmt-0011`
+   *backed by* `asmt-0001`
 
-3. DEFINITION -- prohibition (coarse: method). Cue: the negative case of procedure -- where a procedure says what to do, a prohibition says what must not be done. A hard rule, manual-grade: it would be printed as an absolute and it can be violated. Test: could someone be in breach of it? A prohibition was set by someone with standing, and doing it anyway is a breach; a peer pointing away from something out of experience creates no breach and is a recommendation, however imperative it sounds. Excludes: a positively-stated requirement (obligation); advice against an action with no accountability behind it (recommendation).
+3. Assumption is judged high value for this corpus specifically: quantitative models fail at their assumptions far more often than at their arithmetic, and assumptions are usually the least recorded part of a model. This is marked DESIGN.
 
-   *backed by* `asmt-0012`
-
-4. DEFINITION -- decision (coarse: method). Cue: a choice reported as settled, which governs what happens after it. Typically past-tense and agentive -- adopted, chose, approved, standardised on, agreed to. This is the one rule label with no deontic modal to key on. Excludes: something that merely occurred with no choice made (event); a choice still being proposed (recommendation); a statement carrying an explicit modal, which the deontic labels take instead.
-
-   *backed by* `asmt-0012`
-
-5. DEFINITION -- procedure (coarse: method, anchor kappa 0.74). Cue: an established operational instruction -- how the system is used. It could be pasted into a user manual unchanged and read as something to be followed every time. Test: is the sentence reporting practice or putting something forward? Reporting is procedure -- we use, backtests are charged, the loader runs at 07:00, positions are marked daily. Excludes: anything put forward rather than reported, anything hedged, anything announced as a contribution to a discussion (all recommendation); how the system is built rather than used (architecture); a settled configuration choice among real alternatives (decision); the arithmetic defining a quantity (formula); a constraint someone is accountable to (obligation).
-
-   *backed by* `asmt-0012`
-
-6. DEFINITION -- recommendation (coarse: method). Cue: prescribes a course of action -- advice on what ought to be done, with no requirement force and nothing settled. Practical and experiential, bearing on a choice where more than one valid option exists, and usually conversational in register. Excludes: a requirement someone is accountable to (obligation); a choice already made (decision); a bare description of an approach (procedure).
-
-   *backed by* `asmt-0012`
-
-7. DEFINITION -- definition (coarse: concept, anchor kappa 0.81). Cue: fixes a key topic. It states what a term means, and the term is load-bearing -- remove the definition and the reader cannot follow what follows. The grammatical centre is X is / means / refers to / is defined as Y. Against background: a definition defines the topic, while background adds colour around it without defining anything. Excludes: a contingent statement that could turn out false, which fixes no terminology (principle); a contrast drawn between two terms (distinction).
-
-   *backed by* `asmt-0012`
-
-8. DEFINITION -- distinction (coarse: concept). Cue: a qualifier between multiple methods or options, resting on established differences rather than on one occasion's measurement. The contrast is the payload: two things are named and what separates them is the point. Proven, not anecdotal -- a distinction cites differences that hold, such as fee schedules, contract terms or published behaviour; if the contrast rests on what someone saw once, it is an observation. Excludes: a single term being defined (definition); a theoretical claim reasoned from fundamentals (principle); a one-off comparison someone happened to measure (observation).
-
-   *backed by* `asmt-0012`
-
-9. DEFINITION -- background (coarse: concept, anchor kappa 0.87). Cue: additional colour or history. It enriches understanding of the surround but does not define the topic itself -- strip it out and the topic is still defined, you have only lost context. It is contextual and usually announced, and is decided from the surrounding context. Background is a last resort: it loses every tie, so if any other test fires that label wins. It is what remains when a statement informs but claims nothing, instructs nothing and defines nothing. Excludes: everything else -- that is the point.
-
-   *backed by* `asmt-0012`
-
-10. DEFINITION -- principle (coarse: model). Cue: the theory or rule behind something -- reasoning from fundamentals about why it holds or why it is built that way. First principles, not comparison, not measurement, and not implementation. Test: would it survive without the specific case in front of you? A principle is stated at the level of the idea; a statement that compares two named options is a distinction, and one that reports what was seen is an observation, even when it explains itself. Excludes: how the thing is built or sourced (architecture); the equation that computes it (formula); what must be true for it to hold (assumption); what it needs in order to run (dependency); a single measured occasion (observation).
-
-   *backed by* `asmt-0012`
-
-11. Principle carries status, as every type does: floated when raised but not worked out, proposed when specified but unvalidated, evidenced when something backs it, settled when indisputable. The status is not part of choosing the label -- a principle is a principle whether or not it is proven.
-
-   *backed by* `asmt-0012`
-
-12. DEFINITION -- architecture (coarse: system). Cue: implementational design -- the construction of a physical or software system: what it is built out of, what components it has, what they are. Not a logical scheme and not a configuration. Against principle: architecture is the implementation, principle is the theory or rule behind it; the same system has both. The elevator test: what the doors are made of and how the hoist is assembled is architecture, how to call the car is procedure. Actual, not proposed: architecture describes a real implementation, including a specification of one that has been committed to, while a system being put forward is a recommendation however concrete its detail. Excludes: how the system is used (procedure); a settled setting or configuration choice (decision); why it works (principle); the arithmetic (formula); something separate the build needs present (dependency).
-
-   *backed by* `asmt-0012`
-
-13. DEFINITION -- formula (coarse: model). Cue: mathematical or scientific in nature -- an equation, an arithmetic definition in prose, or a statement that defines something in mathematical or scientific terms. A formula says what a quantity equals; it instructs nobody. No opinions in a formula: a formula computes and stops, and if the sentence also evaluates, judges or hedges the result, that part is not formula. Test: is the arithmetic the payload, or machinery inside a policy? Excludes: a term's meaning with no computation given (definition); a reported value rather than the rule producing it (observation); arithmetic in service of an operational instruction (procedure).
-
-   *backed by* `asmt-0012`
-
-14. DEFINITION -- assumption (coarse: model). Cue: a leap of faith -- something taken on trust for the rest to hold, asserted without evidence and without proof, and the sentence knows it. Marker words: assumes, presupposes, conditional on, holds only if, provided that, on the standing assumption that. Against architecture: an assumption is believed, an architecture is built -- if it could be inspected in the system, it is not an assumption. Excludes: something needed to run rather than to be true (dependency); a limit on where it applies stated as a result (observation or principle); a rule someone must follow (obligation).
-
-   *backed by* `asmt-0012`
-
-15. DEFINITION -- dependency (coarse: system). Cue: an established requirement -- a hard fact that the thing cannot run without. Marker words: requires, depends on, needs, is a prerequisite for, without X you cannot. Hard, not casual: a dependency holds as a matter of fact about the system, whereas someone noting that a piece of data would be handy, or that they wish a mapping existed, is reporting their situation and that is an observation, which is anecdotal by nature. Excludes: something taken for granted for a claim to hold (assumption); what the thing is built from (architecture); an anecdotal note about what is missing (observation).
-
-   *backed by* `asmt-0012`
-
-16. SEPARATIONS among the deontic labels. Decision against obligation: is there a modal? An obligation states a standing requirement in modal form, a decision states one was established -- and if both fit, the modal wins. Decision against recommendation: settled or proposed? A decision is closed, a recommendation is still advice. Recommendation against obligation: is anyone accountable? Advice can be ignored without violation, an obligation cannot.
-
-   *backed by* `asmt-0012`
-
-17. SEPARATION -- obligation against prohibition: what to do versus what not to do, judged by the action demanded rather than by grammatical polarity, so a negatively-phrased requirement that demands an action is an obligation. Both items in the measured 21-pair collision were compound, carrying a requirement and a forbidding in one sentence; under the general rule both tests score above 90 and the statement resolves to general with multi_fire.
-
-   *backed by* `asmt-0012`
-
-18. SEPARATIONS within the case family. Observation against event: was anything measured? An observation records a quantity or behaviour, an event records that something occurred. Event against decision: was a choice made? An event happened to you, a decision was chosen and constrains later action.
-
-   *backed by* `asmt-0012`
-
-19. SEPARATION -- background against event, 13 rater-pairs. Both report what happened; the difference is what the sentence is for. An event records an occurrence in its own right, while background uses occurrences to explain how things came to be, defines nothing, and is normally signalled or positioned as context. Decide from the surrounding context, not the sentence alone.
-
-   *backed by* `asmt-0012`
-
-**Related topics** `label definitions`, `codebook`, `surface cues`
+   *backed by* `asmt-0097`
 
 **Source units (3)** `u-src-specification-bf9781a3-0069`, `u-src-specification-bf9781a3-0077`, `u-src-specification-bf9781a3-0075`
 
-**Traceability** — idempotency key `4d85a75f58bbc0a61fb2f147faa5f30a447e417b22397a15b4e18b8341e1139b` · queue event `q-4d85a75f58bbc0a6` · audits `audit-cand-027`
+**Traceability** — idempotency key `bc2cce71661203ef819dd966928bc81026eb41cc7bb54b420a3e41b62310df13` · queue event `q-bc2cce71661203ef` · audits `audit-cand-045`
 
 <details><summary>Provenance chain</summary>
 
@@ -1492,41 +2062,23 @@ The codebook itself: each label's surface cue and its explicit exclusions, state
 
 ---
 
-### 28. Pairwise separations between colliding labels
+### 46. Pairwise separations between colliding labels
 
-`create_or_update` · knowledge state **authoritative** · status `ready` · candidate `cand-028-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-046-r1` v2
 
 **Slug** `pairwise-separations-between-colliding-labels`
 
 The rules that bound each label against the ones it collides with, several carrying the measured collision count that prompted them, plus two any-label overrides.
 
-**Assertions (3)**
+**Assertions (1)**
 
-1. The model answers one independent yes/no question per fine label, in a single call. It is never asked to pick one of fifteen.
+1. RULE -- the reassurance marker: procedures and principles do not have feelings. Language that soothes, warns off, or manages the reader's reaction -- don't panic, no need to worry, don't stress, ignore me -- marks the sentence as advice from a person, not an operational instruction or a standing relation, and routes to recommendation. This is marked DESIGN.
 
-   *backed by* `asmt-0030`
-
-2. Multiclass framing measured 90 per cent lower odds of correct detection than binary presence/absence framing -- odds ratio 0.10, 95 per cent CI 0.03 to 0.35, p below .001, from a mixed-effects model over more than 1.1 million annotations. This is marked VERIFIED.
-
-   *backed by* `asmt-0030`
-
-3. The specific tactic of decomposing this label set into fifteen binary probes is an inference from that finding, not a tested design: the cited study compared natively-binary features against natively-multiclass ones and did not decompose one set into the other. A claim asserting a tested decomposition design was refuted 1-2 in verification.
-
-   *backed by* `asmt-0030`
-
-**Related topics** `pairwise separations`, `label collisions`, `codebook`
-
-**Labels**
-
-- Which pairs collide is an unmeasured editorial judgment. The source says so and invites challenge; the entry carries the rules more prominently than the caveat.
-- Nineteen rules against 75 in the scheme this specification cites as the benchmark for what a working codebook ships.
-- This is a large entry and a reader typically arrives asking about one boundary. The rules are individually retrievable within it, which mitigates that.
-- The reassurance-marker override has no measurement behind it at all and sits beside rules with collision counts.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
+   *backed by* `asmt-0130`
 
 **Source units (3)** `u-src-specification-bf9781a3-0091`, `u-src-specification-bf9781a3-0092`, `u-src-specification-bf9781a3-0093`
 
-**Traceability** — idempotency key `7b788e60795ecfe8d8f96c31b7d26f91ee45c4d711af8c45005372301b109cee` · queue event `q-7b788e60795ecfe8` · audits `audit-cand-028`
+**Traceability** — idempotency key `f7cdfb3315629fa528018d0fc337ebeab1a296eaae66b44680d5ff23a8592251` · queue event `q-f7cdfb3315629fa5` · audits `audit-cand-046`
 
 <details><summary>Provenance chain</summary>
 
@@ -1543,69 +2095,47 @@ The rules that bound each label against the ones it collides with, several carry
 
 ---
 
-### 29. How the classifier is asked, and why its mechanism measured worse
+### 47. How the classifier is asked, and why its mechanism measured worse
 
-`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-029-r1` v2
+`create_or_update` · knowledge state **contested** · status `ready` · candidate `cand-047-r1` v2
 
 **Slug** `how-the-classifier-is-asked-and-why-its-mechanism-measured-worse`
 
 The boolean-battery mechanism, the published evidence it was inferred from, the in-house test that refuted the inference, and the one property that keeps it in the design anyway.
 
-**Assertions (10)**
+**Assertions (7)**
 
 1. Two resolution outcomes are defined: if no test fires the result is general; if two or more coarse types fire, resolve by priority and set multi_fire. A multi-fire statement is a candidate for splitting into two statements.
 
-   *backed by* `asmt-0031`
+   *backed by* `asmt-0102`
 
 2. The prompt is a frozen, versioned artifact. Prompt wording alone swung classification accuracy by 26 to 36 points on an interpretive six-class task with temperature 0 and formatting held constant -- 20 semantically equivalent prompts produced 0.546 to 0.808 on one model and 0.392 to 0.756 on another -- and the same study found interpretive tasks far more prompt-sensitive than knowledge-anchored ones. Any change to the prompt string is a prompt_version bump, records carry the version they were produced under, and re-wording without bumping is a defect.
 
-   *backed by* `asmt-0031`
+   *backed by* `asmt-0103`
 
 3. Tests are emitted as named boolean fields -- no lettered options and no ordered menu -- because presenting options as A/B/C/D inherits selection bias, and most of the effect comes from the option-ID tokens rather than position: removing the IDs cut recall standard deviation from 5.5 to 1.0 on MMLU. Shuffling does not fix it, at 5.9 against a 5.5 baseline and worse on ARC, and a debiasing instruction barely helps.
 
-   *backed by* `asmt-0031`
+   *backed by* `asmt-0104`
 
 4. Majority voting over three models from different families improved agreement with human consensus -- kappa 0.62 plus or minus 0.01 against 0.56 to 0.62 for individual models -- while expanding to five reduced it. Three-model voting is therefore optional and off by default, and when enabled the three must come from different families.
 
-   *backed by* `asmt-0031`
+   *backed by* `asmt-0105`
 
 5. The modality field takes required, permitted or prohibited and is populated whenever a deontic modal is present, independent of which type test fired. It is validated only on statements that resolved to rule; otherwise it is retained but not enforced. There is no measured evidence for it: deontic modals are surface cues, which is the property associated with reliable categories, but this specific field has not been evaluated.
 
-   *backed by* `asmt-0032`
+   *backed by* `asmt-0106`
 
-6. The form field takes statement, question or answer. It is orthogonal to type and available under every coarse category: a question about a procedure is type procedure with form question, and the answer that follows is type procedure with form answer. A statement asserts something and is the default; a question asks for something and asserts nothing, defines nothing and instructs nothing; an answer is supplied in response to a question and is only meaningful with one.
+6. Provenance is a record of medium, author and source_id: medium is chat, document, transcript or code; author is human or model with the model identifier when known; source_id is the thread, document or file. Nothing here is classified -- every value is known to the ingestion pipeline before the classifier is called, so provenance costs no agreement because it cannot be got wrong by a model that never infers it.
 
-   *backed by* `asmt-0032`
+   *backed by* `asmt-0107`
 
-7. The type still applies to a question: 'Did the rope theta get bumped to 500k before or after we forked off main?' is a question about a decision. Typing the subject keeps questions retrievable alongside what they are about, which is what makes 'show me the open questions on this topic' a query rather than a scan. The answer value is the one value that implies a relation to another statement; recording it is useful now, but linking it to its question needs the edge layer that is out of scope for v1.
+7. Provenance is operationally load-bearing: chat statements classify at fine alpha 0.811 against 0.940 for document statements, on the same codebook and the same run. Without provenance on the record that gap is a fact nobody can act on; with it, a consumer can weight or filter by medium.
 
-   *backed by* `asmt-0032`
+   *backed by* `asmt-0108`
 
-8. Provenance is a record of medium, author and source_id: medium is chat, document, transcript or code; author is human or model with the model identifier when known; source_id is the thread, document or file. Nothing here is classified -- every value is known to the ingestion pipeline before the classifier is called, so provenance costs no agreement because it cannot be got wrong by a model that never infers it.
+**Source units (7)** `u-src-specification-bf9781a3-0099`, `u-src-specification-bf9781a3-0100`, `u-src-specification-bf9781a3-0101`, `u-src-specification-bf9781a3-0102`, `u-src-specification-bf9781a3-0103`, `u-src-specification-bf9781a3-0107`, `u-src-specification-bf9781a3-0108`
 
-   *backed by* `asmt-0032`
-
-9. Provenance is operationally load-bearing: chat statements classify at fine alpha 0.811 against 0.940 for document statements, on the same codebook and the same run. Without provenance on the record that gap is a fact nobody can act on; with it, a consumer can weight or filter by medium.
-
-   *backed by* `asmt-0032`
-
-10. The form field closes the largest uncovered source of disagreement. Four questions in the 160-statement corpus produced roughly 50 disagreeing rater-pairs scattered across six different pairs -- background/observation, background/event, background/general, dependency/observation, general/observation and event/general. Raters had no way to record that a statement was a question, so each was filed by its subject matter instead: a question about a data vendor landed near dependency, a question about history landed near event, and no two raters chose alike.
-
-   *backed by* `asmt-0032`
-
-**Related topics** `binary framing`, `priority resolution`, `prompt versioning`
-
-**Labels**
-
-- The mechanism is retained despite measuring worse, on the ground that it produces information single choice destroys. That is a trade-off, not a refutation of the measurement, and the entry keeps both.
-- The prompt-sensitivity and option-ID findings are published and carry large effects -- 26 to 36 points, and standard deviation 5.5 to 1.0. They are the best-evidenced rules in the entry and are unrelated to the contested part.
-- The priority order's named side effect -- dated decisions leaving the case bucket entirely -- is intended behaviour, and a consumer querying for events will not find them.
-- One specification. The in-house refutation is four raters on 160 items.
-- This entry's title matches one already audited in this run. The operation is create_or_update, so it is the same leaf assembled from a second comparison set rather than a duplicate -- but a consumer that treats the operation as create will file two entries under one name.
-
-**Source units (10)** `u-src-specification-bf9781a3-0099`, `u-src-specification-bf9781a3-0100`, `u-src-specification-bf9781a3-0101`, `u-src-specification-bf9781a3-0102`, `u-src-specification-bf9781a3-0103`, `u-src-specification-bf9781a3-0104`, `u-src-specification-bf9781a3-0106`, `u-src-specification-bf9781a3-0107`, `u-src-specification-bf9781a3-0108`, `u-src-specification-bf9781a3-0105`
-
-**Traceability** — idempotency key `3c8aef83c4610aef68e851c7e472b8a46c4f9f103a2992ddc6c07a8414fac644` · queue event `q-3c8aef83c4610aef` · audits `audit-cand-029`
+**Traceability** — idempotency key `e5720084d1c5b0c20677ff45e39a47216777d1ceda7ba1039ff4c867a8a5d175` · queue event `q-e5720084d1c5b0c2` · audits `audit-cand-047`
 
 <details><summary>Provenance chain</summary>
 
@@ -1622,63 +2152,47 @@ The boolean-battery mechanism, the published evidence it was inferred from, the 
 
 ---
 
-### 30. Secondary fields: form, provenance, modality and flags
+### 48. Secondary fields: form, provenance, modality and flags
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-030-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-048-r1` v2
 
 **Slug** `secondary-fields-form-provenance-modality-and-flags`
 
 Five fields with sharply different evidential standing, and what the classifier deliberately does not emit.
 
-**Assertions (9)**
+**Assertions (7)**
 
 1. Two flags are defined. negative_result means the statement reports an absence, null or no-effect finding; caveat means the statement limits, scopes or excepts something else. There is no measured evidence for either. negative_result exists because a null finding is not distinguishable from a positive one by embedding similarity -- 'X does not work' and 'X works' are near neighbours -- so without an explicit marker it is unrecoverable downstream. That is a mechanism argument, not a measurement.
 
-   *backed by* `asmt-0033`
+   *backed by* `asmt-0109`
 
 2. No confidence score is published. Per-label confidence is elicited internally to drive general assignment but is not part of the output record. Verbalized confidence reliability depends strongly on how the model is asked, with no universal best method across 17 prompt methods, 10 datasets and 11 models spanning 2B to 110B; the best method is model-dependent and small models' confidence is near-independent of their accuracy, and all of it was measured on closed-book QA, never on classification. Uncertainty is expressed structurally instead: tests_fired == 0 is abstention and tests_fired >= 2 is ambiguity.
 
-   *backed by* `asmt-0033`
+   *backed by* `asmt-0110`
 
 3. Conversational text is measurably harder. Six frontier models classifying classroom utterances into seven categories reached Cohen's kappa 0.38 to 0.58, where human expert annotators on the same data exceeded 0.90, over 800 stratified utterances. A separate study on support conversations found expert-model weighted kappa median 0.60 against expert-expert 0.58 -- comparable, but on ordinal ratings rather than single-label classification.
 
-   *backed by* `asmt-0033`
+   *backed by* `asmt-0112`
 
 4. Few-shot exemplars help, but model-dependently in both size and sign: across six models, kappa gains ranged from +19 points to negative -- one model peaked at three examples then declined with more, another ended below its zero-shot score. Exemplar count is therefore a per-model tuning parameter, which conflicts directly with a single prompt used across families.
 
-   *backed by* `asmt-0033`
+   *backed by* `asmt-0001`
 
-5. No evidence was found on three questions: resolving pronouns and ellipsis before classification, splitting one message into several statements, and how much surrounding context a conversational statement needs. Three separate research angles returned nothing that survived verification, and the only context datapoint anywhere in the evidence base is a 20-30 line window used as an unablated design choice.
+5. Inter-model agreement is not evidence of correctness, on two independent demonstrations: four models agreed on 96.1 per cent of labels with Fleiss kappa -0.001 while missing 75 per cent of the minority class; and in a separate study models reached inter-model Krippendorff alpha 0.85 against human-human 0.65 while diverging significantly from human judgment, t(49.42) = 3.615, p below .001, Cohen's d = 0.88. The acceptance test is therefore agreement with human labels, and cross-model agreement is a stability check only.
 
-   *backed by* `asmt-0033`
+   *backed by* `asmt-0114`
 
-6. Four consequences follow for conversational input, all marked DESIGN: conversational input may carry an optional context window used only for reference resolution; a statement whose references cannot be resolved is classified general rather than guessed; splitting a multi-statement message is out of scope for v1 and the caller supplies one statement; and conversational accuracy is expected to be materially below document accuracy, with the two measured separately.
+6. Gold set requirements: both strata sampled separately, document-derived and conversational; rare fine labels deliberately oversampled, otherwise general absorbs them invisibly; and at least two independent human coders, adjudicated, with human-human agreement reported first because it is the ceiling and model numbers are uninterpretable without it.
 
-   *backed by* `asmt-0033`
+   *backed by* `asmt-0115`
 
-7. Inter-model agreement is not evidence of correctness, on two independent demonstrations: four models agreed on 96.1 per cent of labels with Fleiss kappa -0.001 while missing 75 per cent of the minority class; and in a separate study models reached inter-model Krippendorff alpha 0.85 against human-human 0.65 while diverging significantly from human judgment, t(49.42) = 3.615, p below .001, Cohen's d = 0.88. The acceptance test is therefore agreement with human labels, and cross-model agreement is a stability check only.
+7. The classifier produces no truth judgment and no relationships between statements. Epistemic maturity is produced -- that is status -- but whether a statement is correct is not, and neither are edges between statements. Relations such as resolved_by and opposes are the natural next layer and are deliberately out of scope for v1.
 
-   *backed by* `asmt-0033`
+   *backed by* `asmt-0111`
 
-8. Gold set requirements: both strata sampled separately, document-derived and conversational; rare fine labels deliberately oversampled, otherwise general absorbs them invisibly; and at least two independent human coders, adjudicated, with human-human agreement reported first because it is the ceiling and model numbers are uninterpretable without it.
+**Source units (7)** `u-src-specification-bf9781a3-0109`, `u-src-specification-bf9781a3-0110`, `u-src-specification-bf9781a3-0112`, `u-src-specification-bf9781a3-0113`, `u-src-specification-bf9781a3-0116`, `u-src-specification-bf9781a3-0117`, `u-src-specification-bf9781a3-0111`
 
-   *backed by* `asmt-0033`
-
-9. The classifier produces no truth judgment and no relationships between statements. Epistemic maturity is produced -- that is status -- but whether a statement is correct is not, and neither are edges between statements. Relations such as resolved_by and opposes are the natural next layer and are deliberately out of scope for v1.
-
-   *backed by* `asmt-0033`
-
-**Related topics** `form field`, `provenance`, `modality`, `flags`
-
-**Labels**
-
-- Modality, negative_result and caveat have no measured evidence. The entry marks them, but they sit beside form's alpha of 1.000 and read as part of the same evidenced set.
-- The negative_result argument is a mechanism argument -- null and positive statements are embedding near-neighbours -- and the source labels it as not a measurement.
-- The refusal to publish a confidence score is separately evidenced, and the structural substitute (tests_fired 0 or >= 2) depends on the mechanism entry to be interpretable.
-
-**Source units (9)** `u-src-specification-bf9781a3-0109`, `u-src-specification-bf9781a3-0110`, `u-src-specification-bf9781a3-0112`, `u-src-specification-bf9781a3-0113`, `u-src-specification-bf9781a3-0114`, `u-src-specification-bf9781a3-0115`, `u-src-specification-bf9781a3-0116`, `u-src-specification-bf9781a3-0117`, `u-src-specification-bf9781a3-0111`
-
-**Traceability** — idempotency key `fb144dc5eeef0334c9acc2750cd17c5e8059b311fd8e540f9895ccfddaea0a60` · queue event `q-fb144dc5eeef0334` · audits `audit-cand-030`
+**Traceability** — idempotency key `74ade3e3022a68781b24b86dbdcec653b16bd764eb9deac392e6e210884f038c` · queue event `q-74ade3e3022a6878` · audits `audit-cand-048`
 
 <details><summary>Provenance chain</summary>
 
@@ -1695,25 +2209,31 @@ Five fields with sharply different evidential standing, and what the classifier 
 
 ---
 
-### 31. Conversational statements classify materially worse
+### 49. Conversational statements classify materially worse
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-031-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-049-r1` v2
 
 **Slug** `conversational-statements-classify-materially-worse`
 
 The evidence that chat is harder, the exemplar finding that conflicts with a frozen prompt, and the three questions on which no evidence was found.
 
-**Assertions (1)**
+**Assertions (3)**
 
-1. The rollup question is open. The in-house collision test ran exactly the right experiment on this codebook -- same annotations, mapping fixed in advance, agreement measured at both tiers -- and coarse scored 0.866 against fine 0.778, which settles it for this taxonomy on that item set but not in general. It remains unestablished in the literature: the direct experiment does not exist in the reviewed work, and what exists is mixed -- one scheme's collapse from 15 labels to 2 moved kappa 0.65 to 0.65 for zero gain, another moved 0.71 to 0.78, and the canonical survey warns that post-hoc merging is not equivalent to designing the coarse scheme up front, since merges are typically chosen exactly where coders disagreed. Until the gold set is measured at both tiers, the two-tier design is a bet.
+1. Metrics required in evaluation: Krippendorff's alpha at the fine tier and the coarse tier reported separately, because raw percentage agreement is biased toward schemes with fewer categories so tiers cannot be compared without chance correction -- and chance-corrected measures are themselves distorted by skew, which a taxonomy with a residual bucket will certainly have. Also required: per-category agreement rather than just aggregate, since a twofold spread is predicted and an aggregate hides it; plus general's share, the multi_fire rate, and per-model divergence.
 
-   *backed by* `asmt-0015`
+   *backed by* `asmt-0116`
 
-**Related topics** `conversational text`, `few-shot exemplars`, `evidence gaps`
+2. The strongest direct evidence about typed information is negative and human. Two controlled experiments on a shipped information-typing scheme found no effect on task performance: n=65 process operators with effectiveness F(2,62)=1.16 p=.32 and efficiency F(2,62)=2.02 p=.14; and n=76 with no significant effects on accuracy, speed or evaluation scores at all. The only significant effect was subjective preference, and even that did not beat the incumbent text. Scope limit raised by all three verifiers: those studies were powered for large effects only and typing was bundled with six other principles, so this is absence of a large effect, not proof that typing is inert.
+
+   *backed by* `asmt-0117`
+
+3. No source in the reviewed evidence isolates type labels from anything else: every system claiming a typing benefit bundles it with linking, extraction, reranking or temporal invalidation, and the counterfactual -- same corpus, same retriever, labels stripped -- has never been run. The one payoff that replicates across three independent agent-memory systems is temporal validity, not typing.
+
+   *backed by* `asmt-0118`
 
 **Source units (3)** `u-src-specification-bf9781a3-0118`, `u-src-specification-bf9781a3-0120`, `u-src-specification-bf9781a3-0121`
 
-**Traceability** — idempotency key `9c38c443ec6346e6bb5f89536a2e726502f7294a8bda7b17aad34e8df511892c` · queue event `q-9c38c443ec6346e6` · audits `audit-cand-031`
+**Traceability** — idempotency key `db4aee3a7bc9041d121c25ce133662a170f53ddbba50d44408a0065a085f5f07` · queue event `q-db4aee3a7bc9041d` · audits `audit-cand-049`
 
 <details><summary>Provenance chain</summary>
 
@@ -1730,37 +2250,31 @@ The evidence that chat is harder, the exemplar finding that conflicts with a fro
 
 ---
 
-### 32. Evaluation, and the pre-registered condition for abandoning the classifier
+### 50. Evaluation, and the pre-registered condition for abandoning the classifier
 
-`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-032-r1` v2
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-050-r1` v2
 
 **Slug** `evaluation-and-the-pre-registered-condition-for-abandoning-the-classifier`
 
 Why the acceptance test must be human agreement, what must be measured, and the negative evidence that produced a kill criterion written before any results exist.
 
-**Assertions (4)**
+**Assertions (3)**
 
-1. The in-house measurement base: twenty-two runs, codebook verbatim, no answer key in existence at any point, roughly 10,000 assignments. The measurements that matter are the ones taken with eight raters, because a four-rater run cannot distinguish designs.
+1. A kill criterion is pre-registered. Before the classifier is treated as load-bearing: run the ablation -- same corpus, same retriever, same ranking, type labels present versus stripped -- pre-registering the query classes and the minimum effect size; user preference does not count as a gain, written here before results exist because the one scheme that shipped on preference failed on task; and if no query class improves, the classifier is decoration -- keep temporal validity, drop the rest.
 
-   *backed by* `asmt-0016`
+   *backed by* `asmt-0119`
 
-2. The definition pass is the single largest effect measured: with 8 raters on 160 statements from eight sources, the codebook before the definition pass scored fine alpha 0.844 with unanimity 0.72, and after it scored 0.934 with unanimity 0.86, 95 per cent CI [0.905, 0.956], winning in 100 per cent of 400 paired resamples. On a 40-statement subset the same codebook reaches 0.947 to 0.954.
+2. Batch size does not matter: the same 40 statements rated in batches of 5, 10 and 40 score 0.932, 0.947 and 0.949, so test figures should transfer to one-statement-at-a-time production.
 
-   *backed by* `asmt-0016`
+   *backed by* `asmt-0124`
 
-3. The definition-pass gain came from domain judgment, not from the measurements: sixteen structural designs moved plus or minus 0.05 or lost, while fourteen rewritten definitions moved +0.090. A second round of refinements landed in the noise -- nine further rulings took 0.954 to 0.947, beating the prior version in 36 per cent of resamples.
+3. Versioning: taxonomy_version changes when labels or their mappings change, prompt_version changes on any prompt edit, and classifier_model records what produced the record. All three are stamped on every record and consumers may filter on them. Changing the taxonomy does not invalidate stored statements, because classifications are appended and a statement may carry several from different versions.
 
-   *backed by* `asmt-0016`
-
-4. On real published documents -- 85 statements extracted from Sharpe's The Arithmetic of Active Management (1991), De Bondt and Thaler's Does the Stock Market Overreact? (1985), and a Goldman Sachs market note -- fine alpha is 0.894 with 95 per cent CI [0.840, 0.942]. Real prose costs roughly 0.05 against generated statements.
-
-   *backed by* `asmt-0017`
-
-**Related topics** `gold set`, `ablation`, `kill criterion`, `temporal validity`
+   *backed by* `asmt-0120`
 
 **Source units (3)** `u-src-specification-bf9781a3-0122`, `u-src-specification-bf9781a3-0128`, `u-src-specification-bf9781a3-0123`
 
-**Traceability** — idempotency key `4549149549abee56576fa206255eef084e754bb3c4b3ed890aac007e48b1d1a3` · queue event `q-4549149549abee56` · audits `audit-cand-032`
+**Traceability** — idempotency key `7de90d1c4afeb25cf44e0a8c90b66942dbca131a45613c7e977878abbfd4375d` · queue event `q-7de90d1c4afeb25c` · audits `audit-cand-050`
 
 <details><summary>Provenance chain</summary>
 
@@ -1777,41 +2291,27 @@ Why the acceptance test must be human agreement, what must be measured, and the 
 
 ---
 
-### 33. The evidence register: what is measured, what is design, what is contradicted
+### 51. The evidence register: what is measured, what is design, what is contradicted
 
-`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-033-r1` v2
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-051-r1` v2
 
 **Slug** `the-evidence-register-what-is-measured-what-is-design-what-is-contradicted`
 
 The specification's account of its own confidence, sorted by what backs each claim -- including the decisions with no measurement behind them and the claims the evidence contradicts.
 
-**Assertions (4)**
+**Assertions (2)**
 
-1. Further in-house findings: all fifteen labels were exercised for the first time, with event going from 2 to 45, background from 0 to 35 and distinction from 7 to 17. Research-results prose is the hardest source, at type alpha 0.642 against 0.899 for an RFC on a fourth independent corpus. And the definitions separate at all -- fine alpha went from 0.778 to 0.934 across twenty-two runs.
+1. The register records ten design decisions with no supporting measurement: the five coarse types and their names; the fifteen fine labels, their names and their coarse mappings; the strip test; the principle/recommendation and decision/procedure separations in §3.3; retaining event after three item sets failed to exercise it; the priority order used to resolve multiple firing tests; decomposing this label set into fifteen binary probes specifically; modality, negative_result and caveat; treating general as a code-assigned residual rather than a model-visible label, where the hazard is measured but the mitigation is not; and splitting multi-statement messages being out of scope.
 
-   *backed by* `asmt-0036`
+   *backed by* `asmt-0001`
 
-2. The register records ten design decisions with no supporting measurement: the five coarse types and their names; the fifteen fine labels, their names and their coarse mappings; the strip test; the principle/recommendation and decision/procedure separations in §3.3; retaining event after three item sets failed to exercise it; the priority order used to resolve multiple firing tests; decomposing this label set into fifteen binary probes specifically; modality, negative_result and caveat; treating general as a code-assigned residual rather than a model-visible label, where the hazard is measured but the mitigation is not; and splitting multi-statement messages being out of scope.
+2. Five weaknesses in the evidence itself are recorded: the annotation-reliability figures trace largely to one research lineage rather than to independent replication; all annotation evidence is humans labelling sentences inside full documents while this classifier types short statements shown without their document, and whether agreement transfers up or down is untested -- a claim pointing one way was refuted 0-3; the definitions use quantitative-finance and ML exemplars while every anchor category was measured on chemistry and computational-linguistics papers; the nineteen pairwise separations cover the pairs judged to collide and that judgment is unmeasured, against 75 rules in the scheme that reached kappa 0.71; and the §2.2 reliability numbers are one-vs-rest binary collapses, mechanically higher than the full multi-way agreement of the same scheme at 0.50 to 0.57, so they rank categories reliably but are not absolute targets.
 
-   *backed by* `asmt-0036`
+   *backed by* `asmt-0001`
 
-3. Four claims are recorded as contradicted or unsupported by the evidence: that typing improves retrieval -- no source isolates it, zero measured evidence; that fine-to-coarse rollup buys reliability -- the direct experiment does not exist and existing evidence is mixed and confounded; that type-matched pairing improves contradiction detection -- zero evidence in either direction; and structured-output reliability across model families -- zero confirmed claims despite being explicitly researched, which is called the largest open risk for a classifier that must return parseable output from several vendors.
+**Source units (2)** `u-src-specification-bf9781a3-0134`, `u-src-specification-bf9781a3-0136`
 
-   *backed by* `asmt-0036`
-
-4. Five weaknesses in the evidence itself are recorded: the annotation-reliability figures trace largely to one research lineage rather than to independent replication; all annotation evidence is humans labelling sentences inside full documents while this classifier types short statements shown without their document, and whether agreement transfers up or down is untested -- a claim pointing one way was refuted 0-3; the definitions use quantitative-finance and ML exemplars while every anchor category was measured on chemistry and computational-linguistics papers; the nineteen pairwise separations cover the pairs judged to collide and that judgment is unmeasured, against 75 rules in the scheme that reached kappa 0.71; and the §2.2 reliability numbers are one-vs-rest binary collapses, mechanically higher than the full multi-way agreement of the same scheme at 0.50 to 0.57, so they rank categories reliably but are not absolute targets.
-
-   *backed by* `asmt-0036`
-
-**Related topics** `evidence register`, `design decisions`, `noise floor`
-
-**Labels**
-
-- Split the ten unmeasured design decisions into separately retrievable assertions.
-
-**Source units (4)** `u-src-specification-bf9781a3-0133`, `u-src-specification-bf9781a3-0134`, `u-src-specification-bf9781a3-0135`, `u-src-specification-bf9781a3-0136`
-
-**Traceability** — idempotency key `48f8552e7c893d3752c61f1f11d6a0d57c32d1eb875f670534dc897866f724b8` · queue event `q-48f8552e7c893d37` · audits `audit-cand-033`
+**Traceability** — idempotency key `19984d5a62e23c44e342b23017356302c201adbdf27b05837f422e977df81b31` · queue event `q-19984d5a62e23c44` · audits `audit-cand-051`
 
 <details><summary>Provenance chain</summary>
 
@@ -1825,3 +2325,419 @@ The specification's account of its own confidence, sorted by what backs each cla
 - `units` → `02_units/units.jsonl`
 
 </details>
+
+---
+
+### 52. The codebook's measurements, carried from its tables
+
+`create_or_update` · knowledge state **internal-observation** · status `ready` · candidate `cand-052-r1` v2
+
+**Slug** `the-codebook-s-measurements-carried-from-its-tables`
+
+The label-to-coarse mapping, the per-label anchor kappas and the headline reliability, each cited to a CELL of the table it comes from rather than to a quoted row. The reliability figures are this codebook's own in-house measurement.
+
+**Assertions (1)**
+
+1. The definition pass raised fine-grained inter-rater alpha from 0.844 to 0.934 and unanimity from 0.72 to 0.86, measured with 8 raters on 160 statements drawn from eight sources.
+
+   *backed by* `asmt-0128`
+
+**Assets carried with this entry (2)** — 2 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0001</code> — table, exact, not cited</summary>
+
+| corpus | α |
+|---|---|
+| 160 statements from eight generated sources | **0.934** |
+| 85 statements from three published documents | **0.894** |
+| `form` field | **1.000** |
+| `status` field | 0.861–0.906 |
+| `scope` field | 0.799–0.940 |
+
+</details>
+
+<details><summary><code>tbl-src-specification-bf9781a3-0013</code> — table, exact</summary>
+
+**Headline, measured with 8 raters on 160 statements from eight sources:**
+
+|   | fine α | unanimity |
+|---|---|---|
+| codebook before the definition pass | 0.844 | 0.72 |
+| **codebook after the definition pass** | **0.934** | **0.86** |
+
+</details>
+
+**Source units (1)** `u-src-specification-bf9781a3-0140`
+
+**Traceability** — idempotency key `150bf98e850bccb28d2e947685b59c3e01e3da0504575bf615ad46582c05055e` · queue event `q-150bf98e850bccb2` · audits `audit-cand-052`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+### 53. Pairwise separations between colliding labels
+
+`create_or_update` · knowledge state **supported** · status `ready` · candidate `cand-053-r1` v2
+
+**Slug** `pairwise-separations-between-colliding-labels`
+
+The rules that bound each label against the ones it collides with, several carrying the measured collision count that prompted them, plus two any-label overrides.
+
+**Assertions (1)**
+
+1. RULE -- the reassurance marker: procedures and principles do not have feelings. Language that soothes, warns off, or manages the reader's reaction -- don't panic, no need to worry, don't stress, ignore me -- marks the sentence as advice from a person, not an operational instruction or a standing relation, and routes to recommendation. This is marked DESIGN.
+
+   *backed by* `asmt-0130`
+
+**Assets carried with this entry (1)** — 1 table. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>tbl-src-specification-bf9781a3-0010</code> — table, exact, not cited</summary>
+
+| Pair | The test that separates them |
+|---|---|
+| `observation` / `event` | Was anything measured? An observation records a quantity or behaviour; an event records that something occurred. |
+| `event` / `decision` | Was a choice made? An event happened to you; a decision was chosen and constrains later action. |
+| `decision` / `obligation` | Is there a modal? An obligation states a standing requirement in modal form; a decision states one was established. If both fit, the modal wins. |
+| `decision` / `recommendation` | Settled or proposed? A decision is closed; a recommendation is still advice. |
+| `obligation` / `prohibition` | **What to do** versus **what not to do.** Judge by the action demanded, not by grammatical polarity — a negatively-phrased requirement that demands an action is an `obligation`. `[MEASURED]` Both items in the 21-pair collision were compound, carrying a requirement and a forbidding in one sentence; under §2.4 both tests score above 90 and the statement resolves to `general` with `multi_fire`. |
+
+*(19 further rows in the stored grid.)*
+
+</details>
+
+**Source units (1)** `u-src-specification-bf9781a3-0090`
+
+**Traceability** — idempotency key `2ac4cf2265d291ff3c4e9d7d352e0191708367b99e8155103fcfa0de4c810999` · queue event `q-2ac4cf2265d291ff` · audits `audit-cand-053`
+
+<details><summary>Provenance chain</summary>
+
+- `approved_candidates` → `06_audit/candidates.approved.jsonl`
+- `assessments` → `04_assessments/claim_assessments.jsonl`
+- `audits` → `06_audit/audits.jsonl`
+- `clusters` → `03_clusters/clusters.jsonl`
+- `initial_candidates` → `05_candidates/candidates.initial.jsonl`
+- `omissions` → `02_units/omissions.jsonl`
+- `source_registry` → `01_normalized/source_registry.jsonl`
+- `units` → `02_units/units.jsonl`
+
+</details>
+
+---
+
+## Assets in full
+
+Every recovered object, shown as it is stored. Indexed at the top under [Assets](#assets); the ones an entry carries are also shown with that entry.
+
+**14 assets** — 14 table. 12 related to at least one unit, 2 related to none.
+
+An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+
+Fidelity is part of the record, because the kinds are not equally trustworthy:
+
+- **exact** (14) — structure recovered from markup the source itself carried — citable as a quote
+
+Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, or `{asset_id}` for a formula. A cell reference resolves to the value **and** the headers governing it, which is what makes a figure checkable rather than merely quoted.
+
+### `src-specification-bf9781a3`
+
+[`normalized.txt`](runs/spec/01_normalized/src-specification-bf9781a3/normalized.txt) · [`assets.jsonl`](runs/spec/01_normalized/src-specification-bf9781a3/assets.jsonl) · [`manifest.json`](runs/spec/01_normalized/src-specification-bf9781a3/manifest.json)
+
+#### `tbl-src-specification-bf9781a3-0001`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 2 units
+
+under *Statement Classifier — Specification v1.0*
+
+| corpus | α |
+|---|---|
+| 160 statements from eight generated sources | **0.934** |
+| 85 statements from three published documents | **0.894** |
+| `form` field | **1.000** |
+| `status` field | 0.861–0.906 |
+| `scope` field | 0.799–0.940 |
+
+Related units: `u-src-specification-bf9781a3-0002`, `u-src-specification-bf9781a3-0140`
+
+#### `tbl-src-specification-bf9781a3-0002`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 2 units
+
+under *2.1 Coarse types*
+
+| Coarse | The question it answers |
+|---|---|
+| `case` | What happened, on one occasion? |
+| `method` | What is done, required, forbidden, advised, or settled? |
+| `concept` | What does this term mean? |
+| `model` | Why does this hold, what does it rest on, and how is it computed? |
+| `system` | What is the thing built from, and what does it need to run? |
+| `general` | — assigned by code when no test fires |
+
+Related units: `u-src-specification-bf9781a3-0010`, `u-src-specification-bf9781a3-0137`
+
+#### `tbl-src-specification-bf9781a3-0003`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 5 units
+
+under *2.2 Fine labels, with measured reliability where it exists*
+
+| Fine label | Coarse | Anchor κ | Anchored on |
+|---|---|---|---|
+| `observation` | case | **0.79** | CoreSC `Observation` [VERIFIED] |
+| `event` | case | — | [DESIGN] — concrete by construction (actor + time) |
+| `obligation` | method | — | [DESIGN] — deontic modal is a surface cue |
+| `prohibition` | method | — | [DESIGN] — deontic modal is a surface cue |
+| `decision` | method | — | [DESIGN] — a settled choice governs what happens next; note it is the one `rule` label with NO deontic modal to key on (§3.3) |
+| `procedure` | method | **0.74** | CoreSC `Method` [VERIFIED] |
+| `recommendation` | method | — | [DESIGN] |
+| `definition` | concept | **0.81** | CoreSC `Object` [VERIFIED] |
+| `distinction` | concept | — | [DESIGN] |
+| `background` | concept | **0.87** | CoreSC `Background` [VERIFIED] |
+| `principle` | model | — | [DESIGN] — the causal idea the model runs on; carries `status` (§2.6) |
+
+*(4 further rows in the stored grid.)*
+
+Related units: `u-src-specification-bf9781a3-0011`, `u-src-specification-bf9781a3-0012`, `u-src-specification-bf9781a3-0137`, `u-src-specification-bf9781a3-0138`, `u-src-specification-bf9781a3-0139`
+
+#### `tbl-src-specification-bf9781a3-0004`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 1 unit
+
+under *2.4 `general`*
+
+| rule | α | share sent to `general` |
+|---|---|---|
+| pick one label directly | **0.934** | — |
+| score all fifteen, take the highest | 0.930 | 0% |
+| margin ≥ 5 between first and second | 0.893 | 4% |
+| margin ≥ 20 | 0.866 | 25% |
+| absolute threshold 75 | 0.892 | 42% |
+| **absolute threshold 90** | **0.605** | **86%** |
+| absolute threshold 95 | 0.140 | 99% |
+
+Related units: `u-src-specification-bf9781a3-0018`
+
+#### `tbl-src-specification-bf9781a3-0005`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 3 units
+
+under *2.6 `status`, and why `claim` no longer exists*
+
+| type | n | bits | reading |
+|---|---|---|---|
+| `dependency` | 7 | 1.84 | status carries almost everything |
+| `procedure` | 48 | 1.74 |   |
+| `recommendation` | 94 | 1.73 |   |
+| `principle` | 44 | 1.72 |   |
+| `architecture` | 18 | 1.53 |   |
+| `distinction` | 9 | 1.39 |   |
+| `decision` | 29 | 1.18 |   |
+| `event` | 43 | 0.82 |   |
+| `background` | 35 | 0.50 |   |
+| `observation` | 196 | 0.19 | 97% `evidenced` — near-redundant |
+| `definition` | 40 | **0.00** | 100% `settled` — carries nothing |
+
+Related units: `u-src-specification-bf9781a3-0011`, `u-src-specification-bf9781a3-0138`, `u-src-specification-bf9781a3-0139`
+
+#### `tbl-src-specification-bf9781a3-0006`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 1 unit
+
+under *2.7 What the second collision test changed*
+
+|   | fine α | coarse α |
+|---|---|---|
+| headline, v1 → v2 (taxonomy **and** items changed) | +0.080 | +0.061 |
+| **taxonomy alone** (v1 items, both codebooks) | **+0.009** | **−0.075** |
+| item set alone (v2 codebook, both item sets) | +0.071 | +0.136 |
+
+Related units: `u-src-specification-bf9781a3-0039`
+
+#### `tbl-src-specification-bf9781a3-0007`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 1 unit
+
+under *2.8 What the third collision test measured*
+
+|   | fine α | coarse α |
+|---|---|---|
+| 72 results-dense items, v2 codebook (the control) | 0.787 | 0.791 |
+| the same 72, v3 codebook | **0.883** | **0.874** |
+| 80 mixed items, v2 codebook | 0.858 | 0.927 |
+| the same 80, v3 codebook | **0.930** | 0.927 |
+
+Related units: `u-src-specification-bf9781a3-0044`
+
+#### `tbl-src-specification-bf9781a3-0008`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · **related to no unit**
+
+under *2.8 What the third collision test measured*
+
+| v2 | α | v3 | α |
+|---|---|---|---|
+| `driver` | 0.623 | `principle` | **0.910** |
+| `structure` | 0.727 | `architecture` | **0.851** |
+| `procedure` | 0.760 | `procedure`, absorbing `technique` | 0.834 |
+
+#### `tbl-src-specification-bf9781a3-0009`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 1 unit
+
+under *2.9 A change that was tested and rejected*
+
+|   | with strip test only | + generality test |
+|---|---|---|
+| `principle`/`observation` collisions | 17 | **19** |
+| fine α, all 152 | 0.904 | 0.901 |
+| fine α, results-dense subset | 0.871 | **0.848** |
+| fine α, mixed subset | 0.930 | 0.943 |
+| `principle` α | 0.861 | **0.797** |
+| `principle` assignments | 123 | **77** |
+
+Related units: `u-src-specification-bf9781a3-0050`
+
+#### `tbl-src-specification-bf9781a3-0010`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 13 units
+
+under *3.3 Pairwise separations*
+
+| Pair | The test that separates them |
+|---|---|
+| `observation` / `event` | Was anything measured? An observation records a quantity or behaviour; an event records that something occurred. |
+| `event` / `decision` | Was a choice made? An event happened to you; a decision was chosen and constrains later action. |
+| `decision` / `obligation` | Is there a modal? An obligation states a standing requirement in modal form; a decision states one was established. If both fit, the modal wins. |
+| `decision` / `recommendation` | Settled or proposed? A decision is closed; a recommendation is still advice. |
+| `obligation` / `prohibition` | **What to do** versus **what not to do.** Judge by the action demanded, not by grammatical polarity — a negatively-phrased requirement that demands an action is an `obligation`. `[MEASURED]` Both items in the 21-pair collision were compound, carrying a requirement and a forbidding in one sentence; under §2.4 both tests score above 90 and the statement resolves to `general` with `multi_fire`. |
+| `background` / `event` | `[MEASURED]` 13 rater-pairs. Both report what happened; the difference is what the sentence is *for*. An `event` records an occurrence in its own right; `background` uses occurrences to explain how things came to be, defines nothing, and is normally signalled or positioned as context. Decide from the surrounding context, not the sentence alone. |
+| `recommendation` / `obligation` | Is anyone accountable? Advice can be ignored without violation; an obligation cannot. |
+| `principle` / `architecture` | `[MEASURED]` The largest collision in the second test (17 disagreeing rater-pairs, when these were `driver`/`structure`). WHY it works versus HOW it is built. If deleting the sentence would leave you unable to explain the idea, it is a principle; if it would leave you unable to rebuild the thing, it is architecture. |
+| `principle` / `obligation` | Explanatory or normative? A principle says why something holds; an obligation says someone must do something. "Prefer small reversible steps" is normative — it is a `recommendation` or `obligation`, not a principle. |
+| `principle` / `recommendation` — the theoretical/practical test | `[MEASURED]` 18 rater-pairs. Is it **theoretical or hands-on**? A `principle` is a general, logical guide that would hold for anyone, stated at concept level. A `recommendation` is practical advice drawn from experience, bearing on a choice at hand **where more than one valid option exists**, and it usually sounds conversational. *"Counterpoint on freight — whatever we build there we're third in line behind people with faster feeds"* states a fact but its job is to stop an action, and it is experiential and conversational: `recommendation`. |
+| `decision` / `procedure` | `[MEASURED]` 7 disagreeing rater-pairs in the third test, across two coarse types. `[DESIGN]` **Does the sentence name what was chosen *instead of* something else?** Surface cues: *rather than*, *not X but Y*, *instead of*, *we standardised on*. Naming the rejected alternative makes it a `decision`; stating only how the thing is done makes it a `procedure`. "Models are versioned by artifact SHA-256, not by semantic version" names the alternative — `decision`. |
+
+*(13 further rows in the stored grid.)*
+
+Related units: `u-src-specification-bf9781a3-0078`, `u-src-specification-bf9781a3-0079`, `u-src-specification-bf9781a3-0080`, `u-src-specification-bf9781a3-0081`, `u-src-specification-bf9781a3-0082`, `u-src-specification-bf9781a3-0083`, `u-src-specification-bf9781a3-0084`, `u-src-specification-bf9781a3-0085` …
+
+#### `tbl-src-specification-bf9781a3-0011`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 2 units
+
+under *4.1 Independent boolean tests, resolved in code*
+
+|   | fine α | coarse α |
+|---|---|---|
+| single choice of fifteen | **0.877** | **0.896** |
+| this mechanism, resolved by the priority order below | 0.785 | 0.805 |
+
+Related units: `u-src-specification-bf9781a3-0094`, `u-src-specification-bf9781a3-0095`
+
+#### `tbl-src-specification-bf9781a3-0012`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · **related to no unit**
+
+under *Measured, verified, cited above*
+
+| Claim | Number |
+|---|---|
+| Definitions dominate label count | κ .15–.36 vs .07 |
+| Surface-observable beats interpretive | F1 >0.60 vs <0.30; r=0.61 to human difficulty |
+| Binary framing beats multiclass | OR 0.10 (CI 0.03–0.35) |
+| Prompt wording swings accuracy | 26–36 points |
+| Option-ID letters cause selection bias | SD 5.5 → 1.0 when removed |
+| Named escape hatch coincides with minority collapse | 96.1% agreement, κ −0.001, 75% missed |
+| Agreement ≠ correctness | two independent demonstrations |
+| Three-model vote helps, five does not | κ 0.62 vs 0.56–0.62 |
+| Per-category reliability varies twofold; abstract worst | 0.89 … 0.43 |
+| Conversational is harder | κ 0.38–0.58 vs human >0.90 |
+| Few-shot gain is model-dependent in sign | +19 points to negative |
+
+*(4 further rows in the stored grid.)*
+
+#### `tbl-src-specification-bf9781a3-0013`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 2 units
+
+**Headline, measured with 8 raters on 160 statements from eight sources:**  ·  under *Measured on this codebook, in-house*
+
+|   | fine α | unanimity |
+|---|---|---|
+| codebook before the definition pass | 0.844 | 0.72 |
+| **codebook after the definition pass** | **0.934** | **0.86** |
+
+Related units: `u-src-specification-bf9781a3-0125`, `u-src-specification-bf9781a3-0140`
+
+#### `tbl-src-specification-bf9781a3-0014`
+
+table · **exact** · extractor `markdown_tables_v1` · anchored by `own_text` · related to 5 units
+
+under *Measured on this codebook, in-house*
+
+| Claim | Number |
+|---|---|
+| **The definition pass is the single largest effect measured** | fine α 0.844 → **0.934**, 8 raters, 160 statements, 100% of paired resamples |
+| It came from domain judgment, not from the measurements | sixteen structural designs moved ±0.05 or lost; fourteen rewritten definitions moved +0.090 |
+| A second round of refinements landed in the noise | nine further rulings: 0.954 → 0.947, beating the prior version in 36% of resamples |
+| Real documents cost about 0.05 against generated statements | 0.894 on 85 statements from three published sources |
+| Two labels carry three-quarters of real financial writing | `observation` 44%, `principle` 32% |
+| `observation`/`principle` is irreducible, not ill-defined | 42% of all disagreement on real documents, after seven attempts to separate it |
+| `form` is the most reliable field in the system | α **1.000** on the synthetic corpus, 1.000 on real documents |
+| Questions were ~50 hidden splits before `form` existed | scattered across six different label pairs |
+| Batch size is irrelevant between 5 and 40 statements | 0.932 / 0.947 / 0.949 |
+| **Self-reported confidence cannot drive `general`** | 0.605 at threshold 90, with 86% of assignments falling through |
+| **Noise floor: one 4-rater run cannot distinguish designs** | the same design run twice scored 0.898 and 0.844 |
+
+*(32 further rows in the stored grid.)*
+
+Related units: `u-src-specification-bf9781a3-0126`, `u-src-specification-bf9781a3-0129`, `u-src-specification-bf9781a3-0130`, `u-src-specification-bf9781a3-0132`, `u-src-specification-bf9781a3-0133`
+
+## Assets in text nobody read
+
+2 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
+
+### `tbl-src-specification-bf9781a3-0008`
+
+table · **exact** · anchored by `own_text`
+
+under *2.8 What the third collision test measured*
+
+| v2 | α | v3 | α |
+|---|---|---|---|
+| `driver` | 0.623 | `principle` | **0.910** |
+| `structure` | 0.727 | `architecture` | **0.851** |
+| `procedure` | 0.760 | `procedure`, absorbing `technique` | 0.834 |
+
+### `tbl-src-specification-bf9781a3-0012`
+
+table · **exact** · anchored by `own_text`
+
+under *Measured, verified, cited above*
+
+| Claim | Number |
+|---|---|
+| Definitions dominate label count | κ .15–.36 vs .07 |
+| Surface-observable beats interpretive | F1 >0.60 vs <0.30; r=0.61 to human difficulty |
+| Binary framing beats multiclass | OR 0.10 (CI 0.03–0.35) |
+| Prompt wording swings accuracy | 26–36 points |
+| Option-ID letters cause selection bias | SD 5.5 → 1.0 when removed |
+| Named escape hatch coincides with minority collapse | 96.1% agreement, κ −0.001, 75% missed |
+| Agreement ≠ correctness | two independent demonstrations |
+| Three-model vote helps, five does not | κ 0.62 vs 0.56–0.62 |
+| Per-category reliability varies twofold; abstract worst | 0.89 … 0.43 |
+| Conversational is harder | κ 0.38–0.58 vs human >0.90 |
+| Few-shot gain is model-dependent in sign | +19 points to negative |
+
+*(4 further rows in the stored grid.)*

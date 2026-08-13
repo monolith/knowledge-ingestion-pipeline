@@ -1,32 +1,29 @@
 {
   "auditor_model": "claude-opus-5",
-  "created_at": "2026-08-12T20:31:10.554442+00:00",
+  "created_at": "2026-08-13T16:41:11.365206+00:00",
   "definitions_captured": true,
   "fairly_represented": true,
   "key_insights_captured": true,
   "mechanical": {
-    "assertions_out": 153,
-    "units_carried": 136,
-    "units_kept": 136,
+    "assertions_out": 120,
+    "units_carried": 140,
+    "units_kept": 140,
     "units_orphaned": 0,
     "units_orphaned_protected": 0
   },
   "missing": [],
   "model_role": "corpus-coverage-auditor",
   "notes": [
-    "All fifteen label definitions are carried with cue and exclusions, not described. A reader can classify a statement from the output alone, which is the test that matters for a codebook -- and it is the failure this pass exists to catch.",
-    "The per-label internal tests survive: the strip test, the breach test, the elevator test, the third-party test, the actual-not-proposed test. These are the operative content of the definitions they sit in and are the easiest thing to lose when a definition is summarized.",
-    "Negative and reversed results are given the same standing as positive ones: the confounded second collision test, the rejected generality test, the boolean mechanism measuring worse than single choice, and the finding that the priority order is worse than resolving alphabetically. A skewed output would have kept the design and dropped the refutations.",
-    "The specification's epistemic labelling survives into the output. Entries are marked authoritative where the source stipulates, internal-observation where the evidence is in-house, and contested where the corpus contains both sides -- and four entries were downgraded from established during audit because a single specification cannot corroborate the studies it cites.",
-    "One gap the audit already named rather than a loss: the thirty per-label exemplars required by §3.1 were never extracted, so the definitions entry carries two of the three required components. The corrected entry states this so a consumer knows to go to the source.",
-    "The output states throughout that this is one document and one independence group, and that the in-house figures measure reproducibility rather than correctness. For a specification whose own register says exactly that, the framing is faithful."
+    "The two unrelated tables are both from section 2.8, the third collision test. The section's finding IS carried as prose; what no unit points at is the two tables showing the per-pair numbers behind it. A consumer gets the conclusion and not the measurements it rests on, which is a thin gap rather than a hole -- the tables are in the record and the section's claim is stated.",
+    "This is the first pass over this document where its tables exist at all. They were Markdown pipe tables, which had no asset path until now, so the label mapping reached the corpus as flattened rows and the completeness check's own finding -- that a reader 'cannot determine from the output that `distinction` maps to `concept`' -- had no mechanism behind it to fix.",
+    "The reliability figures are this codebook's own in-house measurement: 8 raters, 160 statements, eight sources. The leaf carrying them is `internal-observation` rather than a stronger state, which is the honest label for a document measuring itself."
   ],
   "parent_artifacts": [
     "02_units/units.jsonl",
     "06_audit/candidates.approved.jsonl"
   ],
   "prompt_version": "pass-05b-corpus-coverage-v1.0",
-  "reasoning": "All 136 units reached an assertion, so nothing was lost and the question is whether the output is skewed. The place this corpus could most easily be misrepresented is the codebook itself, and it is not: all fifteen definitions arrive with their cues and their exclusions in a form a rater can check a sentence against, and the nineteen pairwise separations arrive as tests rather than as descriptions of distinctions. The second place is the specification's account of its own confidence, and that also survives -- the retracted collision-test headline sits beside the control that overturned it, the boolean mechanism sits beside the in-house measurement showing it is worse than the alternative it replaced, the rejected generality test is kept as a result, and the register's list of unmeasured design decisions and contradicted claims is carried. The proportions match the document: definitions and separations are the largest entries, which is where the specification spends its words and its argument.",
+  "reasoning": "All 140 units reach an assertion, and the four added this round are the ones the earlier pass over this document recorded as missing and never acted on: the fifteen-row label-to-coarse mapping, the per-label anchor kappas, the [VERIFIED] versus [DESIGN] provenance, and the headline reliability. Each cites a CELL, which matters more here than in most documents -- the fine-label table pairs a label with a kappa AND with whether that kappa was measured or reasoned, so a row quote would leave both associations unchecked. Twelve of the fourteen tables now relate to text, ten of them because they sit in a passage that was read rather than because anything quoted them.",
   "run_id": "spec",
   "schema_version": "3.1.0",
   "verdict": "represented"

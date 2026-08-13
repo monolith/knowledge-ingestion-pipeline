@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-12T20:09:23.727660+00:00",
+  "created_at": "2026-08-13T16:34:00.133052+00:00",
   "derived_from": [],
   "filename": "SPECIFICATION.md",
   "independence_group": "group-src-specification-bf9781a3",
@@ -13,7 +13,7 @@
   "normalized_sha256": "bf9781a3eab85f7868dcd20d504f10e9258b9e77babf288965187fec03216ec5",
   "normalizer": "text_v1",
   "normalizer_version": "1.0.0",
-  "original_path": "/tmp/claude-1000/-home-anatoly/a94b5233-fdb6-4044-b2ce-4a5aa2921690/scratchpad/scratch-spec/runs/spec/00_original_sources/SPECIFICATION.md",
+  "original_path": "/tmp/claude-1000/-home-anatoly/a94b5233-fdb6-4044-b2ce-4a5aa2921690/scratchpad/rr-spec/runs/spec/00_original_sources/SPECIFICATION.md",
   "original_sha256": "bf9781a3eab85f7868dcd20d504f10e9258b9e77babf288965187fec03216ec5",
   "quality_tier": "unspecified",
   "run_id": "spec",

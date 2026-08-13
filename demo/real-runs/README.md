@@ -6,11 +6,13 @@ operating the CLI, one call at a time, against the request the pipeline actually
 wrote — so these are model output on real sources, not fixtures.
 
 All six go through **all seven passes** and pass `kip validate` with **zero
-errors**. Four carry warnings, and the warnings are the point rather than an
-oversight: assets sitting in text nobody read (De Bondt 1, GE 1), and slugs
-claimed by more than one approved entry where a leaf spans two routing clusters
-(GE 11, the specification 14) — which the consumer merges, as the warning says.
-Black–Scholes predates asset anchoring and says so. Four are argument, evidence and reference; one is a
+errors**. Five carry warnings, and the warnings are the point rather than an
+oversight: assets sitting in text nobody read (De Bondt 1, GE 1, Black–Scholes
+71, the specification 1), and slugs claimed by more than one approved entry
+where a leaf spans two routing clusters (GE 11, Black–Scholes 7, the
+specification 18) — which the consumer merges, as the warning itself says. That
+last count rose when leaves began to be planned per cluster; it is a property of
+splitting one leaf across two planning calls, not of the content. Four are argument, evidence and reference; one is a
 narrative, included because it is the shape the others are not; and one is
 almost entirely mathematics, included because that is the shape a text pipeline
 handles worst.
@@ -30,7 +32,7 @@ own artifacts and nothing else.
 | [`sharpe-arithmetic-of-active-management`](sharpe-arithmetic-of-active-management/README.md) | Sharpe, *The Arithmetic of Active Management* (1991) | 1,650 | 38 | 1 per 43 words | 7 |
 | [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/README.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 68 | 1 per 92 words | 23 |
 | [`andersen-the-little-mermaid`](andersen-the-little-mermaid/README.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
-| [`statement-classifier-specification`](statement-classifier-specification/README.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
+| [`statement-classifier-specification`](statement-classifier-specification/README.md) | the statement-classifier taxonomy specification | 12,311 | 140 | 1 per 88 words | 53 |
 | [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/README.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 116 | 1 per 490 words | 31 |
 | [`wikipedia-black-scholes-model`](wikipedia-black-scholes-model/README.md) | Wikipedia, *Black–Scholes model* (CC BY-SA) | 10,507 | 91 | 1 per 115 words | 28 |
 
@@ -371,6 +373,7 @@ on it relates), or `none`.
 | run | assets | anchored | related to text | of those, cited | travelling on text alone |
 |---|---|---|---|---|---|
 | De Bondt & Thaler | 21 | 20 | 20 | 13 | **7** |
+| Statement-classifier spec | 14 | 14 | 12 | 2 | **10** |
 | Wikipedia Black–Scholes | 122 | 122 | 51 | 33 | **18** |
 | GE Aerospace 10-K | 100 | 99 | 39 | 11 | **28** |
 
