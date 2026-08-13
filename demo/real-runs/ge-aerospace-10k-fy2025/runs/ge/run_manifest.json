@@ -1,0 +1,64 @@
+{
+  "config": {
+    "audit": {
+      "deterministic_citation_check": true,
+      "nli_checker_model": null,
+      "order_swap": true,
+      "require_distinct_auditor": true
+    },
+    "batch": {
+      "context_cap": 0.8,
+      "default_context_window": 1000000,
+      "hard_split_above": 75,
+      "rotate_ordering": true,
+      "target_size": 35
+    },
+    "datamark": true,
+    "granularity": {
+      "max_evidence_words": 200,
+      "name": "molecular-v1",
+      "soft_target_words": [
+        20,
+        80
+      ],
+      "warn_words": 160
+    },
+    "models": {
+      "auditor": "claude-opus-5",
+      "enricher": "claude-haiku-4-5",
+      "extractor": "claude-sonnet-5",
+      "judge": "claude-sonnet-5",
+      "omission": "claude-sonnet-5",
+      "planner": "claude-sonnet-5"
+    },
+    "schema_version": "3.1.0",
+    "taxonomy_path": null,
+    "use_batch_api": false
+  },
+  "run_id": "ge",
+  "spec_version": "3.1.0",
+  "summary": {
+    "approved": 24,
+    "assessments": 27,
+    "audits": 24,
+    "candidates": 24,
+    "clusters": 2,
+    "finished_at": "2026-08-13T02:08:25.922374+00:00",
+    "quarantined": 0,
+    "queue_events": 24,
+    "run_id": "ge",
+    "sources": 1,
+    "started_at": "2026-08-13T02:08:25.801098+00:00",
+    "units": 112,
+    "usage": {
+      "cache_read_tokens": 0,
+      "calls": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "verdicts": {
+      "fix": 4,
+      "pass_with_label": 20
+    }
+  }
+}

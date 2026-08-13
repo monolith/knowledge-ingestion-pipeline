@@ -1,11 +1,11 @@
 # Real runs
 
-Four complete runs on real documents, all produced through the CLI in
+Five complete runs on real documents, all produced through the CLI in
 `--mode handoff` with **no API key**. Every model call was answered by the agent
 operating the CLI, one call at a time, against the request the pipeline actually
 wrote — so these are model output on real sources, not fixtures.
 
-All four go through **all seven passes** and pass `kip validate` with zero
+All five go through **all seven passes** and pass `kip validate` with zero
 errors and zero warnings. Three are argument, evidence and reference; the fourth
 is a narrative, included because it is the shape the others are not.
 
@@ -21,6 +21,7 @@ Everything else is the machine-readable material behind it.
 | [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/enqueue.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 53 | 1 per 119 words | 11 |
 | [`andersen-the-little-mermaid`](andersen-the-little-mermaid/enqueue.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
 | [`statement-classifier-specification`](statement-classifier-specification/enqueue.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
+| [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/enqueue.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 112 | 1 per 507 words | 24 |
 
 Density is not a function of length. Across a 7× range the three non-fiction
 documents sit between one unit per 72 and one per 119 words, and the longest of
@@ -34,8 +35,24 @@ lifespan, the conditions on obtaining a soul, the terms of a bargain — and tho
 are what the extraction keeps. Events appear only where a rule or a consequence
 hangs on them, so the output is not a retelling.
 
-Every excerpt in all four runs verifies verbatim against `normalized.txt`:
-57, 137, 91 and 488 quotes respectively, none corrected, none unverified.
+Every excerpt in all five runs verifies verbatim against `normalized.txt`:
+57, 137, 91, 488 and 230 quotes respectively, none corrected, none unverified.
+
+**The 10-K is where density breaks.** At 56,836 words it is 4.6x the next largest
+document and the only one where a single extraction call does not reach the end:
+96 units came out of the first pass, almost all from the front half of the
+filing, and everything from Note 3 onward was nearly unrepresented. This is the
+failure the windowing section below describes, caught in the wild.
+
+What recovered it was the omission check plus the repair round. The check named
+ten specific missing sections -- the pension note, legal and environmental
+matters, commitments, the geographic split, the free-cash-flow reconciliation --
+and the repair round extracted 16 more units covering all ten, including the
+$5.4bn pension deficit, shareholder litigation running since 2018, and the fact
+that non-US revenue ($27.7bn) exceeds US revenue ($18.2bn). None of that was in
+the first pass. Corpus coverage still returns `gaps` rather than `represented`,
+because the consolidated statements and most note schedules remain unextracted --
+and it says so rather than claiming otherwise.
 
 The specification source is the taxonomy spec from the sibling
 `statement-classifier` repo, copied in as
