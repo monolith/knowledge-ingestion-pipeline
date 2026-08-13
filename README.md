@@ -247,7 +247,7 @@ first was a prompt that let the extractor summarize; the second was a planning
 step that saw only unit IDs and a candidate shape — title, summary, assertions —
 that has no room for a definition. Both are fixed, and the fix is visible in the
 output: all fifteen definitions reach
-[the queue handoff](demo/real-runs/statement-classifier-specification/enqueue.md)
+[the queue handoff](demo/real-runs/statement-classifier-specification/README.md)
 with their cues and exclusions intact, and all three runs report zero orphaned
 units.
 
