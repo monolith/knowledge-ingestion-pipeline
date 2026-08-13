@@ -310,6 +310,33 @@ string comparison is the wrong check. UniMERNet scores 0.48 exact-match against
 textually from the reference. The crop is what makes the claim checkable. See
 [`research/2026-08-13-non-textual-content-research.md`](../../research/2026-08-13-non-textual-content-research.md).
 
+## What verbatim citation does and does not guarantee
+
+A citation is checked byte for byte against `normalized.txt`. That guarantees
+fidelity to **the source as ingested** — it says nothing about whether the
+source is faithful to what was published, and the Sharpe run is a good example
+of the difference.
+
+Its source is the author-hosted HTML reprint, which is a lossy transcription of
+the Financial Analysts Journal original. Comparing the two: the print footnote 4
+reads "they may have to trade with active managers; **at such times, the active
+managers may gain from the passive managers,** because of the active managers'
+willingness to provide desired liquidity (at a price)", and the HTML silently
+deletes the twelve-word clause and splices the sentence back together. Print
+"Security analysts … must eat" became "Security analysis"; "such perceptions"
+became "such misperceptions"; "a fortiori" was mangled into "a fortior" plus a
+stray italic "i".
+
+Two units quote affected passages, and both citations verify — correctly, since
+they reproduce the ingested source exactly. The pipeline is doing its job. The
+limit is that its job stops at the source boundary, and no amount of internal
+checking crosses it.
+
+The practical consequence is that provenance quality is an input decision, not
+something the pipeline can repair. Where the original is paywalled and the
+available copy is a transcription, that fact belongs in the record rather than
+in a footnote to it.
+
 ## The retention guard
 
 Units whose statements match a configured taxonomy's surface cues are stamped
