@@ -18,11 +18,28 @@ from .artifacts import (
     stable_hash,
     text_hash,
 )
+from .extract import _matches_asset
 
 # Above 40% of retained claims carrying no flag, `claim` has stopped being a
 # type and started being a bucket. Claim is the residual gate by design, so this
 # alarm is the only thing standing between "residual" and "everything".
 UNFLAGGED_CLAIM_ALARM = 0.40
+
+
+def _asset_for(ctx, normalized_rel: str, asset_id: str,
+               cache: dict[str, dict[str, dict]]) -> dict[str, Any] | None:
+    """The named asset from the same source's bundle, or None.
+
+    Assets sit beside `normalized.txt` rather than in a central file, so a
+    citation is resolved within its own source and an id cannot accidentally
+    match one belonging to a different document.
+    """
+    if normalized_rel not in cache:
+        path = ctx.run_dir / normalized_rel
+        assets_path = path.parent / "assets.jsonl"
+        rows = read_jsonl(assets_path) if assets_path.exists() else []
+        cache[normalized_rel] = {a["asset_id"]: a for a in rows if a.get("asset_id")}
+    return cache[normalized_rel].get(asset_id)
 
 
 def _reseal(record: dict[str, Any]) -> str:
@@ -309,6 +326,7 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
 
     # --- Evidence resolves to real source text --------------------------------
     source_cache: dict[str, str] = {}
+    asset_cache: dict[str, dict[str, dict]] = {}
     unverified = 0
     for unit in units:
         unit_id = unit.get("unit_id", "<no id>")
@@ -326,6 +344,21 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
             if not text:
                 errors.append(f"{unit_id}: normalized source missing ({rel})")
                 continue
+            # An asset-backed excerpt is checked against the asset, because it
+            # cannot be in the flat text: normalization is what destroyed the
+            # equation it quotes. Re-checked here rather than trusted, so the
+            # validator still independently confirms every citation -- it just
+            # has to open the right half of the source bundle to do it.
+            if evidence.get("excerpt_source") == "asset":
+                asset_id = (evidence.get("asset_ref") or {}).get("asset_id", "")
+                asset = _asset_for(ctx, rel, asset_id, asset_cache)
+                if asset is None:
+                    errors.append(f"{unit_id}: cites asset {asset_id or '<none>'}, which is "
+                                  "not in this source's assets")
+                elif not _matches_asset(excerpt, asset):
+                    errors.append(f"{unit_id}: excerpt does not match asset {asset_id}")
+                continue
+
             start = evidence.get("normalized_char_start", -1)
             end = evidence.get("normalized_char_end", -1)
             if excerpt and not (0 <= start < end <= len(text) and text[start:end] == excerpt):

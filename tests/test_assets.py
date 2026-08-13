@@ -275,3 +275,168 @@ def test_the_extractor_is_shown_the_grid_and_told_to_cite_cells():
     assert "SEGMENT REVENUE AND PROFIT | 2025 | 2024" in rendered
     assert "asset_ref" in rendered
     assert _render_assets([]) == "", "no tables, no section"
+
+
+# --- Formulas from markup: exact, not transcribed -------------------------------
+
+
+MATHML = """
+<p>The equation is
+<math display="block" alttext="{\\displaystyle E = mc^{2}}">
+ <semantics><mrow><mi>E</mi></mrow>
+ <annotation encoding="application/x-tex">{\\displaystyle E = mc^{2}}</annotation>
+ </semantics></math>
+which follows.</p>
+"""
+
+
+def test_a_formula_carried_by_markup_is_exact_not_transcribed():
+    """The opposite treatment from the PDF path, and deliberately so.
+
+    A PDF stores an equation as glyphs, so it must be rendered and read. HTML
+    with MathML usually carries the author's own TeX in the markup, and reading
+    a picture of it instead would be a transcription where an exact copy was
+    available -- discarding the distinction the fidelity field exists to record.
+    """
+    from kip.assets import FIDELITY_EXACT
+    from kip.html_formulas import formula_assets
+
+    assets = formula_assets(MATHML, "s")
+    assert len(assets) == 1
+    assert assets[0]["fidelity"] == FIDELITY_EXACT
+    assert assets[0]["payload"]["latex"] == "E = mc^{2}"
+    assert assets[0]["payload"]["display"] == "block"
+
+
+def test_the_displaystyle_wrapper_is_presentation_and_is_stripped():
+    """Two spellings of one formula must compare equal."""
+    from kip.html_formulas import extract_formulas
+
+    a = extract_formulas('<math alttext="{\\displaystyle x^{2}}"></math>')
+    b = extract_formulas('<math alttext="x^{2}"></math>')
+    assert a[0]["latex"] == b[0]["latex"] == "x^{2}"
+
+
+def test_mathml_without_any_tex_is_recorded_rather_than_dropped():
+    """'A formula is here and could not be read' is information."""
+    from kip.assets import FIDELITY_TRANSCRIBED
+    from kip.html_formulas import formula_assets
+
+    assets = formula_assets("<math><mrow><mi>x</mi><mo>+</mo><mi>y</mi></mrow></math>", "s")
+    assert len(assets) == 1
+    assert assets[0]["fidelity"] == FIDELITY_TRANSCRIBED
+    assert assets[0]["payload"]["latex"] == ""
+    assert assets[0]["payload"]["mathml"], "the presentation markup is kept to read later"
+
+
+def test_a_lone_symbol_is_not_a_formula():
+    from kip.html_formulas import extract_formulas
+
+    assert extract_formulas('<math alttext="x"></math>') == []
+
+
+def test_the_mediawiki_image_fallback_still_yields_its_tex():
+    """Older output renders the equation as a PNG and puts the TeX in alt."""
+    from kip.html_formulas import extract_formulas
+
+    found = extract_formulas(
+        '<img class="mwe-math-fallback-image-inline" alt="a^{2}+b^{2}=c^{2}" src="x.png">')
+    assert found[0]["latex"] == "a^{2}+b^{2}=c^{2}"
+
+
+def test_an_image_source_is_normalized_to_a_placeholder_and_an_asset(tmp_path):
+    """An image is a page that arrived on its own: no text layer, all content
+    in the picture, recovered by the same visual read the PDF path uses."""
+    from kip.normalize import _handler_for
+
+    handler, normalizer = _handler_for(tmp_path / "scan.png")
+    assert normalizer == "image_v1"
+    text, markers = handler(tmp_path / "scan.png")
+    assert "[[IMAGE scan.png]]" in text
+    assert "assets.jsonl" in text
+
+
+# --- Citing a formula ----------------------------------------------------------
+
+
+FORMULA_ASSET = {
+    "asset_id": "fml-s-0001", "source_id": "s", "kind": "formula", "fidelity": "exact",
+    "text": "E=mc^{2}",
+    "payload": {"latex": "E=mc^{2}", "display": "block", "mathml": ""},
+}
+
+
+def test_a_formula_quoted_as_latex_counts_as_a_citation():
+    """It cannot be in the flat text -- normalization is what destroyed it."""
+    from kip.extract import _resolve_evidence
+
+    got = _resolve_evidence(
+        {"source_id": "s", "normalized_path": "n.txt"},
+        {"excerpt": "E = mc^{2}", "line_start": 3, "line_end": 3,
+         "asset_ref": {"asset_id": "fml-s-0001"}},
+        "the mass-energy equivalence\nE\n=\nm\nc\n2\n", ["a", "b", "c"], [FORMULA_ASSET])
+    assert got["excerpt_verified"] is True
+    assert got["excerpt_source"] == "asset", "and the record says where it was checked"
+    assert got["asset_value"] == "E=mc^{2}"
+    assert got["asset_fidelity"] == "exact", "so a reader can tell copied from read"
+
+
+def test_a_different_equation_is_not_the_cited_one():
+    """The loosening is about spelling, not about what the formula says."""
+    from kip.extract import _resolve_evidence
+
+    got = _resolve_evidence(
+        {"source_id": "s", "normalized_path": "n.txt"},
+        {"excerpt": "E = mc^{3}", "line_start": 1, "line_end": 1,
+         "asset_ref": {"asset_id": "fml-s-0001"}},
+        "text", ["text"], [FORMULA_ASSET])
+    assert got["excerpt_verified"] is False
+
+
+def test_citing_an_asset_that_does_not_exist_fails():
+    from kip.extract import _resolve_evidence
+
+    got = _resolve_evidence(
+        {"source_id": "s", "normalized_path": "n.txt"},
+        {"excerpt": "E=mc^{2}", "line_start": 1, "line_end": 1,
+         "asset_ref": {"asset_id": "fml-s-9999"}},
+        "text", ["text"], [FORMULA_ASSET])
+    assert got["excerpt_verified"] is False
+    assert got["asset_verified"] is False
+
+
+def test_spacing_and_sizing_directives_do_not_break_a_match():
+    """Two authors write one equation with different amounts of this."""
+    from kip.extract import _matches_asset
+
+    asset = {"kind": "formula", "payload": {"latex": r"\left(\frac{a}{b}\right)\,=\,c"}}
+    assert _matches_asset(r"\left( \frac {a}{b} \right) = c", asset)
+
+
+def test_the_loosening_stops_at_spelling():
+    """Brackets are not noise: they say what the operation applies to."""
+    from kip.extract import _matches_asset
+
+    asset = {"kind": "formula", "payload": {"latex": r"\ln(S/K)+r\tau"}}
+    assert not _matches_asset(r"\ln(S/K+r\tau)", asset)
+
+
+def test_only_a_formula_the_document_carries_can_be_cited():
+    """An excerpt matching nothing in the bundle is not evidence."""
+    from kip.extract import _matches_asset
+
+    assert not _matches_asset("x=1", {"kind": "formula", "payload": {"latex": ""}})
+
+
+def test_the_extractor_is_shown_statements_not_symbol_names():
+    """112 formulas of which 100 are `\\tau` buries the dozen that assert something."""
+    from kip.extract import _significant_formulas
+
+    assets = [
+        {"kind": "formula", "payload": {"latex": r"\tau", "display": "inline"}},
+        {"kind": "formula", "payload": {"latex": "C(S,t)", "display": "inline"}},
+        {"kind": "formula", "payload": {"latex": "N(d_{+})=e^{x}", "display": "inline"}},
+        {"kind": "formula", "payload": {"latex": "rV", "display": "block"}},
+    ]
+    shown = _significant_formulas(assets)
+    assert [a["payload"]["latex"] for a in shown] == ["N(d_{+})=e^{x}", "rV"]

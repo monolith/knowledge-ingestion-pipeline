@@ -6,6 +6,7 @@ Spec §9. The central v3 change lives here: units are *molecular*
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any
 
@@ -591,6 +592,13 @@ def extract_units(
                 system=REPAIR_SYSTEM.format(boundary=boundary),
                 user=(
                     f"{wrap_untrusted(_numbered(text), cfg)}\n\n"
+                    # The repair round needs the assets for the same reason the
+                    # first round did, and more urgently: a table or an equation
+                    # is exactly the kind of content a text-shaped pass skips, so
+                    # it is over-represented among the findings. Without the
+                    # grids and the LaTeX here, the round cannot fix the class of
+                    # omission it is most often handed.
+                    f"{_render_assets(assets)}"
                     "Units already extracted:\n"
                     + "\n".join(f"- {u['canonical_statement']}" for u in units)
                     + "\n\nFindings from the completeness check:\n"
@@ -790,25 +798,72 @@ def _render_assets(assets: list[dict[str, Any]], *, limit: int = 60) -> str:
     grid removes the guess, and giving each table an id lets a unit cite the
     cell rather than the row.
     """
+    lines: list[str] = []
     tables = [a for a in assets if a.get("kind") == "table"]
-    if not tables:
-        return ""
-    lines = [
-        "TABLES IN THIS DOCUMENT, recovered as grids from the source markup.",
-        "Cite a figure taken from one with asset_ref {asset_id, row, col} rather "
-        "than by quoting the flattened row -- a quote proves the digits were "
-        "copied, not that they were read from the right column. Row and column "
-        "are 0-based, as printed below.",
-        "",
-    ]
-    for asset in tables[:limit]:
-        lines.append(f"[{asset['asset_id']}]")
-        lines.append(asset.get("text", ""))
+    if tables:
+        lines += [
+            "TABLES IN THIS DOCUMENT, recovered as grids from the source markup.",
+            "Cite a figure taken from one with asset_ref {asset_id, row, col} rather "
+            "than by quoting the flattened row -- a quote proves the digits were "
+            "copied, not that they were read from the right column. Row and column "
+            "are 0-based, as printed below.",
+            "",
+        ]
+        for asset in tables[:limit]:
+            lines.append(f"[{asset['asset_id']}]")
+            lines.append(asset.get("text", ""))
+            lines.append("")
+        if len(tables) > limit:
+            lines.append(f"({len(tables) - limit} further tables not shown.)")
+            lines.append("")
+
+    formulas = _significant_formulas(assets)
+    if formulas:
+        lines += [
+            "FORMULAS IN THIS DOCUMENT, recovered as LaTeX.",
+            "The flat text above is not a usable record of these: a normalizer "
+            "strips an equation to loose symbols on separate lines, so quoting it "
+            "from there yields rubble. Cite a formula with asset_ref {asset_id} "
+            "and put the LaTeX in the excerpt -- it is checked against the asset.",
+            "",
+        ]
+        for asset in formulas[:limit]:
+            payload = asset.get("payload", {})
+            context = payload.get("surrounding_text", "")
+            lines.append(f"[{asset['asset_id']}] {payload.get('latex', '')}")
+            if context:
+                lines.append(f"    in context: {context}")
+        if len(formulas) > limit:
+            lines.append(f"({len(formulas) - limit} further formulas not shown.)")
         lines.append("")
-    if len(tables) > limit:
-        lines.append(f"({len(tables) - limit} further tables not shown.)")
-        lines.append("")
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines) + "\n" if lines else ""
+
+
+#: A relation is what makes a fragment of mathematics a statement rather than a
+#: name for a quantity. Equality, order, and the arrows and equivalences that
+#: stand in for them.
+_RELATION = re.compile(r"=|\\leq|\\geq|\\neq|\\approx|\\sim|\\to|\\rightarrow|\\equiv|<|>")
+
+
+def _significant_formulas(assets: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """The formulas worth putting in front of the extractor.
+
+    Every formula stays in `assets.jsonl` -- capture is lossless, and an inline
+    `C(S,t)` is worth recording precisely because the flat text mangles it. But
+    most of what MathML marks up is a symbol being named mid-sentence, not a
+    claim, and a prompt listing 112 of those buries the dozen that state
+    something. A displayed equation is set apart because the author meant it to
+    stand alone; an inline one earns its place by asserting a relation.
+    """
+    out = []
+    for asset in assets:
+        if asset.get("kind") != "formula":
+            continue
+        payload = asset.get("payload", {})
+        latex = payload.get("latex", "")
+        if payload.get("display") == "block" or _RELATION.search(latex):
+            out.append(asset)
+    return out
 
 
 def _materialize_units(
@@ -947,6 +1002,46 @@ def _locate_reflowed(excerpt: str, text: str) -> tuple[int, int] | None:
     return offsets[at], offsets[at + len(needle) - 1] + 1
 
 
+#: LaTeX spelling that carries no mathematical content: spacing directives, the
+#: `\left`/`\right` sizing pair, and the braces around a single token. Two
+#: authors write the same equation with different amounts of this.
+_LATEX_NOISE = re.compile(r"\\(?:left|right|quad|qquad|displaystyle|textstyle)\b|\\[,;:!]|\s+")
+
+
+def _latex_key(text: str) -> str:
+    """A form in which two spellings of one equation compare equal."""
+    return _LATEX_NOISE.sub("", text).replace("{", "").replace("}", "")
+
+
+def _matches_asset(excerpt: str, asset: dict[str, Any]) -> bool:
+    """Is this excerpt the content of the cited asset?
+
+    For a formula: the same equation up to spelling. Rendering-equivalence is
+    the honest test -- the field's own numbers say so, UniMERNet scoring 0.48 on
+    exact string match against 0.81 when the two are rendered and compared as
+    images -- and a pipeline that cannot render still should not pretend that
+    byte equality is the question. Normalizing away spacing and redundant braces
+    recovers most of that gap at no cost.
+
+    For a table: the excerpt must be found in the grid's own rendering. A model
+    quoting a row it read off the grid is quoting the source; the value of the
+    asset is that the grid says which column each figure came from, and that is
+    checked separately by resolving the cell.
+    """
+    kind = asset.get("kind")
+    if kind == "formula":
+        latex = asset.get("payload", {}).get("latex", "") or asset.get("text", "")
+        if not latex:
+            return False
+        key = _latex_key(excerpt)
+        return bool(key) and (key == _latex_key(latex) or key in _latex_key(latex))
+    if kind == "table":
+        grid = asset.get("text", "")
+        squeeze = lambda s: re.sub(r"\s+", " ", s.replace("|", " ")).strip()  # noqa: E731
+        return bool(excerpt.strip()) and squeeze(excerpt) in squeeze(grid)
+    return False
+
+
 def _verify_asset_ref(ref: dict[str, Any] | None,
                       assets: list[dict[str, Any]]) -> dict[str, Any]:
     """Resolve a cited table cell, and record what it actually holds.
@@ -971,6 +1066,22 @@ def _verify_asset_ref(ref: dict[str, Any] | None,
     if asset is None:
         return {"asset_ref": ref, "asset_verified": False,
                 "asset_note": f"no asset {ref['asset_id']} in this source"}
+
+    # A formula has no cells; its whole content is the citable thing. Resolving
+    # it means recording WHAT was cited -- the LaTeX and how it was obtained --
+    # so a reader can tell an equation copied out of the markup from one a model
+    # read off a rendered page. Returning a bare "verified" without the content
+    # would make the two indistinguishable, which is the distinction the
+    # fidelity field exists to preserve.
+    if asset.get("kind") == "formula":
+        return {
+            "asset_ref": {"asset_id": ref["asset_id"]},
+            "asset_verified": True,
+            "asset_value": asset.get("payload", {}).get("latex", "") or asset.get("text", ""),
+            "asset_kind": "formula",
+            "asset_fidelity": asset.get("fidelity", ""),
+        }
+
     row, col = ref.get("row"), ref.get("col")
     if row is None or col is None:
         return {"asset_ref": ref, "asset_verified": True,
@@ -1022,7 +1133,28 @@ def _resolve_evidence(
             verified = True
             corrected = True
 
-    if verified:
+    # The excerpt is not in the flat text. Before calling it unverified, check
+    # the other half of the source: an asset. A source is a bundle -- text plus
+    # the typed objects the text could not hold -- and an equation quoted as
+    # LaTeX is quoting the document, not inventing it. It cannot be in
+    # `normalized.txt` because normalization is what destroyed it: the
+    # Black-Scholes PDE reaches the flat text as `V`, `(`, `S`, `,`, `t`, `)` on
+    # six separate lines.
+    #
+    # This is looser than the verbatim rule and deliberately so, but it is not
+    # weaker: the asset is content-hashed in `assets.jsonl` and the check is
+    # still a comparison against stored source, not a model's assurance. What it
+    # gives up is byte equality, because `\frac{a}{b}` and `\frac {a}{b}` are the
+    # same equation and rejecting one would be scoring mathematics as a string.
+    asset_backed = False
+    if not verified and excerpt and assets:
+        cited = next((a for a in assets
+                      if a.get("asset_id") == (raw.get("asset_ref") or {}).get("asset_id")), None)
+        if cited is not None and _matches_asset(excerpt, cited):
+            verified = True
+            asset_backed = True
+
+    if verified and not asset_backed:
         char_end = char_start + len(excerpt)
         line_start = text.count("\n", 0, char_start) + 1
         line_end = text.count("\n", 0, char_end) + 1
@@ -1046,6 +1178,10 @@ def _resolve_evidence(
         "excerpt": excerpt,
         "excerpt_sha256": text_hash(excerpt),
         "excerpt_verified": verified,
+        # Which half of the source bundle the quote was checked against. Absent
+        # means the flat text, the ordinary case; "asset" means the grid or the
+        # LaTeX, and the downstream check has to look there instead.
+        **({"excerpt_source": "asset"} if asset_backed else {}),
         **_verify_asset_ref(raw.get("asset_ref"), assets or []),
         # True when the quote was located by reflowing rather than matched
         # byte-for-byte. The excerpt stored is still the source's own text; this

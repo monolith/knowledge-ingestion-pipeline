@@ -1,0 +1,35 @@
+{
+  "auditor_model": "claude-opus-5",
+  "created_at": "2026-08-13T11:21:13.931939+00:00",
+  "definitions_captured": false,
+  "fairly_represented": true,
+  "key_insights_captured": true,
+  "mechanical": {
+    "assertions_out": 73,
+    "units_carried": 73,
+    "units_kept": 73,
+    "units_orphaned": 0,
+    "units_orphaned_protected": 0
+  },
+  "missing": [
+    {
+      "consequence": "Gamma, vega and both thetas are written in terms of N'(d+) and cannot be evaluated from the output alone -- a reader has the shape of each Greek but not a number. This is the failure the [PROTECTED] marking exists to catch: the density asserts nothing to argue with, so nothing downstream noticed it was gone. It is not deduplication; the density is stated once in the source and appears nowhere in the output.",
+      "what_is_lost": "The standard normal probability density function, which the source states as N'(x) = dN(x)/dx = (1/sqrt(2*pi)) e^{-x^2/2} (formula asset fml-src-black-scholes-model-fa32a5b3-0015). No unit was extracted for it, so it reached no assertion. Its cumulative counterpart N(x) WAS carried across; only the density is missing."
+    }
+  ],
+  "model_role": "corpus-coverage-auditor",
+  "notes": [
+    "Not loss: six of the seven tables recovered from this source are MediaWiki navigation boxes -- lists of related articles marked up as <table>. They produced no units and should not. The seventh is the Greeks table and every row of it reached an assertion.",
+    "The Greeks are cited to table cells rather than to flattened rows, so the call and put columns are distinguishable in the record. That is the point of the cell citation and it held for all five Greeks.",
+    "Twelve leaves for one article is close to the fragmentation limit, but each answers a distinct question and the two largest -- the Greeks and the interpretation dispute -- would each be too big to merge into anything else."
+  ],
+  "parent_artifacts": [
+    "02_units/units.jsonl",
+    "06_audit/candidates.approved.jsonl"
+  ],
+  "prompt_version": "pass-05b-corpus-coverage-v1.0",
+  "reasoning": "Every unit reached an assertion and the formulas were carried across rather than described -- a reader can compute delta, gamma, vega, theta and rho from the output, which is the test that matters for this document. One definition is missing and it is load-bearing: N'(x), the standard normal density, appears in four of the five Greeks and nowhere in the output except as the phrase 'the standard normal density'. The article states it as a formula and the extraction skipped it, so the Greeks are unusable as written. The proportions look right otherwise: the interpretation dispute and the limitations get the weight the article gives them, and the criticism is neither buried nor promoted above the mathematics.",
+  "run_id": "bs",
+  "schema_version": "3.1.0",
+  "verdict": "gaps"
+}

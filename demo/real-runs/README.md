@@ -1,13 +1,15 @@
 # Real runs
 
-Five complete runs on real documents, all produced through the CLI in
+Six complete runs on real documents, all produced through the CLI in
 `--mode handoff` with **no API key**. Every model call was answered by the agent
 operating the CLI, one call at a time, against the request the pipeline actually
 wrote — so these are model output on real sources, not fixtures.
 
-All five go through **all seven passes** and pass `kip validate` with zero
-errors and zero warnings. Three are argument, evidence and reference; the fourth
-is a narrative, included because it is the shape the others are not.
+All six go through **all seven passes** and pass `kip validate` with zero
+errors and zero warnings. Four are argument, evidence and reference; one is a
+narrative, included because it is the shape the others are not; and one is
+almost entirely mathematics, included because that is the shape a text pipeline
+handles worst.
 
 **Start with `enqueue.md` in any run folder.** It is the queue handoff — what a
 consuming knowledge base would actually receive — rendered as markdown.
@@ -22,6 +24,7 @@ Everything else is the machine-readable material behind it.
 | [`andersen-the-little-mermaid`](andersen-the-little-mermaid/enqueue.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
 | [`statement-classifier-specification`](statement-classifier-specification/enqueue.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
 | [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/enqueue.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 112 | 1 per 507 words | 24 |
+| [`wikipedia-black-scholes-model`](wikipedia-black-scholes-model/enqueue.md) | Wikipedia, *Black–Scholes model* (CC BY-SA) | 10,507 | 73 | 1 per 144 words | 12 |
 
 Density is not a function of length. Across a 7× range the three non-fiction
 documents sit between one unit per 72 and one per 119 words, and the longest of
@@ -125,19 +128,33 @@ codebook has to meet.
 
 Pass 5 now closes with a **corpus-coverage audit** that reads the whole
 extraction against the whole approved output and answers one question: would a
-reader who has only the output know what the corpus contains? All three runs
-return `represented` with zero orphans. `06_audit/corpus_coverage.json` carries
-both the mechanical arithmetic and the judgment.
+reader who has only the output know what the corpus contains? Five of the six
+runs return `represented` with zero orphans.
+
+The sixth returns **`gaps`** — and it is the more useful result, because it is a
+gap that arithmetic could not have found. The Black–Scholes run has zero orphans
+too: all 73 units reached an assertion. What it lacks is a definition nobody
+extracted. Four of the five Greeks are written in terms of N′(x), the standard
+normal *density*, and the output defines only N(x), the cumulative function. A
+reader has the shape of gamma, vega and both thetas and cannot evaluate any of
+them. Nothing upstream could catch that: no unit was dropped, no citation
+failed, and the missing formula asserts nothing to argue with — which is exactly
+the profile of content this pipeline is known to lose.
+`06_audit/corpus_coverage.json` carries both the mechanical arithmetic and the
+judgment, and the two disagree here on purpose.
 
 ## What the audit changed
 
 The audit is adversarial by construction — it is told to disprove, narrow or
-reject, and its model must differ from the planner's. Across the three runs it
-returned `fix` 15 times, `split` once, and `pass_with_label` 34 times. It never
-returned a bare `pass`, which is worth reading skeptically rather than as a
-compliment to the planner.
+reject, and its model must differ from the planner's. Across the six runs it
+returned `fix` 30 times and `pass_with_label` 71 times, against exactly **one**
+bare `pass` in 102 audits. A one-percent clean rate is worth reading skeptically
+rather than as a compliment to the planner: an auditor that almost never
+approves anything outright is either finding real defects or has a standard no
+candidate can meet, and the corrections below are the evidence for the first
+reading.
 
-Two kinds of correction recur:
+Three kinds of correction recur:
 
 - **Deterministic overclaim.** `independence_inflation` is a code check, not a
   judgment: `knowledge_state 'established' rests on a single independence group`.
@@ -150,21 +167,37 @@ Two kinds of correction recur:
   was described rather than carried, and the correction states all fifteen rows.
   The fifteen definitions were carried but their thirty exemplars were not, and
   the correction records that so a consumer knows to go to the source.
+- **Content filed in two places.** On the Black–Scholes run the planner put the
+  same statement under two leaves — the no-dividend assumption under both the
+  model definition and the assumptions, the extension scope under both the
+  assumptions and the dividends leaf. Two copies of one claim is one claim that
+  can be edited in one place and not the other, and the audit removed the
+  duplicate from the leaf that did not own the unit.
 
 ## The omission check finds real gaps at every length
 
 `02_units/omissions.jsonl` is Pass 1's self-check: it reads the source against
 the units just extracted and reports what is missing or mis-shaped. It found 5,
-7 and 8 findings on the three runs — including on the shortest.
+7, 7, 8, 11 and 13 findings across the six runs — including on the shortest.
 
 On Sharpe it found the footnote stating that the three measurement failures are
 **not** an exhaustive list, and the provenance of the opening quotations. On De
 Bondt & Thaler it found the abstract's own summary of the contribution. On the
 specification it found the thirty missing exemplars and the eleven unanchored
-rows of the mapping table.
+rows of the mapping table. On Black–Scholes it found the entire Greeks table:
+five closed-form sensitivities, the substance of the section, and no unit had
+touched them.
 
-These are diagnostic: the pass records them and does not automatically add units.
-Coverage degrades gradually with document density, not at a cliff with length.
+Findings marked `add` now feed a **repair round** — one extra extraction call
+over the same document, given the findings and the assets. It recovered 18 units
+on Black–Scholes, including all five Greeks. One round, never a loop: a
+check-repair cycle has no natural fixed point and each turn costs a call over the
+whole document.
+
+Findings the repair round does not act on — `split`, `merge`, `downgrade`,
+`drop` — stay diagnostic, because reshaping a sealed unit is a larger change than
+extracting content that is missing. Coverage degrades gradually with document
+density, not at a cliff with length.
 
 ## What the narrative run showed
 
@@ -184,7 +217,7 @@ would be a plot summary in JSONL and none of it stands alone.
 
 That is also why the density is half the others'. It is a property of the source,
 not a coverage failure: `units_orphaned` is 0 and corpus coverage returns
-`represented`, the same as the other three.
+`represented`, the same as the rest.
 
 ## Non-textual content: tables, formulas, figures
 
@@ -210,11 +243,60 @@ trustworthy:
 | `transcribed` | a model or geometry read it | a reading, with the crop attached |
 | `inferred` | a model described what it could not transcribe | never evidence |
 
-The GE filing yields **100 `exact` tables** from its own `<table>` markup. The
-De Bondt PDF yields **4 formulas and Table I as `transcribed`** — its equations
-had reached the corpus as `Tt = ARw,t/(st/ViN)`, where `Vi` is a square-root
-sign, and no better text extraction recovers that because the information was
-never in the text layer. Those pages are rendered and read instead.
+Where the asset comes from decides its fidelity, and the two directions are
+opposite on purpose.
+
+**From markup, when the source carries it.** The GE filing yields **100 `exact`
+tables** from its own `<table>` elements. The Black–Scholes article yields
+**112 `exact` formulas and 7 `exact` tables from one page** — MathML carries the
+author's own TeX in `<annotation encoding="application/x-tex">`, so the
+Black–Scholes equation is recovered as
+
+```
+{\frac {\partial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partial ^{2}V}{\partial S^{2}}}+rS{\frac {\partial V}{\partial S}}-rV=0
+```
+
+which is what the author wrote, not a reading of a picture of it. Rendering that
+page to transcribe an equation already present in the markup would throw away
+the distinction the fidelity field exists to record.
+
+**From a rendering, when it does not.** The De Bondt PDF yields **4 formulas and
+Table I as `transcribed`** — its equations had reached the corpus as
+`Tt = ARw,t/(st/ViN)`, where `Vi` is a square-root sign, and no better text
+extraction recovers that because the information was never in the text layer.
+Those pages are rendered and read instead. Image files (`.png`, `.jpg`, …) are
+ingestable as sources and take the same path: an image is a page that arrived on
+its own.
+
+The Black–Scholes run is the clearest measure of what the asset layer is worth,
+because normalization damages that document almost completely. The PDE reaches
+`normalized.txt` as
+
+```
+∂
+V
+∂
+t
++
+1
+```
+
+— twenty-nine lines of loose symbols for one equation. **32 of the run's 125
+citations are to formula assets and 8 are to table cells**; without them those
+40 citations would have had nothing quotable behind them. Citing an equation is checked against the
+asset rather than against the flat text, and the comparison ignores spacing and
+redundant braces but not bracket placement: `\ln(S/K)+r\tau` and
+`\ln(S/K+r\tau)` are different equations and must not compare equal.
+
+Two results from the same run are worth stating plainly. Six of the seven
+recovered tables are MediaWiki **navigation boxes** — lists of related articles
+marked up as `<table>`. They are `exact` because they really are tables, and
+they produced no units, which is correct. And the *seventh* is the Greeks table,
+which the first extraction pass skipped entirely: every Greek stated in closed
+form, and not one of them reached a unit. The omission check caught it, and the
+repair round recovered all five by citing cells — `(row 1, col 2)` is delta for
+a call, `(row 1, col 3)` delta for a put, and the grid is what keeps those two
+apart.
 
 Citation for a transcription is deliberately looser than the verbatim rule:
 string comparison is the wrong check. UniMERNet scores 0.48 exact-match against
