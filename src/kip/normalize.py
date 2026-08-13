@@ -13,6 +13,9 @@ from email import policy
 from pathlib import Path
 from typing import Any
 
+from collections import Counter
+
+from .anchors import anchor_assets
 from .artifacts import (
     PipelineError,
     RunContext,
@@ -106,7 +109,8 @@ def _normalize_html(path: Path) -> tuple[str, dict[int, dict[str, Any]]]:
     return "\n".join(line for line in lines if line), {}
 
 
-def _html_assets(path: Path, source_id: str) -> list[dict[str, Any]]:
+def _html_assets(path: Path, source_id: str,
+                 assets_dir: Path | None = None) -> list[dict[str, Any]]:
     """Tables recovered from the markup, as grids.
 
     `exact` fidelity: the structure comes from the document's own `<table>`
@@ -114,6 +118,7 @@ def _html_assets(path: Path, source_id: str) -> list[dict[str, Any]]:
     which row is a header, and that is confined to a flag.
     """
     from .assets import ASSET_TABLE, FIDELITY_EXACT, build_asset
+    from .html_figures import figure_assets
     from .html_formulas import formula_assets
     from .html_tables import compact, extract_tables
 
@@ -133,6 +138,10 @@ def _html_assets(path: Path, source_id: str) -> list[dict[str, Any]]:
     # is strictly better than rendering the page and transcribing it, and it is
     # why HTML and PDF take opposite routes to the same asset type.
     out.extend(formula_assets(raw, source_id, start_index=len(out) + 1))
+    # Figures last, because they are the only kind whose content this pipeline
+    # never reads. The image is carried and anchored; nothing describes it.
+    out.extend(figure_assets(raw, source_id, start_index=len(out) + 1,
+                             copy_into=assets_dir, source_dir=path.parent))
     return out
 
 
@@ -402,7 +411,7 @@ def _assets_for(path: Path, source_id: str, normalizer: str | None, *,
     """
     try:
         if normalizer == "html_v1":
-            return _html_assets(path, source_id)
+            return _html_assets(path, source_id, assets_dir)
         if normalizer == "image_v1":
             return _image_assets(path, source_id, assets_dir)
         if normalizer == "rich_v1" and path.suffix.lower() == ".pdf":
@@ -443,6 +452,7 @@ def _pdf_assets(path: Path, source_id: str, text: str,
     """
     from .pdf_assets import (
         page_image_asset,
+        pages_with_figures,
         pages_with_flattened_tables,
         pages_with_math,
         render_pages,
@@ -457,7 +467,13 @@ def _pdf_assets(path: Path, source_id: str, text: str,
     if out:
         print(f"[pass0] {source_id}: {len(out)} ruled table(s) read from geometry")
 
-    pages = sorted(set(pages_with_math(text)) | set(pages_with_flattened_tables(text)))
+    # Three reasons to render a page, and the third is new: a page carrying a
+    # figure has content no text extraction reaches at all. Its caption comes
+    # with it, because a chart without a caption is pixels nobody can use.
+    figures = pages_with_figures(text)
+    math_pages = set(pages_with_math(text))
+    table_pages = set(pages_with_flattened_tables(text))
+    pages = sorted(math_pages | table_pages | set(figures))
     if not pages:
         return out
     written = render_pages(path, pages, assets_dir)
@@ -469,9 +485,26 @@ def _pdf_assets(path: Path, source_id: str, text: str,
     # lazily, so it grows as items are appended and the numbering skips -- which
     # produced two assets sharing an id, and ids are what a citation resolves by.
     base = len(out)
-    out.extend(page_image_asset(source_id=source_id, index=base + i, page=page,
-                                image_rel=f"{image.parent.name}/{image.name}")
-               for i, (page, image) in enumerate(sorted(written.items()), start=1))
+    for i, (page, image) in enumerate(sorted(written.items()), start=1):
+        asset = page_image_asset(source_id=source_id, index=base + i, page=page,
+                                 image_rel=f"{image.parent.name}/{image.name}")
+        # Why this page was rendered, because it decides what happens next: a
+        # page rendered for damaged mathematics goes to the visual read, and a
+        # page rendered because it carries a chart does not. Nothing reads a
+        # chart -- the image is carried and anchored, and that is the whole of
+        # it -- so sending one to a transcriber would spend a call to be told
+        # there are no equations on it.
+        reasons = []
+        if page in math_pages:
+            reasons.append("math")
+        if page in table_pages:
+            reasons.append("table")
+        if page in figures:
+            reasons.append("figure")
+            asset["payload"]["caption"] = figures[page]
+            asset["text"] = figures[page]
+        asset["payload"]["render_reason"] = reasons
+        out.append(asset)
     return out
 
 
@@ -540,9 +573,16 @@ def normalize_sources(ctx: RunContext, source_paths: list[Path]) -> list[dict[st
         # "this source had no tables" from "this run predates assets".
         assets = _assets_for(path, source_id, normalizer,
                              text=text, assets_dir=target_dir / "assets")
+        # Anchor and verify here rather than at each extractor: this is the
+        # first point where the normalized text and the locator map both exist,
+        # and both are needed. Anchoring before the record is sealed keeps the
+        # anchor part of what the content hash covers.
+        anchor_assets(assets, text, locator)
         write_jsonl_atomic(target_dir / "assets.jsonl", assets)
         if assets:
-            print(f"[pass0] {source_id}: {len(assets)} asset(s) recovered")
+            methods = Counter(a["anchor"]["method"] for a in assets)
+            print(f"[pass0] {source_id}: {len(assets)} asset(s) recovered "
+                  f"({', '.join(f'{n} {m}' for m, n in sorted(methods.items()))})")
 
         manifest = _manifest(
             ctx, source_id, path, normalizer=normalizer or "unknown",

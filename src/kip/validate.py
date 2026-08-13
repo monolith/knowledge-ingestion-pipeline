@@ -356,6 +356,25 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
             f"{unverified} evidence excerpts were not verbatim-matched at extraction time"
         )
 
+    # --- Assets sit in text that produced units -------------------------------
+    # Not the same question as "was it cited". An uncited asset may sit in a
+    # well-read passage that had no reason to quote it; an orphan sits in a
+    # region nothing was extracted from at all, which is a hole in the reading.
+    links_path = ctx.units.parent / "asset_links.jsonl"
+    links = read_jsonl(links_path) if links_path.exists() else []
+    related = {row["asset_id"] for row in links}
+    orphaned: list[str] = []
+    for source_dir in sorted((ctx.run_dir / "01_normalized").glob("*/assets.jsonl")):
+        for asset in read_jsonl(source_dir):
+            if asset["asset_id"] not in related:
+                orphaned.append(asset["asset_id"])
+    if orphaned:
+        warnings.append(
+            f"{len(orphaned)} asset(s) sit in source regions that produced no units: "
+            + ", ".join(orphaned[:5]) + (f" (+{len(orphaned) - 5} more)"
+                                         if len(orphaned) > 5 else "")
+        )
+
     # Entity mentions are surface forms copied verbatim from the document (the
     # extraction prompt forbids canonicalizing them), so a surface that does not
     # occur in the normalized source was invented. They are excluded from

@@ -81,7 +81,7 @@ table · **exact** · extractor `html_tables_v1` · cited by 8 units
 | Theta | ∂ V ∂ t {\displaystyle {\frac {\partial V}{\partial t}}} | − S N ′ ( d + ) σ 2 T − t − r K e − r ( T − t ) N ( d − ) {\displaystyle -{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}-rKe^{-r(T-t)}N(d_{-})\,} | − S N ′ ( d + ) σ 2 T − t + r K e − r ( T − t ) N ( − d − ) {\displaystyle -{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}+rKe^{-r(T-t)}N(-d_{-})\,} |
 | Rho | ∂ V ∂ r {\displaystyle {\frac {\partial V}{\partial r}}} | K ( T − t ) e − r ( T − t ) N ( d − ) {\displaystyle K(T-t)e^{-r(T-t)}N(d_{-})\,} | − K ( T − t ) e − r ( T − t ) N ( − d − ) {\displaystyle -K(T-t)e^{-r(T-t)}N(-d_{-})\,} |
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0056`, `u-src-black-scholes-model-fa32a5b3-0056`, `u-src-black-scholes-model-fa32a5b3-0057`, `u-src-black-scholes-model-fa32a5b3-0058`, `u-src-black-scholes-model-fa32a5b3-0059`, `u-src-black-scholes-model-fa32a5b3-0059`, `u-src-black-scholes-model-fa32a5b3-0060`, `u-src-black-scholes-model-fa32a5b3-0060`
+Related units: `u-src-black-scholes-model-fa32a5b3-0056`, `u-src-black-scholes-model-fa32a5b3-0056`, `u-src-black-scholes-model-fa32a5b3-0057`, `u-src-black-scholes-model-fa32a5b3-0058`, `u-src-black-scholes-model-fa32a5b3-0059`, `u-src-black-scholes-model-fa32a5b3-0059`, `u-src-black-scholes-model-fa32a5b3-0060`, `u-src-black-scholes-model-fa32a5b3-0060`
 
 #### `tbl-src-black-scholes-model-fa32a5b3-0002`
 
@@ -208,7 +208,7 @@ $$\tau =T-t$$
 
 > τ {\displaystyle \tau } is the time until maturity: … . K {\displaystyle K}
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0017`
+Related units: `u-src-black-scholes-model-fa32a5b3-0017`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0012`
 
@@ -234,7 +234,7 @@ N(x)={\frac {1}{\sqrt {2\pi }}}\int _{-\infty }^{x}e^{-z^{2}/2}\,dz.
 
 > denotes the standard normal cumulative distribution function : … N ′ ( x
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0016`
+Related units: `u-src-black-scholes-model-fa32a5b3-0016`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0014`
 
@@ -284,7 +284,7 @@ $${\frac {\partial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partia
 
 > t {\displaystyle t} is time: … A key financial insight behind the equation is that one can perfectly hedge the
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0011`
+Related units: `u-src-black-scholes-model-fa32a5b3-0011`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0018`
 
@@ -298,7 +298,7 @@ $${\begin{aligned}C(0,t)&=0{\text{ for all }}t\\C(S,t)&\sim S-Ke^{-r(T-t)}{\text
 
 > boundary conditions : [ 20 ] … The value of a call option for a non-dividend-paying underlying stock in terms o
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0015`
+Related units: `u-src-black-scholes-model-fa32a5b3-0015`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0019`
 
@@ -312,7 +312,7 @@ $${\begin{aligned}C(S_{t},t)&=N(d_{+})S_{t}-N(d_{-})Ke^{-r(T-t)}\\d_{+}&={\frac 
 
 > fty \\C(S,T)&=\max\{S-K,0\}\end{aligned}}}"/> The value of a call option for a non-dividend-paying underlying stock in terms of the Black–Scholes parameters is: … The price of a corresponding put option based on put–call parity with discount f
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0013`
+Related units: `u-src-black-scholes-model-fa32a5b3-0013`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0020`
 
@@ -338,7 +338,7 @@ $${\begin{aligned}P(S_{t},t)&=Ke^{-r(T-t)}-S_{t}+C(S_{t},t)\\&=N(-d_{-})Ke^{-r(T
 
 > t ) {\displaystyle e^{-r(T-t)}} is: … Alternative formulation Introducing auxiliary variables allows for the formula t
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0014`
+Related units: `u-src-black-scholes-model-fa32a5b3-0014`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0022`
 
@@ -352,7 +352,7 @@ $${\begin{aligned}C(F,\tau )&=D\left[N(d_{+})F-N(d_{-})K\right]\\d_{+}&={\frac {
 
 > ary variables allows for the formula to be simplified and reformulated in a form that can be more convenient (this is a special case of the Black '76 formula ): … where:
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0018`
+Related units: `u-src-black-scholes-model-fa32a5b3-0018`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0023`
 
@@ -366,7 +366,7 @@ D=e^{-r\tau }
 
 > &=d_{+}-\sigma {\sqrt {\tau }}\end{aligned}}} where: … is the discount factor F = e
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0018`
+Related units: `u-src-black-scholes-model-fa32a5b3-0018`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0024`
 
@@ -380,7 +380,7 @@ F=e^{r\tau }S={\frac {S}{D}}
 
 > e − r τ {\displaystyle D=e^{-r\tau }} is the discount factor … is the forward price of the underlying asset, and S = D F
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0018`
+Related units: `u-src-black-scholes-model-fa32a5b3-0018`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0025`
 
@@ -406,7 +406,7 @@ C-P=D(F-K)=S-DK
 
 > S = D F {\displaystyle S=DF} Given put–call parity, which is expressed in these terms as: … the price of a put option is: P
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0019`
+Related units: `u-src-black-scholes-model-fa32a5b3-0019`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0027`
 
@@ -420,7 +420,7 @@ P(F,\tau )=D\left[N(-d_{-})K-N(-d_{+})F\right]
 
 > ) = S − D K {\displaystyle C-P=D(F-K)=S-DK} the price of a put option is: … Interpretation It is possible to have intuitive interpretations of the Black–Sch
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0019`
+Related units: `u-src-black-scholes-model-fa32a5b3-0019`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0028`
 
@@ -614,7 +614,7 @@ $${\textstyle m={\frac {1}{\sigma {\sqrt {\tau }}}}\ln \left({\frac {F}{K}}\righ
 
 > an be interpreted as a drift factor (in the risk-neutral measure for appropriate numéraire). The use of d − for moneyness rather than the standardized moneyness … – in other words, the reason for the
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0023`
+Related units: `u-src-black-scholes-model-fa32a5b3-0023`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0044`
 
@@ -880,7 +880,7 @@ C(S_{t},t)=e^{-r(T-t)}[FN(d_{1})-KN(d_{2})]\,
 
 > {\displaystyle q} (the dividend yield ). Under this formulation the arbitrage-free price implied by the Black–Scholes model can be shown to be: … and P
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0031`
+Related units: `u-src-black-scholes-model-fa32a5b3-0031`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0066`
 
@@ -906,7 +906,7 @@ F=S_{t}e^{(r-q)(T-t)}\,
 
 > ) ] {\displaystyle P(S_{t},t)=e^{-r(T-t)}[KN(-d_{2})-FN(-d_{1})]\,} where now … is the modified forward price that occurs in the terms d 1
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0031`
+Related units: `u-src-black-scholes-model-fa32a5b3-0031`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0068`
 
@@ -980,7 +980,7 @@ S_{t}=S_{0}(1-\delta )^{n(t)}e^{ut+\sigma W_{t}}
 
 > t n {\displaystyle t_{1},t_{2},\ldots ,t_{n}} . The price of the stock is then modelled as: … where n ( t )
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0032`
+Related units: `u-src-black-scholes-model-fa32a5b3-0032`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0074`
 
@@ -1018,7 +1018,7 @@ F=S_{0}(1-\delta )^{n(T)}e^{rT}\,
 
 > ) ] {\displaystyle C(S_{0},T)=e^{-rT}[FN(d_{1})-KN(d_{2})]\,} where now … is the forward price for the dividend paying stock. American options The problem
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0032`
+Related units: `u-src-black-scholes-model-fa32a5b3-0032`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0077`
 
@@ -1032,7 +1032,7 @@ $${\frac {\partial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partia
 
 > ion. Since the American option can be exercised at any time before the expiration date, the Black–Scholes equation becomes a variational inequality of the form: … [ 26 ] together with
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0033`
+Related units: `u-src-black-scholes-model-fa32a5b3-0033`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0078`
 
@@ -1046,7 +1046,7 @@ V(S,t)\geq H(S)
 
 > tial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partial ^{2}V}{\partial S^{2}}}+rS{\frac {\partial V}{\partial S}}-rV\leq 0}"/> [ 26 ] together with … where H ( S ) {\displaystyle H(S)}
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0033`
+Related units: `u-src-black-scholes-model-fa32a5b3-0033`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0079`
 
@@ -1072,7 +1072,7 @@ V(S,T)=H(S)
 
 > S {\displaystyle S} and the terminal condition: … . In general this inequality does not have a closed form solution, though an Ame
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0033`
+Related units: `u-src-black-scholes-model-fa32a5b3-0033`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0081`
 
@@ -1110,7 +1110,7 @@ $${1 \over {2}}\sigma ^{2}S^{2}{d^{2}V \over {dS^{2}}}+(r-q)S{dV \over {dS}}-rV=
 
 > ). [ 34 ] In this case, the time decay of the option is equal to zero, which leads to the Black–Scholes PDE becoming an ODE: … Let S −
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0035`
+Related units: `u-src-black-scholes-model-fa32a5b3-0035`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0084`
 
@@ -1196,7 +1196,7 @@ $${1 \over {2}}\sigma ^{2}\lambda _{i}^{2}+\left(r-q-{1 \over {2}}\sigma ^{2}\ri
 
 > {\displaystyle \left[{1 \over {2}}\sigma ^{2}\lambda _{i}(\lambda _{i}-1)+(r-q)\lambda _{i}-r\right]S^{\lambda _{i}}=0} Rearranging the terms gives: … Using the quadratic formula , the solutions for
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0072`
+Related units: `u-src-black-scholes-model-fa32a5b3-0072`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0091`
 
@@ -1234,7 +1234,7 @@ A_{1}=0
 
 > have a finite solution for the perpetual put, since the boundary conditions imply upper and lower finite bounds on the value of the put, it is necessary to set … , leading to the solution V ( S ) =
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0072`
+Related units: `u-src-black-scholes-model-fa32a5b3-0072`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0094`
 
@@ -1248,7 +1248,7 @@ V(S)=A_{2}S^{\lambda _{2}}
 
 > A 1 = 0 {\displaystyle A_{1}=0} , leading to the solution … . From the first boundary condition, it is known that:
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0072`
+Related units: `u-src-black-scholes-model-fa32a5b3-0072`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0095`
 
@@ -1286,7 +1286,7 @@ $${dV \over {dS}}(S_{-})=\lambda _{2}{K-S_{-} \over {S_{-}}}=-1\implies S_{-}={\
 
 > {\displaystyle V(S)=(K-S_{-})\left({S \over {S_{-}}}\right)^{\lambda _{2}}} The second boundary condition yields the location of the lower exercise boundary: … To conclude, for
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0036`
+Related units: `u-src-black-scholes-model-fa32a5b3-0036`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0098`
 
@@ -1312,7 +1312,7 @@ V(S)={K \over {1-\lambda _{2}}}\left({\lambda _{2}-1 \over {\lambda _{2}}}\right
 
 > {\textstyle S\geq S_{-}={\lambda _{2}K \over {\lambda _{2}-1}}} , the perpetual American put option is worth: … Binary options By solving the Black–Scholes differential equation with the Heavi
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0036`
+Related units: `u-src-black-scholes-model-fa32a5b3-0036`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0100`
 
@@ -1326,7 +1326,7 @@ C=e^{-r(T-t)}N(d_{2}).\,
 
 > two terms in the Black–Scholes formula. Cash-or-nothing call This pays out one unit of cash if the spot is above the strike at maturity. Its value is given by: … Cash-or-nothing put This pays out one unit of cash if the spot is below the stri
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0037`
+Related units: `u-src-black-scholes-model-fa32a5b3-0037`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0101`
 
@@ -1352,7 +1352,7 @@ C=Se^{-q(T-t)}N(d_{1}).\,
 
 > isplaystyle P=e^{-r(T-t)}N(-d_{2}).\,} Asset-or-nothing call This pays out one unit of asset if the spot is above the strike at maturity. Its value is given by: … Asset-or-nothing put This pays out one unit of asset if the spot is below the st
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0037`
+Related units: `u-src-black-scholes-model-fa32a5b3-0037`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0103`
 
@@ -1402,7 +1402,7 @@ C=e^{-r_{d}T}N(d_{2})\,
 
 > lowing results can be obtained: In the case of a digital call (this is a call FOR/put DOM) paying out one unit of the domestic currency gotten as present value: … In the case of a digital put (this is a put FOR/call DOM) paying out one unit of
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0042`
+Related units: `u-src-black-scholes-model-fa32a5b3-0042`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0107`
 
@@ -1428,7 +1428,7 @@ C=Se^{-r_{f}T}N(d_{1})\,
 
 > ystyle P=e^{-r_{d}T}N(-d_{2})\,} In the case of a digital call (this is a call FOR/put DOM) paying out one unit of the foreign currency gotten as present value: … In the case of a digital put (this is a put FOR/call DOM) paying out one unit of
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0042`
+Related units: `u-src-black-scholes-model-fa32a5b3-0042`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0109`
 
@@ -1490,7 +1490,7 @@ C=\lim _{\epsilon \to 0}{\frac {C_{v}(K-\epsilon )-C_{v}(K)}{\epsilon }}
 
 > [ 36 ] [ 37 ] … Thus, the value of a binary call is the negative of the derivative of the price
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0038`
+Related units: `u-src-black-scholes-model-fa32a5b3-0038`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0114`
 
@@ -1504,7 +1504,7 @@ C=-{\frac {dC_{v}}{dK}}
 
 > on )-C_{v}(K)}{\epsilon }}} Thus, the value of a binary call is the negative of the derivative of the price of a vanilla call with respect to strike price: … When one takes volatility skew into account, σ {\displaystyle \sigma }
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0038`
+Related units: `u-src-black-scholes-model-fa32a5b3-0038`
 
 #### `fml-src-black-scholes-model-fa32a5b3-0115`
 
@@ -1566,7 +1566,1444 @@ C=C_{\text{no skew}}-{\text{Vega}}_{v}\cdot {\text{Skew}}
 
 > is sometimes called the "skew slope" or just "skew". If the skew is typically negative, the value of a binary call will be higher when taking skew into account. … Relationship to vanilla options' Greeks Since a binary call is a mathematical de
 
-Cited by: `u-src-black-scholes-model-fa32a5b3-0039`
+Related units: `u-src-black-scholes-model-fa32a5b3-0039`
+
+## Assets in text nobody read
+
+119 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
+
+### `tbl-src-black-scholes-model-fa32a5b3-0001`
+
+table · **exact** · anchored by `none`
+
+|   |   | Call | Put |
+|---|---|---|---|
+| Delta | ∂ V ∂ S {\displaystyle {\frac {\partial V}{\partial S}}} | N ( d + ) {\displaystyle N(d_{+})\,} | − N ( − d + ) = N ( d + ) − 1 {\displaystyle -N(-d_{+})=N(d_{+})-1\,} |
+| Gamma | ∂ 2 V ∂ S 2 {\displaystyle {\frac {\partial ^{2}V}{\partial S^{2}}}} | N ′ ( d + ) S σ T − t {\displaystyle {\frac {N'(d_{+})}{S\sigma {\sqrt {T-t}}}}\,} |   |
+| Vega | ∂ V ∂ σ {\displaystyle {\frac {\partial V}{\partial \sigma }}} | S N ′ ( d + ) T − t {\displaystyle SN'(d_{+}){\sqrt {T-t}}\,} |   |
+| Theta | ∂ V ∂ t {\displaystyle {\frac {\partial V}{\partial t}}} | − S N ′ ( d + ) σ 2 T − t − r K e − r ( T − t ) N ( d − ) {\displaystyle -{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}-rKe^{-r(T-t)}N(d_{-})\,} | − S N ′ ( d + ) σ 2 T − t + r K e − r ( T − t ) N ( − d − ) {\displaystyle -{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}+rKe^{-r(T-t)}N(-d_{-})\,} |
+| Rho | ∂ V ∂ r {\displaystyle {\frac {\partial V}{\partial r}}} | K ( T − t ) e − r ( T − t ) N ( d − ) {\displaystyle K(T-t)e^{-r(T-t)}N(d_{-})\,} | − K ( T − t ) e − r ( T − t ) N ( − d − ) {\displaystyle -K(T-t)e^{-r(T-t)}N(-d_{-})\,} |
+
+### `tbl-src-black-scholes-model-fa32a5b3-0002`
+
+table · **exact** · anchored by `none`
+
+| Terms | Delta neutral Exercise Expiration Moneyness Open interest Pin risk Risk-free interest rate Strike price Synthetic position the Greeks Volatility |
+|---|---|
+| Vanillas | American Bond option Call Employee stock option European Fixed income FX Option styles Put Warrants |
+| Exotics | Asian Barrier Basket Binary Callable bull/bear contract Chooser Cliquet Compound Forward start Interest rate Lookback Mountain range Rainbow Spread Swaption |
+| Strategies | Backspread Box spread Butterfly Calendar spread Collar Condor Covered option Credit spread Debit spread Diagonal spread Fence Intermarket spread Iron butterfly Iron condor Jelly roll Ladder Naked option Straddle Strangle Protective option Ratio spread Risk reversal Vertical spread (Bear, Bull) |
+| Valuation | Valuation methods Continuous-time stochastic processes: • Arithmetic diffusion: Bachelier • Geometric diffusion: Black, Black–Scholes, Garman–Kohlhagen, Margrabe • Stochastic volatility: Heston • Jump processes: Jump diffusion • Multi-curve framework Multi-curve framework Discrete-time processes: • Binomial, Trinomial, Lattices Numerical methods: • Finite difference, MC Simulation, Real options Model-free:• Put–call parity, Vanna–Volga |
+
+### `tbl-src-black-scholes-model-fa32a5b3-0003`
+
+table · **exact** · anchored by `none`
+
+| vteDerivatives market |   |
+|---|---|
+| Derivative (finance) * List of futures exchanges |   |
+| Options |   |
+| Swaps | Amortising Asset Basis Commodity Conditional variance Constant maturity Correlation Credit default Currency Dividend Equity Forex Forward Rate Agreement Inflation Interest rate Overnight indexed Total return Variance Volatility Year-on-year inflation-indexed Zero Coupon Zero-coupon inflation-indexed |
+| ForwardsFutures | Contango Spot contract Backwardation Commodities future Currency future Dividend future Forward market Forward price Forwards pricing Forward rate Futures pricing Interest rate future Margin Perpetual futures Single-stock futures Slippage Stock market index future |
+| Exotic derivatives | Energy derivative Freight derivative Inflation derivative Property derivative Weather derivative |
+| Other derivatives | Collateralized debt obligation (CDO) Constant proportion portfolio insurance Contract for difference Credit-linked note (CLN) Credit default option Credit derivative Equity-linked note (ELN) Equity derivative Foreign exchange derivative Fund derivative Fund of funds Interest rate derivative Mortgage-backed security Power reverse dual-currency note (PRDC) |
+| Market issues | Consumer debt Corporate debt Government debt Great Recession Municipal debt Tax policy |
+| Business portal |   |
+
+### `tbl-src-black-scholes-model-fa32a5b3-0004`
+
+table · **exact** · anchored by `none`
+
+| Arbitrage /relative value | Capital structure arbitrage Convertible arbitrage Equity market neutral Fixed income arbitrage / fixed-income relative-value investing (Treasury basis trade) Convergence trade Statistical arbitrage Volatility arbitrage |
+|---|---|
+| Event-driven | Shareholder activism Distressed securities Risk arbitrage Special situation |
+| Directional | Commodity trading advisors / managed futures account Trend following Global macro Long/short equity Dedicated short |
+| Other | Fund of hedge funds / Multi-manager |
+
+### `tbl-src-black-scholes-model-fa32a5b3-0005`
+
+table · **exact** · anchored by `none`
+
+| Markets | Commodities Derivatives Equity Fixed income Foreign exchange Money markets Structured securities |
+|---|---|
+| Misc | Absolute return Arbitrage pricing theory Assets under management Black–Scholes model (Greeks: delta neutral) Capital asset pricing model (alpha / beta / security characteristic line) Fundamental analysis Hedge Securitization Short Taxation of private equity and hedge funds Technical analysis |
+
+### `tbl-src-black-scholes-model-fa32a5b3-0006`
+
+table · **exact** · anchored by `none`
+
+| vteHedge funds |   |
+|---|---|
+| Investmentstrategy |   |
+| Trading | Algorithmic trading Day trading High-frequency trading (List of electronic trading protocols) Prime brokerage Program trading Proprietary trading |
+| Relatedterms |   |
+| Investors | Vulture funds Family offices Financial endowments Fund of hedge funds High-net-worth individual Institutional investors Insurance companies Investment banks Merchant banks Pension funds Sovereign wealth funds |
+| Governance | Fund governance Standards Board for Alternative Investments Managed Funds Association |
+| Alternative investment management companies Hedge funds Hedge fund managers List of hedge funds |   |
+
+### `tbl-src-black-scholes-model-fa32a5b3-0007`
+
+table · **exact** · anchored by `none`
+
+| vteStochastic processes |   |
+|---|---|
+| Discrete time | Bernoulli process Branching process Chinese restaurant process Galton–Watson process Independent and identically distributed random variables Markov chain Moran process Random walk Loop-erased Self-avoiding Biased Maximal entropy |
+| Continuous time | Additive process Airy process Bessel process Birth–death process pure birth Brownian motion Bridge Dyson Excursion Fractional Geometric Meander Cauchy process Contact process Continuous-time random walk Cox process Diffusion process Empirical process Feller process Fleming–Viot process Gamma process Geometric process Hawkes process Hunt process Interacting particle systems Itô diffusion Itô process Jump diffusion Jump process Lévy process Local time Markov additive process McKean–Vlasov process Ornstein–Uhlenbeck process Poisson process Compound Non-homogeneous Quasimartingale Schramm–Loewner evolution Semimartingale Sigma-martingale Stable process Superprocess Telegraph process Variance gamma process Wiener process Wiener sausage |
+| Both | Branching process Gaussian process Hidden Markov model (HMM) Markov process Martingale Differences Local Sub- Super- Random dynamical system Regenerative process Renewal process Stochastic chains with memory of variable length White noise |
+| Fields and other | Dirichlet process Gaussian random field Gibbs measure Hopfield model Ising model Potts model Boolean network Markov random field Percolation Pitman–Yor process Point process Cox Determinantal Poisson Random field Random graph |
+| Time series models | Autoregressive conditional heteroskedasticity (ARCH) model Autoregressive integrated moving average (ARIMA) model Autoregressive (AR) model Autoregressive moving-average (ARMA) model Generalized autoregressive conditional heteroskedasticity (GARCH) model Moving-average (MA) model |
+| Financial models | Binomial options pricing model Black–Derman–Toy Black–Karasinski Black–Scholes Chan–Karolyi–Longstaff–Sanders (CKLS) Chen Constant elasticity of variance (CEV) Cox–Ingersoll–Ross (CIR) Garman–Kohlhagen Heath–Jarrow–Morton (HJM) Heston Ho–Lee Hull–White Korn-Kreer-Lenssen LIBOR market Rendleman–Bartter SABR volatility Vašíček Wilkie |
+| Actuarial models | Bühlmann Cramér–Lundberg Risk process Sparre–Anderson |
+| Queueing models | Bulk Fluid Generalized queueing network M/G/1 M/M/1 M/M/c |
+| Properties | Càdlàg paths Continuous Continuous paths Ergodic Exchangeable Feller-continuous Gauss–Markov Markov Mixing Piecewise-deterministic Predictable Progressively measurable Self-similar Stationary Time-reversible |
+| Limit theorems | Central limit theorem Donsker's theorem Doob's martingale convergence theorems Ergodic theorem Fisher–Tippett–Gnedenko theorem Large deviation principle Law of large numbers (weak/strong) Law of the iterated logarithm Maximal ergodic theorem Sanov's theorem Zero–one laws (Blumenthal, Borel–Cantelli, Engelbert–Schmidt, Hewitt–Savage, Kolmogorov, Lévy) |
+| Inequalities | Burkholder–Davis–Gundy Doob's martingale Doob's upcrossing Kunita–Watanabe Marcinkiewicz–Zygmund |
+
+*(3 further rows in the stored grid.)*
+
+### `fml-src-black-scholes-model-fa32a5b3-0008`
+
+formula · **exact** · anchored by `none`
+
+$$C(S,t)$$
+
+```latex
+C(S,t)
+```
+
+> d ] and dividend payout. [ 19 ] Notation At time t, in particular: … is the price of a European call option and P ( S , t )
+
+### `fml-src-black-scholes-model-fa32a5b3-0009`
+
+formula · **exact** · anchored by `none`
+
+$$P(S,t)$$
+
+```latex
+P(S,t)
+```
+
+> C ( S , t ) {\displaystyle C(S,t)} is the price of a European call option and … is the price of a European put option. T {\displaystyle T}
+
+### `fml-src-black-scholes-model-fa32a5b3-0010`
+
+formula · **exact** · anchored by `none`
+
+$$\tau$$
+
+```latex
+\tau
+```
+
+> T {\displaystyle T} is the time of option expiration. … is the time until maturity: τ = T − t {\
+
+### `fml-src-black-scholes-model-fa32a5b3-0011`
+
+formula · **exact** · anchored by `none`
+
+$$\tau =T-t$$
+
+```latex
+\tau =T-t
+```
+
+> τ {\displaystyle \tau } is the time until maturity: … . K {\displaystyle K}
+
+### `fml-src-black-scholes-model-fa32a5b3-0012`
+
+formula · **exact** · anchored by `none`
+
+$$N(x)$$
+
+```latex
+N(x)
+```
+
+> K {\displaystyle K} is the strike price of the option, also known as the exercise price. … denotes the standard normal cumulative distribution function :
+
+### `fml-src-black-scholes-model-fa32a5b3-0013`
+
+formula · **exact** · anchored by `none`
+
+$$N(x)={\frac {1}{\sqrt {2\pi }}}\int _{-\infty }^{x}e^{-z^{2}/2}\,dz.$$
+
+```latex
+N(x)={\frac {1}{\sqrt {2\pi }}}\int _{-\infty }^{x}e^{-z^{2}/2}\,dz.
+```
+
+> denotes the standard normal cumulative distribution function : … N ′ ( x
+
+### `fml-src-black-scholes-model-fa32a5b3-0014`
+
+formula · **exact** · anchored by `none`
+
+$$N'(x)$$
+
+```latex
+N'(x)
+```
+
+> d z . {\displaystyle N(x)={\frac {1}{\sqrt {2\pi }}}\int _{-\infty }^{x}e^{-z^{2}/2}\,dz.} … denotes the standard normal probability density function :
+
+### `fml-src-black-scholes-model-fa32a5b3-0015`
+
+formula · **exact** · anchored by `none`
+
+$$N'(x)={\frac {dN(x)}{dx}}={\frac {1}{\sqrt {2\pi }}}e^{-x^{2}/2}.$$
+
+```latex
+N'(x)={\frac {dN(x)}{dx}}={\frac {1}{\sqrt {2\pi }}}e^{-x^{2}/2}.
+```
+
+> ) {\displaystyle N'(x)} denotes the standard normal probability density function : … Black–Scholes equation
+
+### `fml-src-black-scholes-model-fa32a5b3-0016`
+
+formula · **exact** · anchored by `none`
+
+$$V(S,t)$$
+
+```latex
+V(S,t)
+```
+
+> ted geometric Brownian motions with parameters from market data The Black–Scholes equation is a parabolic partial differential equation that describes the price … of the option, where S {\displaystyle S}
+
+### `fml-src-black-scholes-model-fa32a5b3-0017`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partial ^{2}V}{\partial S^{2}}}+rS{\frac {\partial V}{\partial S}}-rV=0$$
+
+```latex
+{\frac {\partial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partial ^{2}V}{\partial S^{2}}}+rS{\frac {\partial V}{\partial S}}-rV=0
+```
+
+> t {\displaystyle t} is time: … A key financial insight behind the equation is that one can perfectly hedge the
+
+### `fml-src-black-scholes-model-fa32a5b3-0018`
+
+formula · **exact** · anchored by `none`
+
+$${\begin{aligned}C(0,t)&=0{\text{ for all }}t\\C(S,t)&\sim S-Ke^{-r(T-t)}{\text{ as }}S\rightarrow \infty \\C(S,T)&=\max\{S-K,0\}\end{aligned}}$$
+
+```latex
+{\begin{aligned}C(0,t)&=0{\text{ for all }}t\\C(S,t)&\sim S-Ke^{-r(T-t)}{\text{ as }}S\rightarrow \infty \\C(S,T)&=\max\{S-K,0\}\end{aligned}}
+```
+
+> boundary conditions : [ 20 ] … The value of a call option for a non-dividend-paying underlying stock in terms o
+
+### `fml-src-black-scholes-model-fa32a5b3-0019`
+
+formula · **exact** · anchored by `none`
+
+$${\begin{aligned}C(S_{t},t)&=N(d_{+})S_{t}-N(d_{-})Ke^{-r(T-t)}\\d_{+}&={\frac {1}{\sigma {\sqrt {T-t}}}}\left[\ln \left({\frac {S_{t}}{K}}\right)+\left(r+{\frac {\sigma ^{2}}{2}}\right)(T-t)\right]\\d_{-}&=d_{+}-\sigma {\sqrt {T-t}}\\\end{aligned}}$$
+
+```latex
+{\begin{aligned}C(S_{t},t)&=N(d_{+})S_{t}-N(d_{-})Ke^{-r(T-t)}\\d_{+}&={\frac {1}{\sigma {\sqrt {T-t}}}}\left[\ln \left({\frac {S_{t}}{K}}\right)+\left(r+{\frac {\sigma ^{2}}{2}}\right)(T-t)\right]\\d_{-}&=d_{+}-\sigma {\sqrt {T-t}}\\\end{aligned}}
+```
+
+> fty \\C(S,T)&=\max\{S-K,0\}\end{aligned}}}"/> The value of a call option for a non-dividend-paying underlying stock in terms of the Black–Scholes parameters is: … The price of a corresponding put option based on put–call parity with discount f
+
+### `fml-src-black-scholes-model-fa32a5b3-0020`
+
+formula · **exact** · anchored by `none`
+
+$$e^{-r(T-t)}$$
+
+```latex
+e^{-r(T-t)}
+```
+
+> \right)(T-t)\right]\\d_{-}&=d_{+}-\sigma {\sqrt {T-t}}\\\end{aligned}}}"/> The price of a corresponding put option based on put–call parity with discount factor … is:
+
+### `fml-src-black-scholes-model-fa32a5b3-0021`
+
+formula · **exact** · anchored by `none`
+
+$${\begin{aligned}P(S_{t},t)&=Ke^{-r(T-t)}-S_{t}+C(S_{t},t)\\&=N(-d_{-})Ke^{-r(T-t)}-N(-d_{+})S_{t}\end{aligned}}\,$$
+
+```latex
+{\begin{aligned}P(S_{t},t)&=Ke^{-r(T-t)}-S_{t}+C(S_{t},t)\\&=N(-d_{-})Ke^{-r(T-t)}-N(-d_{+})S_{t}\end{aligned}}\,
+```
+
+> t ) {\displaystyle e^{-r(T-t)}} is: … Alternative formulation Introducing auxiliary variables allows for the formula t
+
+### `fml-src-black-scholes-model-fa32a5b3-0022`
+
+formula · **exact** · anchored by `none`
+
+$${\begin{aligned}C(F,\tau )&=D\left[N(d_{+})F-N(d_{-})K\right]\\d_{+}&={\frac {1}{\sigma {\sqrt {\tau }}}}\left[\ln \left({\frac {F}{K}}\right)+{\frac {1}{2}}\sigma ^{2}\tau \right]\\d_{-}&=d_{+}-\sigma {\sqrt {\tau }}\end{aligned}}$$
+
+```latex
+{\begin{aligned}C(F,\tau )&=D\left[N(d_{+})F-N(d_{-})K\right]\\d_{+}&={\frac {1}{\sigma {\sqrt {\tau }}}}\left[\ln \left({\frac {F}{K}}\right)+{\frac {1}{2}}\sigma ^{2}\tau \right]\\d_{-}&=d_{+}-\sigma {\sqrt {\tau }}\end{aligned}}
+```
+
+> ary variables allows for the formula to be simplified and reformulated in a form that can be more convenient (this is a special case of the Black '76 formula ): … where:
+
+### `fml-src-black-scholes-model-fa32a5b3-0023`
+
+formula · **exact** · anchored by `none`
+
+$$D=e^{-r\tau }$$
+
+```latex
+D=e^{-r\tau }
+```
+
+> &=d_{+}-\sigma {\sqrt {\tau }}\end{aligned}}} where: … is the discount factor F = e
+
+### `fml-src-black-scholes-model-fa32a5b3-0024`
+
+formula · **exact** · anchored by `none`
+
+$$F=e^{r\tau }S={\frac {S}{D}}$$
+
+```latex
+F=e^{r\tau }S={\frac {S}{D}}
+```
+
+> e − r τ {\displaystyle D=e^{-r\tau }} is the discount factor … is the forward price of the underlying asset, and S = D F
+
+### `fml-src-black-scholes-model-fa32a5b3-0025`
+
+formula · **exact** · anchored by `none`
+
+$$S=DF$$
+
+```latex
+S=DF
+```
+
+> S D {\displaystyle F=e^{r\tau }S={\frac {S}{D}}} is the forward price of the underlying asset, and … Given put–call parity, which is expressed in these terms as: C − P =
+
+### `fml-src-black-scholes-model-fa32a5b3-0026`
+
+formula · **exact** · anchored by `none`
+
+$$C-P=D(F-K)=S-DK$$
+
+```latex
+C-P=D(F-K)=S-DK
+```
+
+> S = D F {\displaystyle S=DF} Given put–call parity, which is expressed in these terms as: … the price of a put option is: P
+
+### `fml-src-black-scholes-model-fa32a5b3-0027`
+
+formula · **exact** · anchored by `none`
+
+$$P(F,\tau )=D\left[N(-d_{-})K-N(-d_{+})F\right]$$
+
+```latex
+P(F,\tau )=D\left[N(-d_{-})K-N(-d_{+})F\right]
+```
+
+> ) = S − D K {\displaystyle C-P=D(F-K)=S-DK} the price of a put option is: … Interpretation It is possible to have intuitive interpretations of the Black–Sch
+
+### `fml-src-black-scholes-model-fa32a5b3-0028`
+
+formula · **exact** · anchored by `none`
+
+$$d_{\pm }$$
+
+```latex
+d_{\pm }
+```
+
+> d_{+})F\right]} Interpretation It is possible to have intuitive interpretations of the Black–Scholes formula, with the main subtlety being the interpretation of … and why there are two different terms. [ 21 ] The formula can be interpreted by
+
+### `fml-src-black-scholes-model-fa32a5b3-0029`
+
+formula · **exact** · anchored by `none`
+
+$$C=D\left[N(d_{+})F-N(d_{-})K\right]$$
+
+```latex
+C=D\left[N(d_{+})F-N(d_{-})K\right]
+```
+
+> o the values of the binary call options. These binary options are less frequently traded than vanilla call options, but are easier to analyze. Thus the formula: … breaks up as: C = D N
+
+### `fml-src-black-scholes-model-fa32a5b3-0030`
+
+formula · **exact** · anchored by `none`
+
+$$C=DN(d_{+})F-DN(d_{-})K,$$
+
+```latex
+C=DN(d_{+})F-DN(d_{-})K,
+```
+
+> ) K ] {\displaystyle C=D\left[N(d_{+})F-N(d_{-})K\right]} breaks up as: … where D N ( d +
+
+### `fml-src-black-scholes-model-fa32a5b3-0031`
+
+formula · **exact** · anchored by `none`
+
+$$DN(d_{+})F$$
+
+```latex
+DN(d_{+})F
+```
+
+> d − ) K , {\displaystyle C=DN(d_{+})F-DN(d_{-})K,} where … is the present value of an asset-or-nothing call and D N ( d
+
+### `fml-src-black-scholes-model-fa32a5b3-0032`
+
+formula · **exact** · anchored by `none`
+
+$$DN(d_{-})K$$
+
+```latex
+DN(d_{-})K
+```
+
+> ( d + ) F {\displaystyle DN(d_{+})F} is the present value of an asset-or-nothing call and … is the present value of a cash-or-nothing call. The D factor is for discounting,
+
+### `fml-src-black-scholes-model-fa32a5b3-0033`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{+})~F$$
+
+```latex
+N(d_{+})~F
+```
+
+> g call. The D factor is for discounting, because the expiration date is in future, and removing it changes present value to future value (value at expiry). Thus … is the future value of an asset-or-nothing call and N ( d −
+
+### `fml-src-black-scholes-model-fa32a5b3-0034`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{-})~K$$
+
+```latex
+N(d_{-})~K
+```
+
+> d + ) F {\displaystyle N(d_{+})~F} is the future value of an asset-or-nothing call and … is the future value of a cash-or-nothing call. In risk-neutral terms, these are
+
+### `fml-src-black-scholes-model-fa32a5b3-0035`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{+})F$$
+
+```latex
+N(d_{+})F
+```
+
+> pected value of the asset and the expected value of the cash in the risk-neutral measure. A naive, and slightly incorrect, interpretation of these terms is that … is the probability of the option expiring in the money N ( d +
+
+### `fml-src-black-scholes-model-fa32a5b3-0036`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{+})$$
+
+```latex
+N(d_{+})
+```
+
+> ( d + ) F {\displaystyle N(d_{+})F} is the probability of the option expiring in the money … , multiplied by the value of the underlying at expiry F, while N ( d
+
+### `fml-src-black-scholes-model-fa32a5b3-0037`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{-})K$$
+
+```latex
+N(d_{-})K
+```
+
+> ( d + ) {\displaystyle N(d_{+})} , multiplied by the value of the underlying at expiry F, while … is the probability of the option expiring in the money N ( d −
+
+### `fml-src-black-scholes-model-fa32a5b3-0038`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{-}),$$
+
+```latex
+N(d_{-}),
+```
+
+> ( d − ) K {\displaystyle N(d_{-})K} is the probability of the option expiring in the money … multiplied by the value of the cash at expiry K. This interpretation is incorrec
+
+### `fml-src-black-scholes-model-fa32a5b3-0039`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{-})$$
+
+```latex
+N(d_{-})
+```
+
+> N ( d + ) {\displaystyle N(d_{+})} and … are not equal. In fact, d ±
+
+### `fml-src-black-scholes-model-fa32a5b3-0040`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{\pm })$$
+
+```latex
+N(d_{\pm })
+```
+
+> d ± {\displaystyle d_{\pm }} can be interpreted as measures of moneyness (in standard deviations) and … as probabilities of expiring ITM ( percent moneyness ), in the respective numéra
+
+### `fml-src-black-scholes-model-fa32a5b3-0041`
+
+formula · **exact** · anchored by `none`
+
+$${\textstyle {\frac {1}{2}}\sigma ^{2}}$$
+
+```latex
+{\textstyle {\frac {1}{2}}\sigma ^{2}}
+```
+
+> d ± {\displaystyle d_{\pm }} instead of the … term there is ( r ±
+
+### `fml-src-black-scholes-model-fa32a5b3-0042`
+
+formula · **exact** · anchored by `none`
+
+$${\textstyle \left(r\pm {\frac {1}{2}}\sigma ^{2}\right)\tau ,}$$
+
+```latex
+{\textstyle \left(r\pm {\frac {1}{2}}\sigma ^{2}\right)\tau ,}
+```
+
+> σ 2 {\textstyle {\frac {1}{2}}\sigma ^{2}} term there is … which can be interpreted as a drift factor (in the risk-neutral measure for appr
+
+### `fml-src-black-scholes-model-fa32a5b3-0043`
+
+formula · **exact** · anchored by `none`
+
+$${\textstyle m={\frac {1}{\sigma {\sqrt {\tau }}}}\ln \left({\frac {F}{K}}\right)}$$
+
+```latex
+{\textstyle m={\frac {1}{\sigma {\sqrt {\tau }}}}\ln \left({\frac {F}{K}}\right)}
+```
+
+> an be interpreted as a drift factor (in the risk-neutral measure for appropriate numéraire). The use of d − for moneyness rather than the standardized moneyness … – in other words, the reason for the
+
+### `fml-src-black-scholes-model-fa32a5b3-0044`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{+}),N(d_{-})$$
+
+```latex
+N(d_{+}),N(d_{-})
+```
+
+> [ 21 ] : 6 In detail, the terms … are the probabilities of the option expiring in-the-money under the equivalent e
+
+### `fml-src-black-scholes-model-fa32a5b3-0045`
+
+formula · **exact** · anchored by `none`
+
+$$S_{T}\in (0,\infty )$$
+
+```latex
+S_{T}\in (0,\infty )
+```
+
+> ck) and the equivalent martingale probability measure (numéraire=risk free asset), respectively. [ 21 ] The risk neutral probability density for the stock price … is p (
+
+### `fml-src-black-scholes-model-fa32a5b3-0046`
+
+formula · **exact** · anchored by `none`
+
+$$p(S,T)={\frac {N^{\prime }[d_{-}(S_{T})]}{S_{T}\sigma {\sqrt {T}}}}$$
+
+```latex
+p(S,T)={\frac {N^{\prime }[d_{-}(S_{T})]}{S_{T}\sigma {\sqrt {T}}}}
+```
+
+> ( 0 , ∞ ) {\displaystyle S_{T}\in (0,\infty )} is … where d −
+
+### `fml-src-black-scholes-model-fa32a5b3-0047`
+
+formula · **exact** · anchored by `none`
+
+$$d_{-}=d_{-}(K)$$
+
+```latex
+d_{-}=d_{-}(K)
+```
+
+> {\displaystyle p(S,T)={\frac {N^{\prime }[d_{-}(S_{T})]}{S_{T}\sigma {\sqrt {T}}}}} where … is defined as above. Specifically, N ( d −
+
+### `fml-src-black-scholes-model-fa32a5b3-0048`
+
+formula · **exact** · anchored by `none`
+
+$$SN(d_{+})$$
+
+```latex
+SN(d_{+})
+```
+
+> ( d + ) {\displaystyle N(d_{+})} , however, does not lend itself to a simple probability interpretation. … is correctly interpreted as the present value, using the risk-free interest rate
+
+### `fml-src-black-scholes-model-fa32a5b3-0049`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial V}{\partial S}}$$
+
+```latex
+{\frac {\partial V}{\partial S}}
+```
+
+> ice movements. The Greeks for Black–Scholes are given in closed form below. They can be obtained by differentiation of the Black–Scholes formula. Call Put Delta … N ( d +
+
+### `fml-src-black-scholes-model-fa32a5b3-0050`
+
+formula · **exact** · anchored by `none`
+
+$$N(d_{+})\,$$
+
+```latex
+N(d_{+})\,
+```
+
+> V ∂ S {\displaystyle {\frac {\partial V}{\partial S}}} … − N ( − d
+
+### `fml-src-black-scholes-model-fa32a5b3-0051`
+
+formula · **exact** · anchored by `none`
+
+$$-N(-d_{+})=N(d_{+})-1\,$$
+
+```latex
+-N(-d_{+})=N(d_{+})-1\,
+```
+
+> ( d + ) {\displaystyle N(d_{+})\,} … Gamma
+
+### `fml-src-black-scholes-model-fa32a5b3-0052`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial ^{2}V}{\partial S^{2}}}$$
+
+```latex
+{\frac {\partial ^{2}V}{\partial S^{2}}}
+```
+
+> ) − 1 {\displaystyle -N(-d_{+})=N(d_{+})-1\,} Gamma …
+
+### `fml-src-black-scholes-model-fa32a5b3-0053`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {N'(d_{+})}{S\sigma {\sqrt {T-t}}}}\,$$
+
+```latex
+{\frac {N'(d_{+})}{S\sigma {\sqrt {T-t}}}}\,
+```
+
+> 2 {\displaystyle {\frac {\partial ^{2}V}{\partial S^{2}}}} … Vega
+
+### `fml-src-black-scholes-model-fa32a5b3-0054`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial V}{\partial \sigma }}$$
+
+```latex
+{\frac {\partial V}{\partial \sigma }}
+```
+
+> {\displaystyle {\frac {N'(d_{+})}{S\sigma {\sqrt {T-t}}}}\,} Vega … S N ′
+
+### `fml-src-black-scholes-model-fa32a5b3-0055`
+
+formula · **exact** · anchored by `none`
+
+$$SN'(d_{+}){\sqrt {T-t}}\,$$
+
+```latex
+SN'(d_{+}){\sqrt {T-t}}\,
+```
+
+> ∂ σ {\displaystyle {\frac {\partial V}{\partial \sigma }}} … Theta
+
+### `fml-src-black-scholes-model-fa32a5b3-0056`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial V}{\partial t}}$$
+
+```latex
+{\frac {\partial V}{\partial t}}
+```
+
+> t {\displaystyle SN'(d_{+}){\sqrt {T-t}}\,} Theta … −
+
+### `fml-src-black-scholes-model-fa32a5b3-0057`
+
+formula · **exact** · anchored by `none`
+
+$$-{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}-rKe^{-r(T-t)}N(d_{-})\,$$
+
+```latex
+-{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}-rKe^{-r(T-t)}N(d_{-})\,
+```
+
+> ∂ t {\displaystyle {\frac {\partial V}{\partial t}}} …
+
+### `fml-src-black-scholes-model-fa32a5b3-0058`
+
+formula · **exact** · anchored by `none`
+
+$$-{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}+rKe^{-r(T-t)}N(-d_{-})\,$$
+
+```latex
+-{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}+rKe^{-r(T-t)}N(-d_{-})\,
+```
+
+> ) {\displaystyle -{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}-rKe^{-r(T-t)}N(d_{-})\,} … Rho
+
+### `fml-src-black-scholes-model-fa32a5b3-0059`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial V}{\partial r}}$$
+
+```latex
+{\frac {\partial V}{\partial r}}
+```
+
+> {\displaystyle -{\frac {SN'(d_{+})\sigma }{2{\sqrt {T-t}}}}+rKe^{-r(T-t)}N(-d_{-})\,} Rho … K ( T − t
+
+### `fml-src-black-scholes-model-fa32a5b3-0060`
+
+formula · **exact** · anchored by `none`
+
+$$K(T-t)e^{-r(T-t)}N(d_{-})\,$$
+
+```latex
+K(T-t)e^{-r(T-t)}N(d_{-})\,
+```
+
+> ∂ r {\displaystyle {\frac {\partial V}{\partial r}}} … − K ( T −
+
+### `fml-src-black-scholes-model-fa32a5b3-0061`
+
+formula · **exact** · anchored by `none`
+
+$$-K(T-t)e^{-r(T-t)}N(-d_{-})\,$$
+
+```latex
+-K(T-t)e^{-r(T-t)}N(-d_{-})\,
+```
+
+> − ) {\displaystyle K(T-t)e^{-r(T-t)}N(d_{-})\,} … Note that the gamma and vega are the same value for calls and puts. This can be
+
+### `fml-src-black-scholes-model-fa32a5b3-0062`
+
+formula · **exact** · anchored by `none`
+
+$$\nu$$
+
+```latex
+\nu
+```
+
+> ys or trading days per year). Note that "Vega" is not a letter in the Greek alphabet; the name arises from misreading the Greek letter nu (variously rendered as … , ν , and ν) as a V. Extensions of the model The above model can be extended for
+
+### `fml-src-black-scholes-model-fa32a5b3-0063`
+
+formula · **exact** · anchored by `none`
+
+$$[t,t+dt]$$
+
+```latex
+[t,t+dt]
+```
+
+> ion that dividends are paid continuously, and that the dividend amount is proportional to the level of the index. The dividend payment paid over the time period … is then modelled as: q S t
+
+### `fml-src-black-scholes-model-fa32a5b3-0064`
+
+formula · **exact** · anchored by `none`
+
+$$qS_{t}\,dt$$
+
+```latex
+qS_{t}\,dt
+```
+
+> [ t , t + d t ] {\displaystyle [t,t+dt]} is then modelled as: … for some constant q {\displaystyle q}
+
+### `fml-src-black-scholes-model-fa32a5b3-0065`
+
+formula · **exact** · anchored by `none`
+
+$$C(S_{t},t)=e^{-r(T-t)}[FN(d_{1})-KN(d_{2})]\,$$
+
+```latex
+C(S_{t},t)=e^{-r(T-t)}[FN(d_{1})-KN(d_{2})]\,
+```
+
+> {\displaystyle q} (the dividend yield ). Under this formulation the arbitrage-free price implied by the Black–Scholes model can be shown to be: … and P
+
+### `fml-src-black-scholes-model-fa32a5b3-0066`
+
+formula · **exact** · anchored by `none`
+
+$$P(S_{t},t)=e^{-r(T-t)}[KN(-d_{2})-FN(-d_{1})]\,$$
+
+```latex
+P(S_{t},t)=e^{-r(T-t)}[KN(-d_{2})-FN(-d_{1})]\,
+```
+
+> ) ] {\displaystyle C(S_{t},t)=e^{-r(T-t)}[FN(d_{1})-KN(d_{2})]\,} and … where now F = S
+
+### `fml-src-black-scholes-model-fa32a5b3-0067`
+
+formula · **exact** · anchored by `none`
+
+$$F=S_{t}e^{(r-q)(T-t)}\,$$
+
+```latex
+F=S_{t}e^{(r-q)(T-t)}\,
+```
+
+> ) ] {\displaystyle P(S_{t},t)=e^{-r(T-t)}[KN(-d_{2})-FN(-d_{1})]\,} where now … is the modified forward price that occurs in the terms d 1
+
+### `fml-src-black-scholes-model-fa32a5b3-0068`
+
+formula · **exact** · anchored by `none`
+
+$$d_{1},d_{2}$$
+
+```latex
+d_{1},d_{2}
+```
+
+> t ) {\displaystyle F=S_{t}e^{(r-q)(T-t)}\,} is the modified forward price that occurs in the terms … :
+
+### `fml-src-black-scholes-model-fa32a5b3-0069`
+
+formula · **exact** · anchored by `none`
+
+$$d_{1}={\frac {1}{\sigma {\sqrt {T-t}}}}\left[\ln \left({\frac {S_{t}}{K}}\right)+\left(r-q+{\frac {1}{2}}\sigma ^{2}\right)(T-t)\right]$$
+
+```latex
+d_{1}={\frac {1}{\sigma {\sqrt {T-t}}}}\left[\ln \left({\frac {S_{t}}{K}}\right)+\left(r-q+{\frac {1}{2}}\sigma ^{2}\right)(T-t)\right]
+```
+
+> 2 {\displaystyle d_{1},d_{2}} : … and
+
+### `fml-src-black-scholes-model-fa32a5b3-0070`
+
+formula · **exact** · anchored by `none`
+
+$$d_{2}=d_{1}-\sigma {\sqrt {T-t}}={\frac {1}{\sigma {\sqrt {T-t}}}}\left[\ln \left({\frac {S_{t}}{K}}\right)+\left(r-q-{\frac {1}{2}}\sigma ^{2}\right)(T-t)\right]$$
+
+```latex
+d_{2}=d_{1}-\sigma {\sqrt {T-t}}={\frac {1}{\sigma {\sqrt {T-t}}}}\left[\ln \left({\frac {S_{t}}{K}}\right)+\left(r-q-{\frac {1}{2}}\sigma ^{2}\right)(T-t)\right]
+```
+
+> ght)(T-t)\right]} and … . [ 25 ]
+
+### `fml-src-black-scholes-model-fa32a5b3-0071`
+
+formula · **exact** · anchored by `none`
+
+$$\delta$$
+
+```latex
+\delta
+```
+
+> n instruments paying discrete proportional dividends. This is useful when the option is struck on a single stock. A typical model is to assume that a proportion … of the stock price is paid out at pre-determined times t 1
+
+### `fml-src-black-scholes-model-fa32a5b3-0072`
+
+formula · **exact** · anchored by `none`
+
+$$t_{1},t_{2},\ldots ,t_{n}$$
+
+```latex
+t_{1},t_{2},\ldots ,t_{n}
+```
+
+> δ {\displaystyle \delta } of the stock price is paid out at pre-determined times … . The price of the stock is then modelled as: S
+
+### `fml-src-black-scholes-model-fa32a5b3-0073`
+
+formula · **exact** · anchored by `none`
+
+$$S_{t}=S_{0}(1-\delta )^{n(t)}e^{ut+\sigma W_{t}}$$
+
+```latex
+S_{t}=S_{0}(1-\delta )^{n(t)}e^{ut+\sigma W_{t}}
+```
+
+> t n {\displaystyle t_{1},t_{2},\ldots ,t_{n}} . The price of the stock is then modelled as: … where n ( t )
+
+### `fml-src-black-scholes-model-fa32a5b3-0074`
+
+formula · **exact** · anchored by `none`
+
+$$n(t)$$
+
+```latex
+n(t)
+```
+
+> W t {\displaystyle S_{t}=S_{0}(1-\delta )^{n(t)}e^{ut+\sigma W_{t}}} where … is the number of dividends that have been paid by time t {\displaystyle t}
+
+### `fml-src-black-scholes-model-fa32a5b3-0075`
+
+formula · **exact** · anchored by `none`
+
+$$C(S_{0},T)=e^{-rT}[FN(d_{1})-KN(d_{2})]\,$$
+
+```latex
+C(S_{0},T)=e^{-rT}[FN(d_{1})-KN(d_{2})]\,
+```
+
+> t {\displaystyle t} . The price of a call option on such a stock is again: … where now F =
+
+### `fml-src-black-scholes-model-fa32a5b3-0076`
+
+formula · **exact** · anchored by `none`
+
+$$F=S_{0}(1-\delta )^{n(T)}e^{rT}\,$$
+
+```latex
+F=S_{0}(1-\delta )^{n(T)}e^{rT}\,
+```
+
+> ) ] {\displaystyle C(S_{0},T)=e^{-rT}[FN(d_{1})-KN(d_{2})]\,} where now … is the forward price for the dividend paying stock. American options The problem
+
+### `fml-src-black-scholes-model-fa32a5b3-0077`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partial ^{2}V}{\partial S^{2}}}+rS{\frac {\partial V}{\partial S}}-rV\leq 0$$
+
+```latex
+{\frac {\partial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partial ^{2}V}{\partial S^{2}}}+rS{\frac {\partial V}{\partial S}}-rV\leq 0
+```
+
+> ion. Since the American option can be exercised at any time before the expiration date, the Black–Scholes equation becomes a variational inequality of the form: … [ 26 ] together with
+
+### `fml-src-black-scholes-model-fa32a5b3-0078`
+
+formula · **exact** · anchored by `none`
+
+$$V(S,t)\geq H(S)$$
+
+```latex
+V(S,t)\geq H(S)
+```
+
+> tial V}{\partial t}}+{\frac {1}{2}}\sigma ^{2}S^{2}{\frac {\partial ^{2}V}{\partial S^{2}}}+rS{\frac {\partial V}{\partial S}}-rV\leq 0}"/> [ 26 ] together with … where H ( S ) {\displaystyle H(S)}
+
+### `fml-src-black-scholes-model-fa32a5b3-0079`
+
+formula · **exact** · anchored by `none`
+
+$$H(S)$$
+
+```latex
+H(S)
+```
+
+> ( S , t ) ≥ H ( S ) {\displaystyle V(S,t)\geq H(S)} where … denotes the payoff at stock price S {\displaystyle S}
+
+### `fml-src-black-scholes-model-fa32a5b3-0080`
+
+formula · **exact** · anchored by `none`
+
+$$V(S,T)=H(S)$$
+
+```latex
+V(S,T)=H(S)
+```
+
+> S {\displaystyle S} and the terminal condition: … . In general this inequality does not have a closed form solution, though an Ame
+
+### `fml-src-black-scholes-model-fa32a5b3-0081`
+
+formula · **exact** · anchored by `none`
+
+$$S-X$$
+
+```latex
+S-X
+```
+
+> onding to a trigger price. Here, if the underlying asset price is greater than or equal to the trigger price it is optimal to exercise, and the value must equal … , otherwise the option "boils down to: (i) a European up-and-out call option...
+
+### `fml-src-black-scholes-model-fa32a5b3-0082`
+
+formula · **exact** · anchored by `none`
+
+$$T\rightarrow \infty$$
+
+```latex
+T\rightarrow \infty
+```
+
+> cal solution for American put options, it is possible to derive such a formula for the case of a perpetual option – meaning that the option never expires (i.e., … ). [ 34 ] In this case, the time decay of the option is equal to zero, which lea
+
+### `fml-src-black-scholes-model-fa32a5b3-0083`
+
+formula · **exact** · anchored by `none`
+
+$${1 \over {2}}\sigma ^{2}S^{2}{d^{2}V \over {dS^{2}}}+(r-q)S{dV \over {dS}}-rV=0$$
+
+```latex
+{1 \over {2}}\sigma ^{2}S^{2}{d^{2}V \over {dS^{2}}}+(r-q)S{dV \over {dS}}-rV=0
+```
+
+> ). [ 34 ] In this case, the time decay of the option is equal to zero, which leads to the Black–Scholes PDE becoming an ODE: … Let S −
+
+### `fml-src-black-scholes-model-fa32a5b3-0084`
+
+formula · **exact** · anchored by `none`
+
+$$S_{-}$$
+
+```latex
+S_{-}
+```
+
+> − r V = 0 {\displaystyle {1 \over {2}}\sigma ^{2}S^{2}{d^{2}V \over {dS^{2}}}+(r-q)S{dV \over {dS}}-rV=0} Let … denote the lower exercise boundary, below which it is optimal to exercise the op
+
+### `fml-src-black-scholes-model-fa32a5b3-0085`
+
+formula · **exact** · anchored by `none`
+
+$$V(S_{-})=K-S_{-},\quad {dV \over {dS}}(S_{-})=-1,\quad V(S)\leq K$$
+
+```latex
+V(S_{-})=K-S_{-},\quad {dV \over {dS}}(S_{-})=-1,\quad V(S)\leq K
+```
+
+> − {\displaystyle S_{-}} denote the lower exercise boundary, below which it is optimal to exercise the option. The boundary conditions are: … The solutions to the ODE are a linear combination of any two linearly independen
+
+### `fml-src-black-scholes-model-fa32a5b3-0086`
+
+formula · **exact** · anchored by `none`
+
+$$V(S)=A_{1}S^{\lambda _{1}}+A_{2}S^{\lambda _{2}}$$
+
+```latex
+V(S)=A_{1}S^{\lambda _{1}}+A_{2}S^{\lambda _{2}}
+```
+
+> V(S_{-})=K-S_{-},\quad {dV \over {dS}}(S_{-})=-1,\quad V(S)\leq K} The solutions to the ODE are a linear combination of any two linearly independent solutions: … For S − ≤
+
+### `fml-src-black-scholes-model-fa32a5b3-0087`
+
+formula · **exact** · anchored by `none`
+
+$$S_{-}\leq S$$
+
+```latex
+S_{-}\leq S
+```
+
+> λ 2 {\displaystyle V(S)=A_{1}S^{\lambda _{1}}+A_{2}S^{\lambda _{2}}} For … , substitution of this solution into the ODE for i = 1 , 2
+
+### `fml-src-black-scholes-model-fa32a5b3-0088`
+
+formula · **exact** · anchored by `none`
+
+$$i={1,2}$$
+
+```latex
+i={1,2}
+```
+
+> S − ≤ S {\displaystyle S_{-}\leq S} , substitution of this solution into the ODE for … yields:
+
+### `fml-src-black-scholes-model-fa32a5b3-0089`
+
+formula · **exact** · anchored by `none`
+
+$$\left[{1 \over {2}}\sigma ^{2}\lambda _{i}(\lambda _{i}-1)+(r-q)\lambda _{i}-r\right]S^{\lambda _{i}}=0$$
+
+```latex
+\left[{1 \over {2}}\sigma ^{2}\lambda _{i}(\lambda _{i}-1)+(r-q)\lambda _{i}-r\right]S^{\lambda _{i}}=0
+```
+
+> i = 1 , 2 {\displaystyle i={1,2}} yields: … Rearranging the terms gives:
+
+### `fml-src-black-scholes-model-fa32a5b3-0090`
+
+formula · **exact** · anchored by `none`
+
+$${1 \over {2}}\sigma ^{2}\lambda _{i}^{2}+\left(r-q-{1 \over {2}}\sigma ^{2}\right)\lambda _{i}-r=0$$
+
+```latex
+{1 \over {2}}\sigma ^{2}\lambda _{i}^{2}+\left(r-q-{1 \over {2}}\sigma ^{2}\right)\lambda _{i}-r=0
+```
+
+> {\displaystyle \left[{1 \over {2}}\sigma ^{2}\lambda _{i}(\lambda _{i}-1)+(r-q)\lambda _{i}-r\right]S^{\lambda _{i}}=0} Rearranging the terms gives: … Using the quadratic formula , the solutions for
+
+### `fml-src-black-scholes-model-fa32a5b3-0091`
+
+formula · **exact** · anchored by `none`
+
+$$\lambda _{i}$$
+
+```latex
+\lambda _{i}
+```
+
+> displaystyle {1 \over {2}}\sigma ^{2}\lambda _{i}^{2}+\left(r-q-{1 \over {2}}\sigma ^{2}\right)\lambda _{i}-r=0} Using the quadratic formula , the solutions for … are:
+
+### `fml-src-black-scholes-model-fa32a5b3-0092`
+
+formula · **exact** · anchored by `none`
+
+$${\begin{aligned}\lambda _{1}&={-\left(r-q-{1 \over {2}}\sigma ^{2}\right)+{\sqrt {\left(r-q-{1 \over {2}}\sigma ^{2}\right)^{2}+2\sigma ^{2}r}} \over {\sigma ^{2}}}\\\lambda _{2}&={-\left(r-q-{1 \over {2}}\sigma ^{2}\right)-{\sqrt {\left(r-q-{1 \over {2}}\sigma ^{2}\right)^{2}+2\sigma ^{2}r}} \over {\sigma ^{2}}}\end{aligned}}$$
+
+```latex
+{\begin{aligned}\lambda _{1}&={-\left(r-q-{1 \over {2}}\sigma ^{2}\right)+{\sqrt {\left(r-q-{1 \over {2}}\sigma ^{2}\right)^{2}+2\sigma ^{2}r}} \over {\sigma ^{2}}}\\\lambda _{2}&={-\left(r-q-{1 \over {2}}\sigma ^{2}\right)-{\sqrt {\left(r-q-{1 \over {2}}\sigma ^{2}\right)^{2}+2\sigma ^{2}r}} \over {\sigma ^{2}}}\end{aligned}}
+```
+
+> are: … In order to have a finite solution for the perpetual put, since the boundary con
+
+### `fml-src-black-scholes-model-fa32a5b3-0093`
+
+formula · **exact** · anchored by `none`
+
+$$A_{1}=0$$
+
+```latex
+A_{1}=0
+```
+
+> have a finite solution for the perpetual put, since the boundary conditions imply upper and lower finite bounds on the value of the put, it is necessary to set … , leading to the solution V ( S ) =
+
+### `fml-src-black-scholes-model-fa32a5b3-0094`
+
+formula · **exact** · anchored by `none`
+
+$$V(S)=A_{2}S^{\lambda _{2}}$$
+
+```latex
+V(S)=A_{2}S^{\lambda _{2}}
+```
+
+> A 1 = 0 {\displaystyle A_{1}=0} , leading to the solution … . From the first boundary condition, it is known that:
+
+### `fml-src-black-scholes-model-fa32a5b3-0095`
+
+formula · **exact** · anchored by `none`
+
+$$V(S_{-})=A_{2}(S_{-})^{\lambda _{2}}=K-S_{-}\implies A_{2}={K-S_{-} \over {(S_{-})^{\lambda _{2}}}}$$
+
+```latex
+V(S_{-})=A_{2}(S_{-})^{\lambda _{2}}=K-S_{-}\implies A_{2}={K-S_{-} \over {(S_{-})^{\lambda _{2}}}}
+```
+
+> {\displaystyle V(S)=A_{2}S^{\lambda _{2}}} . From the first boundary condition, it is known that: … Therefore, the value of the perpetual put becomes:
+
+### `fml-src-black-scholes-model-fa32a5b3-0096`
+
+formula · **exact** · anchored by `none`
+
+$$V(S)=(K-S_{-})\left({S \over {S_{-}}}\right)^{\lambda _{2}}$$
+
+```latex
+V(S)=(K-S_{-})\left({S \over {S_{-}}}\right)^{\lambda _{2}}
+```
+
+> laystyle V(S_{-})=A_{2}(S_{-})^{\lambda _{2}}=K-S_{-}\implies A_{2}={K-S_{-} \over {(S_{-})^{\lambda _{2}}}}} Therefore, the value of the perpetual put becomes: … The second boundary condition yields the location of the lower exercise boundary
+
+### `fml-src-black-scholes-model-fa32a5b3-0097`
+
+formula · **exact** · anchored by `none`
+
+$${dV \over {dS}}(S_{-})=\lambda _{2}{K-S_{-} \over {S_{-}}}=-1\implies S_{-}={\lambda _{2}K \over {\lambda _{2}-1}}$$
+
+```latex
+{dV \over {dS}}(S_{-})=\lambda _{2}{K-S_{-} \over {S_{-}}}=-1\implies S_{-}={\lambda _{2}K \over {\lambda _{2}-1}}
+```
+
+> {\displaystyle V(S)=(K-S_{-})\left({S \over {S_{-}}}\right)^{\lambda _{2}}} The second boundary condition yields the location of the lower exercise boundary: … To conclude, for
+
+### `fml-src-black-scholes-model-fa32a5b3-0098`
+
+formula · **exact** · anchored by `none`
+
+$${\textstyle S\geq S_{-}={\lambda _{2}K \over {\lambda _{2}-1}}}$$
+
+```latex
+{\textstyle S\geq S_{-}={\lambda _{2}K \over {\lambda _{2}-1}}}
+```
+
+> {\displaystyle {dV \over {dS}}(S_{-})=\lambda _{2}{K-S_{-} \over {S_{-}}}=-1\implies S_{-}={\lambda _{2}K \over {\lambda _{2}-1}}} To conclude, for … , the perpetual American put option is worth:
+
+### `fml-src-black-scholes-model-fa32a5b3-0099`
+
+formula · **exact** · anchored by `none`
+
+$$V(S)={K \over {1-\lambda _{2}}}\left({\lambda _{2}-1 \over {\lambda _{2}}}\right)^{\lambda _{2}}\left({S \over {K}}\right)^{\lambda _{2}}$$
+
+```latex
+V(S)={K \over {1-\lambda _{2}}}\left({\lambda _{2}-1 \over {\lambda _{2}}}\right)^{\lambda _{2}}\left({S \over {K}}\right)^{\lambda _{2}}
+```
+
+> {\textstyle S\geq S_{-}={\lambda _{2}K \over {\lambda _{2}-1}}} , the perpetual American put option is worth: … Binary options By solving the Black–Scholes differential equation with the Heavi
+
+### `fml-src-black-scholes-model-fa32a5b3-0100`
+
+formula · **exact** · anchored by `none`
+
+$$C=e^{-r(T-t)}N(d_{2}).\,$$
+
+```latex
+C=e^{-r(T-t)}N(d_{2}).\,
+```
+
+> two terms in the Black–Scholes formula. Cash-or-nothing call This pays out one unit of cash if the spot is above the strike at maturity. Its value is given by: … Cash-or-nothing put This pays out one unit of cash if the spot is below the stri
+
+### `fml-src-black-scholes-model-fa32a5b3-0101`
+
+formula · **exact** · anchored by `none`
+
+$$P=e^{-r(T-t)}N(-d_{2}).\,$$
+
+```latex
+P=e^{-r(T-t)}N(-d_{2}).\,
+```
+
+> {\displaystyle C=e^{-r(T-t)}N(d_{2}).\,} Cash-or-nothing put This pays out one unit of cash if the spot is below the strike at maturity. Its value is given by: … Asset-or-nothing call This pays out one unit of asset if the spot is above the s
+
+### `fml-src-black-scholes-model-fa32a5b3-0102`
+
+formula · **exact** · anchored by `none`
+
+$$C=Se^{-q(T-t)}N(d_{1}).\,$$
+
+```latex
+C=Se^{-q(T-t)}N(d_{1}).\,
+```
+
+> isplaystyle P=e^{-r(T-t)}N(-d_{2}).\,} Asset-or-nothing call This pays out one unit of asset if the spot is above the strike at maturity. Its value is given by: … Asset-or-nothing put This pays out one unit of asset if the spot is below the st
+
+### `fml-src-black-scholes-model-fa32a5b3-0103`
+
+formula · **exact** · anchored by `none`
+
+$$P=Se^{-q(T-t)}N(-d_{1}),$$
+
+```latex
+P=Se^{-q(T-t)}N(-d_{1}),
+```
+
+> displaystyle C=Se^{-q(T-t)}N(d_{1}).\,} Asset-or-nothing put This pays out one unit of asset if the spot is below the strike at maturity. Its value is given by: … Foreign Exchange (FX)
+
+### `fml-src-black-scholes-model-fa32a5b3-0104`
+
+formula · **exact** · anchored by `none`
+
+$$r_{f}$$
+
+```latex
+r_{f}
+```
+
+> unit of the foreign currency if the spot at maturity is above or below the strike is exactly like an asset-or nothing call and put respectively. Hence by taking … , the foreign interest rate, r d
+
+### `fml-src-black-scholes-model-fa32a5b3-0105`
+
+formula · **exact** · anchored by `none`
+
+$$r_{d}$$
+
+```latex
+r_{d}
+```
+
+> r f {\displaystyle r_{f}} , the foreign interest rate, … , the domestic interest rate, and the rest as above, the following results can b
+
+### `fml-src-black-scholes-model-fa32a5b3-0106`
+
+formula · **exact** · anchored by `none`
+
+$$C=e^{-r_{d}T}N(d_{2})\,$$
+
+```latex
+C=e^{-r_{d}T}N(d_{2})\,
+```
+
+> lowing results can be obtained: In the case of a digital call (this is a call FOR/put DOM) paying out one unit of the domestic currency gotten as present value: … In the case of a digital put (this is a put FOR/call DOM) paying out one unit of
+
+### `fml-src-black-scholes-model-fa32a5b3-0107`
+
+formula · **exact** · anchored by `none`
+
+$$P=e^{-r_{d}T}N(-d_{2})\,$$
+
+```latex
+P=e^{-r_{d}T}N(-d_{2})\,
+```
+
+> aystyle C=e^{-r_{d}T}N(d_{2})\,} In the case of a digital put (this is a put FOR/call DOM) paying out one unit of the domestic currency gotten as present value: … In the case of a digital call (this is a call FOR/put DOM) paying out one unit o
+
+### `fml-src-black-scholes-model-fa32a5b3-0108`
+
+formula · **exact** · anchored by `none`
+
+$$C=Se^{-r_{f}T}N(d_{1})\,$$
+
+```latex
+C=Se^{-r_{f}T}N(d_{1})\,
+```
+
+> ystyle P=e^{-r_{d}T}N(-d_{2})\,} In the case of a digital call (this is a call FOR/put DOM) paying out one unit of the foreign currency gotten as present value: … In the case of a digital put (this is a put FOR/call DOM) paying out one unit of
+
+### `fml-src-black-scholes-model-fa32a5b3-0109`
+
+formula · **exact** · anchored by `none`
+
+$$P=Se^{-r_{f}T}N(-d_{1})\,$$
+
+```latex
+P=Se^{-r_{f}T}N(-d_{1})\,
+```
+
+> aystyle C=Se^{-r_{f}T}N(d_{1})\,} In the case of a digital put (this is a put FOR/call DOM) paying out one unit of the foreign currency gotten as present value: … Skew In the standard Black–Scholes model, one can interpret the premium of the b
+
+### `fml-src-black-scholes-model-fa32a5b3-0110`
+
+formula · **exact** · anchored by `none`
+
+$$\sigma$$
+
+```latex
+\sigma
+```
+
+> the skewness of the distribution of the asset. Market makers adjust for such skewness by, instead of using a single standard deviation for the underlying asset … across all strikes, incorporating a variable one σ ( K )
+
+### `fml-src-black-scholes-model-fa32a5b3-0111`
+
+formula · **exact** · anchored by `none`
+
+$$\sigma (K)$$
+
+```latex
+\sigma (K)
+```
+
+> σ {\displaystyle \sigma } across all strikes, incorporating a variable one … where volatility depends on strike price, thus incorporating the volatility skew
+
+### `fml-src-black-scholes-model-fa32a5b3-0112`
+
+formula · **exact** · anchored by `none`
+
+$$C_{v}$$
+
+```latex
+C_{v}
+```
+
+> t call spread using two vanilla options. One can model the value of a binary cash-or-nothing option, C , at strike K , as an infinitesimally tight spread, where … is a vanilla European call: [ 36 ]
+
+### `fml-src-black-scholes-model-fa32a5b3-0113`
+
+formula · **exact** · anchored by `none`
+
+$$C=\lim _{\epsilon \to 0}{\frac {C_{v}(K-\epsilon )-C_{v}(K)}{\epsilon }}$$
+
+```latex
+C=\lim _{\epsilon \to 0}{\frac {C_{v}(K-\epsilon )-C_{v}(K)}{\epsilon }}
+```
+
+> [ 36 ] [ 37 ] … Thus, the value of a binary call is the negative of the derivative of the price
+
+### `fml-src-black-scholes-model-fa32a5b3-0114`
+
+formula · **exact** · anchored by `none`
+
+$$C=-{\frac {dC_{v}}{dK}}$$
+
+```latex
+C=-{\frac {dC_{v}}{dK}}
+```
+
+> on )-C_{v}(K)}{\epsilon }}} Thus, the value of a binary call is the negative of the derivative of the price of a vanilla call with respect to strike price: … When one takes volatility skew into account, σ {\displaystyle \sigma }
+
+### `fml-src-black-scholes-model-fa32a5b3-0115`
+
+formula · **exact** · anchored by `none`
+
+$$C=-{\frac {dC_{v}(K,\sigma (K))}{dK}}=-{\frac {\partial C_{v}}{\partial K}}-{\frac {\partial C_{v}}{\partial \sigma }}{\frac {\partial \sigma }{\partial K}}$$
+
+```latex
+C=-{\frac {dC_{v}(K,\sigma (K))}{dK}}=-{\frac {\partial C_{v}}{\partial K}}-{\frac {\partial C_{v}}{\partial \sigma }}{\frac {\partial \sigma }{\partial K}}
+```
+
+> K {\displaystyle K} : … The first term is equal to the premium of the binary option ignoring skew:
+
+### `fml-src-black-scholes-model-fa32a5b3-0116`
+
+formula · **exact** · anchored by `none`
+
+$$-{\frac {\partial C_{v}}{\partial K}}=-{\frac {\partial (SN(d_{1})-Ke^{-r(T-t)}N(d_{2}))}{\partial K}}=e^{-r(T-t)}N(d_{2})=C_{\text{no skew}}$$
+
+```latex
+-{\frac {\partial C_{v}}{\partial K}}=-{\frac {\partial (SN(d_{1})-Ke^{-r(T-t)}N(d_{2}))}{\partial K}}=e^{-r(T-t)}N(d_{2})=C_{\text{no skew}}
+```
+
+> -{\frac {\partial C_{v}}{\partial \sigma }}{\frac {\partial \sigma }{\partial K}}}"/> The first term is equal to the premium of the binary option ignoring skew: …
+
+### `fml-src-black-scholes-model-fa32a5b3-0117`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial C_{v}}{\partial \sigma }}$$
+
+```latex
+{\frac {\partial C_{v}}{\partial \sigma }}
+```
+
+> {\displaystyle -{\frac {\partial C_{v}}{\partial K}}=-{\frac {\partial (SN(d_{1})-Ke^{-r(T-t)}N(d_{2}))}{\partial K}}=e^{-r(T-t)}N(d_{2})=C_{\text{no skew}}} … is the Vega of the vanilla call;
+
+### `fml-src-black-scholes-model-fa32a5b3-0118`
+
+formula · **exact** · anchored by `none`
+
+$${\frac {\partial \sigma }{\partial K}}$$
+
+```latex
+{\frac {\partial \sigma }{\partial K}}
+```
+
+> {\displaystyle {\frac {\partial C_{v}}{\partial \sigma }}} is the Vega of the vanilla call; … is sometimes called the "skew slope" or just "skew". If the skew is typically ne
+
+### `fml-src-black-scholes-model-fa32a5b3-0119`
+
+formula · **exact** · anchored by `none`
+
+$$C=C_{\text{no skew}}-{\text{Vega}}_{v}\cdot {\text{Skew}}$$
+
+```latex
+C=C_{\text{no skew}}-{\text{Vega}}_{v}\cdot {\text{Skew}}
+```
+
+> is sometimes called the "skew slope" or just "skew". If the skew is typically negative, the value of a binary call will be higher when taking skew into account. … Relationship to vanilla options' Greeks Since a binary call is a mathematical de
 
 ## The knowledge handed off
 

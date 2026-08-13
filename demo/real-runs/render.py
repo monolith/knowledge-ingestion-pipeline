@@ -109,6 +109,44 @@ def _table_markdown(payload: dict[str, Any], limit: int = 12) -> list[str]:
     return out
 
 
+def _render_asset(asset: dict[str, Any], rel_dir: str, *, compact: bool = False) -> list[str]:
+    """One asset, shown. A table nobody can see is a table nobody checks."""
+    payload = asset.get("payload", {})
+    out: list[str] = []
+    caption = payload.get("caption", "")
+    heading = payload.get("heading", "")
+    label = f"**{caption}**" if caption else ""
+    if heading and not compact:
+        label = (label + f"  ·  under *{heading}*") if label else f"under *{heading}*"
+    if label:
+        out += [label, ""]
+
+    if asset["kind"] == "formula":
+        latex = payload.get("latex", "")
+        if latex:
+            out += [f"$${latex}$$", ""]
+            if not compact:
+                out += ["```latex", latex, "```", ""]
+        else:
+            out += ["*A formula is here and was not read; the presentation markup is "
+                    "kept in `assets.jsonl`.*", ""]
+        if payload.get("surrounding_text") and not compact:
+            out += [f"> {payload['surrounding_text']}", ""]
+    elif asset["kind"] == "table":
+        grid = _table_markdown(payload, limit=6 if compact else 12)
+        if grid:
+            out += grid + [""]
+    elif asset["kind"] == "figure":
+        image = payload.get("image")
+        if image:
+            out += [f"![{caption or asset['asset_id']}]({rel_dir}/{image})", ""]
+        elif payload.get("src"):
+            out += [f"*Image not copied into the run: `{payload['src']}`*", ""]
+        if payload.get("alt") and not caption:
+            out += [f"> {payload['alt']}", ""]
+    return out
+
+
 def _assets_section(run_dir: Path, workspace: Path, units: list[dict]) -> list[str]:
     """Every asset, with its fidelity, its provenance and its content shown."""
     normalized = run_dir / "01_normalized"
@@ -175,34 +213,23 @@ def _assets_section(run_dir: Path, workspace: Path, units: list[dict]) -> list[s
             cited = citers.get(a["asset_id"], [])
             cite_note = (f" · cited by {len(cited)} unit{'s' if len(cited) != 1 else ''}"
                          if cited else " · not cited by any unit")
-            out += [
-                f"#### `{a['asset_id']}`", "",
-                f"{a['kind']} · **{a['fidelity']}** · extractor `{a['extractor']}`"
-                f"{page}{cite_note}", "",
-            ]
-            if a["kind"] == "formula":
-                latex = payload.get("latex", "")
-                if latex:
-                    # Displayed as math so it is legible, and repeated as source so
-                    # the exact string that a citation is checked against is visible.
-                    out += [f"$${latex}$$", "", "```latex", latex, "```", ""]
-                else:
-                    out += ["*No LaTeX recovered; the presentation markup is kept in "
-                            "`assets.jsonl` so a later pass can read it.*", ""]
-                if payload.get("surrounding_text"):
-                    out += [f"> {payload['surrounding_text']}", ""]
-            elif a["kind"] == "table":
-                if payload.get("caption"):
-                    out += [f"**{payload['caption']}**", ""]
-                grid = _table_markdown(payload)
-                if grid:
-                    out += grid + [""]
-            elif a["kind"] == "figure":
-                image = payload.get("image")
-                if image:
-                    out += [f"![{a['asset_id']}]({rel_dir}/{image})", ""]
+            anchor = a.get("anchor", {})
+            check = a.get("verification") or {}
+            bits = [f"{a['kind']}", f"**{a['fidelity']}**",
+                    f"extractor `{a['extractor']}`"]
+            if anchor.get("method"):
+                bits.append(f"anchored by `{anchor['method']}`")
+            if check.get("ratio") is not None:
+                bits.append(f"{check['found_in_text_layer']}/{check['numeric_tokens']} "
+                            f"figures corroborated by the text layer")
+            out += [f"#### `{a['asset_id']}`", "",
+                    " · ".join(bits) + f"{page}{cite_note}", ""]
+            if check.get("not_found"):
+                out += ["Not found in the text layer: "
+                        + ", ".join(f"`{x}`" for x in check["not_found"][:10]) + ".", ""]
+            out += _render_asset(a, rel_dir)
             if cited:
-                out += ["Cited by: " + ", ".join(f"`{c}`" for c in cited[:8])
+                out += ["Related units: " + ", ".join(f"`{c}`" for c in cited[:8])
                         + (" …" if len(cited) > 8 else ""), ""]
     return out
 
@@ -218,6 +245,18 @@ def render(workspace: Path) -> str:
     registry = _jsonl(run_dir / "01_normalized" / "source_registry.jsonl")
     coverage_path = run_dir / "06_audit" / "corpus_coverage.json"
     coverage = json.loads(coverage_path.read_text()) if coverage_path.exists() else {}
+
+    links = _jsonl(run_dir / "02_units" / "asset_links.jsonl")
+    assets_by_id: dict[str, dict[str, Any]] = {}
+    asset_dir_of: dict[str, str] = {}
+    normalized = run_dir / "01_normalized"
+    if normalized.exists():
+        for src in sorted(d for d in normalized.iterdir() if d.is_dir()):
+            for a in _jsonl(src / "assets.jsonl"):
+                assets_by_id[a["asset_id"]] = a
+                asset_dir_of[a["asset_id"]] = _rel(run_dir, workspace, "01_normalized",
+                                                   src.name)
+    cited_ids = {row["asset_id"] for row in links if row.get("cited")}
 
     citations = [e for u in units for e in u.get("evidence", [])]
     verified = sum(1 for e in citations if e.get("excerpt_verified"))
@@ -307,6 +346,23 @@ def render(workspace: Path) -> str:
 
     out += _assets_section(run_dir, workspace, units)
 
+    related_ids = {row["asset_id"] for row in links}
+    stranded = [a for aid, a in assets_by_id.items() if aid not in related_ids]
+    if stranded:
+        out += [
+            "## Assets in text nobody read", "",
+            f"{len(stranded)} asset(s) sit in a region of the source from which no unit "
+            "was extracted, so nothing in the output points at them. This is a hole in "
+            "the reading rather than a judgment about evidence: no unit was dropped "
+            "here, none was ever made. They are shown because they are still the "
+            "source's content.", "",
+        ]
+        for a in stranded:
+            out += [f"### `{a['asset_id']}`", "",
+                    f"{a['kind']} · **{a['fidelity']}** · anchored by "
+                    f"`{a.get('anchor', {}).get('method', 'none')}`", ""]
+            out += _render_asset(a, asset_dir_of[a["asset_id"]])
+
     out += ["## The knowledge handed off", "",
             f"Rendered from [`07_enqueue/enqueue.jsonl`]"
             f"({_rel(run_dir, workspace, '07_enqueue', 'enqueue.jsonl')}) — "
@@ -331,6 +387,30 @@ def render(workspace: Path) -> str:
             out += ["**Related topics** " + ", ".join(f"`{t}`" for t in p["related_topics"]), ""]
         if p.get("labels"):
             out += ["**Labels**", ""] + [f"- {x}" for x in p["labels"]] + [""]
+        carried = [assets_by_id[a] for a in p.get("related_asset_ids", [])
+                   if a in assets_by_id]
+        if carried:
+            kinds = {}
+            for a in carried:
+                kinds[a["kind"]] = kinds.get(a["kind"], 0) + 1
+            on_text = sum(1 for a in carried if a["asset_id"] not in cited_ids)
+            out += [
+                f"**Assets carried with this entry ({len(carried)})** — "
+                + ", ".join(f"{n} {k}" for k, n in sorted(kinds.items()))
+                + (f". {on_text} of them "
+                   + ("travels" if on_text == 1 else "travel")
+                   + " because it sits in this entry's text, not because a unit quoted "
+                   "it." if on_text else "."),
+                "",
+            ]
+            for a in carried:
+                out += [f"<details><summary><code>{a['asset_id']}</code> — "
+                        f"{a['kind']}, {a['fidelity']}"
+                        + ("" if a["asset_id"] in cited_ids else ", not cited")
+                        + "</summary>", ""]
+                out += _render_asset(a, asset_dir_of[a["asset_id"]], compact=True)
+                out += ["</details>", ""]
+
         out += [
             f"**Source units ({len(p['source_unit_ids'])})** "
             + ", ".join(f"`{u}`" for u in p["source_unit_ids"]), "",

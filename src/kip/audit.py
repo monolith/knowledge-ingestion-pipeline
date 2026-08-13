@@ -472,6 +472,32 @@ CORPUS_SCHEMA = {
 }
 
 
+def _unread_asset_regions(ctx: RunContext) -> list[dict[str, Any]]:
+    """Assets no unit relates to, with something a reader can recognize them by.
+
+    The label matters as much as the count. "8 assets unrelated" tells a judge
+    nothing; "STATEMENT OF CASH FLOWS" tells it whether the absence is a hole or
+    a filer-status checkbox nobody should have written a unit about.
+    """
+    from .artifacts import read_jsonl as _read
+
+    links_path = ctx.units.parent / "asset_links.jsonl"
+    links = _read(links_path) if links_path.exists() else []
+    related = {row["asset_id"] for row in links}
+    out: list[dict[str, Any]] = []
+    for path in sorted((ctx.run_dir / "01_normalized").glob("*/assets.jsonl")):
+        for asset in (_read(path) if path.exists() else []):
+            if asset["asset_id"] in related:
+                continue
+            payload = asset.get("payload", {})
+            label = (payload.get("caption") or payload.get("heading")
+                     or payload.get("latex") or payload.get("alt")
+                     or (asset.get("text", "").splitlines() or [""])[0])
+            out.append({"asset_id": asset["asset_id"], "kind": asset["kind"],
+                        "label": (label or "(no caption)")[:120]})
+    return out
+
+
 def audit_corpus_coverage(
     ctx: RunContext,
     cfg: Config,
@@ -528,12 +554,30 @@ def audit_corpus_coverage(
         out_lines.append(f"## {c.get('title', '')}")
         out_lines += [f"- {a.get('text', '')}" for a in c.get("assertions", [])]
 
+    # Assets in regions that produced no units. Computed here rather than
+    # judged, and handed over as a fact: an asset whose surrounding text yielded
+    # nothing is a hole in the reading, and it is exactly the kind a unit-count
+    # cannot show, because no unit was lost -- none was ever made.
+    asset_gap = _unread_asset_regions(ctx)
+    asset_block = ""
+    if asset_gap:
+        asset_block = (
+            f"\n\nASSETS IN REGIONS THAT PRODUCED NO UNITS ({len(asset_gap)}). "
+            "These are tables, formulas and figures the source carried, sitting in "
+            "passages nothing was extracted from. Judge whether the corpus is "
+            "misrepresented by their absence:\n"
+            + "\n".join(f"- {a['asset_id']} ({a['kind']}): {a['label']}"
+                         for a in asset_gap[:60])
+            + (f"\n({len(asset_gap) - 60} further.)" if len(asset_gap) > 60 else "")
+        )
+
     user = (
         f"EXTRACTED UNITS ({len(kept)}), {len(orphaned)} of which reached no assertion:\n"
         + "\n".join(line(u) for u in kept)
         + f"\n\nAPPROVED OUTPUT ({mechanical['assertions_out']} assertions across "
         f"{len(approved)} entries):\n"
         + "\n".join(out_lines)
+        + asset_block
         + "\n\nDoes the output fairly represent the corpus?"
     )
 

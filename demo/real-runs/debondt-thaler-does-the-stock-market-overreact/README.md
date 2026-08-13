@@ -36,30 +36,32 @@ Everything else records how the output was arrived at: the routing, the judgment
 
 ## Does the output represent the corpus?
 
-The run's own corpus-coverage audit returned **`represented`**.
+The run's own corpus-coverage audit returned **`gaps`**, with 1 gap(s) named.
 
-> Every formula here is `transcribed`, not `exact` -- read off a rendered page because the 1985 scan's text layer destroyed the mathematics. The audit labelled the affected leaves. This is the opposite provenance from a document that carries MathML, and the two must not be compared by string equality.
+- **Figure 2 -- 'Differences in Cumulative Average Residual Between Winner and Loser Portfolios of 35 Stocks' -- sits on page 11, and no unit was extracted from that page. The image and its caption are in the record; nothing in the output points at them, because there is nothing on that page to point from.** The paper's own visual statement of how the gap between the two portfolios evolves over the test period is absent from the output. A consumer asking how the difference moves month by month gets the tabulated horizons from Table I and not the shape. This is a hole in the reading rather than a judgment about evidence: no unit was dropped, none was ever made for that page.
 
-> Not loss: the detector renders a page only where the text layer shows damage. Pages 3, 4 and 8 contain notation (`P/E`, `t = 0`, `(t > 0)`) that extracted cleanly and were correctly not rendered -- nothing there to recover. Confirmed by reading all 14 page images independently.
+> The other two figures ARE related -- Figures 1 and 3 sit on pages units were extracted from, and they travel with that text without any unit citing them. That is the intended behaviour, and it is what makes the single orphan meaningful.
 
-> The page renders are kept as assets, so every transcription can be checked against the image it was read from. For a transcription that is the only check that works.
+> Every formula here is `transcribed`, read off a rendered page because the 1985 scan's text layer destroyed the mathematics. The page renders are retained so each transcription can be checked against the image it was read from.
+
+> Nothing in this pipeline reads a chart. Figures 1 to 3 are captured, captioned, anchored and displayed; no model describes what they show, so no claim about them enters the record.
 
 Full judgment: [`06_audit/corpus_coverage.json`](runs/dt/06_audit/corpus_coverage.json).
 
 ## What the checks found
 
-- The completeness check reported **3 finding(s)** against the first extraction: [`02_units/omissions.jsonl`](runs/dt/02_units/omissions.jsonl).
+- The completeness check reported **1 finding(s)** against the first extraction: [`02_units/omissions.jsonl`](runs/dt/02_units/omissions.jsonl).
 - The adversarial audit reviewed **23 candidate(s)** and passed 23 without requiring a correction: [`06_audit/audits.jsonl`](runs/dt/06_audit/audits.jsonl).
 
 ## Assets
 
-**18 assets** — 4 figure, 13 formula, 1 table. 13 cited by at least one unit, 5 not cited.
+**21 assets** — 7 figure, 13 formula, 1 table. 13 cited by at least one unit, 8 not cited.
 
 An uncited asset is not a failure. A source carries structure that is not content -- a navigation box marked up as a table, a page rendered to check one equation on it -- and capturing it losslessly while citing nothing from it is the correct outcome.
 
 Fidelity is part of the record, because the kinds are not equally trustworthy:
 
-- **transcribed** (18) — a model or geometry read it — a READING, not a quote; compare by meaning, not by string
+- **transcribed** (21) — a model or geometry read it — a READING, not a quote; compare by meaning, not by string
 
 Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, or `{asset_id}` for a formula. A cell reference resolves to the value **and** the headers governing it, which is what makes a figure checkable rather than merely quoted.
 
@@ -69,31 +71,55 @@ Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, 
 
 #### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0001`
 
-figure · **transcribed** · extractor `pdf_render_v1` · page 5 · not cited by any unit
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 5 · not cited by any unit
 
 ![fig-src-debondt-thaler-1985-overreact-d07fdf64-0001](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0005.png)
 
 #### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0002`
 
-figure · **transcribed** · extractor `pdf_render_v1` · page 6 · not cited by any unit
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 6 · not cited by any unit
 
 ![fig-src-debondt-thaler-1985-overreact-d07fdf64-0002](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0006.png)
 
 #### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0003`
 
-figure · **transcribed** · extractor `pdf_render_v1` · page 7 · not cited by any unit
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 7 · not cited by any unit
 
 ![fig-src-debondt-thaler-1985-overreact-d07fdf64-0003](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0007.png)
 
 #### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0004`
 
-figure · **transcribed** · extractor `pdf_render_v1` · page 10 · not cited by any unit
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 4/4 figures corroborated by the text layer · page 9 · not cited by any unit
 
-![fig-src-debondt-thaler-1985-overreact-d07fdf64-0004](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0010.png)
+**Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36**
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0005`
+![Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0009.png)
 
-formula · **transcribed** · extractor `visual_read_v1` · page 5 · cited by 2 units
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0005`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 10 · not cited by any unit
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0005](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0010.png)
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0006`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 1/1 figures corroborated by the text layer · page 11 · not cited by any unit
+
+**Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of**
+
+![Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0011.png)
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0007`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 4/4 figures corroborated by the text layer · page 12 · not cited by any unit
+
+**Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60**
+
+![Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0012.png)
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0008`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 4/4 figures corroborated by the text layer · page 5 · cited by 2 units
 
 $$E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u}_{jt} \mid F_{t-1}) = 0$$
 
@@ -103,11 +129,11 @@ E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u
 
 > Following Fama [9], the previous arguments can be formalized by writing the efficient market's condition,
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0006`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0009`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 5 · cited by 2 units
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 3/3 figures corroborated by the text layer · page 5 · cited by 2 units
 
 $$E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0$$
 
@@ -117,11 +143,11 @@ E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0
 
 > The efficient market hypothesis implies that
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0007`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0010`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 5 · cited by 2 units
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 4/4 figures corroborated by the text layer · page 5 · cited by 2 units
 
 $$E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_{t-1}) > 0$$
 
@@ -131,11 +157,11 @@ E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_
 
 > As explained in the introduction, the overreaction hypothesis, on the other hand, suggests that
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0008`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0011`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 5 · cited by 1 unit
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 5 · cited by 1 unit
 
 $$\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}$$
 
@@ -145,11 +171,11 @@ $$\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}$$
 
 > De Bondt [7] formally derives the econometric biases in the estimated market-adjusted and market model residuals if the "true" model is multifactor, e.g.,
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0063`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0063`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0009`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0012`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 5 · cited by 1 unit
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 5 · cited by 1 unit
 
 $$E(\tilde{R}_j) = K_j$$
 
@@ -159,11 +185,11 @@ E(\tilde{R}_j) = K_j
 
 > Footnote 2: measuring abnormal security price performance by way of easily calculable mean-adjusted excess returns [where, by assumption, E(R_j) equals a constant K_j]
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0064`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0064`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0010`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0013`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 5 · cited by 1 unit
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 2/2 figures corroborated by the text layer · page 5 · cited by 1 unit
 
 $$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
 
@@ -173,11 +199,11 @@ $$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
 
 > Footnote 2: market-adjusted excess returns (where, by assumption, alpha_j = 0 and beta_j = 1 for all j)
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0064`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0064`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0011`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0014`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 6 · cited by 2 units
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · page 6 · cited by 2 units
 
 $$\hat{u}_{jt} = R_{jt} - R_{mt}$$
 
@@ -187,11 +213,11 @@ $$\hat{u}_{jt} = R_{jt} - R_{mt}$$
 
 > Therefore, we will only report the results based on market-adjusted excess returns. The residuals are estimated as
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0061`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0061`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0012`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0015`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 6 · cited by 2 units
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 2/2 figures corroborated by the text layer · page 6 · cited by 2 units
 
 $$CU_j = \sum_{t=-35}^{t=0} u_{jt}$$
 
@@ -201,11 +227,11 @@ CU_j = \sum_{t=-35}^{t=0} u_{jt}
 
 > For every stock j, starting in December 1932 (month 84; the "portfolio formation date") (t = 0), we compute the cumulative excess returns
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0025`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0062`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0025`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0062`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0013`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0016`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 7 · cited by 3 units
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 4/4 figures corroborated by the text layer · page 7 · cited by 3 units
 
 $$ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}$$
 
@@ -215,11 +241,11 @@ ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,
 
 > Average cumulative average residuals are computed for both portfolios, for each month between t = 1 and t = 36.
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0067`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0067`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0014`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0017`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 7 · cited by 2 units
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 7/7 figures corroborated by the text layer · page 7 · cited by 2 units
 
 $$S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)$$
 
@@ -229,11 +255,11 @@ S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L
 
 > The pooled estimate of the population variance in CAR_t is
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0015`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0018`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 7 · cited by 1 unit
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 2/2 figures corroborated by the text layer · page 7 · cited by 1 unit
 
 $$T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}$$
 
@@ -243,11 +269,11 @@ T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}
 
 > Thus, the t-statistic for the difference between the loser and winner portfolios is
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0016`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0019`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 7 · cited by 2 units
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 3/3 figures corroborated by the text layer · page 7 · cited by 2 units
 
 $$s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}$$
 
@@ -257,11 +283,11 @@ s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}
 
 > the sample standard deviation of the average residuals for the winner portfolio
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0068`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0068`
 
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0017`
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0020`
 
-formula · **transcribed** · extractor `visual_read_v1` · page 7 · cited by 1 unit
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 7 · cited by 1 unit
 
 $$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
 
@@ -271,11 +297,11 @@ T_t = AR_{W,t} / (s_t / \sqrt{N})
 
 > the t-statistic for the winner portfolio's average residual in month t
 
-Cited by: `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`
 
-#### `tbl-src-debondt-thaler-1985-overreact-d07fdf64-0018`
+#### `tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021`
 
-table · **transcribed** · extractor `visual_read_v1` · page 10 · not cited by any unit
+table · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 244/244 figures corroborated by the text layer · page 10 · not cited by any unit
 
 **Table I. Differences in Cumulative Average (Market-Adjusted) Residual Returns Between the Winner and Loser Portfolios at the End of the Formation Period, and 1, 12, 13, 18, 24, 25, 36, and 60 Months into the Test Period. (a) formation month is December in all uneven years between 1933 and 1979; (b) formation month is December in all even years between 1932 and 1980; NA = not applicable.**
 
@@ -288,6 +314,18 @@ table · **transcribed** · extractor `visual_read_v1` · page 10 · not cited b
 | 24 two-year periods(a) (deciles) | 82 | 0.875 | -0.711 | 0.051 (3.13) | 0.006 (0.19) | 0.066 (1.71) | 0.105 (1.99) | 0.083 (1.49) | NA | NA | NA |
 | 25 two-year periods(b) (deciles) | 82 | 0.868 | -0.714 | 0.068 (3.86) | 0.008 (0.19) | 0.071 (1.46) | 0.078 (1.41) | 0.072 (1.29) | NA | NA | NA |
 | 49 one-year periods | 35 | 0.774 | -0.585 | 0.042 (2.45) | -0.076 (-2.32) | -0.006 (-0.15) | 0.007 (0.14) | -0.005 (-0.09) | NA | NA | NA |
+
+## Assets in text nobody read
+
+1 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
+
+### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0006`
+
+figure · **transcribed** · anchored by `own_text`
+
+**Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of**
+
+![Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0011.png)
 
 ## The knowledge handed off
 
@@ -321,7 +359,7 @@ The psychological finding the market test was built to check, reported as De Bon
 
 **Source units (3)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0002`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0001`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0003`
 
-**Traceability** — idempotency key `75827934f9ed52f387a100752c1a672642829a1788be999126186f355b0da28a` · queue event `q-75827934f9ed52f3` · audits `audit-cand-001`
+**Traceability** — idempotency key `0edd1ce1ec67942a0675732ce4a5a297fca52552330a005c3a89d14acb278b43` · queue event `q-0edd1ce1ec67942a` · audits `audit-cand-001`
 
 <details><summary>Provenance chain</summary>
 
@@ -360,7 +398,7 @@ Keynes, Williams and Arrow, kept as testimony rather than evidence.
 
 **Source units (2)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0005`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0004`
 
-**Traceability** — idempotency key `a0c5d2ebfd5067a1f4784f420132c93ffc67e71aa2ddff6f9fd0eb4c11e95578` · queue event `q-a0c5d2ebfd5067a1` · audits `audit-cand-002`
+**Traceability** — idempotency key `9ba416df69c4602923000335784d343b12467ab19cf9a7b40dc70b176a4017e5` · queue event `q-9ba416df69c46029` · audits `audit-cand-002`
 
 <details><summary>Provenance chain</summary>
 
@@ -399,7 +437,7 @@ Shiller's result and the objections to it, both present.
 
 **Source units (2)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0006`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0007`
 
-**Traceability** — idempotency key `4bfa07f5f31f0c511fdb3b0aa5a78f1030e9fe30c9df646f7e1839c0c41cd4e2` · queue event `q-4bfa07f5f31f0c51` · audits `audit-cand-003`
+**Traceability** — idempotency key `82505ea5a9b481f5737abd01820499d3befbd0274797f46f35f1d6f9ce6c5693` · queue event `q-82505ea5a9b481f5` · audits `audit-cand-003`
 
 <details><summary>Provenance chain</summary>
 
@@ -446,7 +484,7 @@ Background the paper reinterprets: omitted risk factors, the small-firm subsumpt
 
 **Source units (4)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0008`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0009`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0011`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0010`
 
-**Traceability** — idempotency key `fd0963043badce48ce6de9f1a28d00874d0f87a920221397565d791edb3ed3e9` · queue event `q-fd0963043badce48` · audits `audit-cand-004`
+**Traceability** — idempotency key `11e1dc4d77b2daf8014fc09bc74e7c481e50b100f98306f76987b0e75651f3fc` · queue event `q-11e1dc4d77b2daf8` · audits `audit-cand-004`
 
 <details><summary>Provenance chain</summary>
 
@@ -481,7 +519,7 @@ How the anomaly survives arbitrage, raised and explicitly set aside.
 
 **Source units (1)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0012`
 
-**Traceability** — idempotency key `f4cfa0cace6e44393f0d10f60fc46de27d8287a0a34ba1627e5307f7c58828ad` · queue event `q-f4cfa0cace6e4439` · audits `audit-cand-005`
+**Traceability** — idempotency key `d38a46d16635eaec888d84efd6c792a40d88dca4890dea8f935999d96f5e5fbd` · queue event `q-d38a46d16635eaec` · audits `audit-cand-005`
 
 <details><summary>Provenance chain</summary>
 
@@ -524,7 +562,7 @@ Two predictions testable on past returns alone, and the standard the authors set
 
 **Source units (3)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0013`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0014`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0015`
 
-**Traceability** — idempotency key `a2aaa6ffee8a70026343b6fffa7f06d9d50fba94a64e320378329e3a2e19812e` · queue event `q-a2aaa6ffee8a7002` · audits `audit-cand-006`
+**Traceability** — idempotency key `ce047c25e997f5cdf1d652da45617a9f40d59006349de3baa8d4e0a1278f7a63` · queue event `q-ce047c25e997f5cd` · audits `audit-cand-006`
 
 <details><summary>Provenance chain</summary>
 
@@ -569,9 +607,53 @@ Conditioning on past returns rather than on a corporate event, which is what mak
 
 - Attach the label(s) named in the findings.
 
+**Assets carried with this entry (7)** — 1 figure, 6 formula. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0001</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0001](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0005.png)
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0008</code> — formula, transcribed</summary>
+
+$$E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u}_{jt} \mid F_{t-1}) = 0$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0009</code> — formula, transcribed</summary>
+
+$$E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0010</code> — formula, transcribed</summary>
+
+$$E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_{t-1}) > 0$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0011</code> — formula, transcribed</summary>
+
+$$\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0012</code> — formula, transcribed</summary>
+
+$$E(\tilde{R}_j) = K_j$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0013</code> — formula, transcribed</summary>
+
+$$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
+
+</details>
+
 **Source units (3)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0016`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0017`
 
-**Traceability** — idempotency key `4fdadf07cc1ccc31a0cacb00334cea29b2cc7a8314348766cdee22c5f104a8e3` · queue event `q-4fdadf07cc1ccc31` · audits `audit-cand-007`
+**Traceability** — idempotency key `518066bb10c7fa1ff6302986a2898b3d10fbc76191f1e5102fe53f7663c24bf5` · queue event `q-518066bb10c7fa1f` · audits `audit-cand-007`
 
 <details><summary>Provenance chain</summary>
 
@@ -620,9 +702,47 @@ Market-adjusted excess returns, the claim that this biases against the hypothesi
 
 - Attach the label(s) named in the findings.
 
+**Assets carried with this entry (6)** — 2 figure, 4 formula. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0001</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0001](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0005.png)
+
+</details>
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0002</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0002](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0006.png)
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0011</code> — formula, transcribed</summary>
+
+$$\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0012</code> — formula, transcribed</summary>
+
+$$E(\tilde{R}_j) = K_j$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0013</code> — formula, transcribed</summary>
+
+$$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0014</code> — formula, transcribed</summary>
+
+$$\hat{u}_{jt} = R_{jt} - R_{mt}$$
+
+</details>
+
 **Source units (4)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0020`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0019`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0021`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`
 
-**Traceability** — idempotency key `047658b3f442dd4f074159821b638efbf6c833cea42ec0aa53d804dada60694f` · queue event `q-047658b3f442dd4f` · audits `audit-cand-008`
+**Traceability** — idempotency key `5475fb4c791de4308780871346cb3774358013a94d266d70bb74d194adf4aabc` · queue event `q-5475fb4c791de430` · audits `audit-cand-008`
 
 <details><summary>Provenance chain</summary>
 
@@ -671,9 +791,59 @@ Every parameter needed to reproduce or attack the result.
 
 - Attach the label(s) named in the findings.
 
+**Assets carried with this entry (8)** — 2 figure, 6 formula. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0002</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0002](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0006.png)
+
+</details>
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0003</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0003](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0007.png)
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0015</code> — formula, transcribed</summary>
+
+$$CU_j = \sum_{t=-35}^{t=0} u_{jt}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0016</code> — formula, transcribed</summary>
+
+$$ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0017</code> — formula, transcribed</summary>
+
+$$S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0018</code> — formula, transcribed</summary>
+
+$$T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0019</code> — formula, transcribed</summary>
+
+$$s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0020</code> — formula, transcribed</summary>
+
+$$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
+
+</details>
+
 **Source units (4)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0024`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0025`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0026`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0023`
 
-**Traceability** — idempotency key `fa33f6dadc3e74c9b743b2b3f315ae83b5f8da77b9205f9cd5b4d16b82e9c178` · queue event `q-fa33f6dadc3e74c9` · audits `audit-cand-009`
+**Traceability** — idempotency key `ed6da9d649b6f19072f2dc8d368465e411e7143a6acc3955c624069538fde89e` · queue event `q-ed6da9d649b6f190` · audits `audit-cand-009`
 
 <details><summary>Provenance chain</summary>
 
@@ -714,9 +884,47 @@ The pooled variance and both t-statistics. The text extractor had reduced these 
 
 - Attach the label(s) named in the findings.
 
+**Assets carried with this entry (6)** — 1 figure, 5 formula. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0003</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0003](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0007.png)
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0016</code> — formula, transcribed</summary>
+
+$$ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0017</code> — formula, transcribed</summary>
+
+$$S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0018</code> — formula, transcribed</summary>
+
+$$T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0019</code> — formula, transcribed</summary>
+
+$$s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0020</code> — formula, transcribed</summary>
+
+$$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
+
+</details>
+
 **Source units (2)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0028`
 
-**Traceability** — idempotency key `4155e1a613f510da283310dec7824e62eb8577215d7583dfa227fa138f690433` · queue event `q-4155e1a613f510da` · audits `audit-cand-010`
+**Traceability** — idempotency key `53a6b9a46915e06d4aec746f406b281f23f3e6b5cd4ed0d5dc70539ec1802af0` · queue event `q-53a6b9a46915e06d` · audits `audit-cand-010`
 
 <details><summary>Provenance chain</summary>
 
@@ -765,9 +973,47 @@ Survivorship, selection, data frequency, window length and formation month.
 
 **Related topics** `survivorship bias`, `selection bias`, `research design`
 
+**Assets carried with this entry (6)** — 1 figure, 5 formula. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0003</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0003](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0007.png)
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0016</code> — formula, transcribed</summary>
+
+$$ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0017</code> — formula, transcribed</summary>
+
+$$S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0018</code> — formula, transcribed</summary>
+
+$$T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0019</code> — formula, transcribed</summary>
+
+$$s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0020</code> — formula, transcribed</summary>
+
+$$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
+
+</details>
+
 **Source units (5)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0030`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0031`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0032`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0029`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0033`
 
-**Traceability** — idempotency key `7ee3627d27c9a53d26ed3af10a514b9e15e2c9856825e6e93c53dc48e47b80c6` · queue event `q-7ee3627d27c9a53d` · audits `audit-cand-011`
+**Traceability** — idempotency key `1e3127401d818f1258720430f47d848c3961ac5a27ddc1f5e07ef331fb3c6d5e` · queue event `q-1e3127401d818f12` · audits `audit-cand-011`
 
 <details><summary>Provenance chain</summary>
 
@@ -810,7 +1056,7 @@ Losers beat winners by about 25 per cent over 36 months, on one test on one data
 
 **Source units (3)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0034`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0051`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0035`
 
-**Traceability** — idempotency key `6487e70eae027dc43145804d08dc38c36d267edf059f711cdd50948915d8178f` · queue event `q-6487e70eae027dc4` · audits `audit-cand-012`
+**Traceability** — idempotency key `85f73f25603c5fe02d4f4fa58dee4c7b30a78d4e951bd8d44b06f98463681c60` · queue event `q-85f73f25603c5fe0` · audits `audit-cand-012`
 
 <details><summary>Provenance chain</summary>
 
@@ -849,7 +1095,7 @@ Mostly the second and third year; not significant at twelve months.
 
 **Source units (2)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0036`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0037`
 
-**Traceability** — idempotency key `c733139d7183e4e1e1e61ca96a3031a9eb58e6f9a3cd4f1654c2c13ba41aef29` · queue event `q-c733139d7183e4e1` · audits `audit-cand-013`
+**Traceability** — idempotency key `4644fa022669e0ff43a4ec027322012e9ee979b179ebd2f4bf4a331105406a48` · queue event `q-4644fa022669e0ff` · audits `audit-cand-013`
 
 <details><summary>Provenance chain</summary>
 
@@ -890,9 +1136,33 @@ The second hypothesis, tested across seven specifications. Figures are cited by 
 
 **Related topics** `Table I`, `formation period`, `dose response`
 
+**Assets carried with this entry (2)** — 1 figure, 1 table. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0005</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0005](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0010.png)
+
+</details>
+
+<details><summary><code>tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021</code> — table, transcribed, not cited</summary>
+
+**Table I. Differences in Cumulative Average (Market-Adjusted) Residual Returns Between the Winner and Loser Portfolios at the End of the Formation Period, and 1, 12, 13, 18, 24, 25, 36, and 60 Months into the Test Period. (a) formation month is December in all uneven years between 1933 and 1979; (b) formation month is December in all even years between 1932 and 1980; NA = not applicable.**
+
+| Portfolio Selection Procedures: Length of the Formation Period and No. of Independent Replications | Average No. of Stocks | CAR at the End of the Formation Period: Winner Portfolio | CAR at the End of the Formation Period: Loser Portfolio | Difference in CAR (t-Statistics): 1 month after formation | Difference in CAR (t-Statistics): 12 months after formation | Difference in CAR (t-Statistics): 13 months after formation | Difference in CAR (t-Statistics): 18 months after formation | Difference in CAR (t-Statistics): 24 months after formation | Difference in CAR (t-Statistics): 25 months after formation | Difference in CAR (t-Statistics): 36 months after formation | Difference in CAR (t-Statistics): 60 months after formation |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 10 five-year periods | 50 | 1.463 | -1.194 | 0.070 (3.13) | 0.156 (2.04) | 0.248 (3.14) | 0.256 (3.17) | 0.196 (2.15) | 0.228 (2.40) | 0.230 (2.07) | 0.319 (3.28) |
+| 16 three-year periods | 35 | 1.375 | -1.064 | 0.105 (3.29) | 0.054 (0.77) | 0.103 (1.18) | 0.167 (1.51) | 0.181 (1.71) | 0.234 (2.19) | 0.246 (2.20) | NA* |
+| 24 two-year periods(a) | 35 | 1.130 | -0.857 | 0.062 (2.91) | -0.006 (-0.16) | 0.074 (1.53) | 0.136 (2.02) | 0.101 (1.41) | NA | NA | NA |
+| 25 two-year periods(b) | 35 | 1.119 | -0.866 | 0.089 (3.98) | 0.011 (0.19) | 0.092 (1.48) | 0.107 (1.47) | 0.115 (1.55) | NA | NA | NA |
+| 24 two-year periods(a) (deciles) | 82 | 0.875 | -0.711 | 0.051 (3.13) | 0.006 (0.19) | 0.066 (1.71) | 0.105 (1.99) | 0.083 (1.49) | NA | NA | NA |
+
+*(2 further rows in the stored grid.)*
+
+</details>
+
 **Source units (3)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0040`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0039`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0041`
 
-**Traceability** — idempotency key `afa4530e4f92464358f2ce95eaed848b7d8a5c66da94524bb75e01638d1df921` · queue event `q-afa4530e4f924643` · audits `audit-cand-014`
+**Traceability** — idempotency key `541e7231a382a608eba86d9112f44647847895196685b24a9cacba13b9856436` · queue event `q-541e7231a382a608` · audits `audit-cand-014`
 
 <details><summary>Provenance chain</summary>
 
@@ -929,9 +1199,33 @@ Winner betas 1.369 against loser 1.026, so the measured effect likely understate
 
 **Related topics** `CAPM beta`, `risk`
 
+**Assets carried with this entry (2)** — 1 figure, 1 table. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0005</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0005](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0010.png)
+
+</details>
+
+<details><summary><code>tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021</code> — table, transcribed, not cited</summary>
+
+**Table I. Differences in Cumulative Average (Market-Adjusted) Residual Returns Between the Winner and Loser Portfolios at the End of the Formation Period, and 1, 12, 13, 18, 24, 25, 36, and 60 Months into the Test Period. (a) formation month is December in all uneven years between 1933 and 1979; (b) formation month is December in all even years between 1932 and 1980; NA = not applicable.**
+
+| Portfolio Selection Procedures: Length of the Formation Period and No. of Independent Replications | Average No. of Stocks | CAR at the End of the Formation Period: Winner Portfolio | CAR at the End of the Formation Period: Loser Portfolio | Difference in CAR (t-Statistics): 1 month after formation | Difference in CAR (t-Statistics): 12 months after formation | Difference in CAR (t-Statistics): 13 months after formation | Difference in CAR (t-Statistics): 18 months after formation | Difference in CAR (t-Statistics): 24 months after formation | Difference in CAR (t-Statistics): 25 months after formation | Difference in CAR (t-Statistics): 36 months after formation | Difference in CAR (t-Statistics): 60 months after formation |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 10 five-year periods | 50 | 1.463 | -1.194 | 0.070 (3.13) | 0.156 (2.04) | 0.248 (3.14) | 0.256 (3.17) | 0.196 (2.15) | 0.228 (2.40) | 0.230 (2.07) | 0.319 (3.28) |
+| 16 three-year periods | 35 | 1.375 | -1.064 | 0.105 (3.29) | 0.054 (0.77) | 0.103 (1.18) | 0.167 (1.51) | 0.181 (1.71) | 0.234 (2.19) | 0.246 (2.20) | NA* |
+| 24 two-year periods(a) | 35 | 1.130 | -0.857 | 0.062 (2.91) | -0.006 (-0.16) | 0.074 (1.53) | 0.136 (2.02) | 0.101 (1.41) | NA | NA | NA |
+| 25 two-year periods(b) | 35 | 1.119 | -0.866 | 0.089 (3.98) | 0.011 (0.19) | 0.092 (1.48) | 0.107 (1.47) | 0.115 (1.55) | NA | NA | NA |
+| 24 two-year periods(a) (deciles) | 82 | 0.875 | -0.711 | 0.051 (3.13) | 0.006 (0.19) | 0.066 (1.71) | 0.105 (1.99) | 0.083 (1.49) | NA | NA | NA |
+
+*(2 further rows in the stored grid.)*
+
+</details>
+
 **Source units (2)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0042`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0043`
 
-**Traceability** — idempotency key `82bbd7ab423bbc652ed7109d902e87adf6cb831e2711d22c08e8f3c01e62a54c` · queue event `q-82bbd7ab423bbc65` · audits `audit-cand-015`
+**Traceability** — idempotency key `60db3fe68bdd86928676f29e3982c523b97fbad19f6c832feeac22d1549fdb65` · queue event `q-60db3fe68bdd8692` · audits `audit-cand-015`
 
 <details><summary>Provenance chain</summary>
 
@@ -982,7 +1276,7 @@ Concentrated in January, persisting five successive Januaries, and stated twice 
 
 **Source units (4)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0046`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0044`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0047`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0052`
 
-**Traceability** — idempotency key `da49cbe3e2b17370797a68298b4fdbba20a249a1f18260238111246110c6919c` · queue event `q-da49cbe3e2b17370` · audits `audit-cand-016`
+**Traceability** — idempotency key `f57edbb3cc83f1a1e06b03fb1d25565f561c7a79c16cd93899afe38c2858492d` · queue event `q-f57edbb3cc83f1a1` · audits `audit-cand-016`
 
 <details><summary>Provenance chain</summary>
 
@@ -1029,7 +1323,7 @@ Small firm, January and P/E, including the finding that cuts against the paper's
 
 **Source units (4)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0048`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0049`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0050`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0053`
 
-**Traceability** — idempotency key `927454563e73f31950bb216e662ead44e7e5dfcd8ea9400f6a1594bfd6a43de1` · queue event `q-927454563e73f319` · audits `audit-cand-017`
+**Traceability** — idempotency key `ca0c482d99fcf216b874211f5eeca375ba18e00badbab7a7e4484cad9327e7f4` · queue event `q-ca0c482d99fcf216` · audits `audit-cand-017`
 
 <details><summary>Provenance chain</summary>
 
@@ -1078,9 +1372,27 @@ The authors' own summary of the contribution, and the windows and replication co
 
 **Related topics** `abstract`, `Figure 1`, `Figure 3`
 
+**Assets carried with this entry (2)** — 2 figure. 2 of them travel because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0004</code> — figure, transcribed, not cited</summary>
+
+**Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36**
+
+![Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0009.png)
+
+</details>
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0007</code> — figure, transcribed, not cited</summary>
+
+**Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60**
+
+![Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0012.png)
+
+</details>
+
 **Source units (5)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0055`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0056`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0054`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0057`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0058`
 
-**Traceability** — idempotency key `ef24f9daec32c37fe0d05dabbee96a9578ad62821e917036cedfc132fd051d09` · queue event `q-ef24f9daec32c37f` · audits `audit-cand-018`
+**Traceability** — idempotency key `b896418aac3444ceacc3b84147c2cd6256e0b0fb78f46e51e822a131ac978aa7` · queue event `q-b896418aac3444ce` · audits `audit-cand-018`
 
 <details><summary>Provenance chain</summary>
 
@@ -1115,7 +1427,7 @@ Other residual types and formation months are said to give similar results, in t
 
 **Source units (1)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0038`
 
-**Traceability** — idempotency key `96a53c3dfea981c91bf7ba112134c37c6489a3a04ecb17373d2c1adfa086d37c` · queue event `q-96a53c3dfea981c9` · audits `audit-cand-019`
+**Traceability** — idempotency key `61331d74fdc4c337861a0b666405be802baea6df025d30cdd6f65c2d1afd53a9` · queue event `q-61331d74fdc4c337` · audits `audit-cand-019`
 
 <details><summary>Provenance chain</summary>
 
@@ -1150,7 +1462,7 @@ The most quotable experiment and the least defensible as evidence.
 
 **Source units (1)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0045`
 
-**Traceability** — idempotency key `bf7e4c85ea9922594f2e43d108d77fd824ebf5372733374518cc565d15a45040` · queue event `q-bf7e4c85ea992259` · audits `audit-cand-020`
+**Traceability** — idempotency key `c59d2cf1d5381791459dc18359edf249f3c1e1fbdd2b23416fcfb982e5b095be` · queue event `q-c59d2cf1d5381791` · audits `audit-cand-020`
 
 <details><summary>Provenance chain</summary>
 
@@ -1195,9 +1507,53 @@ Efficiency and overreaction differ in exactly one respect and it is a sign condi
 
 - Attach the label(s) named in the findings.
 
+**Assets carried with this entry (7)** — 1 figure, 6 formula. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0001</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0001](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0005.png)
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0008</code> — formula, transcribed</summary>
+
+$$E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u}_{jt} \mid F_{t-1}) = 0$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0009</code> — formula, transcribed</summary>
+
+$$E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0010</code> — formula, transcribed</summary>
+
+$$E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_{t-1}) > 0$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0011</code> — formula, transcribed</summary>
+
+$$\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0012</code> — formula, transcribed</summary>
+
+$$E(\tilde{R}_j) = K_j$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0013</code> — formula, transcribed</summary>
+
+$$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
+
+</details>
+
 **Source units (3)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0063`
 
-**Traceability** — idempotency key `e7808a699afe12a8964a7f0b9be662672946832ec826e46dc1e54e2510a4817e` · queue event `q-e7808a699afe12a8` · audits `audit-cand-021`
+**Traceability** — idempotency key `89804c9c3b90380ff11a0dafda24b3535b0b499e9f4b87c8f81ed775e90ea913` · queue event `q-89804c9c3b90380f` · audits `audit-cand-021`
 
 <details><summary>Provenance chain</summary>
 
@@ -1242,9 +1598,41 @@ The two definitions the whole design rests on, stated as formulas: the market-ad
 
 - Attach the label(s) named in the findings.
 
+**Assets carried with this entry (5)** — 1 figure, 4 formula. 1 of them travels because it sits in this entry's text, not because a unit quoted it.
+
+<details><summary><code>fig-src-debondt-thaler-1985-overreact-d07fdf64-0002</code> — figure, transcribed, not cited</summary>
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0002](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0006.png)
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0012</code> — formula, transcribed</summary>
+
+$$E(\tilde{R}_j) = K_j$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0013</code> — formula, transcribed</summary>
+
+$$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0014</code> — formula, transcribed</summary>
+
+$$\hat{u}_{jt} = R_{jt} - R_{mt}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0015</code> — formula, transcribed</summary>
+
+$$CU_j = \sum_{t=-35}^{t=0} u_{jt}$$
+
+</details>
+
 **Source units (3)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0061`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0062`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0064`
 
-**Traceability** — idempotency key `82d51f332b6fcefeaafce936cb3838e14a2084de8751493560eb6bf0f18e17e7` · queue event `q-82d51f332b6fcefe` · audits `audit-cand-022`
+**Traceability** — idempotency key `c74e44553871cc64c6464b804256dd7041b7d7c76eed7af531874f8bb40122eb` · queue event `q-c74e44553871cc64` · audits `audit-cand-022`
 
 <details><summary>Provenance chain</summary>
 
@@ -1293,9 +1681,35 @@ Every statistic the paper's tables report, stated so a reader can compute it: th
 
 - Attach the label(s) named in the findings.
 
+**Assets carried with this entry (4)** — 4 formula.
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0016</code> — formula, transcribed</summary>
+
+$$ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0017</code> — formula, transcribed</summary>
+
+$$S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0019</code> — formula, transcribed</summary>
+
+$$s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}$$
+
+</details>
+
+<details><summary><code>fml-src-debondt-thaler-1985-overreact-d07fdf64-0020</code> — formula, transcribed</summary>
+
+$$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
+
+</details>
+
 **Source units (4)** `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0067`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0068`
 
-**Traceability** — idempotency key `97ad25bfab9ef853200187489b16b6d290714039a21afb4d65e94211671e11ae` · queue event `q-97ad25bfab9ef853` · audits `audit-cand-023`
+**Traceability** — idempotency key `21dbcb6991f0b97cb32f0744a572e5e571fcb24a1076c7aeefce25ed183b359b` · queue event `q-21dbcb6991f0b97c` · audits `audit-cand-023`
 
 <details><summary>Provenance chain</summary>
 

@@ -103,6 +103,10 @@ class Table:
     n_rows: int = 0
     n_cols: int = 0
     caption: str = ""
+    #: The nearest section heading above the table. A caption says what the
+    #: object is; a heading says where in the document it sits, and a table
+    #: titled "2025" is uninterpretable without it.
+    heading: str = ""
 
     def cell_at(self, row: int, col: int) -> Cell | None:
         for cell in self.cells:
@@ -149,6 +153,7 @@ class Table:
             "n_rows": self.n_rows,
             "n_cols": self.n_cols,
             "caption": self.caption,
+            "heading": self.heading,
             "cells": [c.as_dict() for c in self.cells],
         }
 
@@ -259,7 +264,8 @@ def from_payload(payload: dict[str, Any]) -> Table:
         for c in payload.get("cells", [])
     ]
     return Table(cells=cells, n_rows=payload.get("n_rows", 0),
-                 n_cols=payload.get("n_cols", 0), caption=payload.get("caption", ""))
+                 n_cols=payload.get("n_cols", 0), caption=payload.get("caption", ""),
+                 heading=payload.get("heading", ""))
 
 
 def asset_for(run_dir, normalized_rel: str, asset_id: str,

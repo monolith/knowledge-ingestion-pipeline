@@ -540,3 +540,80 @@ def test_both_gates_accept_an_asset_backed_citation(tmp_path):
     found = asset_for(tmp_path, "01_normalized/s/normalized.txt", "fml-s-0001", cache)
     assert found is not None, "resolved relative to the source that owns it"
     assert asset_for(tmp_path, "01_normalized/s/normalized.txt", "fml-s-9999", cache) is None
+
+
+# --- Captions and headings belong to the asset ---------------------------------
+
+
+def test_a_table_whose_title_is_its_first_row_gets_that_title_as_a_caption():
+    """The shape every GE financial statement takes: the title is typeset
+    inside the table, so a strict reading of `<caption>` leaves the record
+    holding a grid of figures nobody can identify."""
+    from kip.html_tables import extract_tables
+
+    html = ("<h2>Segment results</h2><table>"
+            "<tr><td>STATEMENT OF CASH FLOWS</td><td></td><td></td></tr>"
+            "<tr><td>Year</td><td>2025</td><td>2024</td></tr>"
+            "<tr><td>Net cash</td><td>$1,200</td><td>$900</td></tr></table>")
+    table = extract_tables(html)[0]
+    assert table.caption == "STATEMENT OF CASH FLOWS"
+    assert table.heading == "Segment results"
+    assert table.n_rows == 3, "promoted, not removed -- a citation to row 2 must still mean row 2"
+
+
+def test_a_first_row_of_figures_is_data_and_not_a_title():
+    from kip.html_tables import extract_tables
+
+    html = ("<table><tr><td>1,240</td><td></td><td></td></tr>"
+            "<tr><td>a</td><td>b</td><td>c</td></tr>"
+            "<tr><td>d</td><td>e</td><td>f</td></tr></table>")
+    assert extract_tables(html)[0].caption == ""
+
+
+def test_a_content_image_becomes_a_figure_and_furniture_does_not():
+    """The Sharpe reprint's only image is a `home.jpg` navigation button. An
+    extractor that captured it would report a figure where the document has
+    none."""
+    from kip.html_figures import extract_figures
+
+    html = ('<h2>Results</h2>'
+            '<figure><img src="car.png">'
+            '<figcaption>Figure 1. Cumulative average residuals.</figcaption></figure>'
+            '<img src="spacer.gif" alt="">'
+            '<img class="logo" src="l.png" alt="Company logo mark for the corporation">'
+            '<a href="home.htm"><img\n src="../../home.jpg" border="0"></a>')
+    found = extract_figures(html)
+    assert [f["src"] for f in found] == ["car.png"]
+    assert found[0]["caption"].startswith("Figure 1.")
+    assert found[0]["heading"] == "Results"
+
+
+def test_a_chart_identified_only_by_its_alt_text_is_still_a_figure():
+    from kip.html_figures import extract_figures
+
+    html = '<img src="c.png" alt="Line chart of implied volatility against strike price">'
+    assert len(extract_figures(html)) == 1
+
+
+def test_a_mediawiki_equation_image_is_not_a_figure():
+    """It is a picture of a formula the formula extractor already has exactly,
+    and capturing it again would double-count the same content at a worse
+    fidelity."""
+    from kip.html_figures import extract_figures
+
+    html = ('<img class="mwe-math-fallback-image-inline" src="eq.png" '
+            'alt="a^{2}+b^{2}=c^{2} which is the Pythagorean theorem">')
+    assert extract_figures(html) == []
+
+
+def test_a_pdf_page_carrying_a_figure_caption_is_found_with_its_caption():
+    """The caption is both the signal and the content: a scanned page is one
+    big image, so asking whether a page contains a picture answers yes
+    everywhere, and a chart without its caption is pixels nobody can use."""
+    from kip.pdf_assets import pages_with_figures
+
+    text = ("[[PAGE 8]]\nordinary prose about the results\n"
+            "[[PAGE 9]]\nFigure 1. Cumulative Average Residuals for Winner and Loser\n"
+            "Portfolios of 35 Stocks\n")
+    assert pages_with_figures(text) == {
+        9: "Figure 1. Cumulative Average Residuals for Winner and Loser"}

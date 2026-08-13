@@ -52,6 +52,12 @@ class _TableCollector(HTMLParser):
         self.tables: list[Table] = []
         self._stack: list[dict[str, Any]] = []
         self._skip = 0
+        # The nearest heading seen so far, stamped onto each table as it opens.
+        # A financial statement titled only "2025" is uninterpretable without
+        # the section it sits under.
+        self._heading = ""
+        self._in_heading = False
+        self._heading_buf: list[str] = []
 
     # --- structure ---------------------------------------------------------
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
@@ -61,8 +67,13 @@ class _TableCollector(HTMLParser):
         if self._skip:
             return
         attributes = {k.lower(): (v or "") for k, v in attrs}
+        if tag in _HEADING_TAGS:
+            self._in_heading = True
+            self._heading_buf = []
+            return
         if tag == "table":
-            self._stack.append({"rows": [], "current": None, "caption": []})
+            self._stack.append({"rows": [], "current": None, "caption": [],
+                                "heading": self._heading})
             return
         if not self._stack:
             return
@@ -84,6 +95,12 @@ class _TableCollector(HTMLParser):
             top["in_caption"] = True
 
     def handle_endtag(self, tag: str) -> None:
+        if tag in _HEADING_TAGS and self._in_heading:
+            self._in_heading = False
+            text = _clean("".join(self._heading_buf))
+            if text:
+                self._heading = text
+            return
         if tag in _SKIP_TAGS:
             self._skip = max(0, self._skip - 1)
             return
@@ -96,6 +113,9 @@ class _TableCollector(HTMLParser):
             self.tables.append(_to_table(self._stack.pop()))
 
     def handle_data(self, data: str) -> None:
+        if self._in_heading:
+            self._heading_buf.append(data)
+            return
         if self._skip or not self._stack:
             return
         top = self._stack[-1]
@@ -143,9 +163,42 @@ def _to_table(raw: dict[str, Any]) -> Table:
             col += cell.col_span
             max_col = max(max_col, col)
     table = Table(cells=cells, n_rows=len(raw["rows"]), n_cols=max_col,
-                  caption=_clean("".join(raw["caption"])))
+                  caption=_clean("".join(raw["caption"])),
+                  heading=raw.get("heading", ""))
     _promote_header_row(table)
+    _promote_title_row(table)
     return table
+
+
+#: Tags whose text is a section heading.
+_HEADING_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
+
+
+def _promote_title_row(table: Table) -> None:
+    """A table whose title is its own first row gets that title as a caption.
+
+    Every financial statement in the GE filing takes this shape: row 0 holds
+    `STATEMENT OF CASH FLOWS` in one cell and nothing in the rest, because the
+    title is typeset inside the table rather than in a `<caption>` element. Left
+    alone, those tables reach the record captionless and a reader looking at a
+    grid of figures cannot tell which statement it is.
+
+    The row is promoted, NOT removed. Deleting it would shift every row index
+    below it, and a row index is what a citation resolves against -- a stored
+    citation to row 7 must still mean row 7 after this runs.
+    """
+    if table.caption or table.n_rows < 2 or table.n_cols < 2:
+        return
+    first = [c for c in table.cells if c.row == 0 and c.text.strip()]
+    if len(first) != 1:
+        return
+    title = first[0].text.strip()
+    # A title is words. A lone figure in the first row is data, not a heading.
+    if not title or not any(ch.isalpha() for ch in title):
+        return
+    if sum(ch.isdigit() for ch in title) > len(title) / 3:
+        return
+    table.caption = title
 
 
 def _promote_header_row(table: Table) -> None:

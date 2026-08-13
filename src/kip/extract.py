@@ -10,6 +10,13 @@ import re
 from pathlib import Path
 from typing import Any
 
+from .anchors import (
+    anchor_assets,
+    apply_links,
+    link,
+    locate_reflowed as _locate_reflowed,
+    orphans,
+)
 from .artifacts import RunContext, envelope, read_jsonl, seal, text_hash, write_jsonl_atomic
 from .config import Config
 from .retention import annotate as annotate_protected, load_taxonomy
@@ -504,6 +511,11 @@ def extract_units(
         read_jsonl(omissions_partial) if omissions_partial.exists() else []
     )
     all_rejects: list[dict[str, Any]] = read_jsonl(rejects_path) if rejects_path.exists() else []
+    # Asset-to-unit relationships get their own file rather than being written
+    # back into `assets.jsonl`, which Pass 0 sealed. A relationship discovered
+    # here is not a property of that artifact.
+    links_path = ctx.units.parent / "asset_links.jsonl"
+    all_links: list[dict[str, Any]] = read_jsonl(links_path) if links_path.exists() else []
     done = {u["source_id"] for u in all_units} | {o["source_id"] for o in all_omissions}
     if done:
         print(f"[pass1] checkpoint: {len(all_units)} units from {len(done)} sources already done")
@@ -522,6 +534,12 @@ def extract_units(
             recovered = _read_rendered_pages(ctx, cfg, client, manifest, assets)
             if recovered:
                 assets = assets + recovered
+                # Anchor the new ones the same way Pass 0 anchors its own. A
+                # transcription that is never anchored is an orphan by
+                # construction, which would report a hole in the reading where
+                # there is none.
+                locator = read_jsonl(normalized_path.parent / "locator_map.jsonl")
+                anchor_assets(assets, text, locator)
                 write_jsonl_atomic(assets_path, assets)
                 print(f"[pass1] {source_id}: read {len(recovered)} asset(s) off "
                       "rendered pages")
@@ -624,12 +642,25 @@ def extract_units(
             units.extend(repaired)
             all_units.extend(repaired)
 
+        # An asset is related to a unit when their spans overlap, whether or
+        # not the unit quoted it. This is what lets an asset survive on the
+        # strength of the text it sits in rather than on being cited.
+        source_links = link(units, assets)
+        apply_links(units, source_links)
+        all_links.extend(source_links)
+        missed = orphans(assets, source_links)
+        if missed:
+            print(f"[pass1] {source_id}: {len(missed)} asset(s) sit in regions that "
+                  "produced no units")
+
         done.add(source_id)
         write_jsonl_atomic(units_partial, all_units)
+        write_jsonl_atomic(links_path, all_links)
         write_jsonl_atomic(omissions_partial, all_omissions)
         if all_rejects:
             write_jsonl_atomic(rejects_path, all_rejects)
 
+    write_jsonl_atomic(links_path, all_links)
     write_jsonl_atomic(ctx.omissions, all_omissions)
     # The checkpoints exist only to survive a crash; leaving them behind would
     # make a later --force re-run resume from them instead of recomputing.
@@ -729,7 +760,13 @@ def _read_rendered_pages(ctx, cfg, client, manifest: dict[str, Any],
     already = {a.get("page") for a in assets if a.get("extractor") == "visual_read_v1"}
     renders = [a for a in assets
                if a.get("kind") == "figure" and a.get("payload", {}).get("image")
-               and a.get("page") not in already]
+               and a.get("page") not in already
+               # A page rendered only because it carries a chart is not read.
+               # Nothing interprets a chart in this pipeline: the image travels
+               # with its caption and its text, and a transcriber asked for the
+               # equations on it would correctly answer "none" at the cost of a
+               # call.
+               and a.get("payload", {}).get("render_reason", ["math"]) != ["figure"]]
     if not renders:
         return []
     base = (ctx.run_dir / manifest["normalized_path"]).parent
@@ -789,7 +826,7 @@ def _read_rendered_pages(ctx, cfg, client, manifest: dict[str, Any],
     return out
 
 
-def _render_assets(assets: list[dict[str, Any]], *, limit: int = 60) -> str:
+def _render_assets(assets: list[dict[str, Any]]) -> str:
     """Show the extractor the tables as grids, with their ids.
 
     The flattened text says `Total segment revenue | $ | 33,314 | $ | 26,881`.
@@ -809,12 +846,17 @@ def _render_assets(assets: list[dict[str, Any]], *, limit: int = 60) -> str:
             "are 0-based, as printed below.",
             "",
         ]
-        for asset in tables[:limit]:
+        # Every table, uncapped. There used to be a limit of 60 here, and on
+        # the GE filing it meant 40 tables -- the Statement of Cash Flows among
+        # them -- were never put in front of the extractor at all. It could not
+        # cite what it never saw, and the resulting hole was invisible except as
+        # an unexplained count of uncited assets.
+        for asset in tables:
             lines.append(f"[{asset['asset_id']}]")
+            caption = asset.get("payload", {}).get("caption", "")
+            if caption:
+                lines.append(caption)
             lines.append(asset.get("text", ""))
-            lines.append("")
-        if len(tables) > limit:
-            lines.append(f"({len(tables) - limit} further tables not shown.)")
             lines.append("")
 
     formulas = _significant_formulas(assets)
@@ -827,14 +869,12 @@ def _render_assets(assets: list[dict[str, Any]], *, limit: int = 60) -> str:
             "and put the LaTeX in the excerpt -- it is checked against the asset.",
             "",
         ]
-        for asset in formulas[:limit]:
+        for asset in formulas:
             payload = asset.get("payload", {})
             context = payload.get("surrounding_text", "")
             lines.append(f"[{asset['asset_id']}] {payload.get('latex', '')}")
             if context:
                 lines.append(f"    in context: {context}")
-        if len(formulas) > limit:
-            lines.append(f"({len(formulas) - limit} further formulas not shown.)")
         lines.append("")
     return "\n".join(lines) + "\n" if lines else ""
 
@@ -951,55 +991,6 @@ def _materialize_units(
         }
         units.append(seal(record))
     return units
-
-
-def _locate_reflowed(excerpt: str, text: str) -> tuple[int, int] | None:
-    """Find `excerpt` in `text` ignoring whitespace and line-break hyphenation.
-
-    Returns the raw (start, end) offsets in `text`, or None if the words are not
-    there. Deliberately NOT a similarity search: every non-space character must
-    match in order. A paraphrase, a dropped clause or an invented sentence still
-    fails, which is the property Pass 5's citation check depends on -- the point
-    is to stop losing quotes the document really contains, not to start
-    accepting quotes it does not.
-
-    The two things forgiven are both artifacts of normalization rather than of
-    the model: runs of whitespace differing from the source's hard wraps, and a
-    word split across a line break as `evi- dence`.
-    """
-    # Collapse both sides to comparable character streams, keeping a map from
-    # each kept character back to its offset in the raw text.
-    def stream(s: str, track: bool) -> tuple[str, list[int]]:
-        chars: list[str] = []
-        offsets: list[int] = []
-        i = 0
-        while i < len(s):
-            ch = s[i]
-            if ch.isspace():
-                i += 1
-                continue
-            # A hyphen immediately before a line break is a wrap artifact.
-            if ch == "-":
-                j = i + 1
-                while j < len(s) and s[j] in " \t":
-                    j += 1
-                if j < len(s) and s[j] == "\n":
-                    i = j + 1
-                    continue
-            chars.append(ch)
-            if track:
-                offsets.append(i)
-            i += 1
-        return "".join(chars), offsets
-
-    needle, _ = stream(excerpt, track=False)
-    if not needle:
-        return None
-    hay, offsets = stream(text, track=True)
-    at = hay.find(needle)
-    if at < 0:
-        return None
-    return offsets[at], offsets[at + len(needle) - 1] + 1
 
 
 #: LaTeX spelling that carries no mathematical content: spacing directives, the

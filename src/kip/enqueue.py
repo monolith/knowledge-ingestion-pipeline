@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from .artifacts import RunContext, stable_hash, utc_now, write_jsonl_atomic
+from .artifacts import RunContext, read_jsonl, stable_hash, utc_now, write_jsonl_atomic
 from .config import SCHEMA_VERSION
 
 TARGET_ENGINE = "existing-leaf-engine"
@@ -36,6 +36,18 @@ def enqueue_approved(
     makes a replay idempotent, and the run id keeps two runs' proposals distinct
     even when they say the same thing about the same topic.
     """
+    # The travel rule: an entry carries every asset related to any of its
+    # source units. An asset's survival is decided by whether the text it sits
+    # in survived -- a judgment about the text, already made on the text's
+    # merits -- and not by whether some unit happened to quote it.
+    links_path = ctx.units.parent / "asset_links.jsonl"
+    links = read_jsonl(links_path) if links_path.exists() else []
+    assets_by_unit: dict[str, list[str]] = {}
+    for row in links:
+        ids = assets_by_unit.setdefault(row["unit_id"], [])
+        if row["asset_id"] not in ids:
+            ids.append(row["asset_id"])
+
     events: list[dict[str, Any]] = []
 
     for candidate in approved:
@@ -50,6 +62,11 @@ def enqueue_approved(
             "source_unit_ids": candidate["source_unit_ids"],
             "related_topics": candidate.get("related_topics", []),
             "labels": candidate.get("labels", []),
+            "related_asset_ids": sorted({
+                asset_id
+                for unit_id in candidate["source_unit_ids"]
+                for asset_id in assets_by_unit.get(unit_id, [])
+            }),
         }
         key = stable_hash(
             {

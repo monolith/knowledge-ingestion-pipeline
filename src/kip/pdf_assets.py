@@ -101,6 +101,43 @@ def pages_with_math(text: str, page_marker: re.Pattern[str] | None = None) -> li
     return sorted(page for page, count in pages.items() if count >= _MIN_MARKS and page)
 
 
+#: A figure caption as a journal prints one. The caption is the signal AND the
+#: content: it is what makes the image interpretable, and a chart carried
+#: without it is pixels nobody can use.
+_FIGURE_CAPTION = re.compile(
+    r"^\s*((?:Figure|FIGURE|Fig\.|Chart|Exhibit|Plate)\s+\d+[.:][^\n]*)", re.M)
+
+
+def pages_with_figures(text: str,
+                       page_marker: re.Pattern[str] | None = None
+                       ) -> dict[int, str]:
+    """Pages carrying a figure, mapped to the figure's caption.
+
+    Detected from the caption rather than from the image, for two reasons. A
+    scanned page is one big image, so asking "does this page contain a picture"
+    answers yes everywhere and tells you nothing. And the caption is the part
+    that matters: a chart without its caption cannot be interpreted by anyone,
+    so a detector that found the image and missed the caption would produce
+    assets with no value.
+
+    One caption is enough. Unlike the mathematics detector, which needs several
+    marks because ordinary prose produces the occasional false positive, a line
+    beginning `Figure 3.` is not something prose does by accident.
+    """
+    marker = page_marker or re.compile(r"\[\[PAGE (\d+)\]\]")
+    found: dict[int, str] = {}
+    current = 0
+    for line in text.splitlines():
+        hit = marker.search(line)
+        if hit:
+            current = int(hit.group(1))
+            continue
+        caption = _FIGURE_CAPTION.match(line)
+        if caption and current and current not in found:
+            found[current] = caption.group(1).strip()
+    return found
+
+
 def pages_with_flattened_tables(text: str,
                                 page_marker: re.Pattern[str] | None = None) -> list[int]:
     """Pages holding rows of numbers that have lost their column headers.
