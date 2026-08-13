@@ -1,32 +1,32 @@
 {
   "auditor_model": "claude-opus-5",
-  "created_at": "2026-08-12T20:09:09.259730+00:00",
+  "created_at": "2026-08-13T10:35:29.940098+00:00",
   "definitions_captured": true,
   "fairly_represented": true,
   "key_insights_captured": true,
   "mechanical": {
-    "assertions_out": 57,
-    "units_carried": 53,
-    "units_kept": 53,
+    "assertions_out": 59,
+    "units_carried": 58,
+    "units_kept": 58,
     "units_orphaned": 0,
     "units_orphaned_protected": 0
   },
   "missing": [],
   "model_role": "corpus-coverage-auditor",
   "notes": [
-    "Procedure is carried rather than summarized. The formation and test windows, the ranking rule, the attrition rule and the pooled-variance statistic all appear with their parameters, which is the difference between an output a reader can act on and one they can only cite.",
-    "Negative and null results are given the same standing as positive ones: no reversal at a one-year formation horizon, 5.4 per cent with t = 0.77 at twelve months, and an experiment on which the authors ran no statistical tests at all. A skewed output would have kept the 24.6 per cent and dropped these.",
-    "The corpus's internal disagreements survive into the output rather than being resolved: the small-firm reading against the market-capitalization finding, Shiller against Marsh and Merton, Reinganum against Basu and Graham. The paper does not settle these and neither does the output.",
-    "The dissertation dependency is visible. Three claims that carry much of the study's defense -- the bias-against-the-hypothesis argument, the portfolio characteristics, and the robustness to other residual types -- rest on an unpublished source not in this corpus, and the output says so twice.",
-    "One distribution problem rather than a loss: the caveat that the 36 monthly t-statistics do not represent independent evidence is in the research-design entry, while the January entry reports three of those t-statistics. A reader retrieving the January entry alone would over-read them.",
-    "The output states throughout that this is one study, one dataset and one independence group. For a corpus of a single 1985 paper whose findings were later both replicated and contested, that framing is what keeps the entries honest."
+    "The test statistics exist in this corpus for the first time. Previously the pooled variance and both t-statistics reached the units only as descriptions, because the text layer had destroyed the symbols; they are now transcribed from the rendered page and carry the crop they were read from.",
+    "Table I is cited by cell rather than quoted as a row. That is the substantive improvement: the flattened row read identically whichever month a figure belonged to, so a citation to it proved the digits were copied and not that they were read from the right column.",
+    "Fidelity is recorded and differs across the corpus. The formulas and Table I are `transcribed` -- readings of an image -- while every text citation remains a verbatim quote. A consumer that ignores the distinction will treat a reading as a quotation, which is the one way this addition could make the output worse rather than better.",
+    "Negative and null results keep their standing: the insignificant 5.4 per cent at twelve months, the -0.076 at month 12 that is significant in the opposite direction, and the trading-rule experiment on which the authors ran no tests at all.",
+    "One tension the audit surfaced and the output preserves: the paper says no reversal is observed at a one-year formation period while its own Table I reports a significant negative difference at twelve months. Both are now in the corpus, and only the cell citation makes the second visible.",
+    "Everything is one paper and one study. The psychological premise cites separate sources but only as this paper characterizes them."
   ],
   "parent_artifacts": [
     "02_units/units.jsonl",
     "06_audit/candidates.approved.jsonl"
   ],
   "prompt_version": "pass-05b-corpus-coverage-v1.0",
-  "reasoning": "All fifty-three units reached an assertion, so nothing is lost and the question is whether the output is skewed. I checked the three places it could be. The procedure survives in usable form -- the 85-month data requirement, the 16 nonoverlapping three-year windows, the top-and-bottom-35 ranking and the permanent-drop rebalancing rule are stated, not described, so a reader could rerun the study. The negative results survive: the one-year null, the insignificant 5.4 per cent at twelve months, and the absence of significance tests on the five-year experiment are assertions in their own right rather than hedges attached to positive claims. The proportions match the paper: the reversal, the January effect and the design carry the most weight, and the literature review is background at low priority. The one thing an output-only reader would get wrong is that the caveat about the monthly t-statistics not being independent sits in the design entry while the monthly t-statistics themselves sit in the January entry.",
+  "reasoning": "All 58 units reached an assertion, so nothing extracted was lost, and this run recovered content the previous one could not reach at all. Two things changed materially. The four test statistics were read off a rendered page rather than the text layer, which had reduced them to characters resembling mathematics, so the corpus now carries the pooled variance and both t-statistics as usable formulas. And Table I was recovered as a grid, so its figures are cited by cell: 0.319 is recorded under month 60 and -0.076 under month 12, mappings that a flattened row cannot carry at all. The abstract and figure captions, absent from the first pass entirely, were recovered by the repair round. Proportions match the paper: the design, the results and the January effect are the largest entries.",
   "run_id": "dt",
   "schema_version": "3.1.0",
   "verdict": "represented"

@@ -18,7 +18,7 @@ Everything else is the machine-readable material behind it.
 | run | source | words | units | density | approved entries |
 |---|---|---|---|---|---|
 | [`sharpe-arithmetic-of-active-management`](sharpe-arithmetic-of-active-management/enqueue.md) | Sharpe, *The Arithmetic of Active Management* (1991) | 1,650 | 23 | 1 per 72 words | 6 |
-| [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/enqueue.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 53 | 1 per 119 words | 11 |
+| [`debondt-thaler-does-the-stock-market-overreact`](debondt-thaler-does-the-stock-market-overreact/enqueue.md) | De Bondt & Thaler, *Does the Stock Market Overreact?* (1985) | 6,284 | 58 | 1 per 108 words | 20 |
 | [`andersen-the-little-mermaid`](andersen-the-little-mermaid/enqueue.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
 | [`statement-classifier-specification`](statement-classifier-specification/enqueue.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
 | [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/enqueue.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 112 | 1 per 507 words | 24 |
@@ -185,6 +185,42 @@ would be a plot summary in JSONL and none of it stands alone.
 That is also why the density is half the others'. It is a property of the source,
 not a coverage failure: `units_orphaned` is 0 and corpus coverage returns
 `represented`, the same as the other three.
+
+## Non-textual content: tables, formulas, figures
+
+Flattening a source to one text file destroys everything that is not prose, and
+the table case was actively dangerous. A filing row arrived as `Total segment
+revenue$33,314 $26,881 $23,855` with its headers fused on another line, so the
+year-to-column mapping survived only in the model's prose reconstruction. A unit
+that read the columns backwards still had a citation that verified `True` --
+verbatim checking confirms digits were copied, not that they were assigned to
+the right year.
+
+A source is now a **bundle**: the text plus typed assets in
+`01_normalized/<src>/assets.jsonl`, each with a stable id. Evidence can cite a
+cell with `asset_ref {asset_id, row, col}`, which resolves to the value *and*
+the headers governing it.
+
+**Fidelity is part of the record**, because the three kinds are not equally
+trustworthy:
+
+| | meaning | citable as |
+|---|---|---|
+| `exact` | structure from markup the source carried | a quote |
+| `transcribed` | a model or geometry read it | a reading, with the crop attached |
+| `inferred` | a model described what it could not transcribe | never evidence |
+
+The GE filing yields **100 `exact` tables** from its own `<table>` markup. The
+De Bondt PDF yields **4 formulas and Table I as `transcribed`** — its equations
+had reached the corpus as `Tt = ARw,t/(st/ViN)`, where `Vi` is a square-root
+sign, and no better text extraction recovers that because the information was
+never in the text layer. Those pages are rendered and read instead.
+
+Citation for a transcription is deliberately looser than the verbatim rule:
+string comparison is the wrong check. UniMERNet scores 0.48 exact-match against
+0.81 rendered-and-compared, so about a third of *correct* transcriptions differ
+textually from the reference. The crop is what makes the claim checkable. See
+[`research/2026-08-13-non-textual-content-research.md`](../../research/2026-08-13-non-textual-content-research.md).
 
 ## The retention guard
 
