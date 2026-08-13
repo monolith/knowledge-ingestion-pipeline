@@ -714,8 +714,14 @@ def _read_rendered_pages(ctx, cfg, client, manifest: dict[str, Any],
     """
     from .assets import ASSET_TABLE, FIDELITY_TRANSCRIBED, Cell, Table, build_asset
 
+    # Pages already read are skipped. Without this the pass appends its results
+    # again on every invocation, and since the assets are rendered into the
+    # extraction prompt, the extraction call id changes each time -- so a run
+    # never converges and no answer is ever reused.
+    already = {a.get("page") for a in assets if a.get("extractor") == "visual_read_v1"}
     renders = [a for a in assets
-               if a.get("kind") == "figure" and a.get("payload", {}).get("image")]
+               if a.get("kind") == "figure" and a.get("payload", {}).get("image")
+               and a.get("page") not in already]
     if not renders:
         return []
     base = (ctx.run_dir / manifest["normalized_path"]).parent
