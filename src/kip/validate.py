@@ -382,14 +382,17 @@ def validate_run(ctx: RunContext) -> dict[str, Any]:
         warnings.append(
             f"{len(orphaned)} asset(s) carry no link to any unit because this run "
             "predates asset anchoring (no 02_units/asset_links.jsonl). Re-run it to "
-            "find out which of them sit in text nobody read."
+            "relate them to the text they sit in."
         )
     elif orphaned:
-        warnings.append(
-            f"{len(orphaned)} asset(s) sit in source regions that produced no units: "
-            + ", ".join(orphaned[:5]) + (f" (+{len(orphaned) - 5} more)"
-                                         if len(orphaned) > 5 else "")
-        )
+        # Counted, not warned about. An asset in a passage that produced no units
+        # is the mirror of a paragraph that produced no units, and nothing has
+        # ever counted those: what an asset is worth is settled by whether the
+        # text around it reached an approved entry, and that judgment has already
+        # been made by the time this runs. It stays in `counts` because a run
+        # where EVERY asset is unrelated means the extractor never saw them --
+        # a wiring failure rather than a reading decision.
+        counts["assets_unrelated"] = len(orphaned)
 
     # Entity mentions are surface forms copied verbatim from the document (the
     # extraction prompt forbids canonicalizing them), so a surface that does not

@@ -155,6 +155,7 @@ class HandoffClient:
         # shape the API runtime would send, and an answer produced under one
         # runtime is valid under the other.
         from .llm import (
+            SUPPORTED_IMAGE_TYPES,
             approx_tokens,
             check_answer_size,
             check_request_size,
@@ -175,6 +176,17 @@ class HandoffClient:
         # so the same page under a different workspace hashed differently and
         # every answer missed. Bytes are the same everywhere, and two different
         # images still differ.
+        # Refuse the same images the SDK runtime would refuse. An agent reading
+        # a file off disk does not care what the Messages API accepts, so
+        # without this a `.tif` figure answers cleanly here and 400s there --
+        # the two runtimes disagreeing about a document rather than a model.
+        import mimetypes as _mt
+        for image in (images or []):
+            media = _mt.guess_type(Path(image).name)[0] or "image/png"
+            if media not in SUPPORTED_IMAGE_TYPES:
+                raise HandoffInvalid(
+                    "image", f"{Path(image).name}: the Messages API accepts only "
+                    + ", ".join(sorted(SUPPORTED_IMAGE_TYPES)) + f", not {media}")
         digests = [_image_digest(image) for image in (images or [])]
         cid = call_id(system=system,
                       user=user + ("\n[[IMAGES]] " + " ".join(digests) if digests else ""),

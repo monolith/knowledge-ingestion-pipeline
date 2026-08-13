@@ -56,18 +56,34 @@ range is related to it; the linkage travels in the JSONL and in the README.
   `units.jsonl`. (BS: "the jsonl ... should contain the asset linkage
   information" — `enqueue.jsonl` is the JSONL a consumer reads)
 
-### Orphan assets
+### Orphan assets — REVISED 2026-08-13, after the GE run
 
-- An asset whose anchor overlaps no unit is an orphan. (BS: Decisions — Orphan
-  assets)
-- The count and the identities are computed in code and handed to the
-  corpus-coverage audit as a mechanical input, alongside the existing "N of
-  which reached no assertion". (BS: "becomes a finding the coverage audit acts
-  on")
-- `kip validate` reports orphan assets as a warning. (BS: "Name the coverage
-  gap")
-- Nothing is forced. An orphan does not block, and no unit is manufactured for
-  it. (BS: "Nothing is forced")
+The brainstorm decided an orphan is a coverage gap to be named. Running it on
+the GE filing showed that is the wrong frame, and Anatoly revised it:
+
+> "we only care about tables and formulas and charts that directly relate and
+> improve understanding of an enqueu item. just like we don't worry about
+> dropped paragraphs that don't add understanding value, neither are we worried
+> about tables and formulas that don't add value. whether some thing adds value
+> i think is already established by the process that generates enqeue items"
+
+So:
+
+- An asset whose anchor overlaps no unit sits in a passage the extraction read
+  and drew nothing from. That is the same decision the extraction makes about a
+  paragraph, and neither is tracked as a defect.
+- The count is recorded — `counts.assets_unrelated` in `kip validate` — and is
+  NOT a warning.
+- The coverage audit is handed the list as context and told explicitly not to
+  treat it as omissions. It is retained for one reason only: a run where nearly
+  every asset is unrelated means the extractor never saw them, which is a wiring
+  failure rather than a reading decision, and the GE prompt cap was exactly
+  that.
+- Nothing is forced. (BS: "Nothing is forced" — unchanged)
+
+Superseded: the earlier decision to name each orphan as a coverage gap, and the
+GE run's `fairly_represented: false`, which asserted a purpose the pipeline was
+never told.
 
 ### Verifying a transcription
 

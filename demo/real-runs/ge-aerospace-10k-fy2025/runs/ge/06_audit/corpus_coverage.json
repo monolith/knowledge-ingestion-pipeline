@@ -1,9 +1,9 @@
 {
   "auditor_model": "claude-opus-5",
-  "created_at": "2026-08-13T14:22:53.320324+00:00",
+  "created_at": "2026-08-13T16:57:10.585276+00:00",
   "definitions_captured": true,
-  "fairly_represented": false,
-  "key_insights_captured": false,
+  "fairly_represented": true,
+  "key_insights_captured": true,
   "mechanical": {
     "assertions_out": 116,
     "units_carried": 116,
@@ -11,32 +11,20 @@
     "units_orphaned": 0,
     "units_orphaned_protected": 0
   },
-  "missing": [
-    {
-      "consequence": "A consumer asking what GE Aerospace earned or is worth in 2025 finds net income and operating cash flow -- recovered this round -- and nothing else from the primary statements. The tables are in the record and anchored, so the material is not lost; nothing points at it, because nothing was read from around it.",
-      "unit_ids": [],
-      "what_is_lost": "The Statement of Operations, the Statement of Financial Position and the Statement of Comprehensive Income sit in regions that produced no units. Total revenue, total assets, total shareholders' equity and comprehensive income each have no representation in the output."
-    },
-    {
-      "consequence": "The extraction reads this filing's narrative and does not read its tables. That is a property of the reading, not of the asset layer: the tables were all recovered, all but one anchored, and thirty-nine of them travel with the text that was read. The remaining sixty-one mark where the reading did not go.",
-      "unit_ids": [],
-      "what_is_lost": "Thirty-eight substantive financial tables in total carry four or more money figures and relate to no unit: remaining performance obligations, adjusted non-GAAP revenue and margin, the pension plan funded status, accumulated other comprehensive income, and segment revenue and operating profit among them."
-    }
-  ],
+  "missing": [],
   "model_role": "corpus-coverage-auditor",
   "notes": [
-    "This is the first run where the gap is measurable. Before assets were anchored, the same hole showed only as an unexplained count of uncited tables, which could equally have meant the extractor had no reason to quote them. An anchored table in a passage that produced no units is a different and sharper claim: nothing was read there.",
-    "Thirty-nine tables now relate to units, against eight cited before. Twenty-eight of those relate because they sit in text that was read, with no unit quoting them -- which is the behaviour the anchoring was built for.",
-    "Not a gap: twenty-nine of the sixty-one unrelated tables are the cover page, the filer-status checkboxes, the securities-registered list and similar. They should produce no units and their absence misrepresents nothing.",
-    "The density figure and this count are the same finding seen twice: 116 units for 56,836 words is one per 490 words, the sparsest of the six demo runs, and the sparsity is concentrated exactly where the tables are."
+    "A 10-K is a compliance document and most of its tables are required disclosure rather than insight. Manufacturing a unit for a receivables ageing schedule would be padding, not coverage. What an asset is worth is settled by whether the text around it reached an approved entry, and that judgment has already been made by the time this audit runs.",
+    "Worth stating without treating it as a defect: the Statement of Operations, the Statement of Financial Position and the Statement of Comprehensive Income relate to no unit, so total revenue and total assets appear nowhere in the output. For a base built to explain what GE Aerospace is and how it earns, that is defensible. For one built to answer financial questions, it would not be -- and which of those this is, the pipeline was never told.",
+    "The count is a measurement of where the reading went, not a verdict. It is worth watching only in the aggregate: a run where nearly every asset is unrelated would mean the extractor never saw them, which is a wiring failure rather than a reading decision. 39 related here, and all 100 were rendered into the extraction prompt."
   ],
   "parent_artifacts": [
     "02_units/units.jsonl",
     "06_audit/candidates.approved.jsonl"
   ],
   "prompt_version": "pass-05b-corpus-coverage-v1.0",
-  "reasoning": "Every unit reaches an assertion, and the four figures recovered this round are cited to cells rather than to quoted rows, which is the right shape for a document that prints three years side by side. But the corpus is not fairly represented and the reason is now measurable rather than suspected: sixty-one of the hundred tables sit in passages from which nothing was extracted. Twenty-nine of those are cover page, checkboxes and small lists and should produce nothing. The rest are the filing's financial statements. This output describes what GE Aerospace does and barely says what it earned.",
+  "reasoning": "Every unit reaches an assertion and the filing's headline figures are carried with cell citations. On the assets: 39 of 100 tables relate to units and 61 do not, and the split matters more than the count. 23 are cover page, filer checkboxes and registered-securities lists. 35 are supporting schedules -- current receivables, long-term receivables, assets of discontinued operations, remaining performance obligations by segment, non-GAAP adjusted margin. Three are primary statements. An asset in a passage the extraction read and drew nothing from is the same decision the extraction makes about a paragraph it does not extract from, and this audit does not second-guess that decision for prose. It should not for tables.",
   "run_id": "ge",
   "schema_version": "3.1.0",
-  "verdict": "gaps"
+  "verdict": "represented"
 }

@@ -108,6 +108,11 @@ def check_answer_size(*, answer_tokens: int, max_tokens: int | None, call_id_: s
     )
 
 
+#: What the Messages API will accept as an image block. Anything else is a 400,
+#: so it is refused in code both runtimes run rather than at the wire.
+SUPPORTED_IMAGE_TYPES = frozenset({"image/jpeg", "image/png", "image/gif", "image/webp"})
+
+
 def _user_content(user: str, images: list[str] | None) -> Any:
     """A user message, with page renders attached when there are any.
 
@@ -125,6 +130,18 @@ def _user_content(user: str, images: list[str] | None) -> Any:
     for image in images:
         path = Path(image)
         media = mimetypes.guess_type(path.name)[0] or "image/png"
+        if media not in SUPPORTED_IMAGE_TYPES:
+            # Refuse here rather than let the API refuse. A `.tif` source is
+            # ingestable (it is in IMAGE_SUFFIXES) and produces a figure asset
+            # that reads perfectly under the handoff runtime, where the agent
+            # opens the file itself -- and 400s under the SDK, four times, then
+            # gets swallowed. Failing in shared code makes the two runtimes
+            # disagree about nothing.
+            raise LLMError(
+                f"{path.name}: the Messages API accepts only "
+                + ", ".join(sorted(SUPPORTED_IMAGE_TYPES))
+                + f", not {media}. Convert the image before ingesting it."
+            )
         blocks.append({"type": "image", "source": {
             "type": "base64", "media_type": media,
             "data": base64.standard_b64encode(path.read_bytes()).decode("ascii")}})

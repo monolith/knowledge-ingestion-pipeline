@@ -53,6 +53,13 @@ The auditor model **must differ** from the planner model — the pipeline refuse
 to run otherwise, because self-preference bias survives anonymization. Override
 with `KIP_MODEL_AUDITOR` / `KIP_MODEL_PLANNER` if needed.
 
+**That guarantee does not hold in handoff mode**, and the artifacts now say so.
+One agent session answers the planner's calls and the auditor's, whatever the
+config names, so each audit record carries `runtime: handoff` and
+`auditor_distinct_from_proposer: null` — unknown, which is not the same as
+false. Read a handoff run's verdicts as self-assessment unless you arranged
+otherwise.
+
 ## Running it
 
 ```bash
@@ -115,6 +122,10 @@ So a source is a **bundle**: the flat text, plus typed assets in
 | `table` | HTML `<table>`; a Markdown pipe table; PDF ruling lines; a rendered page read by a model |
 | `formula` | MathML `<annotation encoding="application/x-tex">`; Markdown `$$…$$` or a ```math fence; a rendered page |
 | `figure` | HTML `<img>`; a PDF page carrying a `Figure N.` caption; an image file given as a source |
+
+Images must be JPEG, PNG, GIF or WebP — what the Messages API accepts. Anything
+else is refused when the request is built, in code both runtimes run, so a
+`.tif` figure cannot read cleanly under handoff and fail under the SDK.
 
 Markdown is worth calling out because it is the format most documents arrive in
 that nobody thinks of as a format. A pipe table's columns are delimited by the

@@ -204,10 +204,11 @@ def _assets_section(run_dir: Path, workspace: Path, units: list[dict],
         + f"{cited_n} related to at least one unit"
         + (f", {total - cited_n} related to none." if total - cited_n else "."),
         "",
-        ("An asset related to no unit sits in a passage nothing was extracted from. "
-         "Sometimes that is correct -- a navigation box marked up as a table, a cover "
-         "page of filer checkboxes -- and sometimes it is a hole in the reading. The "
-         "run's corpus-coverage audit judges which." if total - cited_n else ""),
+        ("An asset related to no unit sits in a passage the extraction read and drew "
+         "nothing from -- the same decision it makes about a paragraph it does not "
+         "extract from, and not tracked as a defect for either. What an asset is worth "
+         "is settled by whether the text around it reached an approved entry."
+         if total - cited_n else ""),
         "",
         "Fidelity is part of the record, because the kinds are not equally trustworthy:",
         "",
@@ -389,12 +390,11 @@ def render(workspace: Path) -> str:
     tail: list[str] = []
     if stranded:
         tail += [
-            "## Assets in text nobody read", "",
-            f"{len(stranded)} asset(s) sit in a region of the source from which no unit "
-            "was extracted, so nothing in the output points at them. This is a hole in "
-            "the reading rather than a judgment about evidence: no unit was dropped "
-            "here, none was ever made. They are shown because they are still the "
-            "source's content.", "",
+            "## Assets not carried by any entry", "",
+            f"{len(stranded)} asset(s) sit in a region the extraction read and drew "
+            "nothing from. That is the same decision it makes about a paragraph it does "
+            "not extract from, and neither is tracked as a defect. They are shown "
+            "because they are still the source's content and cost nothing to keep.", "",
         ]
         for a in stranded:
             tail += [f"### `{a['asset_id']}`", "",

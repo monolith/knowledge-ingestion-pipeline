@@ -352,6 +352,21 @@ something the pipeline can repair. Where the original is paywalled and the
 available copy is a transcription, that fact belongs in the record rather than
 in a footnote to it.
 
+## What a handoff run cannot promise
+
+Every run here was answered by the agent operating the CLI, which has one
+consequence worth stating before the results are read: **the auditor was not
+independent of the proposer.** The pipeline requires distinct models and
+enforces it in the SDK runtime; under handoff, one session answers both, and no
+configuration changes that. Each audit record now carries `runtime: handoff` and
+`auditor_distinct_from_proposer: null` rather than asserting an independence
+that did not exist.
+
+The deterministic checks are unaffected — citation accuracy, provenance
+integrity and independence inflation are string and path comparisons, and they
+found real defects in these runs. It is the reasoned verdicts that should be
+read as self-assessment.
+
 ## An asset belongs to a place in the text
 
 An asset used to reach the output only if some unit quoted it — the rule for

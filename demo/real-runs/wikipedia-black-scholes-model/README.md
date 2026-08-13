@@ -59,7 +59,7 @@ Full judgment: [`06_audit/corpus_coverage.json`](runs/bs/06_audit/corpus_coverag
 
 **122 assets** — 3 figure, 112 formula, 7 table. 51 related to at least one unit, 71 related to none.
 
-An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+An asset related to no unit sits in a passage the extraction read and drew nothing from -- the same decision it makes about a paragraph it does not extract from, and not tracked as a defect for either. What an asset is worth is settled by whether the text around it reached an approved entry.
 
 Fidelity is part of the record, because the kinds are not equally trustworthy:
 
@@ -1714,7 +1714,7 @@ Every recovered object, shown as it is stored. Indexed at the top under [Assets]
 
 **122 assets** — 3 figure, 112 formula, 7 table. 51 related to at least one unit, 71 related to none.
 
-An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+An asset related to no unit sits in a passage the extraction read and drew nothing from -- the same decision it makes about a paragraph it does not extract from, and not tracked as a defect for either. What an asset is worth is settled by whether the text around it reached an approved entry.
 
 Fidelity is part of the record, because the kinds are not equally trustworthy:
 
@@ -3300,9 +3300,9 @@ figure · **transcribed** · extractor `html_figure_v1` · anchored by `own_text
 
 Related units: `u-src-black-scholes-model-fa32a5b3-0055`
 
-## Assets in text nobody read
+## Assets not carried by any entry
 
-71 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
+71 asset(s) sit in a region the extraction read and drew nothing from. That is the same decision it makes about a paragraph it does not extract from, and neither is tracked as a defect. They are shown because they are still the source's content and cost nothing to keep.
 
 ### `tbl-src-black-scholes-model-fa32a5b3-0002`
 

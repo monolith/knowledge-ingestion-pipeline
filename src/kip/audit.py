@@ -322,7 +322,14 @@ def audit_candidates(
 
     auditor_model = cfg.model_for("auditor")
     proposer_model = cfg.model_for("planner")
-    distinct = auditor_model != proposer_model
+    # Under the handoff runtime `model` is a routing instruction nobody follows:
+    # one agent session answers the planner's calls AND the auditor's, whatever
+    # the config names. Recording `distinct: true` there asserts an independence
+    # that did not exist -- and it is the one field in this record that a reader
+    # would use to decide how much the verdicts are worth. Unknown is the honest
+    # value, and it is not the same as false.
+    handoff = type(client).__name__ == "HandoffClient"
+    distinct = None if handoff else auditor_model != proposer_model
     check_auditor_distinct(cfg)
 
     audits: list[dict[str, Any]] = []
@@ -378,6 +385,14 @@ def audit_candidates(
                 "verdict": verdict,
                 "auditor_model": auditor_model,
                 "auditor_distinct_from_proposer": distinct,
+                # Which runtime produced this verdict, because it decides what
+                # the field above can mean.
+                "runtime": "handoff" if handoff else "sdk",
+                **({"auditor_note": (
+                    "answered under the handoff runtime: the model named here is the "
+                    "one the SDK runtime would have used, and independence from the "
+                    "proposer is unknown because one agent session answered both"
+                )} if handoff else {}),
                 "order_swap_applied": cfg.audit.order_swap,
                 "checks": {
                     **{
@@ -562,10 +577,14 @@ def audit_corpus_coverage(
     asset_block = ""
     if asset_gap:
         asset_block = (
-            f"\n\nASSETS IN REGIONS THAT PRODUCED NO UNITS ({len(asset_gap)}). "
-            "These are tables, formulas and figures the source carried, sitting in "
-            "passages nothing was extracted from. Judge whether the corpus is "
-            "misrepresented by their absence:\n"
+            f"\n\nFOR CONTEXT ONLY -- assets in regions that produced no units "
+            f"({len(asset_gap)}). These are tables, formulas and figures the source "
+            "carried, sitting in passages the extraction read and drew nothing from. "
+            "That is a decision the extraction already made, and it is the same "
+            "decision it makes about a paragraph it does not extract from -- so DO NOT "
+            "treat these as omissions. They are listed because a very high count can "
+            "indicate the extractor never saw the material at all, which is a different "
+            "problem and a real one. Judge the OUTPUT, not this list:\n"
             + "\n".join(f"- {a['asset_id']} ({a['kind']}): {a['label']}"
                          for a in asset_gap[:60])
             + (f"\n({len(asset_gap) - 60} further.)" if len(asset_gap) > 60 else "")

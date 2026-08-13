@@ -707,3 +707,34 @@ def test_a_pipe_table_needs_its_delimiter_row():
     from kip.md_assets import extract_tables
 
     assert extract_tables("a | b\nc | d\n") == []
+
+
+def test_both_runtimes_refuse_an_image_the_api_cannot_carry(tmp_path):
+    """A `.tif` is an ingestable source and produces a figure asset that reads
+    perfectly under handoff — the agent opens the file itself — and 400s under
+    the SDK, four times, then gets swallowed. Refusing in shared code is the
+    difference between the two runtimes disagreeing about a model and
+    disagreeing about a document."""
+    import pytest
+
+    from kip.handoff import HandoffClient, HandoffInvalid
+    from kip.llm import LLMError, _user_content
+
+    bad = tmp_path / "chart.tif"
+    bad.write_bytes(b"II*\x00")
+    with pytest.raises(LLMError, match="image/tiff"):
+        _user_content("read this", [str(bad)])
+
+    client = HandoffClient(root=tmp_path / "_handoff")
+    with pytest.raises(HandoffInvalid):
+        client.complete_json(system="s", user="u", schema={"type": "object"},
+                             model="m", images=[str(bad)])
+
+
+def test_a_supported_image_passes_both(tmp_path):
+    from kip.llm import _user_content
+
+    good = tmp_path / "page.png"
+    good.write_bytes(b"\x89PNG\r\n\x1a\n")
+    blocks = _user_content("read this", [str(good)])
+    assert blocks[0]["source"]["media_type"] == "image/png"
