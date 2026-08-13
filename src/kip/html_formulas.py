@@ -112,11 +112,22 @@ def extract_formulas(html_text: str, *, context_chars: int = 160) -> list[dict[s
     return out
 
 
+def _plain(fragment: str) -> str:
+    """Tags out, entities in, whitespace collapsed.
+
+    The window is cut by character count, so it routinely begins or ends inside
+    a tag. Those half-tags are dropped first -- otherwise the surrounding text of
+    a formula arrives as `is the price of a call <span class="mwe-math-el`, and
+    the field exists to say where the formula sits in the prose.
+    """
+    fragment = re.sub(r"^[^<]*?>", "", fragment, count=1) if ">" in fragment[:200] else fragment
+    fragment = re.sub(r"<[^>]*$", "", fragment)
+    return re.sub(r"\s+", " ", html_module.unescape(_TAGS.sub(" ", fragment))).strip()
+
+
 def _context(html_text: str, start: int, end: int, width: int) -> str:
-    before = _TAGS.sub(" ", html_text[max(0, start - width * 3):start])
-    after = _TAGS.sub(" ", html_text[end:end + width * 3])
-    before = re.sub(r"\s+", " ", html_module.unescape(before)).strip()[-width:]
-    after = re.sub(r"\s+", " ", html_module.unescape(after)).strip()[:width // 2]
+    before = _plain(html_text[max(0, start - width * 6):start])[-width:]
+    after = _plain(html_text[end:end + width * 6])[:width // 2]
     return f"{before} … {after}".strip()
 
 
