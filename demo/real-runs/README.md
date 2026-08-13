@@ -32,7 +32,7 @@ own artifacts and nothing else.
 | [`andersen-the-little-mermaid`](andersen-the-little-mermaid/README.md) | Andersen, *The Little Mermaid* (1837) | 9,212 | 42 | 1 per 219 words | 7 |
 | [`statement-classifier-specification`](statement-classifier-specification/README.md) | the statement-classifier taxonomy specification | 12,311 | 136 | 1 per 91 words | 33 |
 | [`ge-aerospace-10k-fy2025`](ge-aerospace-10k-fy2025/README.md) | GE Aerospace (General Electric) Form 10-K, FY2025 | 56,836 | 116 | 1 per 490 words | 31 |
-| [`wikipedia-black-scholes-model`](wikipedia-black-scholes-model/README.md) | Wikipedia, *Black–Scholes model* (CC BY-SA) | 10,507 | 73 | 1 per 144 words | 12 |
+| [`wikipedia-black-scholes-model`](wikipedia-black-scholes-model/README.md) | Wikipedia, *Black–Scholes model* (CC BY-SA) | 10,507 | 91 | 1 per 115 words | 28 |
 
 Density is not a function of length. The densest source is the shortest: Sharpe
 packs a proof, its definitions, three named measurement failures and five
@@ -371,7 +371,14 @@ on it relates), or `none`.
 | run | assets | anchored | related to text | of those, cited | travelling on text alone |
 |---|---|---|---|---|---|
 | De Bondt & Thaler | 21 | 20 | 20 | 13 | **7** |
+| Wikipedia Black–Scholes | 122 | 122 | 51 | 33 | **18** |
 | GE Aerospace 10-K | 100 | 99 | 39 | 11 | **28** |
+
+Black–Scholes anchors every one of its 122 assets by `own_text`, the tightest
+method — an HTML document puts its tables and its MathML where they belong and
+the normalizer keeps them there, so nothing falls back to a page region. A scan
+cannot do that: on De Bondt most formulas anchor to the page they were read
+from, and the record says so.
 
 De Bondt's Table I is the clearest case: no unit cites it, and it now travels
 with the leaf titled *"The reversal grows with the extremity of the prior move —

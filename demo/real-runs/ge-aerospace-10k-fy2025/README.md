@@ -59,9 +59,9 @@ Full judgment: [`06_audit/corpus_coverage.json`](runs/ge/06_audit/corpus_coverag
 
 ## Assets
 
-**100 assets** — 100 table. 11 cited by at least one unit, 89 not cited.
+**100 assets** — 100 table. 39 related to at least one unit, 61 related to none.
 
-An uncited asset is not a failure. A source carries structure that is not content -- a navigation box marked up as a table, a page rendered to check one equation on it -- and capturing it losslessly while citing nothing from it is the correct outcome.
+An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
 
 Fidelity is part of the record, because the kinds are not equally trustworthy:
 
@@ -73,2420 +73,109 @@ Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, 
 
 [`normalized.txt`](runs/ge/01_normalized/src-ge-10k-fy2025-a73b722f/normalized.txt) · [`assets.jsonl`](runs/ge/01_normalized/src-ge-10k-fy2025-a73b722f/assets.jsonl) · [`manifest.json`](runs/ge/01_normalized/src-ge-10k-fy2025-a73b722f/manifest.json)
 
-#### `tbl-src-ge-10k-fy2025-a73b722f-0001`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| New York |   |   | 14-0689340 |
+| asset | kind · fidelity · anchor | caption | related to |
 |---|---|---|---|
-| (State or other jurisdiction of incorporation or organization) |   |   | (I.R.S. Employer Identification No.) |
-| 1 Neumann Way | Evendale | OH | 45215 |
-| (Address of principal executive offices) |   |   | (Zip Code) |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0002`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| Title of each class | Trading Symbol(s) | Name of each exchange on which registered |
-|---|---|---|
-| Common stock, par value $0.01 per share | GE | New York Stock Exchange |
-| 1.875% Notes due 2027 | GE 27E | New York Stock Exchange |
-| 1.500% Notes due 2029 | GE 29 | New York Stock Exchange |
-| 7 1/2% Guaranteed Subordinated Notes due 2035 | GE /35 | New York Stock Exchange |
-| 2.125% Notes due 2037 | GE 37 | New York Stock Exchange |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0003`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| Large accelerated filer | ☑ | Accelerated filer | ☐ |
-|---|---|---|---|
-| Non-accelerated filer | ☐ | Smaller reporting company | ☐ |
-| Emerging growth company | ☐ |   |   |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0004`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**Page**
-
-| Page |   |
-|---|---|
-| Forward-Looking Statements | 3 |
-| About GE Aerospace | 4 |
-| Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&A) | 7 |
-| Consolidated Results | 8 |
-| Segment Operations | 9 |
-| Corporate & Other | 10 |
-| Other Consolidated Information | 11 |
-| Capital Resources and Liquidity | 12 |
-| Critical Accounting Estimates | 14 |
-| Other Items | 16 |
-| Non-GAAP Financial Measures | 19 |
-
-*(41 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0005`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| (In millions) | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| GE Aerospace funded | $1,580 | $1,286 | $1,011 |
-| Customer and partner funded(a) | 1,409 | 1,413 | 1,465 |
-| Total Research and development | $2,989 | $2,699 | $2,476 |
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0008`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0006`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| REVENUE | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Equipment revenue | $12,159 | $10,274 | $9,318 |
-| Services revenue | 30,163 | 24,847 | 22,641 |
-| Insurance revenue | 3,533 | 3,581 | 3,389 |
-| Total revenue | $45,855 | $38,702 | $35,348 |
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0020`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0007`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**NET INCOME (LOSS) AND EARNINGS (LOSS) PER SHARE (EPS)**
-
-| NET INCOME (LOSS) AND EARNINGS (LOSS) PER SHARE (EPS) |   |   |   |
-|---|---|---|---|
-| (Per-share in dollars and diluted) | 2025 | 2024 | 2023 |
-| Net income (loss) from continuing operations attributable to common shareholders | $8,601 | $6,670 | $9,154 |
-| Continuing EPS | $8.05 | $6.09 | $8.33 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0008`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
-|---|---|---|---|
-| Equipment | $27,534 | $22,509 | $16,247 |
-| Services | 163,029 | 149,127 | 137,756 |
-| Total RPO | $190,564 | $171,635 | $154,003 |
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0024`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0009`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| Sales in units, except where noted | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Commercial Engines | 2,386 | 1,911 | 2,075 |
-| LEAP Engines(a) | 1,802 | 1,407 | 1,570 |
-| Internal shop visit revenue growth % | 24% | 19% | 27% |
-| (a) LEAP engines, which are in a significant production ramp, are a subset of Commercial Engines. |   |   |   |
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0025`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0010`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| SEGMENT REVENUE AND PROFIT | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Equipment | $8,304 | $7,106 | $6,169 |
-| Services | 25,010 | 19,775 | 17,686 |
-| Total segment revenue | $33,314 | $26,881 | $23,855 |
-| Segment profit | $8,861 | $7,055 | $5,643 |
-| Segment profit margin | 26.6% | 26.2% | 23.7% |
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0026`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0011`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
-|---|---|---|---|
-| Equipment | $13,754 | $11,462 | $6,508 |
-| Services | 156,068 | 142,182 | 131,028 |
-| Total RPO | $169,822 | $153,644 | $137,535 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0012`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| Sales in units | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Defense engines | 635 | 490 | 556 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0013`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| SEGMENT REVENUE AND PROFIT | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Defense & Systems (D&S) | $6,574 | $6,109 | $5,927 |
-| Propulsion & Additive Technologies (P&AT) | 3,980 | 3,370 | 3,034 |
-| Total segment revenue | $10,554 | $9,478 | $8,961 |
-| Equipment | $5,128 | $4,208 | $4,000 |
-| Services | 5,426 | 5,270 | 4,961 |
-| Total segment revenue | $10,554 | $9,478 | $8,961 |
-| Segment profit | $1,296 | $1,061 | $908 |
-| Segment profit margin | 12.3% | 11.2% | 10.1% |
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0028`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0014`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
-|---|---|---|---|
-| Equipment | $13,780 | $11,046 | $9,739 |
-| Services | 6,962 | 6,944 | 6,729 |
-| Total RPO | $20,742 | $17,991 | $16,468 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0015`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| REVENUE AND OPERATING PROFIT (COST) | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Insurance revenue (Note 12) | $3,533 | $3,581 | $3,389 |
-| Eliminations and other | (1,546) | (1,239) | (857) |
-| Corporate & Other revenue | $1,987 | $2,343 | $2,532 |
-| Gains (losses) on purchases and sales of business interests | 5 | 398 | (104) |
-| Gains (losses) on retained and sold ownership interests and other equity securities (Note 19) | 312 | 532 | 5,776 |
-| Restructuring and other charges (Note 20)(a) | 87 | (525) | (246) |
-| Separation costs (Note 20) | (202) | (492) | (692) |
-| Insurance profit (loss) (Note 12) | 992 | 1,022 | 332 |
-| U.S. tax equity profit (loss) | (189) | (160) | (132) |
-| Goodwill impairments (Note 7) | — | (251) | — |
-| Adjusted Corporate & Other operating costs (Non-GAAP) | (1,102) | (864) | (990) |
-
-*(7 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0016`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| INCOME TAXES | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Effective tax rate (ETR) | 14.1% | 12.6% | 9.5% |
-| Provision (benefit) for income taxes | $1,405 | $962 | $994 |
-| Cash income taxes paid(a) | 585 | 852 | 994 |
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0033`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0017`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `none` · not cited by any unit
-
-|   | Moody's | S&P |
-|---|---|---|
-| Outlook | Positive | Stable |
-| Short term | P-2 | A-2 |
-| Long term | A3 | A- |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0018`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| Years ended December 31 | 2025 | 2024 |
-|---|---|---|
-| Increase (decrease) in employee benefit liabilities | $746 | $356 |
-| Net restructuring and other charges/(cash expenditures) | (144) | (112) |
-| (Gains) Losses on purchases and sales of business interests | (6) | (399) |
-| Net interest and other financial charges/(cash paid) | (39) | 31 |
-| Other deferred assets | (88) | (84) |
-| Other | (334) | (118) |
-| All other operating activities | $136 | $(326) |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0019`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 1 unit
-
-| December 31, 2025 | ERAC | UFLIC | Total |
-|---|---|---|---|
-| GAAP: Ending balance of reserves at locked-in rate | $18,887 | $4,950 | $23,837 |
-| Gross statutory reserves(a) | 23,943 | 5,900 | 29,843 |
-| Number of policies in force | 161,300 | 40,400 | 201,700 |
-| Number of covered lives in force | 212,600 | 40,400 | 253,000 |
-| Average policyholder attained age | 79 | 85 | 80 |
-| GAAP: Ending balance of reserves at locked-in rate per policy (in actual dollars) | $117,107 | $122,670 | $118,220 |
-| GAAP: Ending balance of reserves at locked-in rate per covered life (in actual dollars) | 88,854 | 122,670 | 94,249 |
-| Statutory: Gross reserves per policy (in actual dollars)(a) | 148,441 | 146,050 | 147,962 |
-| Statutory: Gross reserves per covered life (in actual dollars)(a) | 112,622 | 146,050 | 117,960 |
-| Percentage of policies with: |   |   |   |
-| Lifetime benefit period | 69% | 31% | 63% |
-
-*(4 further rows in the stored grid.)*
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0049`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0020`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| Assumption | Hypothetical change in 2025 assumption | Estimated adverse impact to projected present value of future cash flows (In millions, pre-tax) |
-|---|---|---|
-| Morbidity: |   |   |
-| Long-term care insurance incidence rates | 5% increase in incidence rates | $600 |
-| Long-term care insurance claim continuance | 5% reduction in disabled life deaths | $1,200 |
-| Long-term care insurance utilization | 5% increase in utilization | $1,200 |
-| Long-term care insurance morbidity improvement | 25 basis point reduction by age with 0% floorNo morbidity improvement | $300$1,200 |
-| Active life terminations: |   |   |
-| Long-term care insurance mortality | 5% reduction in mortality | $300 |
-| Long-term care insurance future premium rate increases | 25% adverse change in success rate on premium rate increase actions not yet approved | $200 |
-| Long-term care inflation | 0.25% increase to long-term care inflation rate | $100 |
-| Life insurance mortality | 5% increase in mortality | $100 |
-| Structured settlement annuity mortality | Impaired life mortality grades to standard ten years earlier | $300 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0021`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| ADJUSTED REVENUE, OPERATING PROFIT AND PROFIT MARGIN (NON-GAAP) | 2025 | 2024 |
-|---|---|---|
-| Total revenue (GAAP) | $45,855 | $38,702 |
-| Less: Insurance revenue (Note 12) | 3,533 | 3,581 |
-| Adjusted revenue (Non-GAAP) | $42,322 | $35,121 |
-| Total costs and expenses (GAAP) | $37,342 | $33,346 |
-| Less: Insurance cost and expenses (Note 12) | 2,541 | 2,560 |
-| Less: U.S. tax equity cost and expenses | 20 | 14 |
-| Less: interest and other financial charges(a) | 843 | 986 |
-| Less: non-operating benefit cost (income) | (788) | (842) |
-| Less: restructuring & other(a) | (87) | 525 |
-| Less: goodwill impairments(a) | — | 251 |
-| Less: separation costs(a) | 202 | 492 |
-
-*(13 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0022`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| ADJUSTED NET INCOME (LOSS) AND ADJUSTED EFFECTIVE INCOME TAX RATE (NON-GAAP) | 2025 |   |   | 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|
-| (Diluted, per-share amounts in dollars) |   | Income |   | EPS |   | Income |   | EPS |   |
-| Net income (loss) from continuing operations (GAAP) (Note 18) |   |   | $8,598 |   | $8.05 |   | $6,670 |   | $6.09 |
-| Insurance net income (loss) (pre-tax) |   | 1,002 |   | 0.94 |   | 1,025 |   | 0.94 |   |
-| Tax effect on Insurance net income (loss)(a) |   | (125) |   | (0.12) |   | (219) |   | (0.20) |   |
-| Less: Insurance net income (loss) (net of tax) (Note 12) |   | 877 |   | 0.82 |   | 806 |   | 0.74 |   |
-| U.S. tax equity net income (loss) (pre-tax) |   | (220) |   | (0.21) |   | (191) |   | (0.17) |   |
-| Tax effect on U.S. tax equity net income (loss) |   | 259 |   | 0.24 |   | 235 |   | 0.21 |   |
-| Less: U.S. tax equity net income (loss) (net of tax) |   | 38 |   | 0.04 |   | 44 |   | 0.04 |   |
-| Non-operating benefit (cost) income (pre-tax) (GAAP) |   | 788 |   | 0.74 |   | 842 |   | 0.77 |   |
-| Tax effect on non-operating benefit (cost) income |   | (166) |   | (0.15) |   | (177) |   | (0.16) |   |
-| Less: Non-operating benefit (cost) income (net of tax) |   | 623 |   | 0.58 |   | 665 |   | 0.61 |   |
-
-*(29 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0023`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| FREE CASH FLOW (FCF) (NON-GAAP) | 2025 | 2024 |
-|---|---|---|
-| Cash flows from operating activities (CFOA) (GAAP) | $8,543 | $5,817 |
-| Add: gross additions to property, plant and equipment and internal-use software | (1,273) | (1,032) |
-| Add: dispositions of property, plant and equipment | 123 | 114 |
-| Less: separation cash expenditures | (245) | (800) |
-| Less: Corporate & Other restructuring cash expenditures | (56) | (504) |
-| Free cash flow (FCF) (Non-GAAP) | $7,694 | $6,203 |
-| We believe investors may find it useful to compare free cash flow* performance without the effects of separation cash expenditures and Corporate & Other restructuring cash expenditures (associated with the separation-related program announced in the fourth quarter of 2022). In addition, beginning in the third quarter of 2025, we now include dispositions of property, plant and equipment. We believe this measure will better allow management and investors to evaluate the capacity of our operations to generate free cash flow*. We also use FCF* as a performance metric at the company level for our annual executive incentive plan and performance stock units granted in 2025. |   |   |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0024`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| Period | Total number of shares purchased | Average price paid per share |   | Total number of shares purchased as part of our share repurchase authorization | Approximate dollar value of shares that may yet be purchased under our share repurchase authorization |   |
-|---|---|---|---|---|---|---|
-| (Shares in thousands) |   |   |   |   |   |   |
-| 2025 |   |   |   |   |   |   |
-| October | 306 |   | $313.34 | 306 |   |   |
-| November | 5,389 | 316.09 |   | 5,389 |   |   |
-| December | 710 | 291.98 |   | 710 |   |   |
-| Total | 6,404 |   | $313.29 | 6,404 |   | $2,698 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0025`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| /s/ H. Lawrence Culp, Jr. | /s/ Rahul Ghai |
-|---|---|
-| H. Lawrence Culp, Jr. | Rahul Ghai |
-| Chairman and Chief Executive Officer | Chief Financial Officer |
-| January 29, 2026 |   |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0026`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**STATEMENT OF OPERATIONS**
-
-| STATEMENT OF OPERATIONS |   |   |   |
-|---|---|---|---|
-| (In millions; per-share amounts in dollars) | 2025 | 2024 | 2023 |
-| Sales of equipment | $12,159 | $10,274 | $9,318 |
-| Sales of services | 30,163 | 24,847 | 22,641 |
-| Insurance revenue (Note 12) | 3,533 | 3,581 | 3,389 |
-| Total revenue | 45,855 | 38,702 | 35,348 |
-| Cost of equipment sold | 12,382 | 10,341 | 9,900 |
-| Cost of services sold | 16,586 | 13,967 | 13,039 |
-| Selling, general and administrative expenses | 4,088 | 4,437 | 4,045 |
-| Separation costs | 202 | 492 | 692 |
-| Research and development | 1,580 | 1,286 | 1,011 |
-| Interest and other financial charges | 843 | 986 | 1,029 |
-
-*(31 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0027`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**STATEMENT OF FINANCIAL POSITION**
-
-| STATEMENT OF FINANCIAL POSITION |   |   |
-|---|---|---|
-| December 31 (In millions) | 2025 | 2024 |
-| Cash, cash equivalents and restricted cash | $12,392 | $13,619 |
-| Investment securities (Note 3) | — | 982 |
-| Current receivables (Note 4) | 11,773 | 9,327 |
-| Inventories, including deferred inventory costs (Note 5) | 11,868 | 9,763 |
-| Current contract assets (Note 8) | 3,511 | 2,982 |
-| All other current assets (Note 9) | 1,052 | 962 |
-| Current assets | 40,596 | 37,635 |
-| Investment securities (Note 3) | 38,788 | 37,741 |
-| Property, plant and equipment – net (Note 6) | 7,987 | 7,277 |
-| Goodwill (Note 7) | 9,060 | 8,538 |
-
-*(29 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0028`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 6 units
-
-**STATEMENT OF CASH FLOWS**
-
-| STATEMENT OF CASH FLOWS |   |   |   |
-|---|---|---|---|
-| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
-| Net income (loss) | $8,698 | $6,566 | $9,445 |
-| Net (income) loss from discontinued operations activities | (103) | 91 | 3 |
-| Adjustments to reconcile net income (loss) to cash from (used for) operating activities: |   |   |   |
-| Depreciation and amortization of property, plant and equipment (Note 6) | 863 | 834 | 797 |
-| Amortization of intangible assets (Note 7) | 357 | 350 | 382 |
-| Goodwill impairments (Note 7) | — | 251 | — |
-| (Gains) losses on equity securities (Note 19) | (508) | (719) | (5,846) |
-| Principal pension plans (benefit) cost (Note 13) | (655) | (653) | (755) |
-| Principal pension plans employer contributions | (211) | (210) | (184) |
-| Other postretirement benefit plans (net) | (230) | (299) | (348) |
-
-*(42 further rows in the stored grid.)*
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0113`, `u-src-ge-10k-fy2025-a73b722f-0113`, `u-src-ge-10k-fy2025-a73b722f-0113`, `u-src-ge-10k-fy2025-a73b722f-0114`, `u-src-ge-10k-fy2025-a73b722f-0114`, `u-src-ge-10k-fy2025-a73b722f-0114`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0029`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**STATEMENT OF COMPREHENSIVE INCOME (LOSS)**
-
-| STATEMENT OF COMPREHENSIVE INCOME (LOSS) |   |   |   |
-|---|---|---|---|
-| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
-| Net income (loss) | $8,698 | $6,566 | $9,445 |
-| Less: net income (loss) attributable to noncontrolling interests | (6) | 11 | (37) |
-| Net income (loss) attributable to the Company | $8,704 | $6,556 | $9,482 |
-| Currency translation adjustments | (43) | 2,131 | 2,274 |
-| Benefit plans | (882) | (1,128) | (4,747) |
-| Investment securities and cash flow hedges | 749 | (1,016) | 968 |
-| Long-duration insurance contracts | (761) | 2,284 | (2,371) |
-| L Less: other comprehensive income (loss) attributable to noncontrolling interests | — | (17) | 2 |
-| Other comprehensive income (loss) attributable to the Company | $(937) | $2,289 | $(3,878) |
-| Comprehensive income (loss) | $7,761 | $8,838 | $5,569 |
-
-*(2 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0030`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**STATEMENT OF CHANGES IN SHAREHOLDERS' EQUITY**
-
-| STATEMENT OF CHANGES IN SHAREHOLDERS' EQUITY |   |   |   |
-|---|---|---|---|
-| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
-| Common stock issued | $15 | $15 | $15 |
-| Beginning balance | (3,861) | (6,150) | (2,272) |
-| Currency translation adjustments | (43) | 2,151 | 2,270 |
-| Benefit plans | (882) | (1,120) | (4,745) |
-| Investment securities and cash flow hedges | 749 | (1,026) | 968 |
-| Long-duration insurance contracts | (761) | 2,284 | (2,371) |
-| Accumulated other comprehensive income (loss) | $(4,798) | $(3,861) | $(6,150) |
-| Beginning balance | 24,266 | 26,962 | 34,173 |
-| Gains (losses) on treasury stock dispositions | (1,048) | (3,028) | (1,845) |
-| Stock-based compensation | 371 | 361 | 355 |
-
-*(14 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0031`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| RESULTS OF DISCONTINUED OPERATIONSFor the year ended December 31, 2025 | GE Vernova | Bank BPH & Other | Total |
-|---|---|---|---|
-| Total revenue | $— | $— | $— |
-| Cost of equipment and services sold | — | — | — |
-| Other income, costs and expenses | — | (47) | (47) |
-| Net Income (loss) of discontinued operations before income taxes | — | (47) | (47) |
-| Benefit (provision) for income taxes | 125 | 9 | 134 |
-| Net Income (loss) of discontinued operations, net of taxes | 125 | (38) | 87 |
-| Gain (loss) on disposal before income taxes | — | 16 | 16 |
-| Benefit (provision) for income taxes | — | — | — |
-| Gain (loss) on disposal, net of taxes | — | 16 | 16 |
-| Net Income (loss) from discontinued operations, net of taxes | $125 | $(22) | $103 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0032`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| For the year ended December 31, 2024 | GE Vernova | Bank BPH & Other | Total |
-|---|---|---|---|
-| Total revenue | $7,244 | $— | $7,244 |
-| Cost of equipment and services sold | (6,074) | — | (6,074) |
-| Other income, costs and expenses | (1,299) | (21) | (1,320) |
-| Net Income (loss) of discontinued operations before income taxes | (129) | (21) | (150) |
-| Benefit (provision) for income taxes | 27 | 13 | 40 |
-| Net Income (loss) of discontinued operations, net of taxes | (102) | (8) | (110) |
-| Gain (loss) on disposal before income taxes | — | 21 | 21 |
-| Benefit (provision) for income taxes | — | (1) | (1) |
-| Gain (loss) on disposal, net of taxes | — | 19 | 19 |
-| Net Income (loss) from discontinued operations, net of taxes | $(102) | $12 | $(91) |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0033`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| For the year ended December 31, 2023 | GE Vernova | Bank BPH & Other | Total |
-|---|---|---|---|
-| Total revenue | $33,265 | $— | $33,265 |
-| Cost of equipment and services sold | (28,205) | — | (28,205) |
-| Other income, costs and expenses | (5,306) | (1,301) | (6,607) |
-| Net Income (loss) of discontinued operations before income taxes | (246) | (1,301) | (1,547) |
-| Benefit (provision) for income taxes(a) | (171) | 1,710 | 1,539 |
-| Net Income (loss) of discontinued operations, net of taxes | (417) | 409 | (8) |
-| Gain (loss) on disposal before income taxes | — | 6 | 6 |
-| Benefit (provision) for income taxes | — | — | — |
-| Gain (loss) on disposal, net of taxes | — | 6 | 6 |
-| Net Income (loss) from discontinued operations, net of taxes | $(417) | $414 | $(3) |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0034`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| ASSETS AND LIABILITIES OF DISCONTINUED OPERATIONS | December 31, 2025 | December 31, 2024 |
-|---|---|---|
-| Cash, cash equivalents and restricted cash(a) | $1,126 | $1,327 |
-| Current receivables | 35 | 13 |
-| Property, plant, and equipment - net | 26 | 40 |
-| All other assets | 648 | 438 |
-| Deferred income taxes | 21 | 24 |
-| Assets of discontinued operations(b) | $1,855 | $1,841 |
-| Accounts payable | $35 | $30 |
-| Non-current compensation and benefits | 32 | 33 |
-| All other liabilities | 1,347 | 1,254 |
-| Liabilities of discontinued operations(b) | $1,413 | $1,317 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0035`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | December 31, 2025 |   |   |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   |
-| Debt |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| U.S. corporate |   | $27,658 |   | $825 |   | $(1,969) |   | $26,513 |   | $28,456 |   | $546 |   | $(2,309) |   | $26,692 |
-| Non-U.S. corporate | 2,909 |   | 41 |   | (242) |   | 2,707 |   | 2,970 |   | 23 |   | (302) |   | 2,691 |   |
-| State and municipal | 2,751 |   | 46 |   | (192) |   | 2,605 |   | 2,409 |   | 22 |   | (235) |   | 2,196 |   |
-| Mortgage and asset-backed | 5,202 |   | 69 |   | (121) |   | 5,151 |   | 5,007 |   | 47 |   | (183) |   | 4,870 |   |
-| Government and agencies | 1,015 |   | 4 |   | (95) |   | 924 |   | 1,180 |   | 4 |   | (118) |   | 1,066 |   |
-| Equity | 887 |   | — |   | — |   | 887 |   | 225 |   | — |   | — |   | 225 |   |
-| Non-current investment securities |   | $40,422 |   | $985 |   | $(2,619) |   | $38,788 |   | $40,248 |   | $641 |   | $(3,148) |   | $37,741 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0036`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| For the years ended December 31 | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Net unrealized gains (losses) for equity securities with readily determinable fair value (RDFV) | $313 | $320 | $6,413 |
-| Proceeds from debt/equity securities sales and redemptions | 4,922 | 9,099 | 12,595 |
-| Gross realized gains on debt securities | 35 | 75 | 52 |
-| Gross realized losses and impairments on debt securities | (76) | (66) | (66) |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0037`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| For the years ended December 31 | 2025 | 2024 |
-|---|---|---|
-| Purchases of investment securities | $(4,050) | $(7,132) |
-| Dispositions and maturities of investment securities | 4,475 | 6,168 |
-| Net (purchases) dispositions of insurance investment securities | $425 | $(963) |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0038`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Amortized cost |   | Estimated fair value |   |
-|---|---|---|---|---|
-| Within one year |   | $843 |   | $847 |
-| After one year through five years | 3,460 |   | 3,561 |   |
-| After five years through ten years | 5,269 |   | 5,498 |   |
-| After ten years | 24,762 |   | 22,845 |   |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0039`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**CURRENT RECEIVABLES**
-
-| CURRENT RECEIVABLES |   |   |
-|---|---|---|
-| December 31 | 2025 | 2024 |
-| Customer receivables | $9,269 | $7,385 |
-| Revenue sharing and other partner receivables(a) | 1,322 | 1,113 |
-| Non-income based tax receivables | 165 | 128 |
-| Supplier advances | 867 | 546 |
-| Receivables from disposed businesses | 34 | 99 |
-| Other sundry receivables | 209 | 162 |
-| Allowance for credit losses | (94) | (106) |
-| Total current receivables | $11,773 | $9,327 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0040`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**LONG-TERM RECEIVABLES**
-
-| LONG-TERM RECEIVABLES |   |   |
-|---|---|---|
-| December 31 | 2025 | 2024 |
-| Long-term customer receivables | $173 | $122 |
-| Supplier advances | 94 | 50 |
-| Sundry receivables | 105 | 106 |
-| Allowance for credit losses | (96) | (85) |
-| Total long-term receivables | $276 | $194 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0041`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| December 31 | 2025 | 2024 |
-|---|---|---|
-| Raw materials and work in process | $9,354 | $7,372 |
-| Finished goods | 1,542 | 1,459 |
-| Deferred inventory costs(a) | 972 | 932 |
-| Inventories, including deferred inventory costs | $11,868 | $9,763 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0042`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Depreciable lives | Original Cost |   |   |   | Net Carrying Value |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|
-| December 31 | (in years) | 2025 |   | 2024 |   |   | 2025 |   | 2024 |   |
-| Land and improvements | 8 |   | $139 |   | $131 |   |   | $137 |   | $129 |
-| Buildings, structures and related equipment | 8 - 40 | 3,295 |   | 3,146 |   |   | 1,411 |   | 1,369 |   |
-| Machinery and equipment | 4 - 20 | 12,757 |   | 11,533 |   |   | 4,432 |   | 3,851 |   |
-| Leasehold costs and manufacturing plant under construction | 1 - 10 | 1,197 |   | 1,084 |   |   | 989 |   | 872 |   |
-| ROU operating lease assets |   |   |   |   |   |   | 1,018 |   | 1,057 |   |
-| Property, plant and equipment - net |   |   | $17,388 |   | $15,894 |   |   | $7,987 |   | $7,277 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0043`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Property, plant andequipment additions |   |   |   |   |   | Depreciation and amortization |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| December 31 | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   |
-| Commercial Engines & Services |   | $498 |   | $431 |   | $343 |   | $402 |   | $370 |   | $356 |
-| Defense & Propulsion Technologies | 184 |   | 135 |   | 145 |   | 153 |   | 150 |   | 147 |   |
-| Corporate and Other(a) | 471 |   | 353 |   | 278 |   | 307 |   | 314 |   | 294 |   |
-| Total |   | $1,153 |   | $920 |   | $766 |   | $863 |   | $834 |   | $797 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0044`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| OPERATING LEASE EXPENSE | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Long-term (fixed) | $309 | $326 | $364 |
-| Long-term (variable) | 30 | 111 | 26 |
-| Short-term | 47 | 45 | 115 |
-| Total operating lease expense | $385 | $482 | $506 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0045`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| MATURITY OF LEASE LIABILITIES | 2026 |   | 2027 |   | 2028 |   | 2029 |   | 2030 |   | Thereafter |   | Total |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Undiscounted lease payments |   | $278 |   | $221 |   | $176 |   | $154 |   | $117 |   | $377 |   | $1,323 |
-| Less: imputed interest |   |   |   |   |   |   |   |   |   |   |   |   | (260) |   |
-| Total lease liability as of December 31, 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   | $1,063 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0046`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| SUPPLEMENTAL INFORMATION RELATED TO OPERATING LEASES | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Operating cash flows used for operating leases | $329 | $352 | $427 |
-| Right-of-use assets obtained in exchange for new lease liabilities | 238 | 196 | 275 |
-| Weighted-average remaining lease term | 7.6 years | 7.8 years | 7.7 years |
-| Weighted-average discount rate | 4.7% | 4.6% | 4.5% |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0047`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Commercial Engines & Services |   | Defense & Propulsion Technologies |   | Total |   |
-|---|---|---|---|---|---|---|
-| Balance at December 31, 2023 |   | $6,472 |   | $2,476 |   | $8,948 |
-| Goodwill impairment | — |   | (251) |   | (251) |   |
-| Goodwill adjustments(a) | (131) |   | (28) |   | (159) |   |
-| Balance at December 31, 2024 |   | $6,341 |   | $2,197 |   | $8,538 |
-| Goodwill acquisition | — |   | 148 |   | 148 |   |
-| Goodwill adjustments(a) | 303 |   | 72 |   | 374 |   |
-| Balance at December 31, 2025 |   | $6,644 |   | $2,417 |   | $9,060 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0048`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   |   | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| INTANGIBLE ASSETS SUBJECT TO AMORTIZATION December 31 | Useful lives (in years) | Gross carryingamount |   | Accumulatedamortization |   | Net |   | Gross carryingamount |   | Accumulatedamortization |   | Net |   |
-| Customer-related(a) | 5-20 |   | $3,992 |   | $(2,313) |   | $1,679 |   | $3,850 |   | $(2,083) |   | $1,767 |
-| Patents and technology | 5-15 | 2,946 |   | (916) |   | 2,031 |   | 2,744 |   | (759) |   | 1,985 |   |
-| Capitalized software | 5-10 | 1,366 |   | (859) |   | 507 |   | 1,296 |   | (803) |   | 493 |   |
-| Trademarks & other | 13 | 77 |   | (67) |   | 9 |   | 70 |   | (58) |   | 13 |   |
-| Total |   |   | $8,380 |   | $(4,155) |   | $4,225 |   | $7,960 |   | $(3,703) |   | $4,257 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0049`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| ESTIMATED 5 YEAR CONSOLIDATED AMORTIZATION | 2026 | 2027 | 2028 | 2029 | 2030 |
-|---|---|---|---|---|---|
-| Estimated annual pre-tax amortization | 351 | 356 | 357 | 376 | 371 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0050`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| CONTRACT ASSETS, LIABILITIES AND OTHER DEFERRED ASSETS AND INCOME | December 31, 2025 | December 31, 2024 |
-|---|---|---|
-| Long-term service agreements | $2,792 | $2,374 |
-| Equipment and other service agreements | 719 | 609 |
-| Current contract assets | $3,511 | $2,982 |
-| Nonrecurring engineering costs(a) | $2,423 | $2,438 |
-| Customer advances and other(b) | 2,497 | 2,393 |
-| Contract and other deferred assets | 4,920 | 4,831 |
-| Total contract and other deferred assets | $8,431 | $7,814 |
-| Long-term service agreement liabilities | $10,016 | $8,994 |
-| Current deferred income | 317 | 359 |
-| Contract liabilities and current deferred income | $10,333 | $9,353 |
-| Non-current deferred income | 1,065 | 1,013 |
-
-*(2 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0051`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| December 31 |   | 2025 |   |   | 2024 |   |   |
-|---|---|---|---|---|---|---|---|
-|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
-| Current portion of long-term borrowings |   |   |   |   |   |   |   |
-| Senior notes | 2026 |   | $1,504 | 4.00% | $1,952 |   | 4.03% |
-| Subordinated notes and other | 2026 | 157 |   |   | 87 |   |   |
-| Other short-term |   | 25 |   |   | — |   |   |
-| Total short-term borrowings |   |   | $1,686 |   |   | $2,039 |   |
-|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
-| Senior notes(a) | 2027 - 2050 |   | $16,773 | 4.00% |   | $15,467 | 4.03% |
-| Subordinated notes | 2035 - 2037 | 1,456 |   | 4.40% | 1,330 |   | 4.43% |
-| Other |   | 580 |   |   | 437 |   |   |
-| Total long-term borrowings |   |   | $18,808 |   |   | $17,234 |   |
-
-*(1 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0052`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | 2026 |   | 2027 | 2028 | 2029 | 2030 | Thereafter | Total |
-|---|---|---|---|---|---|---|---|---|
-| Long-term debt maturities | 1,661 | (a) | 1,693 | 480 | 1,639 | 1,700 | 13,296 | 20,469 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0053`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| December 31 | 2025 | 2024 |
-|---|---|---|
-| Trade payables | $5,734 | $4,565 |
-| Supply chain finance programs | 1,247 | 1,259 |
-| Revenue sharing and other partner payables(a) | 2,553 | 1,689 |
-| Sundry payables | 544 | 397 |
-| Accounts payable | $10,078 | $7,909 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0054`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| December 31, 2025 | Long-term care | Structured settlement annuities | Life | Other contracts | Total |
-|---|---|---|---|---|---|
-| Future policy benefit reserves | $25,792 | $8,383 | $906 | $357 | $35,438 |
-| Investment contracts | — | 647 | — | 493 | 1,140 |
-| Other | — | — | 113 | 203 | 316 |
-| Total | $25,792 | $9,031 | $1,019 | $1,053 | $36,894 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0055`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| December 31, 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|
-| Future policy benefit reserves | $24,675 | $8,426 | $1,018 | $357 | $34,476 |
-| Investment contracts | — | 719 | — | 621 | 1,340 |
-| Other | — | — | 116 | 277 | 394 |
-| Total | $24,675 | $9,145 | $1,134 | $1,254 | $36,209 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0056`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Present value of expected net premiums | Long-term care |   | Structured settlement annuities |   | Life |   | Long-term care |   | Structured settlement annuities |   | Life |   |
-| Balance, beginning of year |   | $4,144 |   | $— |   | $4,318 |   | $4,063 |   | $— |   | $4,803 |
-| Beginning balance at locked-in discount rate | 3,991 |   | — |   | 4,415 |   | 3,745 |   | — |   | 4,773 |   |
-| Effect of changes in cash flow assumptions | 355 |   | — |   | 4 |   | 465 |   | — |   | (1) |   |
-| Effect of actual variances from expected experience(a) | (19) |   | — |   | (2,681) |   | (26) |   | — |   | 8 |   |
-| Adjusted beginning of year balance | 4,327 |   | — |   | 1,738 |   | 4,184 |   | — |   | 4,780 |   |
-| Interest accrual | 221 |   | — |   | 164 |   | 209 |   | — |   | 177 |   |
-| Net premiums collected | (408) |   | — |   | (292) |   | (403) |   | — |   | (309) |   |
-| Effect of foreign currency | — |   | — |   | 103 |   | — |   | — |   | (234) |   |
-| Ending balance at locked-in discount rate | 4,140 |   | — |   | 1,714 |   | 3,991 |   | — |   | 4,415 |   |
-| Effect of changes in discount rate assumptions | 287 |   | — |   | 119 |   | 154 |   | — |   | (97) |   |
-
-*(24 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0057`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**DESCRIPTION OF OUR PLANS**
-
-| DESCRIPTION OF OUR PLANS |   |   |   |   |
-|---|---|---|---|---|
-| Plan Category |   | Participants | Funding | Comments |
-| Principal Pension Plans | GE Aerospace Pension Plan | Covers U.S. GE Aerospace participants: ~79,000 retirees and beneficiaries, ~33,000 vested former employees and ~9,000 active employees | Our funding policy is to contribute amounts sufficient to meet minimum funding requirements under employee benefit and tax laws. We may decide to contribute additional amounts beyond this level. | Closed to new participants since 2012. Benefits for employees with salaried benefits were frozen effective January 1, 2021, and thereafter these employees receive increased company contributions in the company sponsored defined contribution plan in lieu of participation in a defined benefit plan (announced October 2019). |
-|   | GE Aerospace Supplementary Pension Plan | Provides supplementary benefits to higher-level, longer-service U.S. employees | Unfunded. We pay benefits on a pay-as-you-go basis from company cash. | The annuity benefit has been closed to new participants since 2011 and has been replaced by an installment benefit (which was closed to new executives after 2020). Benefits for employees who became executives before 2011 were frozen effective January 1, 2021, and thereafter these employees accrue the installment benefit. |
-| Other Pension Plans(a) | 6 U.S. and non-U.S. pension plans with pension assets or obligations that have reached $50 million | Covers ~11,100 retirees and beneficiaries, ~10,300 vested former employees and ~800 active employees | Our funding policy is to contribute amounts sufficient to meet minimum funding requirements under employee benefit and tax laws in each country. We may decide to contribute additional amounts beyond this level. We pay benefits for some plans from company cash. | In certain countries, benefit accruals have ceased and/or have been closed to new hires as of various dates. |
-| Principal Retiree Benefit Plans | Provides health and life insurance benefits to certain eligible participants | Covers U.S. GE Aerospace participants: ~40,000 retirees and dependents and ~10,000 active employees | We fund retiree benefit plans on a pay-as-you-go basis and the retiree benefit insurance trust at our discretion. | Participants share in the cost of the healthcare benefits. |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0058`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| FUNDING STATUS BY PLAN TYPE | Benefit Obligation |   |   |   | Fair Value of Assets |   |   |   | Deficit/(Surplus) |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
-| Principal Pension Plans: |   |   |   |   |   |   |   |   |   |   |   |   |
-| GE Aerospace Pension Plan (subject to regulatory funding) |   | $21,053 |   | $21,010 |   | $19,216 |   | $19,020 |   | $1,837 |   | $1,990 |
-| GE Aerospace Supplementary Pension Plan | 2,872 |   | 2,814 |   | — |   | — |   | 2,872 |   | 2,814 |   |
-|   | 23,925 |   | 23,824 |   | 19,216 |   | 19,020 |   | 4,709 |   | 4,804 |   |
-| Other Pension Plans: |   |   |   |   |   |   |   |   |   |   |   |   |
-| Subject to regulatory funding | 3,027 |   | 2,736 |   | 3,831 |   | 3,592 |   | (804) |   | (856) |   |
-| Not subject to regulatory funding | 397 |   | 404 |   | — |   | — |   | 397 |   | 404 |   |
-| Principal retiree benefit plans for GE Aerospace (not subject to regulatory funding) | 1,135 |   | 1,202 |   | 5 |   | 6 |   | 1,130 |   | 1,196 |   |
-| Total plans subject to regulatory funding | 24,080 |   | 23,746 |   | 23,047 |   | 22,612 |   | 1,033 |   | 1,134 |   |
-| Total plans not subject to regulatory funding | 4,404 |   | 4,420 |   | 5 |   | 6 |   | 4,399 |   | 4,414 |   |
-
-*(1 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0059`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| COST OF OUR BENEFITS PLANS AND ASSUMPTIONS | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   | 2023 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   |
-| Components of expense (income) |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Service cost - operating |   | $59 |   | $2 |   | $13 |   | $71 |   | $22 |   | $13 |   | $94 |   | $37 |   | $17 |
-| Interest cost | 1,301 |   | 173 |   | 62 |   | 1,401 |   | 227 |   | 71 |   | 1,892 |   | 422 |   | 111 |   |
-| Expected return on plan assets | (1,500) |   | (207) |   | — |   | (1,751) |   | (310) |   | — |   | (2,376) |   | (587) |   | — |   |
-| Amortization of net loss (gain) | (506) |   | 30 |   | (60) |   | (468) |   | 41 |   | (82) |   | (723) |   | 20 |   | (124) |   |
-| Amortization of prior service cost (credit) | (9) |   | — |   | (81) |   | 6 |   | (1) |   | (103) |   | 5 |   | (4) |   | (148) |   |
-| Curtailment / settlement loss (gain) | — |   |   |   | — |   | — |   |   |   | — |   | — |   | (6) |   | — |   |
-| Non-operating |   | $(714) |   | $(4) |   | $(79) |   | $(812) |   | $(43) |   | $(114) |   | $(1,202) |   | $(155) |   | $(161) |
-| Net periodic expense (income) |   | $(655) |   | $(2) |   | $(66) |   | $(741) |   | $(21) |   | $(101) |   | $(1,108) |   | $(118) |   | $(144) |
-| Less: discontinued operations | — |   | — |   | — |   | (88) |   | (12) |   | (15) |   | (377) |   | (78) |   | (57) |   |
-
-*(8 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0060`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 3 units
-
-**PLAN FUNDED STATUS AND AMOUNTS RECORDED IN ACCUMULATED OTHER COMPREHENSIVE LOSS (INCOME)**
-
-| PLAN FUNDED STATUS AND AMOUNTS RECORDED IN ACCUMULATED OTHER COMPREHENSIVE LOSS (INCOME) |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | 2025 |   |   |   |   |   |   |   | 2024 |   |   |   |   |   |
-|   | Principal pension |   |   | Other pension |   | Principal retiree benefit |   |   | Principal pension |   | Other pension |   | Principal retiree benefit |   |
-| Change in benefit obligations |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Balance at January 1 |   | $23,824 |   |   | $3,140 |   | $1,202 |   |   | $36,217 |   | $10,377 |   | $2,055 |
-| Service cost | 59 |   |   | 2 |   | 13 |   |   | 71 |   | 22 |   | 13 |   |
-| Interest cost | 1,301 |   |   | 173 |   | 62 |   |   | 1,401 |   | 227 |   | 71 |   |
-| Participant contributions | 7 |   |   | — |   | 18 |   |   | 8 |   | 4 |   | 21 |   |
-| Plan amendments | 36 |   |   | 135 |   | (5) |   |   | — |   | — |   | — |   |
-| Actuarial loss (gain) - net (a) | 472 |   |   | (4) |   | (12) |   |   | (1,049) |   | (435) |   | (15) |   |
-| Benefits paid | (1,774) |   |   | (185) |   | (143) |   |   | (1,957) |   | (305) |   | (192) |   |
-| Dispositions/acquisitions/other - net | — |   |   | (24) |   | — |   |   | (10,867) |   | (6,548) |   | (751) |   |
-
-*(22 further rows in the stored grid.)*
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0116`, `u-src-ge-10k-fy2025-a73b722f-0116`, `u-src-ge-10k-fy2025-a73b722f-0116`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0061`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3 |   |   |   | Assets measured at NAV |   |   |   | Total |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
-| Asset Category |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Global equity |   | $1,200 |   | $1,156 |   | $230 |   | $203 |   |   |   |   |   | $2,410 |   | $1,912 |   | $3,840 |   | $3,271 |
-| Fixed income and cash investment funds | 952 |   | 1,299 |   | 1,617 |   | 1,448 |   |   |   |   |   |   |   |   |   | 2,569 |   | 2,747 |   |
-| U.S. corporate(a) |   |   |   |   | 2,496 |   | 3,125 |   |   |   |   |   |   |   |   |   | 2,496 |   | 3,125 |   |
-| Other debt securities(b) |   |   |   |   | 2,957 |   | 3,152 |   |   |   |   |   | 2,263 |   | 1,851 |   | 5,220 |   | 5,003 |   |
-| Real estate |   |   |   |   |   |   |   |   | 449 |   | 541 |   | 934 |   | 995 |   | 1,383 |   | 1,536 |   |
-| Private equities and other investments |   |   |   |   |   |   |   |   | 246 |   | 312 |   | 7,079 |   | 6,385 |   | 7,325 |   | 6,697 |   |
-| Derivatives, net(c) | (67) |   | (139) |   | 12 |   | 20 |   |   |   |   |   |   |   |   |   | (55) |   | (119) |   |
-| Cash |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 284 |   | 297 |   |
-| Payables |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | (400) |   | (440) |   |
-
-*(2 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0062`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| ASSET ALLOCATION OF PENSION PLANS | 2025 Target allocation |   | 2025 Actual allocation |   |
-|---|---|---|---|---|
-|   | Principal Pension | Other Pension (weighted average) | Principal Pension | Other Pension (weighted average) |
-| Global equities | 10.0 - 30.0% | 14% | 18% | 12% |
-| Debt securities (including cash equivalents) | 19.0 - 87.5 | 65 | 41 | 65 |
-| Real estate | 1.0 - 10.0 | 6 | 6 | 7 |
-| Private equities & other investments | 12.0 - 44.0 | 15 | 35 | 16 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0063`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| EXPECTED FUTURE BENEFIT PAYMENTS OF OUR BENEFIT PLANS(a) | Principal pension | Other pension | Principal retiree benefit |
-|---|---|---|---|
-| 2026 | $1,815 | $190 | $120 |
-| 2027 | 1,820 | 190 | 115 |
-| 2028 | 1,825 | 200 | 115 |
-| 2029 | 1,825 | 205 | 110 |
-| 2030 | 1,820 | 210 | 110 |
-| 2031-2035 | 8,825 | 1,115 | 465 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0064`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**COST OF POSTRETIREMENT BENEFIT PLANS AND CHANGES IN OTHER COMPREHENSIVE INCOME**
-
-| COST OF POSTRETIREMENT BENEFIT PLANS AND CHANGES IN OTHER COMPREHENSIVE INCOME |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| For the years ended December 31 | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   | 2023 |   |   |   |   |   |
-| (Pre-tax) | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   |
-| Cost (income) of postretirement benefit plans |   | $(655) |   | $(2) |   | $(66) |   | $(741) |   | $(21) |   | $(101) |   | $(1,108) |   | $(118) |   | $(144) |
-| Changes in other comprehensive loss (income) |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Prior service cost (credit) - current year | 36 |   | 135 |   | (5) |   | — |   | — |   | — |   | 49 |   | — |   | — |   |
-| Net loss (gain) - current year (a) | 221 |   | 132 |   | (11) |   | 262 |   | (52) |   | (15) |   | 1,588 |   | 721 |   | (5) |   |
-| Reclassifications out of AOCI |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Curtailment/settlement gain (loss) | — |   | — |   | — |   | — |   | — |   | — |   | — |   | 6 |   | — |   |
-| Dispositions | — |   | — |   | — |   | 185 |   | (761) |   | 715 |   | 1,989 |   | (792) |   | 1,216 |   |
-| Amortization of net gain (loss) | 506 |   | (30) |   | 60 |   | 468 |   | (41) |   | 82 |   | 723 |   | (20) |   | 124 |   |
-| Amortization of prior service credit (cost) | 9 |   | — |   | 81 |   | (6) |   | 1 |   | 103 |   | (5) |   | 4 |   | 148 |   |
-
-*(2 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0065`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| INCOME (LOSS) FROM CONTINUING OPERATIONS BEFORE INCOME TAXES | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| U.S. income (loss) | $6,659 | $4,809 | $7,195 |
-| Non-U.S. income (loss) | 3,341 | 2,811 | 3,246 |
-| Total | $10,000 | $7,620 | $10,441 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0066`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| INCOME TAX PAYMENTS | 2025 |
-|---|---|
-| U.S. Federal(a) | $150 |
-| U.S. State(a) | 7 |
-| Non-U.S: |   |
-| Singapore | 178 |
-| United Kingdom | 78 |
-| Ireland | 60 |
-| Hungary | 52 |
-| Italy | 46 |
-| India | 36 |
-| Other Non-U.S. | 132 |
-| Total income taxes paid (received), continuing operations | $739 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0067`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| PROVISION (BENEFIT) FOR INCOME TAXES | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Current |   |   |   |
-| U.S. Federal | $671 | $310 | $(588) |
-| Non-U.S. | 709 | 423 | 314 |
-| U.S. State | (72) | 48 | 134 |
-| Deferred |   |   |   |
-| U.S. Federal | (35) | 250 | 622 |
-| Non-U.S. | 32 | 59 | 453 |
-| U.S. State | 100 | (128) | 59 |
-| Total | $1,405 | $962 | $994 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0068`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · cited by 3 units
-
-| RECONCILIATION OF U.S. FEDERAL STATUTORY INCOME TAX RATE TO EFFECTIVE INCOME TAX RATE | 2025 |   |   |
-|---|---|---|---|
-|   | Amount |   | Rate |
-| U.S. federal statutory income tax rate |   | $2,100 | 21.0% |
-| State and local income taxes, net of federal income tax effect(a) | 74 |   | 0.7% |
-| Foreign tax effects: |   |   |   |
-| Singapore |   |   |   |
-| Statutory rate difference between foreign and U.S. | (70) |   | (0.7)% |
-| Local taxes at a rate different than the statutory rate(b) | (37) |   | (0.4)% |
-| Other | 53 |   | 0.5% |
-| Other foreign jurisdictions | 68 |   | 0.7% |
-| Effect of cross-border tax laws |   |   |   |
-| Foreign-derived intangible income | (338) |   | (3.4)% |
-
-*(9 further rows in the stored grid.)*
-
-Related units: `u-src-ge-10k-fy2025-a73b722f-0115`, `u-src-ge-10k-fy2025-a73b722f-0115`, `u-src-ge-10k-fy2025-a73b722f-0115`
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0069`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| RECONCILIATION OF U.S. FEDERAL STATUTORY INCOME TAX RATE TO EFFECTIVE INCOME TAX RATE | 2024 |   |   |   | 2023 |   |   |   |
-|---|---|---|---|---|---|---|---|---|
-|   |   | Amount |   | Rate |   | Amount |   | Rate |
-| U.S. federal statutory income tax rate |   |   | $1,600 | 21.0% |   |   | $2,193 | 21.0% |
-| State Taxes, net of federal benefit |   | 123 |   | 1.6 |   | 152 |   | 1.5 |
-| Tax on global activities including exports(a) |   | (92) |   | (1.2) |   | 78 |   | 0.7 |
-| U.S. business credits(b) |   | (242) |   | (3.2) |   | (254) |   | (2.4) |
-| Retained and sold ownership interests |   | (110) |   | (1.4) |   | (1,215) |   | (11.6) |
-| All other – net(c) |   | (317) |   | (4.2) |   | 40 |   | 0.3 |
-|   |   | (638) |   | (8.4) |   | (1,199) |   | (11.5) |
-| Effective income tax rate |   |   | $962 | 12.6% |   |   | $994 | 9.5% |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0070`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| UNRECOGNIZED TAX BENEFITS December 31 | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Unrecognized tax benefits | $3,056 | $2,824 | $3,399 |
-| Portion that, if recognized, would reduce tax expense and effective tax rate(a) | 2,381 | 2,110 | 2,708 |
-| Accrued interest on unrecognized tax benefits | 656 | 609 | 635 |
-| Accrued penalties on unrecognized tax benefits | 11 | 14 | 111 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0071`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| UNRECOGNIZED TAX BENEFITS RECONCILIATION | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Balance at January 1 | $2,824 | $3,399 | $3,951 |
-| Additions for tax positions of the current year | 347 | 68 | 109 |
-| Additions for tax positions of prior years | 93 | 77 | 156 |
-| Reductions for tax positions of prior years(a) | (168) | (649) | (710) |
-| Settlements with tax authorities | (30) | (14) | (56) |
-| Expiration of the statute of limitations | (10) | (57) | (51) |
-| Balance at December 31 | $3,056 | $2,824 | $3,399 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0072`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| DEFERRED INCOME TAXES December 31 | 2025 | 2024 |
-|---|---|---|
-| Total assets | $7,883 | $7,479 |
-| Total liabilities | (424) | (368) |
-| Net deferred income tax asset (liability) | $7,459 | $7,111 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0073`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| COMPONENTS OF THE NET DEFERRED INCOME TAX ASSET (LIABILITY) December 31 | 2025 | 2024 |
-|---|---|---|
-| Deferred tax assets |   |   |
-| Insurance company loss reserves | $2,398 | $2,349 |
-| Progress collections, Contract assets, Contract liabilities and deferred items | 1,764 | 1,435 |
-| Accrued expenses and reserves | 1,278 | 1,231 |
-| Deferred expenses | 1,231 | 1,398 |
-| Other compensation and benefits | 580 | 510 |
-| Principal pension plans | 989 | 1,009 |
-| Non-U.S. loss carryforwards(a) | 2,133 | 1,891 |
-| Capital losses carryforward | 881 | 849 |
-| State deferred tax assets(b) | 684 | 762 |
-| Other | 1,522 | 1,514 |
-
-*(10 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0074`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**DEFERRED TAX ASSETS VALUATION ALLOWANCE**
-
-| DEFERRED TAX ASSETS VALUATION ALLOWANCE |   |
-|---|---|
-| Balance at December 31, 2022 | $(5,164) |
-| Additions charged to income tax expense | — |
-| Reductions credited to income tax expense | 102 |
-| Other adjustments(a) | 1,646 |
-| Balance at December 31, 2023 | $(3,416) |
-| Additions charged to income tax expense | (2) |
-| Reductions credited to income tax expense | 184 |
-| Other adjustments | 18 |
-| Balance at December 31, 2024 | $(3,216) |
-| Additions charged to income tax expense | (2) |
-| Reductions credited to income tax expense | 71 |
-
-*(2 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0075`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS) (Dividends per share in dollars) | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Beginning balance | $(1,472) | $(3,623) | $(5,893) |
-| AOCI before reclasses – net of taxes of $(157), $5 and $74 | (43) | 36 | 12 |
-| Reclasses from AOCI – net of taxes of $—, $103 and $(626)(a) | — | 2,093 | 2,262 |
-| AOCI | (43) | 2,129 | 2,274 |
-| Less AOCI attributable to noncontrolling interests | — | (22) | 4 |
-| Currency translation adjustments AOCI | $(1,515) | $(1,472) | $(3,623) |
-| Beginning balance | $665 | $1,786 | $6,531 |
-| AOCI before reclasses – net of taxes of $(117), $22 and $(497) | (393) | (8) | (1,874) |
-| Reclasses from AOCI – net of taxes of $(137), $(269) and $(778)(a) | (489) | (1,119) | (2,873) |
-| AOCI | (882) | (1,127) | (4,747) |
-| Less AOCI attributable to noncontrolling interests | — | (7) | (2) |
-
-*(13 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0076`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| WEIGHTED AVERAGE GRANT DATE FAIR VALUE | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Stock options | $79.55 | $65.16 | $36.10 |
-| RSUs | 212.45 | 160.70 | 89.6 |
-| PSUs | 221.46 | 150.05 | 89.44 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0077`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| STOCK-BASED COMPENSATION ACTIVITY | Stock options |   |   |   |   |   | RSUs |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Shares (in thousands) | Weighted average exercise price |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   | Shares (in thousands) | Weighted average grant date fair value |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   |
-| Outstanding at January 1, 2025 | 10,917 |   | $91.78 |   |   |   | 3,607 |   | $103.70 |   |   |   |
-| Granted | 569 | 202.16 |   |   |   |   | 380 | 212.45 |   |   |   |   |
-| Exercised | (4,102) | 104.40 |   |   |   |   | (1,459) | 67.10 |   |   |   |   |
-| Forfeited | (83) | 172.13 |   |   |   |   | (137) | 135.42 |   |   |   |   |
-| Expired | (37) | 122.58 |   |   |   |   | N/A | N/A |   |   |   |   |
-| Outstanding at December 31, 2025 | 7,264 |   | $92.22 | 3.8 |   | $1,568 | 2,391 |   | $141.49 | 1.2 |   | $736 |
-| Exercisable at December 31, 2025 | 5,829 |   | $72.33 | 2.6 |   | $1,374 | N/A | N/A |   | N/A | N/A |   |
-| Expected to vest | 1,265 |   | $172.50 | 8.6 |   | $171 | 2,194 |   | $139.74 | 1.2 |   | $676 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0078`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Compensation expense (after-tax)(a) |   | $325 |   | $286 |   | $192 |
-| Cash received from stock options exercised | 428 |   | 1,492 |   | 565 |   |
-| Intrinsic value of stock options exercised and RSU/PSU/Performance shares vested | 853 |   | 1,754 |   | 561 |   |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0079`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | 2025 |   |   |   | 2024 |   |   |   | 2023 |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| (Earnings for per-share calculation, shares in millions, per-share amounts in dollars) | Diluted |   | Basic |   | Diluted |   | Basic |   | Diluted |   | Basic |   |
-| Net income (loss) from continuing operations(a) |   | $8,598 |   | $8,601 |   | $6,670 |   | $6,670 |   | $9,446 |   | $9,449 |
-| Preferred stock dividends and other and accretion of preferred share repurchase(b) | — |   | — |   | — |   | — |   | (295) |   | (295) |   |
-| Net income (loss) from continuing operations attributable to common shareholders(a) | 8,598 |   | 8,601 |   | 6,670 |   | 6,670 |   | 9,151 |   | 9,154 |   |
-| Net income (loss) from discontinued operations | 103 |   | 103 |   | (114) |   | (114) |   | 33 |   | 33 |   |
-| Net income (loss) attributable to common shareholders(a) | 8,701 |   | 8,704 |   | 6,556 |   | 6,556 |   | 9,184 |   | 9,187 |   |
-| Shares of common stock outstanding | 1,061 |   | 1,061 |   | 1,085 |   | 1,085 |   | 1,089 |   | 1,089 |   |
-| Employee compensation-related shares (including stock options) | 8 |   | — |   | 10 |   | — |   | 10 |   | — |   |
-| Total average equivalent shares | 1,068 |   | 1,061 |   | 1,094 |   | 1,085 |   | 1,099 |   | 1,089 |   |
-| EPS from continuing operations |   | $8.05 |   | $8.11 |   | $6.09 |   | $6.15 |   | $8.33 |   | $8.41 |
-| EPS from discontinued operations | 0.10 |   | 0.10 |   | (0.10) |   | (0.11) |   | 0.03 |   | 0.03 |   |
-
-*(2 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0080`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Investment in GE HealthCare realized and unrealized gain (loss) |   | $— |   | $480 |   | $5,639 |
-| Investment in and note with AerCap realized and unrealized gain (loss) | 21 |   | 38 |   | 129 |   |
-| Investment in Baker Hughes realized and unrealized gain (loss) | — |   | — |   | 10 |   |
-| Gains (losses) on retained and sold ownership interests |   | $21 |   | $518 |   | $5,778 |
-| Other net interest and investment income (loss)(a)(b) | 946 |   | 813 |   | 637 |   |
-| Licensing and royalty income | 175 |   | 210 |   | 148 |   |
-| Equity method income | 216 |   | 173 |   | 169 |   |
-| Purchases and sales of business interests(c) | 6 |   | 399 |   | (105) |   |
-| Other items | 123 |   | 151 |   | 92 |   |
-| Total other income (loss) |   | $1,487 |   | $2,264 |   | $6,718 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0081`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| RESTRUCTURING AND OTHER CHARGES | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Workforce reductions |   | $(33) |   | $107 |   | $166 |
-| Plant closures & associated costs and other asset write-downs | (51) |   | 74 |   | 84 |   |
-| Acquisition/disposition net charges and other | — |   | 366 |   | 10 |   |
-|   |   | $(84) |   | $546 |   | $260 |
-| Cost of equipment/services |   | $6 |   | $27 |   | $10 |
-| Selling, general and administrative expenses | (90) |   | 519 |   | 250 |   |
-| Total restructuring and other charges(a) |   | $(84) |   | $546 |   | $260 |
-| Restructuring and other cash expenditures(b) |   | $69 |   | $507 |   | $204 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0082`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS**
-
-| ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3(a) |   |   |   | Nettingadjustment(b) |   |   |   | Net balance(c) |   |   |   |
-| December 31 | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
-| Investment securities |   | $655 |   | $14 |   | $34,911 |   | $33,635 |   | $3,222 |   | $5,074 |   | $— |   | $— |   | $38,788 |   | $38,723 |
-| Derivatives | — |   | — |   | 247 |   | 243 |   | — |   | — |   | (60) |   | (55) |   | 187 |   | 188 |   |
-| Total assets |   | $655 |   | $14 |   | $35,158 |   | $33,878 |   | $3,222 |   | $5,074 |   | $(60) |   | $(55) |   | $38,975 |   | $38,911 |
-| Derivatives |   | $— |   | $— |   | $129 |   | $131 |   | $— |   | $— |   | $(58) |   | $(54) |   | $71 |   | $77 |
-| Other(d) | — |   | — |   | 400 |   | 367 |   | — |   | — |   | — |   | — |   | 400 |   | 367 |   |
-| Total liabilities |   | $— |   | $— |   | $530 |   | $498 |   | $— |   | $— |   | $(58) |   | $(54) |   | $472 |   | $444 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0083`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Balance atJanuary 1 |   | Net realized/unrealized gains(losses)(a) |   | Purchases(b) |   | Sales & Settlements(c) |   | TransfersintoLevel 3 |   | Transfersout ofLevel 3(d) |   | Balance atDecember 31 |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Investment securities |   | $5,074 |   | $27 |   | $2,155 |   | $(2,753) |   | $13 |   | $(1,293) |   | $3,222 |
-| 2024 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Investment securities |   | $6,841 |   | $20 |   | $1,505 |   | $(768) |   | $12 |   | $(2,536) |   | $5,074 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0084`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   |   | December 31, 2025 |   |   |   | December 31, 2024 |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|
-|   |   | Carryingamount(net) |   | Estimatedfair value |   | Carryingamount(net) |   | Estimatedfair value |   |
-| Assets | Loans and other receivables(a) |   | $2,197 |   | $2,153 |   | $2,261 |   | $1,981 |
-| Liabilities | Borrowings (Note 10) | 20,494 |   | 20,558 |   | 19,273 |   | 18,805 |   |
-|   | Investment contracts(a) | 1,140 |   | 1,199 |   | 1,375 |   | 1,432 |   |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0085`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| FAIR VALUE OF DERIVATIVES |   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Classification(a) | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   |
-| Qualifying currency exchange contracts | Current |   | $2,125 |   | $38 |   | $17 |   | $1,873 |   | $36 |   | $40 |
-| Qualifying cross currency interest rate swaps | Non-Current | 3,079 |   | 20 |   | 62 |   | 416 |   | 8 |   | — |   |
-|   | Current | 471 |   | 17 |   | 39 |   | — |   | — |   | — |   |
-| Non-qualifying currency exchange contracts and other(b) | Current | 4,983 |   | 172 |   | 12 |   | 6,759 |   | 199 |   | 91 |   |
-| Gross derivatives |   |   | $10,659 |   | $247 |   | $129 |   | $9,047 |   | $243 |   | $131 |
-| Netting and credit adjustments |   |   |   |   | $(60) |   | $(58) |   |   |   | $(55) |   | $(54) |
-| Net derivatives recognized in statement of financial position |   |   |   |   | $187 |   | $71 |   |   |   | $188 |   | $77 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0086`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Amount of Gain (Loss) Recognized in Other Comprehensive Income (Loss) on Derivatives |   |   |   | Amount of Gain (Loss) Reclassified from AOCI into Net Income |   |   |   |
-|---|---|---|---|---|---|---|---|---|
-|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
-| Cash flow hedges(a) |   | $133 |   | $(64) |   | $45 |   | $16 |
-| Net investment hedges | (798) |   | 348 |   | — |   | — |   |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0087`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Balance at January 1 |   | $592 |   | $639 |   | $528 |
-| Current-year provisions | 242 |   | 275 |   | 277 |   |
-| Expenditures | (242) |   | (321) |   | (167) |   |
-| Other changes | 3 |   | (1) |   | — |   |
-| Balance at December 31 | 595 |   |   | $592 |   | $639 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0088`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| REVENUE | Total revenue |   |   |   |   |   | Intersegment revenue |   |   |   |   |   | External revenue |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Years ended December 31 | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   |
-| Commercial Engines & Services |   | $33,314 |   | $26,881 |   | $23,855 |   | $62 |   | $216 |   | $559 |   | $33,252 |   | $26,666 |   | $23,296 |
-| Defense & Propulsion Technologies | 10,554 |   | 9,478 |   | 8,961 |   | 1,686 |   | 1,453 |   | 1,253 |   | 8,868 |   | 8,025 |   | 7,708 |   |
-| Corporate & Other | 1,987 |   | 2,343 |   | 2,532 |   | (1,748) |   | (1,669) |   | (1,812) |   | 3,735 |   | 4,011 |   | 4,344 |   |
-| Total revenue |   | $45,855 |   | $38,702 |   | $35,348 |   | $— |   | $— |   | $— |   | $45,855 |   | $38,702 |   | $35,348 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0089`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   | 2023 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Years ended December 31 | Equipment |   | Services |   | Total |   | Equipment |   | Services |   | Total |   | Equipment |   | Services |   | Total |   |
-| Commercial Engines & Services |   | $8,304 |   | $25,010 |   | $33,314 |   | $7,106 |   | $19,775 |   | $26,881 |   | $6,169 |   | $17,686 |   | $23,855 |
-| Defense & Propulsion Technologies | 5,128 |   | 5,426 |   | 10,554 |   | 4,208 |   | 5,270 |   | 9,478 |   | 4,000 |   | 4,961 |   | 8,961 |   |
-| Total segment revenue |   | $13,433 |   | $30,436 |   | $43,868 |   | $11,315 |   | $25,045 |   | $36,360 |   | $10,170 |   | $22,647 |   | $32,816 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0090`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| EXPENSES, PROFIT AND INCOME For the years ended December 31 | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Commercial Engines & Services |   |   |   |
-| Cost of revenue | $21,998 | $17,703 | $16,575 |
-| Selling, general and administrative expenses | 1,845 | 1,678 | 1,386 |
-| Research and development | 1,287 | 993 | 736 |
-| Other segment expenses (income)(a) | (677) | (548) | (484) |
-| Total Commercial Engines & Services expenses | 24,453 | 19,826 | 18,213 |
-| Defense & Propulsion Technologies |   |   |   |
-| Cost of revenue | 7,910 | 7,237 | 6,929 |
-| Selling, general and administrative expenses | 1,088 | 954 | 893 |
-| Research and development | 308 | 301 | 277 |
-| Other segment expenses (income)(a) | (48) | (75) | (46) |
-
-*(13 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0091`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| Years ended December 31 | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| U.S. | $18,194 | $17,340 | $17,105 |
-| Non-U.S. |   |   |   |
-| Europe | 8,603 | 7,800 | 7,248 |
-| Asia | 10,819 | 7,237 | 5,734 |
-| Americas | 3,664 | 2,593 | 1,862 |
-| Middle East and Africa | 4,575 | 3,734 | 3,399 |
-| Total Non-U.S. | $27,661 | $21,363 | $18,243 |
-| Total geographic revenue | $45,855 | $38,702 | $35,348 |
-| Non-U.S. revenue as a % of total revenue | 60% | 55% | 52% |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0092`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| December 31 | 2025 | 2024 |
-|---|---|---|
-| U.S. | $5,736 | $5,166 |
-| Non-U.S. |   |   |
-| Europe | 1,257 | 1,171 |
-| Asia | 505 | 497 |
-| Americas | 479 | 431 |
-| Other Global | 11 | 12 |
-| Total Non-U.S. | $2,252 | $2,111 |
-| Property, plant and equipment – net (Note 6) | $7,987 | $7,277 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0093`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**Equity method investment**
-
-|   | Equity method investment |   |   |   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|
-|   | balance |   |   |   | Income (loss) from equity method investments |   |   |   |   |   |
-| December 31 | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2023 |   |
-| Commercial Engines & Services |   | $1,682 |   | $1,610 |   | $376 |   | $301 |   | $276 |
-| Defense & Propulsion Technologies | 189 |   | 186 |   | (2) |   | 8 |   | 8 |   |
-| Corporate & Other(a) | 5,244 |   | 4,451 |   | 518 |   | 147 |   | 61 |   |
-| Total |   | $7,115 |   | $6,247 |   | $892 |   | $456 |   | $345 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0094`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| For the years ended December 31 | 2025 | 2024 | 2023(a) |
-|---|---|---|---|
-| Revenue | $48,024 | $35,342 | $41,403 |
-| Gross profit (loss) | 1,239 | 1,229 | 4,093 |
-| Net income (loss) | 3,538 | 3,243 | 4,768 |
-| Net income (loss) attributable to the entity | 3,525 | 3,199 | 4,731 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0095`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| December 31 | 2025 | 2024 |
-|---|---|---|
-| Current assets | $26,213 | $19,688 |
-| Total assets | $67,218 | $54,116 |
-| Current liabilities | $23,159 | $17,437 |
-| Total liabilities | $32,513 | $23,868 |
-| Noncontrolling interests | $336 | $200 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0096`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**Date assumed**
-
-| Date assumed |   |   |   |
-|---|---|---|---|
-| Executive |   |   |   |
-| Name | Position | Age | Officer Position |
-| H. Lawrence Culp, Jr. | Chairman of the Board & Chief Executive Officer | 62 | October 2018 |
-| Rahul Ghai | Senior Vice President & Chief Financial Officer | 54 | September 2023 |
-| Mohamed Ali | Senior Vice President & Chief Technology & Operations Officer(a) | 56 | January 2025 |
-| Christian Meisner | Senior Vice President & Chief Human Resources Officer | 56 | April 2024 |
-| John R. Phillips III | Senior Vice President, General Counsel & Secretary | 48 | April 2024 |
-| Russell Stokes | Senior Vice President & CEO, Commercial Engines & Services(a) | 54 | September 2018 |
-| Amy Gowder | Senior Vice President & CEO, Defense & Systems | 50 | April 2024 |
-| Ricardo Procacci | Senior Vice President & CEO, Propulsion & Additive Technologies | 58 | April 2024 |
-| Robert Giglietti | Vice President, Chief Accounting Officer, Controller and Treasurer | 55 | April 2024 |
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0097`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015).**
-
-| 4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015). |   |
-|---|---|
-| 4(k) Agreement to furnish to the Securities and Exchange Commission upon request a copy of instruments defining the rights of holders of certain long-term debt of the registrant and consolidated subsidiaries.* |   |
-| 4(l) Description of the Registrant’s Securities Registered Pursuant to Section 12 of the Securities Exchange Act of 1934.* |   |
-| (10) Except for 10(ll), (mm), (nn), and (oo) below, all of the following exhibits consist of Executive Compensation Plans or Arrangements: |   |
-|   | (a) GE Aerospace Executive Life Insurance Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(a) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (b) GE Leadership Life Insurance Plan, effective January 1, 2020 and all amendments to date, including its most recent amendment January 3, 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2022). |
-|   | (c) GE Aerospace Supplementary Pension Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(d) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (d) GE Aerospace Restoration Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(e) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (e) General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(g) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2018). |
-|   | (f) Amendment, dated May 7, 2024, to General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended September 30, 2024). |
-|   | (g) GE Aerospace 2024 Non-Employee Director Compensation Plan, effective May 7, 2024 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
-|   | (h) Form of Director Indemnification Agreement.* |
-
-*(14 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0098`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-**(w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025).**
-
-|   | (w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025). |
-|---|---|
-|   | (x) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
-|   | (y) Form of Agreement for Restricted Stock Unit Grants to Executive Offices under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(f) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (z) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(e) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (aa) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
-|   | (bb) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(h) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (cc) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(g) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (dd) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
-|   | (ee) GE Aerospace Incentive Compensation Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ee) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (ff) GE Aerospace Annual Executive Incentive Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ff) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (gg) Employment Agreement between H. Lawrence Culp Jr. and General Electric Company, effective July 1, 2024 (incorporated by reference to Exhibit 10.1 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
-|   | (hh) Form of Performance Stock Unit Grant Agreement by and between H. Lawrence Culp, Jr. and General Electric Company, dated July 1, 2024 (incorporated by reference to Exhibit 10.2 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
-
-*(18 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0099`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-| FORM 10-K CROSS REFERENCE INDEX |   | Page(s) |
-|---|---|---|
-| Part I |   |   |
-| Item 1. | Business | 4-7, 9-10, 71-73 |
-| Item 1A. | Risk Factors | 24-31 |
-| Item 1B. | Unresolved Staff Comments | Not applicable |
-| Item 1C. | Cybersecurity | 23 |
-| Item 2. | Properties | 4 |
-| Item 3. | Legal Proceedings | 70-71 |
-| Item 4. | Mine Safety Disclosures | Not applicable |
-| Part II |   |   |
-| Item 5. | Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities | 22 |
-| Item 6. | [Reserved] | Not applicable |
-
-*(17 further rows in the stored grid.)*
-
-#### `tbl-src-ge-10k-fy2025-a73b722f-0100`
-
-table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · not cited by any unit
-
-|   | Signer | Title | Date |
-|---|---|---|---|
-|   | /s/ Rahul Ghai | Principal Financial Officer | January 29, 2026 |
-|   | Rahul GhaiSenior Vice President and Chief Financial Officer |   |   |
-|   | /s/ Robert Giglietti | Principal Accounting Officer | January 29, 2026 |
-|   | Robert GigliettiVice President, Chief Accounting Officer, Controller and Treasurer |   |   |
-|   | /s/ H. Lawrence Culp, Jr. | Principal Executive Officer | January 29, 2026 |
-|   | H. Lawrence Culp, Jr.*Chairman of the Board of Directors |   |   |
-|   | Sébastien M. Bazin* | Director |   |
-|   | Margaret Billson* | Director |   |
-|   | Wesley G. Bush* | Director |   |
-|   | Thomas Enders* | Director |   |
-|   | Edward P. Garden* | Director |   |
-
-*(8 further rows in the stored grid.)*
-
-## Assets in text nobody read
-
-61 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0001`
-
-table · **exact** · anchored by `own_text`
-
-| New York |   |   | 14-0689340 |
-|---|---|---|---|
-| (State or other jurisdiction of incorporation or organization) |   |   | (I.R.S. Employer Identification No.) |
-| 1 Neumann Way | Evendale | OH | 45215 |
-| (Address of principal executive offices) |   |   | (Zip Code) |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0002`
-
-table · **exact** · anchored by `own_text`
-
-| Title of each class | Trading Symbol(s) | Name of each exchange on which registered |
-|---|---|---|
-| Common stock, par value $0.01 per share | GE | New York Stock Exchange |
-| 1.875% Notes due 2027 | GE 27E | New York Stock Exchange |
-| 1.500% Notes due 2029 | GE 29 | New York Stock Exchange |
-| 7 1/2% Guaranteed Subordinated Notes due 2035 | GE /35 | New York Stock Exchange |
-| 2.125% Notes due 2037 | GE 37 | New York Stock Exchange |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0003`
-
-table · **exact** · anchored by `own_text`
-
-| Large accelerated filer | ☑ | Accelerated filer | ☐ |
-|---|---|---|---|
-| Non-accelerated filer | ☐ | Smaller reporting company | ☐ |
-| Emerging growth company | ☐ |   |   |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0004`
-
-table · **exact** · anchored by `own_text`
-
-**Page**
-
-| Page |   |
-|---|---|
-| Forward-Looking Statements | 3 |
-| About GE Aerospace | 4 |
-| Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&A) | 7 |
-| Consolidated Results | 8 |
-| Segment Operations | 9 |
-| Corporate & Other | 10 |
-| Other Consolidated Information | 11 |
-| Capital Resources and Liquidity | 12 |
-| Critical Accounting Estimates | 14 |
-| Other Items | 16 |
-| Non-GAAP Financial Measures | 19 |
-
-*(41 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0011`
-
-table · **exact** · anchored by `own_text`
-
-| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
-|---|---|---|---|
-| Equipment | $13,754 | $11,462 | $6,508 |
-| Services | 156,068 | 142,182 | 131,028 |
-| Total RPO | $169,822 | $153,644 | $137,535 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0014`
-
-table · **exact** · anchored by `own_text`
-
-| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
-|---|---|---|---|
-| Equipment | $13,780 | $11,046 | $9,739 |
-| Services | 6,962 | 6,944 | 6,729 |
-| Total RPO | $20,742 | $17,991 | $16,468 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0017`
-
-table · **exact** · anchored by `none`
-
-|   | Moody's | S&P |
-|---|---|---|
-| Outlook | Positive | Stable |
-| Short term | P-2 | A-2 |
-| Long term | A3 | A- |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0018`
-
-table · **exact** · anchored by `own_text`
-
-| Years ended December 31 | 2025 | 2024 |
-|---|---|---|
-| Increase (decrease) in employee benefit liabilities | $746 | $356 |
-| Net restructuring and other charges/(cash expenditures) | (144) | (112) |
-| (Gains) Losses on purchases and sales of business interests | (6) | (399) |
-| Net interest and other financial charges/(cash paid) | (39) | 31 |
-| Other deferred assets | (88) | (84) |
-| Other | (334) | (118) |
-| All other operating activities | $136 | $(326) |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0021`
-
-table · **exact** · anchored by `own_text`
-
-| ADJUSTED REVENUE, OPERATING PROFIT AND PROFIT MARGIN (NON-GAAP) | 2025 | 2024 |
-|---|---|---|
-| Total revenue (GAAP) | $45,855 | $38,702 |
-| Less: Insurance revenue (Note 12) | 3,533 | 3,581 |
-| Adjusted revenue (Non-GAAP) | $42,322 | $35,121 |
-| Total costs and expenses (GAAP) | $37,342 | $33,346 |
-| Less: Insurance cost and expenses (Note 12) | 2,541 | 2,560 |
-| Less: U.S. tax equity cost and expenses | 20 | 14 |
-| Less: interest and other financial charges(a) | 843 | 986 |
-| Less: non-operating benefit cost (income) | (788) | (842) |
-| Less: restructuring & other(a) | (87) | 525 |
-| Less: goodwill impairments(a) | — | 251 |
-| Less: separation costs(a) | 202 | 492 |
-
-*(13 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0026`
-
-table · **exact** · anchored by `own_text`
-
-**STATEMENT OF OPERATIONS**
-
-| STATEMENT OF OPERATIONS |   |   |   |
-|---|---|---|---|
-| (In millions; per-share amounts in dollars) | 2025 | 2024 | 2023 |
-| Sales of equipment | $12,159 | $10,274 | $9,318 |
-| Sales of services | 30,163 | 24,847 | 22,641 |
-| Insurance revenue (Note 12) | 3,533 | 3,581 | 3,389 |
-| Total revenue | 45,855 | 38,702 | 35,348 |
-| Cost of equipment sold | 12,382 | 10,341 | 9,900 |
-| Cost of services sold | 16,586 | 13,967 | 13,039 |
-| Selling, general and administrative expenses | 4,088 | 4,437 | 4,045 |
-| Separation costs | 202 | 492 | 692 |
-| Research and development | 1,580 | 1,286 | 1,011 |
-| Interest and other financial charges | 843 | 986 | 1,029 |
-
-*(31 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0027`
-
-table · **exact** · anchored by `own_text`
-
-**STATEMENT OF FINANCIAL POSITION**
-
-| STATEMENT OF FINANCIAL POSITION |   |   |
-|---|---|---|
-| December 31 (In millions) | 2025 | 2024 |
-| Cash, cash equivalents and restricted cash | $12,392 | $13,619 |
-| Investment securities (Note 3) | — | 982 |
-| Current receivables (Note 4) | 11,773 | 9,327 |
-| Inventories, including deferred inventory costs (Note 5) | 11,868 | 9,763 |
-| Current contract assets (Note 8) | 3,511 | 2,982 |
-| All other current assets (Note 9) | 1,052 | 962 |
-| Current assets | 40,596 | 37,635 |
-| Investment securities (Note 3) | 38,788 | 37,741 |
-| Property, plant and equipment – net (Note 6) | 7,987 | 7,277 |
-| Goodwill (Note 7) | 9,060 | 8,538 |
-
-*(29 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0029`
-
-table · **exact** · anchored by `own_text`
-
-**STATEMENT OF COMPREHENSIVE INCOME (LOSS)**
-
-| STATEMENT OF COMPREHENSIVE INCOME (LOSS) |   |   |   |
-|---|---|---|---|
-| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
-| Net income (loss) | $8,698 | $6,566 | $9,445 |
-| Less: net income (loss) attributable to noncontrolling interests | (6) | 11 | (37) |
-| Net income (loss) attributable to the Company | $8,704 | $6,556 | $9,482 |
-| Currency translation adjustments | (43) | 2,131 | 2,274 |
-| Benefit plans | (882) | (1,128) | (4,747) |
-| Investment securities and cash flow hedges | 749 | (1,016) | 968 |
-| Long-duration insurance contracts | (761) | 2,284 | (2,371) |
-| L Less: other comprehensive income (loss) attributable to noncontrolling interests | — | (17) | 2 |
-| Other comprehensive income (loss) attributable to the Company | $(937) | $2,289 | $(3,878) |
-| Comprehensive income (loss) | $7,761 | $8,838 | $5,569 |
-
-*(2 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0034`
-
-table · **exact** · anchored by `own_text`
-
-| ASSETS AND LIABILITIES OF DISCONTINUED OPERATIONS | December 31, 2025 | December 31, 2024 |
-|---|---|---|
-| Cash, cash equivalents and restricted cash(a) | $1,126 | $1,327 |
-| Current receivables | 35 | 13 |
-| Property, plant, and equipment - net | 26 | 40 |
-| All other assets | 648 | 438 |
-| Deferred income taxes | 21 | 24 |
-| Assets of discontinued operations(b) | $1,855 | $1,841 |
-| Accounts payable | $35 | $30 |
-| Non-current compensation and benefits | 32 | 33 |
-| All other liabilities | 1,347 | 1,254 |
-| Liabilities of discontinued operations(b) | $1,413 | $1,317 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0035`
-
-table · **exact** · anchored by `own_text`
-
-|   | December 31, 2025 |   |   |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   |
-| Debt |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| U.S. corporate |   | $27,658 |   | $825 |   | $(1,969) |   | $26,513 |   | $28,456 |   | $546 |   | $(2,309) |   | $26,692 |
-| Non-U.S. corporate | 2,909 |   | 41 |   | (242) |   | 2,707 |   | 2,970 |   | 23 |   | (302) |   | 2,691 |   |
-| State and municipal | 2,751 |   | 46 |   | (192) |   | 2,605 |   | 2,409 |   | 22 |   | (235) |   | 2,196 |   |
-| Mortgage and asset-backed | 5,202 |   | 69 |   | (121) |   | 5,151 |   | 5,007 |   | 47 |   | (183) |   | 4,870 |   |
-| Government and agencies | 1,015 |   | 4 |   | (95) |   | 924 |   | 1,180 |   | 4 |   | (118) |   | 1,066 |   |
-| Equity | 887 |   | — |   | — |   | 887 |   | 225 |   | — |   | — |   | 225 |   |
-| Non-current investment securities |   | $40,422 |   | $985 |   | $(2,619) |   | $38,788 |   | $40,248 |   | $641 |   | $(3,148) |   | $37,741 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0036`
-
-table · **exact** · anchored by `own_text`
-
-| For the years ended December 31 | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Net unrealized gains (losses) for equity securities with readily determinable fair value (RDFV) | $313 | $320 | $6,413 |
-| Proceeds from debt/equity securities sales and redemptions | 4,922 | 9,099 | 12,595 |
-| Gross realized gains on debt securities | 35 | 75 | 52 |
-| Gross realized losses and impairments on debt securities | (76) | (66) | (66) |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0037`
-
-table · **exact** · anchored by `own_text`
-
-| For the years ended December 31 | 2025 | 2024 |
-|---|---|---|
-| Purchases of investment securities | $(4,050) | $(7,132) |
-| Dispositions and maturities of investment securities | 4,475 | 6,168 |
-| Net (purchases) dispositions of insurance investment securities | $425 | $(963) |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0038`
-
-table · **exact** · anchored by `own_text`
-
-|   | Amortized cost |   | Estimated fair value |   |
-|---|---|---|---|---|
-| Within one year |   | $843 |   | $847 |
-| After one year through five years | 3,460 |   | 3,561 |   |
-| After five years through ten years | 5,269 |   | 5,498 |   |
-| After ten years | 24,762 |   | 22,845 |   |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0039`
-
-table · **exact** · anchored by `own_text`
-
-**CURRENT RECEIVABLES**
-
-| CURRENT RECEIVABLES |   |   |
-|---|---|---|
-| December 31 | 2025 | 2024 |
-| Customer receivables | $9,269 | $7,385 |
-| Revenue sharing and other partner receivables(a) | 1,322 | 1,113 |
-| Non-income based tax receivables | 165 | 128 |
-| Supplier advances | 867 | 546 |
-| Receivables from disposed businesses | 34 | 99 |
-| Other sundry receivables | 209 | 162 |
-| Allowance for credit losses | (94) | (106) |
-| Total current receivables | $11,773 | $9,327 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0040`
-
-table · **exact** · anchored by `own_text`
-
-**LONG-TERM RECEIVABLES**
-
-| LONG-TERM RECEIVABLES |   |   |
-|---|---|---|
-| December 31 | 2025 | 2024 |
-| Long-term customer receivables | $173 | $122 |
-| Supplier advances | 94 | 50 |
-| Sundry receivables | 105 | 106 |
-| Allowance for credit losses | (96) | (85) |
-| Total long-term receivables | $276 | $194 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0041`
-
-table · **exact** · anchored by `own_text`
-
-| December 31 | 2025 | 2024 |
-|---|---|---|
-| Raw materials and work in process | $9,354 | $7,372 |
-| Finished goods | 1,542 | 1,459 |
-| Deferred inventory costs(a) | 972 | 932 |
-| Inventories, including deferred inventory costs | $11,868 | $9,763 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0042`
-
-table · **exact** · anchored by `own_text`
-
-|   | Depreciable lives | Original Cost |   |   |   | Net Carrying Value |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|
-| December 31 | (in years) | 2025 |   | 2024 |   |   | 2025 |   | 2024 |   |
-| Land and improvements | 8 |   | $139 |   | $131 |   |   | $137 |   | $129 |
-| Buildings, structures and related equipment | 8 - 40 | 3,295 |   | 3,146 |   |   | 1,411 |   | 1,369 |   |
-| Machinery and equipment | 4 - 20 | 12,757 |   | 11,533 |   |   | 4,432 |   | 3,851 |   |
-| Leasehold costs and manufacturing plant under construction | 1 - 10 | 1,197 |   | 1,084 |   |   | 989 |   | 872 |   |
-| ROU operating lease assets |   |   |   |   |   |   | 1,018 |   | 1,057 |   |
-| Property, plant and equipment - net |   |   | $17,388 |   | $15,894 |   |   | $7,987 |   | $7,277 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0044`
-
-table · **exact** · anchored by `own_text`
-
-| OPERATING LEASE EXPENSE | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Long-term (fixed) | $309 | $326 | $364 |
-| Long-term (variable) | 30 | 111 | 26 |
-| Short-term | 47 | 45 | 115 |
-| Total operating lease expense | $385 | $482 | $506 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0045`
-
-table · **exact** · anchored by `own_text`
-
-| MATURITY OF LEASE LIABILITIES | 2026 |   | 2027 |   | 2028 |   | 2029 |   | 2030 |   | Thereafter |   | Total |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Undiscounted lease payments |   | $278 |   | $221 |   | $176 |   | $154 |   | $117 |   | $377 |   | $1,323 |
-| Less: imputed interest |   |   |   |   |   |   |   |   |   |   |   |   | (260) |   |
-| Total lease liability as of December 31, 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   | $1,063 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0046`
-
-table · **exact** · anchored by `own_text`
-
-| SUPPLEMENTAL INFORMATION RELATED TO OPERATING LEASES | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Operating cash flows used for operating leases | $329 | $352 | $427 |
-| Right-of-use assets obtained in exchange for new lease liabilities | 238 | 196 | 275 |
-| Weighted-average remaining lease term | 7.6 years | 7.8 years | 7.7 years |
-| Weighted-average discount rate | 4.7% | 4.6% | 4.5% |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0048`
-
-table · **exact** · anchored by `own_text`
-
-|   |   | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| INTANGIBLE ASSETS SUBJECT TO AMORTIZATION December 31 | Useful lives (in years) | Gross carryingamount |   | Accumulatedamortization |   | Net |   | Gross carryingamount |   | Accumulatedamortization |   | Net |   |
-| Customer-related(a) | 5-20 |   | $3,992 |   | $(2,313) |   | $1,679 |   | $3,850 |   | $(2,083) |   | $1,767 |
-| Patents and technology | 5-15 | 2,946 |   | (916) |   | 2,031 |   | 2,744 |   | (759) |   | 1,985 |   |
-| Capitalized software | 5-10 | 1,366 |   | (859) |   | 507 |   | 1,296 |   | (803) |   | 493 |   |
-| Trademarks & other | 13 | 77 |   | (67) |   | 9 |   | 70 |   | (58) |   | 13 |   |
-| Total |   |   | $8,380 |   | $(4,155) |   | $4,225 |   | $7,960 |   | $(3,703) |   | $4,257 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0049`
-
-table · **exact** · anchored by `own_text`
-
-| ESTIMATED 5 YEAR CONSOLIDATED AMORTIZATION | 2026 | 2027 | 2028 | 2029 | 2030 |
-|---|---|---|---|---|---|
-| Estimated annual pre-tax amortization | 351 | 356 | 357 | 376 | 371 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0050`
-
-table · **exact** · anchored by `own_text`
-
-| CONTRACT ASSETS, LIABILITIES AND OTHER DEFERRED ASSETS AND INCOME | December 31, 2025 | December 31, 2024 |
-|---|---|---|
-| Long-term service agreements | $2,792 | $2,374 |
-| Equipment and other service agreements | 719 | 609 |
-| Current contract assets | $3,511 | $2,982 |
-| Nonrecurring engineering costs(a) | $2,423 | $2,438 |
-| Customer advances and other(b) | 2,497 | 2,393 |
-| Contract and other deferred assets | 4,920 | 4,831 |
-| Total contract and other deferred assets | $8,431 | $7,814 |
-| Long-term service agreement liabilities | $10,016 | $8,994 |
-| Current deferred income | 317 | 359 |
-| Contract liabilities and current deferred income | $10,333 | $9,353 |
-| Non-current deferred income | 1,065 | 1,013 |
-
-*(2 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0051`
-
-table · **exact** · anchored by `own_text`
-
-| December 31 |   | 2025 |   |   | 2024 |   |   |
-|---|---|---|---|---|---|---|---|
-|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
-| Current portion of long-term borrowings |   |   |   |   |   |   |   |
-| Senior notes | 2026 |   | $1,504 | 4.00% | $1,952 |   | 4.03% |
-| Subordinated notes and other | 2026 | 157 |   |   | 87 |   |   |
-| Other short-term |   | 25 |   |   | — |   |   |
-| Total short-term borrowings |   |   | $1,686 |   |   | $2,039 |   |
-|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
-| Senior notes(a) | 2027 - 2050 |   | $16,773 | 4.00% |   | $15,467 | 4.03% |
-| Subordinated notes | 2035 - 2037 | 1,456 |   | 4.40% | 1,330 |   | 4.43% |
-| Other |   | 580 |   |   | 437 |   |   |
-| Total long-term borrowings |   |   | $18,808 |   |   | $17,234 |   |
-
-*(1 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0052`
-
-table · **exact** · anchored by `own_text`
-
-|   | 2026 |   | 2027 | 2028 | 2029 | 2030 | Thereafter | Total |
-|---|---|---|---|---|---|---|---|---|
-| Long-term debt maturities | 1,661 | (a) | 1,693 | 480 | 1,639 | 1,700 | 13,296 | 20,469 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0053`
-
-table · **exact** · anchored by `own_text`
-
-| December 31 | 2025 | 2024 |
-|---|---|---|
-| Trade payables | $5,734 | $4,565 |
-| Supply chain finance programs | 1,247 | 1,259 |
-| Revenue sharing and other partner payables(a) | 2,553 | 1,689 |
-| Sundry payables | 544 | 397 |
-| Accounts payable | $10,078 | $7,909 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0056`
-
-table · **exact** · anchored by `own_text`
-
-|   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Present value of expected net premiums | Long-term care |   | Structured settlement annuities |   | Life |   | Long-term care |   | Structured settlement annuities |   | Life |   |
-| Balance, beginning of year |   | $4,144 |   | $— |   | $4,318 |   | $4,063 |   | $— |   | $4,803 |
-| Beginning balance at locked-in discount rate | 3,991 |   | — |   | 4,415 |   | 3,745 |   | — |   | 4,773 |   |
-| Effect of changes in cash flow assumptions | 355 |   | — |   | 4 |   | 465 |   | — |   | (1) |   |
-| Effect of actual variances from expected experience(a) | (19) |   | — |   | (2,681) |   | (26) |   | — |   | 8 |   |
-| Adjusted beginning of year balance | 4,327 |   | — |   | 1,738 |   | 4,184 |   | — |   | 4,780 |   |
-| Interest accrual | 221 |   | — |   | 164 |   | 209 |   | — |   | 177 |   |
-| Net premiums collected | (408) |   | — |   | (292) |   | (403) |   | — |   | (309) |   |
-| Effect of foreign currency | — |   | — |   | 103 |   | — |   | — |   | (234) |   |
-| Ending balance at locked-in discount rate | 4,140 |   | — |   | 1,714 |   | 3,991 |   | — |   | 4,415 |   |
-| Effect of changes in discount rate assumptions | 287 |   | — |   | 119 |   | 154 |   | — |   | (97) |   |
-
-*(24 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0061`
-
-table · **exact** · anchored by `own_text`
-
-|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3 |   |   |   | Assets measured at NAV |   |   |   | Total |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
-| Asset Category |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Global equity |   | $1,200 |   | $1,156 |   | $230 |   | $203 |   |   |   |   |   | $2,410 |   | $1,912 |   | $3,840 |   | $3,271 |
-| Fixed income and cash investment funds | 952 |   | 1,299 |   | 1,617 |   | 1,448 |   |   |   |   |   |   |   |   |   | 2,569 |   | 2,747 |   |
-| U.S. corporate(a) |   |   |   |   | 2,496 |   | 3,125 |   |   |   |   |   |   |   |   |   | 2,496 |   | 3,125 |   |
-| Other debt securities(b) |   |   |   |   | 2,957 |   | 3,152 |   |   |   |   |   | 2,263 |   | 1,851 |   | 5,220 |   | 5,003 |   |
-| Real estate |   |   |   |   |   |   |   |   | 449 |   | 541 |   | 934 |   | 995 |   | 1,383 |   | 1,536 |   |
-| Private equities and other investments |   |   |   |   |   |   |   |   | 246 |   | 312 |   | 7,079 |   | 6,385 |   | 7,325 |   | 6,697 |   |
-| Derivatives, net(c) | (67) |   | (139) |   | 12 |   | 20 |   |   |   |   |   |   |   |   |   | (55) |   | (119) |   |
-| Cash |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 284 |   | 297 |   |
-| Payables |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | (400) |   | (440) |   |
-
-*(2 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0062`
-
-table · **exact** · anchored by `own_text`
-
-| ASSET ALLOCATION OF PENSION PLANS | 2025 Target allocation |   | 2025 Actual allocation |   |
-|---|---|---|---|---|
-|   | Principal Pension | Other Pension (weighted average) | Principal Pension | Other Pension (weighted average) |
-| Global equities | 10.0 - 30.0% | 14% | 18% | 12% |
-| Debt securities (including cash equivalents) | 19.0 - 87.5 | 65 | 41 | 65 |
-| Real estate | 1.0 - 10.0 | 6 | 6 | 7 |
-| Private equities & other investments | 12.0 - 44.0 | 15 | 35 | 16 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0063`
-
-table · **exact** · anchored by `own_text`
-
-| EXPECTED FUTURE BENEFIT PAYMENTS OF OUR BENEFIT PLANS(a) | Principal pension | Other pension | Principal retiree benefit |
-|---|---|---|---|
-| 2026 | $1,815 | $190 | $120 |
-| 2027 | 1,820 | 190 | 115 |
-| 2028 | 1,825 | 200 | 115 |
-| 2029 | 1,825 | 205 | 110 |
-| 2030 | 1,820 | 210 | 110 |
-| 2031-2035 | 8,825 | 1,115 | 465 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0065`
-
-table · **exact** · anchored by `own_text`
-
-| INCOME (LOSS) FROM CONTINUING OPERATIONS BEFORE INCOME TAXES | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| U.S. income (loss) | $6,659 | $4,809 | $7,195 |
-| Non-U.S. income (loss) | 3,341 | 2,811 | 3,246 |
-| Total | $10,000 | $7,620 | $10,441 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0066`
-
-table · **exact** · anchored by `own_text`
-
-| INCOME TAX PAYMENTS | 2025 |
-|---|---|
-| U.S. Federal(a) | $150 |
-| U.S. State(a) | 7 |
-| Non-U.S: |   |
-| Singapore | 178 |
-| United Kingdom | 78 |
-| Ireland | 60 |
-| Hungary | 52 |
-| Italy | 46 |
-| India | 36 |
-| Other Non-U.S. | 132 |
-| Total income taxes paid (received), continuing operations | $739 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0069`
-
-table · **exact** · anchored by `own_text`
-
-| RECONCILIATION OF U.S. FEDERAL STATUTORY INCOME TAX RATE TO EFFECTIVE INCOME TAX RATE | 2024 |   |   |   | 2023 |   |   |   |
-|---|---|---|---|---|---|---|---|---|
-|   |   | Amount |   | Rate |   | Amount |   | Rate |
-| U.S. federal statutory income tax rate |   |   | $1,600 | 21.0% |   |   | $2,193 | 21.0% |
-| State Taxes, net of federal benefit |   | 123 |   | 1.6 |   | 152 |   | 1.5 |
-| Tax on global activities including exports(a) |   | (92) |   | (1.2) |   | 78 |   | 0.7 |
-| U.S. business credits(b) |   | (242) |   | (3.2) |   | (254) |   | (2.4) |
-| Retained and sold ownership interests |   | (110) |   | (1.4) |   | (1,215) |   | (11.6) |
-| All other – net(c) |   | (317) |   | (4.2) |   | 40 |   | 0.3 |
-|   |   | (638) |   | (8.4) |   | (1,199) |   | (11.5) |
-| Effective income tax rate |   |   | $962 | 12.6% |   |   | $994 | 9.5% |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0070`
-
-table · **exact** · anchored by `own_text`
-
-| UNRECOGNIZED TAX BENEFITS December 31 | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Unrecognized tax benefits | $3,056 | $2,824 | $3,399 |
-| Portion that, if recognized, would reduce tax expense and effective tax rate(a) | 2,381 | 2,110 | 2,708 |
-| Accrued interest on unrecognized tax benefits | 656 | 609 | 635 |
-| Accrued penalties on unrecognized tax benefits | 11 | 14 | 111 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0071`
-
-table · **exact** · anchored by `own_text`
-
-| UNRECOGNIZED TAX BENEFITS RECONCILIATION | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Balance at January 1 | $2,824 | $3,399 | $3,951 |
-| Additions for tax positions of the current year | 347 | 68 | 109 |
-| Additions for tax positions of prior years | 93 | 77 | 156 |
-| Reductions for tax positions of prior years(a) | (168) | (649) | (710) |
-| Settlements with tax authorities | (30) | (14) | (56) |
-| Expiration of the statute of limitations | (10) | (57) | (51) |
-| Balance at December 31 | $3,056 | $2,824 | $3,399 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0072`
-
-table · **exact** · anchored by `own_text`
-
-| DEFERRED INCOME TAXES December 31 | 2025 | 2024 |
-|---|---|---|
-| Total assets | $7,883 | $7,479 |
-| Total liabilities | (424) | (368) |
-| Net deferred income tax asset (liability) | $7,459 | $7,111 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0073`
-
-table · **exact** · anchored by `own_text`
-
-| COMPONENTS OF THE NET DEFERRED INCOME TAX ASSET (LIABILITY) December 31 | 2025 | 2024 |
-|---|---|---|
-| Deferred tax assets |   |   |
-| Insurance company loss reserves | $2,398 | $2,349 |
-| Progress collections, Contract assets, Contract liabilities and deferred items | 1,764 | 1,435 |
-| Accrued expenses and reserves | 1,278 | 1,231 |
-| Deferred expenses | 1,231 | 1,398 |
-| Other compensation and benefits | 580 | 510 |
-| Principal pension plans | 989 | 1,009 |
-| Non-U.S. loss carryforwards(a) | 2,133 | 1,891 |
-| Capital losses carryforward | 881 | 849 |
-| State deferred tax assets(b) | 684 | 762 |
-| Other | 1,522 | 1,514 |
-
-*(10 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0074`
-
-table · **exact** · anchored by `own_text`
-
-**DEFERRED TAX ASSETS VALUATION ALLOWANCE**
-
-| DEFERRED TAX ASSETS VALUATION ALLOWANCE |   |
-|---|---|
-| Balance at December 31, 2022 | $(5,164) |
-| Additions charged to income tax expense | — |
-| Reductions credited to income tax expense | 102 |
-| Other adjustments(a) | 1,646 |
-| Balance at December 31, 2023 | $(3,416) |
-| Additions charged to income tax expense | (2) |
-| Reductions credited to income tax expense | 184 |
-| Other adjustments | 18 |
-| Balance at December 31, 2024 | $(3,216) |
-| Additions charged to income tax expense | (2) |
-| Reductions credited to income tax expense | 71 |
-
-*(2 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0075`
-
-table · **exact** · anchored by `own_text`
-
-| ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS) (Dividends per share in dollars) | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Beginning balance | $(1,472) | $(3,623) | $(5,893) |
-| AOCI before reclasses – net of taxes of $(157), $5 and $74 | (43) | 36 | 12 |
-| Reclasses from AOCI – net of taxes of $—, $103 and $(626)(a) | — | 2,093 | 2,262 |
-| AOCI | (43) | 2,129 | 2,274 |
-| Less AOCI attributable to noncontrolling interests | — | (22) | 4 |
-| Currency translation adjustments AOCI | $(1,515) | $(1,472) | $(3,623) |
-| Beginning balance | $665 | $1,786 | $6,531 |
-| AOCI before reclasses – net of taxes of $(117), $22 and $(497) | (393) | (8) | (1,874) |
-| Reclasses from AOCI – net of taxes of $(137), $(269) and $(778)(a) | (489) | (1,119) | (2,873) |
-| AOCI | (882) | (1,127) | (4,747) |
-| Less AOCI attributable to noncontrolling interests | — | (7) | (2) |
-
-*(13 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0076`
-
-table · **exact** · anchored by `own_text`
-
-| WEIGHTED AVERAGE GRANT DATE FAIR VALUE | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| Stock options | $79.55 | $65.16 | $36.10 |
-| RSUs | 212.45 | 160.70 | 89.6 |
-| PSUs | 221.46 | 150.05 | 89.44 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0077`
-
-table · **exact** · anchored by `own_text`
-
-| STOCK-BASED COMPENSATION ACTIVITY | Stock options |   |   |   |   |   | RSUs |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Shares (in thousands) | Weighted average exercise price |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   | Shares (in thousands) | Weighted average grant date fair value |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   |
-| Outstanding at January 1, 2025 | 10,917 |   | $91.78 |   |   |   | 3,607 |   | $103.70 |   |   |   |
-| Granted | 569 | 202.16 |   |   |   |   | 380 | 212.45 |   |   |   |   |
-| Exercised | (4,102) | 104.40 |   |   |   |   | (1,459) | 67.10 |   |   |   |   |
-| Forfeited | (83) | 172.13 |   |   |   |   | (137) | 135.42 |   |   |   |   |
-| Expired | (37) | 122.58 |   |   |   |   | N/A | N/A |   |   |   |   |
-| Outstanding at December 31, 2025 | 7,264 |   | $92.22 | 3.8 |   | $1,568 | 2,391 |   | $141.49 | 1.2 |   | $736 |
-| Exercisable at December 31, 2025 | 5,829 |   | $72.33 | 2.6 |   | $1,374 | N/A | N/A |   | N/A | N/A |   |
-| Expected to vest | 1,265 |   | $172.50 | 8.6 |   | $171 | 2,194 |   | $139.74 | 1.2 |   | $676 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0078`
-
-table · **exact** · anchored by `own_text`
-
-|   | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Compensation expense (after-tax)(a) |   | $325 |   | $286 |   | $192 |
-| Cash received from stock options exercised | 428 |   | 1,492 |   | 565 |   |
-| Intrinsic value of stock options exercised and RSU/PSU/Performance shares vested | 853 |   | 1,754 |   | 561 |   |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0079`
-
-table · **exact** · anchored by `own_text`
-
-|   | 2025 |   |   |   | 2024 |   |   |   | 2023 |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| (Earnings for per-share calculation, shares in millions, per-share amounts in dollars) | Diluted |   | Basic |   | Diluted |   | Basic |   | Diluted |   | Basic |   |
-| Net income (loss) from continuing operations(a) |   | $8,598 |   | $8,601 |   | $6,670 |   | $6,670 |   | $9,446 |   | $9,449 |
-| Preferred stock dividends and other and accretion of preferred share repurchase(b) | — |   | — |   | — |   | — |   | (295) |   | (295) |   |
-| Net income (loss) from continuing operations attributable to common shareholders(a) | 8,598 |   | 8,601 |   | 6,670 |   | 6,670 |   | 9,151 |   | 9,154 |   |
-| Net income (loss) from discontinued operations | 103 |   | 103 |   | (114) |   | (114) |   | 33 |   | 33 |   |
-| Net income (loss) attributable to common shareholders(a) | 8,701 |   | 8,704 |   | 6,556 |   | 6,556 |   | 9,184 |   | 9,187 |   |
-| Shares of common stock outstanding | 1,061 |   | 1,061 |   | 1,085 |   | 1,085 |   | 1,089 |   | 1,089 |   |
-| Employee compensation-related shares (including stock options) | 8 |   | — |   | 10 |   | — |   | 10 |   | — |   |
-| Total average equivalent shares | 1,068 |   | 1,061 |   | 1,094 |   | 1,085 |   | 1,099 |   | 1,089 |   |
-| EPS from continuing operations |   | $8.05 |   | $8.11 |   | $6.09 |   | $6.15 |   | $8.33 |   | $8.41 |
-| EPS from discontinued operations | 0.10 |   | 0.10 |   | (0.10) |   | (0.11) |   | 0.03 |   | 0.03 |   |
-
-*(2 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0080`
-
-table · **exact** · anchored by `own_text`
-
-|   | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Investment in GE HealthCare realized and unrealized gain (loss) |   | $— |   | $480 |   | $5,639 |
-| Investment in and note with AerCap realized and unrealized gain (loss) | 21 |   | 38 |   | 129 |   |
-| Investment in Baker Hughes realized and unrealized gain (loss) | — |   | — |   | 10 |   |
-| Gains (losses) on retained and sold ownership interests |   | $21 |   | $518 |   | $5,778 |
-| Other net interest and investment income (loss)(a)(b) | 946 |   | 813 |   | 637 |   |
-| Licensing and royalty income | 175 |   | 210 |   | 148 |   |
-| Equity method income | 216 |   | 173 |   | 169 |   |
-| Purchases and sales of business interests(c) | 6 |   | 399 |   | (105) |   |
-| Other items | 123 |   | 151 |   | 92 |   |
-| Total other income (loss) |   | $1,487 |   | $2,264 |   | $6,718 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0081`
-
-table · **exact** · anchored by `own_text`
-
-| RESTRUCTURING AND OTHER CHARGES | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Workforce reductions |   | $(33) |   | $107 |   | $166 |
-| Plant closures & associated costs and other asset write-downs | (51) |   | 74 |   | 84 |   |
-| Acquisition/disposition net charges and other | — |   | 366 |   | 10 |   |
-|   |   | $(84) |   | $546 |   | $260 |
-| Cost of equipment/services |   | $6 |   | $27 |   | $10 |
-| Selling, general and administrative expenses | (90) |   | 519 |   | 250 |   |
-| Total restructuring and other charges(a) |   | $(84) |   | $546 |   | $260 |
-| Restructuring and other cash expenditures(b) |   | $69 |   | $507 |   | $204 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0082`
-
-table · **exact** · anchored by `own_text`
-
-**ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS**
-
-| ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3(a) |   |   |   | Nettingadjustment(b) |   |   |   | Net balance(c) |   |   |   |
-| December 31 | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
-| Investment securities |   | $655 |   | $14 |   | $34,911 |   | $33,635 |   | $3,222 |   | $5,074 |   | $— |   | $— |   | $38,788 |   | $38,723 |
-| Derivatives | — |   | — |   | 247 |   | 243 |   | — |   | — |   | (60) |   | (55) |   | 187 |   | 188 |   |
-| Total assets |   | $655 |   | $14 |   | $35,158 |   | $33,878 |   | $3,222 |   | $5,074 |   | $(60) |   | $(55) |   | $38,975 |   | $38,911 |
-| Derivatives |   | $— |   | $— |   | $129 |   | $131 |   | $— |   | $— |   | $(58) |   | $(54) |   | $71 |   | $77 |
-| Other(d) | — |   | — |   | 400 |   | 367 |   | — |   | — |   | — |   | — |   | 400 |   | 367 |   |
-| Total liabilities |   | $— |   | $— |   | $530 |   | $498 |   | $— |   | $— |   | $(58) |   | $(54) |   | $472 |   | $444 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0083`
-
-table · **exact** · anchored by `own_text`
-
-|   | Balance atJanuary 1 |   | Net realized/unrealized gains(losses)(a) |   | Purchases(b) |   | Sales & Settlements(c) |   | TransfersintoLevel 3 |   | Transfersout ofLevel 3(d) |   | Balance atDecember 31 |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Investment securities |   | $5,074 |   | $27 |   | $2,155 |   | $(2,753) |   | $13 |   | $(1,293) |   | $3,222 |
-| 2024 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-| Investment securities |   | $6,841 |   | $20 |   | $1,505 |   | $(768) |   | $12 |   | $(2,536) |   | $5,074 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0084`
-
-table · **exact** · anchored by `own_text`
-
-|   |   | December 31, 2025 |   |   |   | December 31, 2024 |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|
-|   |   | Carryingamount(net) |   | Estimatedfair value |   | Carryingamount(net) |   | Estimatedfair value |   |
-| Assets | Loans and other receivables(a) |   | $2,197 |   | $2,153 |   | $2,261 |   | $1,981 |
-| Liabilities | Borrowings (Note 10) | 20,494 |   | 20,558 |   | 19,273 |   | 18,805 |   |
-|   | Investment contracts(a) | 1,140 |   | 1,199 |   | 1,375 |   | 1,432 |   |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0085`
-
-table · **exact** · anchored by `own_text`
-
-| FAIR VALUE OF DERIVATIVES |   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|   | Classification(a) | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   |
-| Qualifying currency exchange contracts | Current |   | $2,125 |   | $38 |   | $17 |   | $1,873 |   | $36 |   | $40 |
-| Qualifying cross currency interest rate swaps | Non-Current | 3,079 |   | 20 |   | 62 |   | 416 |   | 8 |   | — |   |
-|   | Current | 471 |   | 17 |   | 39 |   | — |   | — |   | — |   |
-| Non-qualifying currency exchange contracts and other(b) | Current | 4,983 |   | 172 |   | 12 |   | 6,759 |   | 199 |   | 91 |   |
-| Gross derivatives |   |   | $10,659 |   | $247 |   | $129 |   | $9,047 |   | $243 |   | $131 |
-| Netting and credit adjustments |   |   |   |   | $(60) |   | $(58) |   |   |   | $(55) |   | $(54) |
-| Net derivatives recognized in statement of financial position |   |   |   |   | $187 |   | $71 |   |   |   | $188 |   | $77 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0086`
-
-table · **exact** · anchored by `own_text`
-
-|   | Amount of Gain (Loss) Recognized in Other Comprehensive Income (Loss) on Derivatives |   |   |   | Amount of Gain (Loss) Reclassified from AOCI into Net Income |   |   |   |
-|---|---|---|---|---|---|---|---|---|
-|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
-| Cash flow hedges(a) |   | $133 |   | $(64) |   | $45 |   | $16 |
-| Net investment hedges | (798) |   | 348 |   | — |   | — |   |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0087`
-
-table · **exact** · anchored by `own_text`
-
-|   | 2025 |   | 2024 |   | 2023 |   |
-|---|---|---|---|---|---|---|
-| Balance at January 1 |   | $592 |   | $639 |   | $528 |
-| Current-year provisions | 242 |   | 275 |   | 277 |   |
-| Expenditures | (242) |   | (321) |   | (167) |   |
-| Other changes | 3 |   | (1) |   | — |   |
-| Balance at December 31 | 595 |   |   | $592 |   | $639 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0088`
-
-table · **exact** · anchored by `own_text`
-
-| REVENUE | Total revenue |   |   |   |   |   | Intersegment revenue |   |   |   |   |   | External revenue |   |   |   |   |   |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Years ended December 31 | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   |
-| Commercial Engines & Services |   | $33,314 |   | $26,881 |   | $23,855 |   | $62 |   | $216 |   | $559 |   | $33,252 |   | $26,666 |   | $23,296 |
-| Defense & Propulsion Technologies | 10,554 |   | 9,478 |   | 8,961 |   | 1,686 |   | 1,453 |   | 1,253 |   | 8,868 |   | 8,025 |   | 7,708 |   |
-| Corporate & Other | 1,987 |   | 2,343 |   | 2,532 |   | (1,748) |   | (1,669) |   | (1,812) |   | 3,735 |   | 4,011 |   | 4,344 |   |
-| Total revenue |   | $45,855 |   | $38,702 |   | $35,348 |   | $— |   | $— |   | $— |   | $45,855 |   | $38,702 |   | $35,348 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0091`
-
-table · **exact** · anchored by `own_text`
-
-| Years ended December 31 | 2025 | 2024 | 2023 |
-|---|---|---|---|
-| U.S. | $18,194 | $17,340 | $17,105 |
-| Non-U.S. |   |   |   |
-| Europe | 8,603 | 7,800 | 7,248 |
-| Asia | 10,819 | 7,237 | 5,734 |
-| Americas | 3,664 | 2,593 | 1,862 |
-| Middle East and Africa | 4,575 | 3,734 | 3,399 |
-| Total Non-U.S. | $27,661 | $21,363 | $18,243 |
-| Total geographic revenue | $45,855 | $38,702 | $35,348 |
-| Non-U.S. revenue as a % of total revenue | 60% | 55% | 52% |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0095`
-
-table · **exact** · anchored by `own_text`
-
-| December 31 | 2025 | 2024 |
-|---|---|---|
-| Current assets | $26,213 | $19,688 |
-| Total assets | $67,218 | $54,116 |
-| Current liabilities | $23,159 | $17,437 |
-| Total liabilities | $32,513 | $23,868 |
-| Noncontrolling interests | $336 | $200 |
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0097`
-
-table · **exact** · anchored by `own_text`
-
-**4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015).**
-
-| 4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015). |   |
-|---|---|
-| 4(k) Agreement to furnish to the Securities and Exchange Commission upon request a copy of instruments defining the rights of holders of certain long-term debt of the registrant and consolidated subsidiaries.* |   |
-| 4(l) Description of the Registrant’s Securities Registered Pursuant to Section 12 of the Securities Exchange Act of 1934.* |   |
-| (10) Except for 10(ll), (mm), (nn), and (oo) below, all of the following exhibits consist of Executive Compensation Plans or Arrangements: |   |
-|   | (a) GE Aerospace Executive Life Insurance Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(a) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (b) GE Leadership Life Insurance Plan, effective January 1, 2020 and all amendments to date, including its most recent amendment January 3, 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2022). |
-|   | (c) GE Aerospace Supplementary Pension Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(d) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (d) GE Aerospace Restoration Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(e) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (e) General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(g) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2018). |
-|   | (f) Amendment, dated May 7, 2024, to General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended September 30, 2024). |
-|   | (g) GE Aerospace 2024 Non-Employee Director Compensation Plan, effective May 7, 2024 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
-|   | (h) Form of Director Indemnification Agreement.* |
-
-*(14 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0098`
-
-table · **exact** · anchored by `own_text`
-
-**(w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025).**
-
-|   | (w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025). |
-|---|---|
-|   | (x) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
-|   | (y) Form of Agreement for Restricted Stock Unit Grants to Executive Offices under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(f) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (z) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(e) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (aa) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
-|   | (bb) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(h) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (cc) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(g) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
-|   | (dd) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
-|   | (ee) GE Aerospace Incentive Compensation Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ee) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (ff) GE Aerospace Annual Executive Incentive Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ff) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
-|   | (gg) Employment Agreement between H. Lawrence Culp Jr. and General Electric Company, effective July 1, 2024 (incorporated by reference to Exhibit 10.1 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
-|   | (hh) Form of Performance Stock Unit Grant Agreement by and between H. Lawrence Culp, Jr. and General Electric Company, dated July 1, 2024 (incorporated by reference to Exhibit 10.2 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
-
-*(18 further rows in the stored grid.)*
-
-### `tbl-src-ge-10k-fy2025-a73b722f-0099`
-
-table · **exact** · anchored by `own_text`
-
-| FORM 10-K CROSS REFERENCE INDEX |   | Page(s) |
-|---|---|---|
-| Part I |   |   |
-| Item 1. | Business | 4-7, 9-10, 71-73 |
-| Item 1A. | Risk Factors | 24-31 |
-| Item 1B. | Unresolved Staff Comments | Not applicable |
-| Item 1C. | Cybersecurity | 23 |
-| Item 2. | Properties | 4 |
-| Item 3. | Legal Proceedings | 70-71 |
-| Item 4. | Mine Safety Disclosures | Not applicable |
-| Part II |   |   |
-| Item 5. | Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities | 22 |
-| Item 6. | [Reserved] | Not applicable |
-
-*(17 further rows in the stored grid.)*
+| [`tbl-src-ge-10k-fy2025-a73b722f-0001`](#tbl-src-ge-10k-fy2025-a73b722f-0001) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0002`](#tbl-src-ge-10k-fy2025-a73b722f-0002) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0003`](#tbl-src-ge-10k-fy2025-a73b722f-0003) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0004`](#tbl-src-ge-10k-fy2025-a73b722f-0004) | table · exact · own_text | Page | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0005`](#tbl-src-ge-10k-fy2025-a73b722f-0005) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0006`](#tbl-src-ge-10k-fy2025-a73b722f-0006) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0007`](#tbl-src-ge-10k-fy2025-a73b722f-0007) | table · exact · own_text | NET INCOME (LOSS) AND EARNINGS (LOSS) PER SHARE (EPS) | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0008`](#tbl-src-ge-10k-fy2025-a73b722f-0008) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0009`](#tbl-src-ge-10k-fy2025-a73b722f-0009) | table · exact · own_text |  | 4 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0010`](#tbl-src-ge-10k-fy2025-a73b722f-0010) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0011`](#tbl-src-ge-10k-fy2025-a73b722f-0011) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0012`](#tbl-src-ge-10k-fy2025-a73b722f-0012) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0013`](#tbl-src-ge-10k-fy2025-a73b722f-0013) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0014`](#tbl-src-ge-10k-fy2025-a73b722f-0014) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0015`](#tbl-src-ge-10k-fy2025-a73b722f-0015) | table · exact · own_text |  | 3 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0016`](#tbl-src-ge-10k-fy2025-a73b722f-0016) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0017`](#tbl-src-ge-10k-fy2025-a73b722f-0017) | table · exact · none |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0018`](#tbl-src-ge-10k-fy2025-a73b722f-0018) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0019`](#tbl-src-ge-10k-fy2025-a73b722f-0019) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0020`](#tbl-src-ge-10k-fy2025-a73b722f-0020) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0021`](#tbl-src-ge-10k-fy2025-a73b722f-0021) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0022`](#tbl-src-ge-10k-fy2025-a73b722f-0022) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0023`](#tbl-src-ge-10k-fy2025-a73b722f-0023) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0024`](#tbl-src-ge-10k-fy2025-a73b722f-0024) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0025`](#tbl-src-ge-10k-fy2025-a73b722f-0025) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0026`](#tbl-src-ge-10k-fy2025-a73b722f-0026) | table · exact · own_text | STATEMENT OF OPERATIONS | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0027`](#tbl-src-ge-10k-fy2025-a73b722f-0027) | table · exact · own_text | STATEMENT OF FINANCIAL POSITION | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0028`](#tbl-src-ge-10k-fy2025-a73b722f-0028) | table · exact · own_text | STATEMENT OF CASH FLOWS | 3 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0029`](#tbl-src-ge-10k-fy2025-a73b722f-0029) | table · exact · own_text | STATEMENT OF COMPREHENSIVE INCOME (LOSS) | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0030`](#tbl-src-ge-10k-fy2025-a73b722f-0030) | table · exact · own_text | STATEMENT OF CHANGES IN SHAREHOLDERS' EQUITY | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0031`](#tbl-src-ge-10k-fy2025-a73b722f-0031) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0032`](#tbl-src-ge-10k-fy2025-a73b722f-0032) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0033`](#tbl-src-ge-10k-fy2025-a73b722f-0033) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0034`](#tbl-src-ge-10k-fy2025-a73b722f-0034) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0035`](#tbl-src-ge-10k-fy2025-a73b722f-0035) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0036`](#tbl-src-ge-10k-fy2025-a73b722f-0036) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0037`](#tbl-src-ge-10k-fy2025-a73b722f-0037) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0038`](#tbl-src-ge-10k-fy2025-a73b722f-0038) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0039`](#tbl-src-ge-10k-fy2025-a73b722f-0039) | table · exact · own_text | CURRENT RECEIVABLES | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0040`](#tbl-src-ge-10k-fy2025-a73b722f-0040) | table · exact · own_text | LONG-TERM RECEIVABLES | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0041`](#tbl-src-ge-10k-fy2025-a73b722f-0041) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0042`](#tbl-src-ge-10k-fy2025-a73b722f-0042) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0043`](#tbl-src-ge-10k-fy2025-a73b722f-0043) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0044`](#tbl-src-ge-10k-fy2025-a73b722f-0044) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0045`](#tbl-src-ge-10k-fy2025-a73b722f-0045) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0046`](#tbl-src-ge-10k-fy2025-a73b722f-0046) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0047`](#tbl-src-ge-10k-fy2025-a73b722f-0047) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0048`](#tbl-src-ge-10k-fy2025-a73b722f-0048) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0049`](#tbl-src-ge-10k-fy2025-a73b722f-0049) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0050`](#tbl-src-ge-10k-fy2025-a73b722f-0050) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0051`](#tbl-src-ge-10k-fy2025-a73b722f-0051) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0052`](#tbl-src-ge-10k-fy2025-a73b722f-0052) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0053`](#tbl-src-ge-10k-fy2025-a73b722f-0053) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0054`](#tbl-src-ge-10k-fy2025-a73b722f-0054) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0055`](#tbl-src-ge-10k-fy2025-a73b722f-0055) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0056`](#tbl-src-ge-10k-fy2025-a73b722f-0056) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0057`](#tbl-src-ge-10k-fy2025-a73b722f-0057) | table · exact · own_text | DESCRIPTION OF OUR PLANS | 3 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0058`](#tbl-src-ge-10k-fy2025-a73b722f-0058) | table · exact · own_text |  | 3 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0059`](#tbl-src-ge-10k-fy2025-a73b722f-0059) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0060`](#tbl-src-ge-10k-fy2025-a73b722f-0060) | table · exact · own_text | PLAN FUNDED STATUS AND AMOUNTS RECORDED IN ACCUMULATED OTHER | 3 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0061`](#tbl-src-ge-10k-fy2025-a73b722f-0061) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0062`](#tbl-src-ge-10k-fy2025-a73b722f-0062) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0063`](#tbl-src-ge-10k-fy2025-a73b722f-0063) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0064`](#tbl-src-ge-10k-fy2025-a73b722f-0064) | table · exact · own_text | COST OF POSTRETIREMENT BENEFIT PLANS AND CHANGES IN OTHER CO | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0065`](#tbl-src-ge-10k-fy2025-a73b722f-0065) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0066`](#tbl-src-ge-10k-fy2025-a73b722f-0066) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0067`](#tbl-src-ge-10k-fy2025-a73b722f-0067) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0068`](#tbl-src-ge-10k-fy2025-a73b722f-0068) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0069`](#tbl-src-ge-10k-fy2025-a73b722f-0069) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0070`](#tbl-src-ge-10k-fy2025-a73b722f-0070) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0071`](#tbl-src-ge-10k-fy2025-a73b722f-0071) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0072`](#tbl-src-ge-10k-fy2025-a73b722f-0072) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0073`](#tbl-src-ge-10k-fy2025-a73b722f-0073) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0074`](#tbl-src-ge-10k-fy2025-a73b722f-0074) | table · exact · own_text | DEFERRED TAX ASSETS VALUATION ALLOWANCE | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0075`](#tbl-src-ge-10k-fy2025-a73b722f-0075) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0076`](#tbl-src-ge-10k-fy2025-a73b722f-0076) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0077`](#tbl-src-ge-10k-fy2025-a73b722f-0077) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0078`](#tbl-src-ge-10k-fy2025-a73b722f-0078) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0079`](#tbl-src-ge-10k-fy2025-a73b722f-0079) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0080`](#tbl-src-ge-10k-fy2025-a73b722f-0080) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0081`](#tbl-src-ge-10k-fy2025-a73b722f-0081) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0082`](#tbl-src-ge-10k-fy2025-a73b722f-0082) | table · exact · own_text | ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0083`](#tbl-src-ge-10k-fy2025-a73b722f-0083) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0084`](#tbl-src-ge-10k-fy2025-a73b722f-0084) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0085`](#tbl-src-ge-10k-fy2025-a73b722f-0085) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0086`](#tbl-src-ge-10k-fy2025-a73b722f-0086) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0087`](#tbl-src-ge-10k-fy2025-a73b722f-0087) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0088`](#tbl-src-ge-10k-fy2025-a73b722f-0088) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0089`](#tbl-src-ge-10k-fy2025-a73b722f-0089) | table · exact · own_text |  | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0090`](#tbl-src-ge-10k-fy2025-a73b722f-0090) | table · exact · own_text |  | 4 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0091`](#tbl-src-ge-10k-fy2025-a73b722f-0091) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0092`](#tbl-src-ge-10k-fy2025-a73b722f-0092) | table · exact · own_text |  | 3 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0093`](#tbl-src-ge-10k-fy2025-a73b722f-0093) | table · exact · own_text | Equity method investment | 2 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0094`](#tbl-src-ge-10k-fy2025-a73b722f-0094) | table · exact · own_text |  | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0095`](#tbl-src-ge-10k-fy2025-a73b722f-0095) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0096`](#tbl-src-ge-10k-fy2025-a73b722f-0096) | table · exact · own_text | Date assumed | 1 unit(s) |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0097`](#tbl-src-ge-10k-fy2025-a73b722f-0097) | table · exact · own_text | 4(j) Second Global Supplemental Indenture dated as of Decemb | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0098`](#tbl-src-ge-10k-fy2025-a73b722f-0098) | table · exact · own_text | (w) Form of Agreement for Restricted Stock Unit Grants to Di | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0099`](#tbl-src-ge-10k-fy2025-a73b722f-0099) | table · exact · own_text |  | **no units** |
+| [`tbl-src-ge-10k-fy2025-a73b722f-0100`](#tbl-src-ge-10k-fy2025-a73b722f-0100) | table · exact · own_text |  | 1 unit(s) |
+Contents of each are at the end, under [Assets in full](#assets-in-full).
 
 ## The knowledge handed off
 
@@ -4545,3 +2234,2494 @@ Obligations that outlived the businesses that created them: shareholder litigati
 - `units` → `02_units/units.jsonl`
 
 </details>
+
+---
+
+## Assets in full
+
+Every recovered object, shown as it is stored. Indexed at the top under [Assets](#assets); the ones an entry carries are also shown with that entry.
+
+**100 assets** — 100 table. 39 related to at least one unit, 61 related to none.
+
+An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+
+Fidelity is part of the record, because the kinds are not equally trustworthy:
+
+- **exact** (100) — structure recovered from markup the source itself carried — citable as a quote
+
+Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, or `{asset_id}` for a formula. A cell reference resolves to the value **and** the headers governing it, which is what makes a figure checkable rather than merely quoted.
+
+### `src-ge-10k-fy2025-a73b722f`
+
+[`normalized.txt`](runs/ge/01_normalized/src-ge-10k-fy2025-a73b722f/normalized.txt) · [`assets.jsonl`](runs/ge/01_normalized/src-ge-10k-fy2025-a73b722f/assets.jsonl) · [`manifest.json`](runs/ge/01_normalized/src-ge-10k-fy2025-a73b722f/manifest.json)
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0001`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| New York |   |   | 14-0689340 |
+|---|---|---|---|
+| (State or other jurisdiction of incorporation or organization) |   |   | (I.R.S. Employer Identification No.) |
+| 1 Neumann Way | Evendale | OH | 45215 |
+| (Address of principal executive offices) |   |   | (Zip Code) |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0002`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| Title of each class | Trading Symbol(s) | Name of each exchange on which registered |
+|---|---|---|
+| Common stock, par value $0.01 per share | GE | New York Stock Exchange |
+| 1.875% Notes due 2027 | GE 27E | New York Stock Exchange |
+| 1.500% Notes due 2029 | GE 29 | New York Stock Exchange |
+| 7 1/2% Guaranteed Subordinated Notes due 2035 | GE /35 | New York Stock Exchange |
+| 2.125% Notes due 2037 | GE 37 | New York Stock Exchange |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0003`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| Large accelerated filer | ☑ | Accelerated filer | ☐ |
+|---|---|---|---|
+| Non-accelerated filer | ☐ | Smaller reporting company | ☐ |
+| Emerging growth company | ☐ |   |   |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0004`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**Page**
+
+| Page |   |
+|---|---|
+| Forward-Looking Statements | 3 |
+| About GE Aerospace | 4 |
+| Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&A) | 7 |
+| Consolidated Results | 8 |
+| Segment Operations | 9 |
+| Corporate & Other | 10 |
+| Other Consolidated Information | 11 |
+| Capital Resources and Liquidity | 12 |
+| Critical Accounting Estimates | 14 |
+| Other Items | 16 |
+| Non-GAAP Financial Measures | 19 |
+
+*(41 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0005`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| (In millions) | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| GE Aerospace funded | $1,580 | $1,286 | $1,011 |
+| Customer and partner funded(a) | 1,409 | 1,413 | 1,465 |
+| Total Research and development | $2,989 | $2,699 | $2,476 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0008`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0006`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| REVENUE | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Equipment revenue | $12,159 | $10,274 | $9,318 |
+| Services revenue | 30,163 | 24,847 | 22,641 |
+| Insurance revenue | 3,533 | 3,581 | 3,389 |
+| Total revenue | $45,855 | $38,702 | $35,348 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0020`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0007`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+**NET INCOME (LOSS) AND EARNINGS (LOSS) PER SHARE (EPS)**
+
+| NET INCOME (LOSS) AND EARNINGS (LOSS) PER SHARE (EPS) |   |   |   |
+|---|---|---|---|
+| (Per-share in dollars and diluted) | 2025 | 2024 | 2023 |
+| Net income (loss) from continuing operations attributable to common shareholders | $8,601 | $6,670 | $9,154 |
+| Continuing EPS | $8.05 | $6.09 | $8.33 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0021`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0008`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
+|---|---|---|---|
+| Equipment | $27,534 | $22,509 | $16,247 |
+| Services | 163,029 | 149,127 | 137,756 |
+| Total RPO | $190,564 | $171,635 | $154,003 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0024`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0009`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 4 units
+
+| Sales in units, except where noted | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Commercial Engines | 2,386 | 1,911 | 2,075 |
+| LEAP Engines(a) | 1,802 | 1,407 | 1,570 |
+| Internal shop visit revenue growth % | 24% | 19% | 27% |
+| (a) LEAP engines, which are in a significant production ramp, are a subset of Commercial Engines. |   |   |   |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0025`, `u-src-ge-10k-fy2025-a73b722f-0113`, `u-src-ge-10k-fy2025-a73b722f-0115`, `u-src-ge-10k-fy2025-a73b722f-0116`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0010`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| SEGMENT REVENUE AND PROFIT | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Equipment | $8,304 | $7,106 | $6,169 |
+| Services | 25,010 | 19,775 | 17,686 |
+| Total segment revenue | $33,314 | $26,881 | $23,855 |
+| Segment profit | $8,861 | $7,055 | $5,643 |
+| Segment profit margin | 26.6% | 26.2% | 23.7% |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0026`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0011`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
+|---|---|---|---|
+| Equipment | $13,754 | $11,462 | $6,508 |
+| Services | 156,068 | 142,182 | 131,028 |
+| Total RPO | $169,822 | $153,644 | $137,535 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0012`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| Sales in units | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Defense engines | 635 | 490 | 556 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0025`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0013`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| SEGMENT REVENUE AND PROFIT | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Defense & Systems (D&S) | $6,574 | $6,109 | $5,927 |
+| Propulsion & Additive Technologies (P&AT) | 3,980 | 3,370 | 3,034 |
+| Total segment revenue | $10,554 | $9,478 | $8,961 |
+| Equipment | $5,128 | $4,208 | $4,000 |
+| Services | 5,426 | 5,270 | 4,961 |
+| Total segment revenue | $10,554 | $9,478 | $8,961 |
+| Segment profit | $1,296 | $1,061 | $908 |
+| Segment profit margin | 12.3% | 11.2% | 10.1% |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0026`, `u-src-ge-10k-fy2025-a73b722f-0028`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0014`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
+|---|---|---|---|
+| Equipment | $13,780 | $11,046 | $9,739 |
+| Services | 6,962 | 6,944 | 6,729 |
+| Total RPO | $20,742 | $17,991 | $16,468 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0015`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 3 units
+
+| REVENUE AND OPERATING PROFIT (COST) | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Insurance revenue (Note 12) | $3,533 | $3,581 | $3,389 |
+| Eliminations and other | (1,546) | (1,239) | (857) |
+| Corporate & Other revenue | $1,987 | $2,343 | $2,532 |
+| Gains (losses) on purchases and sales of business interests | 5 | 398 | (104) |
+| Gains (losses) on retained and sold ownership interests and other equity securities (Note 19) | 312 | 532 | 5,776 |
+| Restructuring and other charges (Note 20)(a) | 87 | (525) | (246) |
+| Separation costs (Note 20) | (202) | (492) | (692) |
+| Insurance profit (loss) (Note 12) | 992 | 1,022 | 332 |
+| U.S. tax equity profit (loss) | (189) | (160) | (132) |
+| Goodwill impairments (Note 7) | — | (251) | — |
+| Adjusted Corporate & Other operating costs (Non-GAAP) | (1,102) | (864) | (990) |
+
+*(7 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0030`, `u-src-ge-10k-fy2025-a73b722f-0031`, `u-src-ge-10k-fy2025-a73b722f-0032`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0016`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| INCOME TAXES | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Effective tax rate (ETR) | 14.1% | 12.6% | 9.5% |
+| Provision (benefit) for income taxes | $1,405 | $962 | $994 |
+| Cash income taxes paid(a) | 585 | 852 | 994 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0033`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0017`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `none` · **related to no unit**
+
+|   | Moody's | S&P |
+|---|---|---|
+| Outlook | Positive | Stable |
+| Short term | P-2 | A-2 |
+| Long term | A3 | A- |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0018`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| Years ended December 31 | 2025 | 2024 |
+|---|---|---|
+| Increase (decrease) in employee benefit liabilities | $746 | $356 |
+| Net restructuring and other charges/(cash expenditures) | (144) | (112) |
+| (Gains) Losses on purchases and sales of business interests | (6) | (399) |
+| Net interest and other financial charges/(cash paid) | (39) | 31 |
+| Other deferred assets | (88) | (84) |
+| Other | (334) | (118) |
+| All other operating activities | $136 | $(326) |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0019`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| December 31, 2025 | ERAC | UFLIC | Total |
+|---|---|---|---|
+| GAAP: Ending balance of reserves at locked-in rate | $18,887 | $4,950 | $23,837 |
+| Gross statutory reserves(a) | 23,943 | 5,900 | 29,843 |
+| Number of policies in force | 161,300 | 40,400 | 201,700 |
+| Number of covered lives in force | 212,600 | 40,400 | 253,000 |
+| Average policyholder attained age | 79 | 85 | 80 |
+| GAAP: Ending balance of reserves at locked-in rate per policy (in actual dollars) | $117,107 | $122,670 | $118,220 |
+| GAAP: Ending balance of reserves at locked-in rate per covered life (in actual dollars) | 88,854 | 122,670 | 94,249 |
+| Statutory: Gross reserves per policy (in actual dollars)(a) | 148,441 | 146,050 | 147,962 |
+| Statutory: Gross reserves per covered life (in actual dollars)(a) | 112,622 | 146,050 | 117,960 |
+| Percentage of policies with: |   |   |   |
+| Lifetime benefit period | 69% | 31% | 63% |
+
+*(4 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0049`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0020`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| Assumption | Hypothetical change in 2025 assumption | Estimated adverse impact to projected present value of future cash flows (In millions, pre-tax) |
+|---|---|---|
+| Morbidity: |   |   |
+| Long-term care insurance incidence rates | 5% increase in incidence rates | $600 |
+| Long-term care insurance claim continuance | 5% reduction in disabled life deaths | $1,200 |
+| Long-term care insurance utilization | 5% increase in utilization | $1,200 |
+| Long-term care insurance morbidity improvement | 25 basis point reduction by age with 0% floorNo morbidity improvement | $300$1,200 |
+| Active life terminations: |   |   |
+| Long-term care insurance mortality | 5% reduction in mortality | $300 |
+| Long-term care insurance future premium rate increases | 25% adverse change in success rate on premium rate increase actions not yet approved | $200 |
+| Long-term care inflation | 0.25% increase to long-term care inflation rate | $100 |
+| Life insurance mortality | 5% increase in mortality | $100 |
+| Structured settlement annuity mortality | Impaired life mortality grades to standard ten years earlier | $300 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0053`, `u-src-ge-10k-fy2025-a73b722f-0054`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0021`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| ADJUSTED REVENUE, OPERATING PROFIT AND PROFIT MARGIN (NON-GAAP) | 2025 | 2024 |
+|---|---|---|
+| Total revenue (GAAP) | $45,855 | $38,702 |
+| Less: Insurance revenue (Note 12) | 3,533 | 3,581 |
+| Adjusted revenue (Non-GAAP) | $42,322 | $35,121 |
+| Total costs and expenses (GAAP) | $37,342 | $33,346 |
+| Less: Insurance cost and expenses (Note 12) | 2,541 | 2,560 |
+| Less: U.S. tax equity cost and expenses | 20 | 14 |
+| Less: interest and other financial charges(a) | 843 | 986 |
+| Less: non-operating benefit cost (income) | (788) | (842) |
+| Less: restructuring & other(a) | (87) | 525 |
+| Less: goodwill impairments(a) | — | 251 |
+| Less: separation costs(a) | 202 | 492 |
+
+*(13 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0022`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| ADJUSTED NET INCOME (LOSS) AND ADJUSTED EFFECTIVE INCOME TAX RATE (NON-GAAP) | 2025 |   |   | 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|
+| (Diluted, per-share amounts in dollars) |   | Income |   | EPS |   | Income |   | EPS |   |
+| Net income (loss) from continuing operations (GAAP) (Note 18) |   |   | $8,598 |   | $8.05 |   | $6,670 |   | $6.09 |
+| Insurance net income (loss) (pre-tax) |   | 1,002 |   | 0.94 |   | 1,025 |   | 0.94 |   |
+| Tax effect on Insurance net income (loss)(a) |   | (125) |   | (0.12) |   | (219) |   | (0.20) |   |
+| Less: Insurance net income (loss) (net of tax) (Note 12) |   | 877 |   | 0.82 |   | 806 |   | 0.74 |   |
+| U.S. tax equity net income (loss) (pre-tax) |   | (220) |   | (0.21) |   | (191) |   | (0.17) |   |
+| Tax effect on U.S. tax equity net income (loss) |   | 259 |   | 0.24 |   | 235 |   | 0.21 |   |
+| Less: U.S. tax equity net income (loss) (net of tax) |   | 38 |   | 0.04 |   | 44 |   | 0.04 |   |
+| Non-operating benefit (cost) income (pre-tax) (GAAP) |   | 788 |   | 0.74 |   | 842 |   | 0.77 |   |
+| Tax effect on non-operating benefit (cost) income |   | (166) |   | (0.15) |   | (177) |   | (0.16) |   |
+| Less: Non-operating benefit (cost) income (net of tax) |   | 623 |   | 0.58 |   | 665 |   | 0.61 |   |
+
+*(29 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0111`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0023`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| FREE CASH FLOW (FCF) (NON-GAAP) | 2025 | 2024 |
+|---|---|---|
+| Cash flows from operating activities (CFOA) (GAAP) | $8,543 | $5,817 |
+| Add: gross additions to property, plant and equipment and internal-use software | (1,273) | (1,032) |
+| Add: dispositions of property, plant and equipment | 123 | 114 |
+| Less: separation cash expenditures | (245) | (800) |
+| Less: Corporate & Other restructuring cash expenditures | (56) | (504) |
+| Free cash flow (FCF) (Non-GAAP) | $7,694 | $6,203 |
+| We believe investors may find it useful to compare free cash flow* performance without the effects of separation cash expenditures and Corporate & Other restructuring cash expenditures (associated with the separation-related program announced in the fourth quarter of 2022). In addition, beginning in the third quarter of 2025, we now include dispositions of property, plant and equipment. We believe this measure will better allow management and investors to evaluate the capacity of our operations to generate free cash flow*. We also use FCF* as a performance metric at the company level for our annual executive incentive plan and performance stock units granted in 2025. |   |   |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0111`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0024`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| Period | Total number of shares purchased | Average price paid per share |   | Total number of shares purchased as part of our share repurchase authorization | Approximate dollar value of shares that may yet be purchased under our share repurchase authorization |   |
+|---|---|---|---|---|---|---|
+| (Shares in thousands) |   |   |   |   |   |   |
+| 2025 |   |   |   |   |   |   |
+| October | 306 |   | $313.34 | 306 |   |   |
+| November | 5,389 | 316.09 |   | 5,389 |   |   |
+| December | 710 | 291.98 |   | 710 |   |   |
+| Total | 6,404 |   | $313.29 | 6,404 |   | $2,698 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0058`, `u-src-ge-10k-fy2025-a73b722f-0112`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0025`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| /s/ H. Lawrence Culp, Jr. | /s/ Rahul Ghai |
+|---|---|
+| H. Lawrence Culp, Jr. | Rahul Ghai |
+| Chairman and Chief Executive Officer | Chief Financial Officer |
+| January 29, 2026 |   |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0095`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0026`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**STATEMENT OF OPERATIONS**
+
+| STATEMENT OF OPERATIONS |   |   |   |
+|---|---|---|---|
+| (In millions; per-share amounts in dollars) | 2025 | 2024 | 2023 |
+| Sales of equipment | $12,159 | $10,274 | $9,318 |
+| Sales of services | 30,163 | 24,847 | 22,641 |
+| Insurance revenue (Note 12) | 3,533 | 3,581 | 3,389 |
+| Total revenue | 45,855 | 38,702 | 35,348 |
+| Cost of equipment sold | 12,382 | 10,341 | 9,900 |
+| Cost of services sold | 16,586 | 13,967 | 13,039 |
+| Selling, general and administrative expenses | 4,088 | 4,437 | 4,045 |
+| Separation costs | 202 | 492 | 692 |
+| Research and development | 1,580 | 1,286 | 1,011 |
+| Interest and other financial charges | 843 | 986 | 1,029 |
+
+*(31 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0027`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**STATEMENT OF FINANCIAL POSITION**
+
+| STATEMENT OF FINANCIAL POSITION |   |   |
+|---|---|---|
+| December 31 (In millions) | 2025 | 2024 |
+| Cash, cash equivalents and restricted cash | $12,392 | $13,619 |
+| Investment securities (Note 3) | — | 982 |
+| Current receivables (Note 4) | 11,773 | 9,327 |
+| Inventories, including deferred inventory costs (Note 5) | 11,868 | 9,763 |
+| Current contract assets (Note 8) | 3,511 | 2,982 |
+| All other current assets (Note 9) | 1,052 | 962 |
+| Current assets | 40,596 | 37,635 |
+| Investment securities (Note 3) | 38,788 | 37,741 |
+| Property, plant and equipment – net (Note 6) | 7,987 | 7,277 |
+| Goodwill (Note 7) | 9,060 | 8,538 |
+
+*(29 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0028`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 3 units
+
+**STATEMENT OF CASH FLOWS**
+
+| STATEMENT OF CASH FLOWS |   |   |   |
+|---|---|---|---|
+| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
+| Net income (loss) | $8,698 | $6,566 | $9,445 |
+| Net (income) loss from discontinued operations activities | (103) | 91 | 3 |
+| Adjustments to reconcile net income (loss) to cash from (used for) operating activities: |   |   |   |
+| Depreciation and amortization of property, plant and equipment (Note 6) | 863 | 834 | 797 |
+| Amortization of intangible assets (Note 7) | 357 | 350 | 382 |
+| Goodwill impairments (Note 7) | — | 251 | — |
+| (Gains) losses on equity securities (Note 19) | (508) | (719) | (5,846) |
+| Principal pension plans (benefit) cost (Note 13) | (655) | (653) | (755) |
+| Principal pension plans employer contributions | (211) | (210) | (184) |
+| Other postretirement benefit plans (net) | (230) | (299) | (348) |
+
+*(42 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0046`, `u-src-ge-10k-fy2025-a73b722f-0113`, `u-src-ge-10k-fy2025-a73b722f-0114`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0029`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**STATEMENT OF COMPREHENSIVE INCOME (LOSS)**
+
+| STATEMENT OF COMPREHENSIVE INCOME (LOSS) |   |   |   |
+|---|---|---|---|
+| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
+| Net income (loss) | $8,698 | $6,566 | $9,445 |
+| Less: net income (loss) attributable to noncontrolling interests | (6) | 11 | (37) |
+| Net income (loss) attributable to the Company | $8,704 | $6,556 | $9,482 |
+| Currency translation adjustments | (43) | 2,131 | 2,274 |
+| Benefit plans | (882) | (1,128) | (4,747) |
+| Investment securities and cash flow hedges | 749 | (1,016) | 968 |
+| Long-duration insurance contracts | (761) | 2,284 | (2,371) |
+| L Less: other comprehensive income (loss) attributable to noncontrolling interests | — | (17) | 2 |
+| Other comprehensive income (loss) attributable to the Company | $(937) | $2,289 | $(3,878) |
+| Comprehensive income (loss) | $7,761 | $8,838 | $5,569 |
+
+*(2 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0030`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+**STATEMENT OF CHANGES IN SHAREHOLDERS' EQUITY**
+
+| STATEMENT OF CHANGES IN SHAREHOLDERS' EQUITY |   |   |   |
+|---|---|---|---|
+| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
+| Common stock issued | $15 | $15 | $15 |
+| Beginning balance | (3,861) | (6,150) | (2,272) |
+| Currency translation adjustments | (43) | 2,151 | 2,270 |
+| Benefit plans | (882) | (1,120) | (4,745) |
+| Investment securities and cash flow hedges | 749 | (1,026) | 968 |
+| Long-duration insurance contracts | (761) | 2,284 | (2,371) |
+| Accumulated other comprehensive income (loss) | $(4,798) | $(3,861) | $(6,150) |
+| Beginning balance | 24,266 | 26,962 | 34,173 |
+| Gains (losses) on treasury stock dispositions | (1,048) | (3,028) | (1,845) |
+| Stock-based compensation | 371 | 361 | 355 |
+
+*(14 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0114`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0031`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| RESULTS OF DISCONTINUED OPERATIONSFor the year ended December 31, 2025 | GE Vernova | Bank BPH & Other | Total |
+|---|---|---|---|
+| Total revenue | $— | $— | $— |
+| Cost of equipment and services sold | — | — | — |
+| Other income, costs and expenses | — | (47) | (47) |
+| Net Income (loss) of discontinued operations before income taxes | — | (47) | (47) |
+| Benefit (provision) for income taxes | 125 | 9 | 134 |
+| Net Income (loss) of discontinued operations, net of taxes | 125 | (38) | 87 |
+| Gain (loss) on disposal before income taxes | — | 16 | 16 |
+| Benefit (provision) for income taxes | — | — | — |
+| Gain (loss) on disposal, net of taxes | — | 16 | 16 |
+| Net Income (loss) from discontinued operations, net of taxes | $125 | $(22) | $103 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0020`, `u-src-ge-10k-fy2025-a73b722f-0021`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0032`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| For the year ended December 31, 2024 | GE Vernova | Bank BPH & Other | Total |
+|---|---|---|---|
+| Total revenue | $7,244 | $— | $7,244 |
+| Cost of equipment and services sold | (6,074) | — | (6,074) |
+| Other income, costs and expenses | (1,299) | (21) | (1,320) |
+| Net Income (loss) of discontinued operations before income taxes | (129) | (21) | (150) |
+| Benefit (provision) for income taxes | 27 | 13 | 40 |
+| Net Income (loss) of discontinued operations, net of taxes | (102) | (8) | (110) |
+| Gain (loss) on disposal before income taxes | — | 21 | 21 |
+| Benefit (provision) for income taxes | — | (1) | (1) |
+| Gain (loss) on disposal, net of taxes | — | 19 | 19 |
+| Net Income (loss) from discontinued operations, net of taxes | $(102) | $12 | $(91) |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0020`, `u-src-ge-10k-fy2025-a73b722f-0021`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0033`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| For the year ended December 31, 2023 | GE Vernova | Bank BPH & Other | Total |
+|---|---|---|---|
+| Total revenue | $33,265 | $— | $33,265 |
+| Cost of equipment and services sold | (28,205) | — | (28,205) |
+| Other income, costs and expenses | (5,306) | (1,301) | (6,607) |
+| Net Income (loss) of discontinued operations before income taxes | (246) | (1,301) | (1,547) |
+| Benefit (provision) for income taxes(a) | (171) | 1,710 | 1,539 |
+| Net Income (loss) of discontinued operations, net of taxes | (417) | 409 | (8) |
+| Gain (loss) on disposal before income taxes | — | 6 | 6 |
+| Benefit (provision) for income taxes | — | — | — |
+| Gain (loss) on disposal, net of taxes | — | 6 | 6 |
+| Net Income (loss) from discontinued operations, net of taxes | $(417) | $414 | $(3) |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0020`, `u-src-ge-10k-fy2025-a73b722f-0021`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0034`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| ASSETS AND LIABILITIES OF DISCONTINUED OPERATIONS | December 31, 2025 | December 31, 2024 |
+|---|---|---|
+| Cash, cash equivalents and restricted cash(a) | $1,126 | $1,327 |
+| Current receivables | 35 | 13 |
+| Property, plant, and equipment - net | 26 | 40 |
+| All other assets | 648 | 438 |
+| Deferred income taxes | 21 | 24 |
+| Assets of discontinued operations(b) | $1,855 | $1,841 |
+| Accounts payable | $35 | $30 |
+| Non-current compensation and benefits | 32 | 33 |
+| All other liabilities | 1,347 | 1,254 |
+| Liabilities of discontinued operations(b) | $1,413 | $1,317 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0035`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | December 31, 2025 |   |   |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   |
+| Debt |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| U.S. corporate |   | $27,658 |   | $825 |   | $(1,969) |   | $26,513 |   | $28,456 |   | $546 |   | $(2,309) |   | $26,692 |
+| Non-U.S. corporate | 2,909 |   | 41 |   | (242) |   | 2,707 |   | 2,970 |   | 23 |   | (302) |   | 2,691 |   |
+| State and municipal | 2,751 |   | 46 |   | (192) |   | 2,605 |   | 2,409 |   | 22 |   | (235) |   | 2,196 |   |
+| Mortgage and asset-backed | 5,202 |   | 69 |   | (121) |   | 5,151 |   | 5,007 |   | 47 |   | (183) |   | 4,870 |   |
+| Government and agencies | 1,015 |   | 4 |   | (95) |   | 924 |   | 1,180 |   | 4 |   | (118) |   | 1,066 |   |
+| Equity | 887 |   | — |   | — |   | 887 |   | 225 |   | — |   | — |   | 225 |   |
+| Non-current investment securities |   | $40,422 |   | $985 |   | $(2,619) |   | $38,788 |   | $40,248 |   | $641 |   | $(3,148) |   | $37,741 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0036`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| For the years ended December 31 | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Net unrealized gains (losses) for equity securities with readily determinable fair value (RDFV) | $313 | $320 | $6,413 |
+| Proceeds from debt/equity securities sales and redemptions | 4,922 | 9,099 | 12,595 |
+| Gross realized gains on debt securities | 35 | 75 | 52 |
+| Gross realized losses and impairments on debt securities | (76) | (66) | (66) |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0037`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| For the years ended December 31 | 2025 | 2024 |
+|---|---|---|
+| Purchases of investment securities | $(4,050) | $(7,132) |
+| Dispositions and maturities of investment securities | 4,475 | 6,168 |
+| Net (purchases) dispositions of insurance investment securities | $425 | $(963) |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0038`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | Amortized cost |   | Estimated fair value |   |
+|---|---|---|---|---|
+| Within one year |   | $843 |   | $847 |
+| After one year through five years | 3,460 |   | 3,561 |   |
+| After five years through ten years | 5,269 |   | 5,498 |   |
+| After ten years | 24,762 |   | 22,845 |   |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0039`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**CURRENT RECEIVABLES**
+
+| CURRENT RECEIVABLES |   |   |
+|---|---|---|
+| December 31 | 2025 | 2024 |
+| Customer receivables | $9,269 | $7,385 |
+| Revenue sharing and other partner receivables(a) | 1,322 | 1,113 |
+| Non-income based tax receivables | 165 | 128 |
+| Supplier advances | 867 | 546 |
+| Receivables from disposed businesses | 34 | 99 |
+| Other sundry receivables | 209 | 162 |
+| Allowance for credit losses | (94) | (106) |
+| Total current receivables | $11,773 | $9,327 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0040`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**LONG-TERM RECEIVABLES**
+
+| LONG-TERM RECEIVABLES |   |   |
+|---|---|---|
+| December 31 | 2025 | 2024 |
+| Long-term customer receivables | $173 | $122 |
+| Supplier advances | 94 | 50 |
+| Sundry receivables | 105 | 106 |
+| Allowance for credit losses | (96) | (85) |
+| Total long-term receivables | $276 | $194 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0041`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| December 31 | 2025 | 2024 |
+|---|---|---|
+| Raw materials and work in process | $9,354 | $7,372 |
+| Finished goods | 1,542 | 1,459 |
+| Deferred inventory costs(a) | 972 | 932 |
+| Inventories, including deferred inventory costs | $11,868 | $9,763 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0042`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | Depreciable lives | Original Cost |   |   |   | Net Carrying Value |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|
+| December 31 | (in years) | 2025 |   | 2024 |   |   | 2025 |   | 2024 |   |
+| Land and improvements | 8 |   | $139 |   | $131 |   |   | $137 |   | $129 |
+| Buildings, structures and related equipment | 8 - 40 | 3,295 |   | 3,146 |   |   | 1,411 |   | 1,369 |   |
+| Machinery and equipment | 4 - 20 | 12,757 |   | 11,533 |   |   | 4,432 |   | 3,851 |   |
+| Leasehold costs and manufacturing plant under construction | 1 - 10 | 1,197 |   | 1,084 |   |   | 989 |   | 872 |   |
+| ROU operating lease assets |   |   |   |   |   |   | 1,018 |   | 1,057 |   |
+| Property, plant and equipment - net |   |   | $17,388 |   | $15,894 |   |   | $7,987 |   | $7,277 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0043`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+|   | Property, plant andequipment additions |   |   |   |   |   | Depreciation and amortization |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| December 31 | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   |
+| Commercial Engines & Services |   | $498 |   | $431 |   | $343 |   | $402 |   | $370 |   | $356 |
+| Defense & Propulsion Technologies | 184 |   | 135 |   | 145 |   | 153 |   | 150 |   | 147 |   |
+| Corporate and Other(a) | 471 |   | 353 |   | 278 |   | 307 |   | 314 |   | 294 |   |
+| Total |   | $1,153 |   | $920 |   | $766 |   | $863 |   | $834 |   | $797 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0002`, `u-src-ge-10k-fy2025-a73b722f-0003`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0044`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| OPERATING LEASE EXPENSE | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Long-term (fixed) | $309 | $326 | $364 |
+| Long-term (variable) | 30 | 111 | 26 |
+| Short-term | 47 | 45 | 115 |
+| Total operating lease expense | $385 | $482 | $506 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0045`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| MATURITY OF LEASE LIABILITIES | 2026 |   | 2027 |   | 2028 |   | 2029 |   | 2030 |   | Thereafter |   | Total |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Undiscounted lease payments |   | $278 |   | $221 |   | $176 |   | $154 |   | $117 |   | $377 |   | $1,323 |
+| Less: imputed interest |   |   |   |   |   |   |   |   |   |   |   |   | (260) |   |
+| Total lease liability as of December 31, 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   | $1,063 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0046`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| SUPPLEMENTAL INFORMATION RELATED TO OPERATING LEASES | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Operating cash flows used for operating leases | $329 | $352 | $427 |
+| Right-of-use assets obtained in exchange for new lease liabilities | 238 | 196 | 275 |
+| Weighted-average remaining lease term | 7.6 years | 7.8 years | 7.7 years |
+| Weighted-average discount rate | 4.7% | 4.6% | 4.5% |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0047`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+|   | Commercial Engines & Services |   | Defense & Propulsion Technologies |   | Total |   |
+|---|---|---|---|---|---|---|
+| Balance at December 31, 2023 |   | $6,472 |   | $2,476 |   | $8,948 |
+| Goodwill impairment | — |   | (251) |   | (251) |   |
+| Goodwill adjustments(a) | (131) |   | (28) |   | (159) |   |
+| Balance at December 31, 2024 |   | $6,341 |   | $2,197 |   | $8,538 |
+| Goodwill acquisition | — |   | 148 |   | 148 |   |
+| Goodwill adjustments(a) | 303 |   | 72 |   | 374 |   |
+| Balance at December 31, 2025 |   | $6,644 |   | $2,417 |   | $9,060 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0002`, `u-src-ge-10k-fy2025-a73b722f-0003`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0048`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   |   | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| INTANGIBLE ASSETS SUBJECT TO AMORTIZATION December 31 | Useful lives (in years) | Gross carryingamount |   | Accumulatedamortization |   | Net |   | Gross carryingamount |   | Accumulatedamortization |   | Net |   |
+| Customer-related(a) | 5-20 |   | $3,992 |   | $(2,313) |   | $1,679 |   | $3,850 |   | $(2,083) |   | $1,767 |
+| Patents and technology | 5-15 | 2,946 |   | (916) |   | 2,031 |   | 2,744 |   | (759) |   | 1,985 |   |
+| Capitalized software | 5-10 | 1,366 |   | (859) |   | 507 |   | 1,296 |   | (803) |   | 493 |   |
+| Trademarks & other | 13 | 77 |   | (67) |   | 9 |   | 70 |   | (58) |   | 13 |   |
+| Total |   |   | $8,380 |   | $(4,155) |   | $4,225 |   | $7,960 |   | $(3,703) |   | $4,257 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0049`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| ESTIMATED 5 YEAR CONSOLIDATED AMORTIZATION | 2026 | 2027 | 2028 | 2029 | 2030 |
+|---|---|---|---|---|---|
+| Estimated annual pre-tax amortization | 351 | 356 | 357 | 376 | 371 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0050`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| CONTRACT ASSETS, LIABILITIES AND OTHER DEFERRED ASSETS AND INCOME | December 31, 2025 | December 31, 2024 |
+|---|---|---|
+| Long-term service agreements | $2,792 | $2,374 |
+| Equipment and other service agreements | 719 | 609 |
+| Current contract assets | $3,511 | $2,982 |
+| Nonrecurring engineering costs(a) | $2,423 | $2,438 |
+| Customer advances and other(b) | 2,497 | 2,393 |
+| Contract and other deferred assets | 4,920 | 4,831 |
+| Total contract and other deferred assets | $8,431 | $7,814 |
+| Long-term service agreement liabilities | $10,016 | $8,994 |
+| Current deferred income | 317 | 359 |
+| Contract liabilities and current deferred income | $10,333 | $9,353 |
+| Non-current deferred income | 1,065 | 1,013 |
+
+*(2 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0051`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| December 31 |   | 2025 |   |   | 2024 |   |   |
+|---|---|---|---|---|---|---|---|
+|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
+| Current portion of long-term borrowings |   |   |   |   |   |   |   |
+| Senior notes | 2026 |   | $1,504 | 4.00% | $1,952 |   | 4.03% |
+| Subordinated notes and other | 2026 | 157 |   |   | 87 |   |   |
+| Other short-term |   | 25 |   |   | — |   |   |
+| Total short-term borrowings |   |   | $1,686 |   |   | $2,039 |   |
+|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
+| Senior notes(a) | 2027 - 2050 |   | $16,773 | 4.00% |   | $15,467 | 4.03% |
+| Subordinated notes | 2035 - 2037 | 1,456 |   | 4.40% | 1,330 |   | 4.43% |
+| Other |   | 580 |   |   | 437 |   |   |
+| Total long-term borrowings |   |   | $18,808 |   |   | $17,234 |   |
+
+*(1 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0052`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | 2026 |   | 2027 | 2028 | 2029 | 2030 | Thereafter | Total |
+|---|---|---|---|---|---|---|---|---|
+| Long-term debt maturities | 1,661 | (a) | 1,693 | 480 | 1,639 | 1,700 | 13,296 | 20,469 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0053`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| December 31 | 2025 | 2024 |
+|---|---|---|
+| Trade payables | $5,734 | $4,565 |
+| Supply chain finance programs | 1,247 | 1,259 |
+| Revenue sharing and other partner payables(a) | 2,553 | 1,689 |
+| Sundry payables | 544 | 397 |
+| Accounts payable | $10,078 | $7,909 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0054`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| December 31, 2025 | Long-term care | Structured settlement annuities | Life | Other contracts | Total |
+|---|---|---|---|---|---|
+| Future policy benefit reserves | $25,792 | $8,383 | $906 | $357 | $35,438 |
+| Investment contracts | — | 647 | — | 493 | 1,140 |
+| Other | — | — | 113 | 203 | 316 |
+| Total | $25,792 | $9,031 | $1,019 | $1,053 | $36,894 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0051`, `u-src-ge-10k-fy2025-a73b722f-0052`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0055`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| December 31, 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|
+| Future policy benefit reserves | $24,675 | $8,426 | $1,018 | $357 | $34,476 |
+| Investment contracts | — | 719 | — | 621 | 1,340 |
+| Other | — | — | 116 | 277 | 394 |
+| Total | $24,675 | $9,145 | $1,134 | $1,254 | $36,209 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0090`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0056`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Present value of expected net premiums | Long-term care |   | Structured settlement annuities |   | Life |   | Long-term care |   | Structured settlement annuities |   | Life |   |
+| Balance, beginning of year |   | $4,144 |   | $— |   | $4,318 |   | $4,063 |   | $— |   | $4,803 |
+| Beginning balance at locked-in discount rate | 3,991 |   | — |   | 4,415 |   | 3,745 |   | — |   | 4,773 |   |
+| Effect of changes in cash flow assumptions | 355 |   | — |   | 4 |   | 465 |   | — |   | (1) |   |
+| Effect of actual variances from expected experience(a) | (19) |   | — |   | (2,681) |   | (26) |   | — |   | 8 |   |
+| Adjusted beginning of year balance | 4,327 |   | — |   | 1,738 |   | 4,184 |   | — |   | 4,780 |   |
+| Interest accrual | 221 |   | — |   | 164 |   | 209 |   | — |   | 177 |   |
+| Net premiums collected | (408) |   | — |   | (292) |   | (403) |   | — |   | (309) |   |
+| Effect of foreign currency | — |   | — |   | 103 |   | — |   | — |   | (234) |   |
+| Ending balance at locked-in discount rate | 4,140 |   | — |   | 1,714 |   | 3,991 |   | — |   | 4,415 |   |
+| Effect of changes in discount rate assumptions | 287 |   | — |   | 119 |   | 154 |   | — |   | (97) |   |
+
+*(24 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0057`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 3 units
+
+**DESCRIPTION OF OUR PLANS**
+
+| DESCRIPTION OF OUR PLANS |   |   |   |   |
+|---|---|---|---|---|
+| Plan Category |   | Participants | Funding | Comments |
+| Principal Pension Plans | GE Aerospace Pension Plan | Covers U.S. GE Aerospace participants: ~79,000 retirees and beneficiaries, ~33,000 vested former employees and ~9,000 active employees | Our funding policy is to contribute amounts sufficient to meet minimum funding requirements under employee benefit and tax laws. We may decide to contribute additional amounts beyond this level. | Closed to new participants since 2012. Benefits for employees with salaried benefits were frozen effective January 1, 2021, and thereafter these employees receive increased company contributions in the company sponsored defined contribution plan in lieu of participation in a defined benefit plan (announced October 2019). |
+|   | GE Aerospace Supplementary Pension Plan | Provides supplementary benefits to higher-level, longer-service U.S. employees | Unfunded. We pay benefits on a pay-as-you-go basis from company cash. | The annuity benefit has been closed to new participants since 2011 and has been replaced by an installment benefit (which was closed to new executives after 2020). Benefits for employees who became executives before 2011 were frozen effective January 1, 2021, and thereafter these employees accrue the installment benefit. |
+| Other Pension Plans(a) | 6 U.S. and non-U.S. pension plans with pension assets or obligations that have reached $50 million | Covers ~11,100 retirees and beneficiaries, ~10,300 vested former employees and ~800 active employees | Our funding policy is to contribute amounts sufficient to meet minimum funding requirements under employee benefit and tax laws in each country. We may decide to contribute additional amounts beyond this level. We pay benefits for some plans from company cash. | In certain countries, benefit accruals have ceased and/or have been closed to new hires as of various dates. |
+| Principal Retiree Benefit Plans | Provides health and life insurance benefits to certain eligible participants | Covers U.S. GE Aerospace participants: ~40,000 retirees and dependents and ~10,000 active employees | We fund retiree benefit plans on a pay-as-you-go basis and the retiree benefit insurance trust at our discretion. | Participants share in the cost of the healthcare benefits. |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0099`, `u-src-ge-10k-fy2025-a73b722f-0100`, `u-src-ge-10k-fy2025-a73b722f-0101`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0058`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 3 units
+
+| FUNDING STATUS BY PLAN TYPE | Benefit Obligation |   |   |   | Fair Value of Assets |   |   |   | Deficit/(Surplus) |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
+| Principal Pension Plans: |   |   |   |   |   |   |   |   |   |   |   |   |
+| GE Aerospace Pension Plan (subject to regulatory funding) |   | $21,053 |   | $21,010 |   | $19,216 |   | $19,020 |   | $1,837 |   | $1,990 |
+| GE Aerospace Supplementary Pension Plan | 2,872 |   | 2,814 |   | — |   | — |   | 2,872 |   | 2,814 |   |
+|   | 23,925 |   | 23,824 |   | 19,216 |   | 19,020 |   | 4,709 |   | 4,804 |   |
+| Other Pension Plans: |   |   |   |   |   |   |   |   |   |   |   |   |
+| Subject to regulatory funding | 3,027 |   | 2,736 |   | 3,831 |   | 3,592 |   | (804) |   | (856) |   |
+| Not subject to regulatory funding | 397 |   | 404 |   | — |   | — |   | 397 |   | 404 |   |
+| Principal retiree benefit plans for GE Aerospace (not subject to regulatory funding) | 1,135 |   | 1,202 |   | 5 |   | 6 |   | 1,130 |   | 1,196 |   |
+| Total plans subject to regulatory funding | 24,080 |   | 23,746 |   | 23,047 |   | 22,612 |   | 1,033 |   | 1,134 |   |
+| Total plans not subject to regulatory funding | 4,404 |   | 4,420 |   | 5 |   | 6 |   | 4,399 |   | 4,414 |   |
+
+*(1 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0098`, `u-src-ge-10k-fy2025-a73b722f-0099`, `u-src-ge-10k-fy2025-a73b722f-0100`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0059`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+| COST OF OUR BENEFITS PLANS AND ASSUMPTIONS | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   | 2023 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   |
+| Components of expense (income) |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Service cost - operating |   | $59 |   | $2 |   | $13 |   | $71 |   | $22 |   | $13 |   | $94 |   | $37 |   | $17 |
+| Interest cost | 1,301 |   | 173 |   | 62 |   | 1,401 |   | 227 |   | 71 |   | 1,892 |   | 422 |   | 111 |   |
+| Expected return on plan assets | (1,500) |   | (207) |   | — |   | (1,751) |   | (310) |   | — |   | (2,376) |   | (587) |   | — |   |
+| Amortization of net loss (gain) | (506) |   | 30 |   | (60) |   | (468) |   | 41 |   | (82) |   | (723) |   | 20 |   | (124) |   |
+| Amortization of prior service cost (credit) | (9) |   | — |   | (81) |   | 6 |   | (1) |   | (103) |   | 5 |   | (4) |   | (148) |   |
+| Curtailment / settlement loss (gain) | — |   |   |   | — |   | — |   |   |   | — |   | — |   | (6) |   | — |   |
+| Non-operating |   | $(714) |   | $(4) |   | $(79) |   | $(812) |   | $(43) |   | $(114) |   | $(1,202) |   | $(155) |   | $(161) |
+| Net periodic expense (income) |   | $(655) |   | $(2) |   | $(66) |   | $(741) |   | $(21) |   | $(101) |   | $(1,108) |   | $(118) |   | $(144) |
+| Less: discontinued operations | — |   | — |   | — |   | (88) |   | (12) |   | (15) |   | (377) |   | (78) |   | (57) |   |
+
+*(8 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0098`, `u-src-ge-10k-fy2025-a73b722f-0100`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0060`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 3 units
+
+**PLAN FUNDED STATUS AND AMOUNTS RECORDED IN ACCUMULATED OTHER COMPREHENSIVE LOSS (INCOME)**
+
+| PLAN FUNDED STATUS AND AMOUNTS RECORDED IN ACCUMULATED OTHER COMPREHENSIVE LOSS (INCOME) |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | 2025 |   |   |   |   |   |   |   | 2024 |   |   |   |   |   |
+|   | Principal pension |   |   | Other pension |   | Principal retiree benefit |   |   | Principal pension |   | Other pension |   | Principal retiree benefit |   |
+| Change in benefit obligations |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Balance at January 1 |   | $23,824 |   |   | $3,140 |   | $1,202 |   |   | $36,217 |   | $10,377 |   | $2,055 |
+| Service cost | 59 |   |   | 2 |   | 13 |   |   | 71 |   | 22 |   | 13 |   |
+| Interest cost | 1,301 |   |   | 173 |   | 62 |   |   | 1,401 |   | 227 |   | 71 |   |
+| Participant contributions | 7 |   |   | — |   | 18 |   |   | 8 |   | 4 |   | 21 |   |
+| Plan amendments | 36 |   |   | 135 |   | (5) |   |   | — |   | — |   | — |   |
+| Actuarial loss (gain) - net (a) | 472 |   |   | (4) |   | (12) |   |   | (1,049) |   | (435) |   | (15) |   |
+| Benefits paid | (1,774) |   |   | (185) |   | (143) |   |   | (1,957) |   | (305) |   | (192) |   |
+| Dispositions/acquisitions/other - net | — |   |   | (24) |   | — |   |   | (10,867) |   | (6,548) |   | (751) |   |
+
+*(22 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0098`, `u-src-ge-10k-fy2025-a73b722f-0100`, `u-src-ge-10k-fy2025-a73b722f-0116`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0061`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3 |   |   |   | Assets measured at NAV |   |   |   | Total |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
+| Asset Category |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Global equity |   | $1,200 |   | $1,156 |   | $230 |   | $203 |   |   |   |   |   | $2,410 |   | $1,912 |   | $3,840 |   | $3,271 |
+| Fixed income and cash investment funds | 952 |   | 1,299 |   | 1,617 |   | 1,448 |   |   |   |   |   |   |   |   |   | 2,569 |   | 2,747 |   |
+| U.S. corporate(a) |   |   |   |   | 2,496 |   | 3,125 |   |   |   |   |   |   |   |   |   | 2,496 |   | 3,125 |   |
+| Other debt securities(b) |   |   |   |   | 2,957 |   | 3,152 |   |   |   |   |   | 2,263 |   | 1,851 |   | 5,220 |   | 5,003 |   |
+| Real estate |   |   |   |   |   |   |   |   | 449 |   | 541 |   | 934 |   | 995 |   | 1,383 |   | 1,536 |   |
+| Private equities and other investments |   |   |   |   |   |   |   |   | 246 |   | 312 |   | 7,079 |   | 6,385 |   | 7,325 |   | 6,697 |   |
+| Derivatives, net(c) | (67) |   | (139) |   | 12 |   | 20 |   |   |   |   |   |   |   |   |   | (55) |   | (119) |   |
+| Cash |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 284 |   | 297 |   |
+| Payables |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | (400) |   | (440) |   |
+
+*(2 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0062`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| ASSET ALLOCATION OF PENSION PLANS | 2025 Target allocation |   | 2025 Actual allocation |   |
+|---|---|---|---|---|
+|   | Principal Pension | Other Pension (weighted average) | Principal Pension | Other Pension (weighted average) |
+| Global equities | 10.0 - 30.0% | 14% | 18% | 12% |
+| Debt securities (including cash equivalents) | 19.0 - 87.5 | 65 | 41 | 65 |
+| Real estate | 1.0 - 10.0 | 6 | 6 | 7 |
+| Private equities & other investments | 12.0 - 44.0 | 15 | 35 | 16 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0063`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| EXPECTED FUTURE BENEFIT PAYMENTS OF OUR BENEFIT PLANS(a) | Principal pension | Other pension | Principal retiree benefit |
+|---|---|---|---|
+| 2026 | $1,815 | $190 | $120 |
+| 2027 | 1,820 | 190 | 115 |
+| 2028 | 1,825 | 200 | 115 |
+| 2029 | 1,825 | 205 | 110 |
+| 2030 | 1,820 | 210 | 110 |
+| 2031-2035 | 8,825 | 1,115 | 465 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0064`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+**COST OF POSTRETIREMENT BENEFIT PLANS AND CHANGES IN OTHER COMPREHENSIVE INCOME**
+
+| COST OF POSTRETIREMENT BENEFIT PLANS AND CHANGES IN OTHER COMPREHENSIVE INCOME |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| For the years ended December 31 | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   | 2023 |   |   |   |   |   |
+| (Pre-tax) | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   | Principal pension |   | Other pension |   | Principal retiree benefit |   |
+| Cost (income) of postretirement benefit plans |   | $(655) |   | $(2) |   | $(66) |   | $(741) |   | $(21) |   | $(101) |   | $(1,108) |   | $(118) |   | $(144) |
+| Changes in other comprehensive loss (income) |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Prior service cost (credit) - current year | 36 |   | 135 |   | (5) |   | — |   | — |   | — |   | 49 |   | — |   | — |   |
+| Net loss (gain) - current year (a) | 221 |   | 132 |   | (11) |   | 262 |   | (52) |   | (15) |   | 1,588 |   | 721 |   | (5) |   |
+| Reclassifications out of AOCI |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Curtailment/settlement gain (loss) | — |   | — |   | — |   | — |   | — |   | — |   | — |   | 6 |   | — |   |
+| Dispositions | — |   | — |   | — |   | 185 |   | (761) |   | 715 |   | 1,989 |   | (792) |   | 1,216 |   |
+| Amortization of net gain (loss) | 506 |   | (30) |   | 60 |   | 468 |   | (41) |   | 82 |   | 723 |   | (20) |   | 124 |   |
+| Amortization of prior service credit (cost) | 9 |   | — |   | 81 |   | (6) |   | 1 |   | 103 |   | (5) |   | 4 |   | 148 |   |
+
+*(2 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0114`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0065`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| INCOME (LOSS) FROM CONTINUING OPERATIONS BEFORE INCOME TAXES | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| U.S. income (loss) | $6,659 | $4,809 | $7,195 |
+| Non-U.S. income (loss) | 3,341 | 2,811 | 3,246 |
+| Total | $10,000 | $7,620 | $10,441 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0066`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| INCOME TAX PAYMENTS | 2025 |
+|---|---|
+| U.S. Federal(a) | $150 |
+| U.S. State(a) | 7 |
+| Non-U.S: |   |
+| Singapore | 178 |
+| United Kingdom | 78 |
+| Ireland | 60 |
+| Hungary | 52 |
+| Italy | 46 |
+| India | 36 |
+| Other Non-U.S. | 132 |
+| Total income taxes paid (received), continuing operations | $739 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0067`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| PROVISION (BENEFIT) FOR INCOME TAXES | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Current |   |   |   |
+| U.S. Federal | $671 | $310 | $(588) |
+| Non-U.S. | 709 | 423 | 314 |
+| U.S. State | (72) | 48 | 134 |
+| Deferred |   |   |   |
+| U.S. Federal | (35) | 250 | 622 |
+| Non-U.S. | 32 | 59 | 453 |
+| U.S. State | 100 | (128) | 59 |
+| Total | $1,405 | $962 | $994 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0012`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0068`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| RECONCILIATION OF U.S. FEDERAL STATUTORY INCOME TAX RATE TO EFFECTIVE INCOME TAX RATE | 2025 |   |   |
+|---|---|---|---|
+|   | Amount |   | Rate |
+| U.S. federal statutory income tax rate |   | $2,100 | 21.0% |
+| State and local income taxes, net of federal income tax effect(a) | 74 |   | 0.7% |
+| Foreign tax effects: |   |   |   |
+| Singapore |   |   |   |
+| Statutory rate difference between foreign and U.S. | (70) |   | (0.7)% |
+| Local taxes at a rate different than the statutory rate(b) | (37) |   | (0.4)% |
+| Other | 53 |   | 0.5% |
+| Other foreign jurisdictions | 68 |   | 0.7% |
+| Effect of cross-border tax laws |   |   |   |
+| Foreign-derived intangible income | (338) |   | (3.4)% |
+
+*(9 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0115`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0069`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| RECONCILIATION OF U.S. FEDERAL STATUTORY INCOME TAX RATE TO EFFECTIVE INCOME TAX RATE | 2024 |   |   |   | 2023 |   |   |   |
+|---|---|---|---|---|---|---|---|---|
+|   |   | Amount |   | Rate |   | Amount |   | Rate |
+| U.S. federal statutory income tax rate |   |   | $1,600 | 21.0% |   |   | $2,193 | 21.0% |
+| State Taxes, net of federal benefit |   | 123 |   | 1.6 |   | 152 |   | 1.5 |
+| Tax on global activities including exports(a) |   | (92) |   | (1.2) |   | 78 |   | 0.7 |
+| U.S. business credits(b) |   | (242) |   | (3.2) |   | (254) |   | (2.4) |
+| Retained and sold ownership interests |   | (110) |   | (1.4) |   | (1,215) |   | (11.6) |
+| All other – net(c) |   | (317) |   | (4.2) |   | 40 |   | 0.3 |
+|   |   | (638) |   | (8.4) |   | (1,199) |   | (11.5) |
+| Effective income tax rate |   |   | $962 | 12.6% |   |   | $994 | 9.5% |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0070`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| UNRECOGNIZED TAX BENEFITS December 31 | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Unrecognized tax benefits | $3,056 | $2,824 | $3,399 |
+| Portion that, if recognized, would reduce tax expense and effective tax rate(a) | 2,381 | 2,110 | 2,708 |
+| Accrued interest on unrecognized tax benefits | 656 | 609 | 635 |
+| Accrued penalties on unrecognized tax benefits | 11 | 14 | 111 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0071`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| UNRECOGNIZED TAX BENEFITS RECONCILIATION | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Balance at January 1 | $2,824 | $3,399 | $3,951 |
+| Additions for tax positions of the current year | 347 | 68 | 109 |
+| Additions for tax positions of prior years | 93 | 77 | 156 |
+| Reductions for tax positions of prior years(a) | (168) | (649) | (710) |
+| Settlements with tax authorities | (30) | (14) | (56) |
+| Expiration of the statute of limitations | (10) | (57) | (51) |
+| Balance at December 31 | $3,056 | $2,824 | $3,399 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0072`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| DEFERRED INCOME TAXES December 31 | 2025 | 2024 |
+|---|---|---|
+| Total assets | $7,883 | $7,479 |
+| Total liabilities | (424) | (368) |
+| Net deferred income tax asset (liability) | $7,459 | $7,111 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0073`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| COMPONENTS OF THE NET DEFERRED INCOME TAX ASSET (LIABILITY) December 31 | 2025 | 2024 |
+|---|---|---|
+| Deferred tax assets |   |   |
+| Insurance company loss reserves | $2,398 | $2,349 |
+| Progress collections, Contract assets, Contract liabilities and deferred items | 1,764 | 1,435 |
+| Accrued expenses and reserves | 1,278 | 1,231 |
+| Deferred expenses | 1,231 | 1,398 |
+| Other compensation and benefits | 580 | 510 |
+| Principal pension plans | 989 | 1,009 |
+| Non-U.S. loss carryforwards(a) | 2,133 | 1,891 |
+| Capital losses carryforward | 881 | 849 |
+| State deferred tax assets(b) | 684 | 762 |
+| Other | 1,522 | 1,514 |
+
+*(10 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0074`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**DEFERRED TAX ASSETS VALUATION ALLOWANCE**
+
+| DEFERRED TAX ASSETS VALUATION ALLOWANCE |   |
+|---|---|
+| Balance at December 31, 2022 | $(5,164) |
+| Additions charged to income tax expense | — |
+| Reductions credited to income tax expense | 102 |
+| Other adjustments(a) | 1,646 |
+| Balance at December 31, 2023 | $(3,416) |
+| Additions charged to income tax expense | (2) |
+| Reductions credited to income tax expense | 184 |
+| Other adjustments | 18 |
+| Balance at December 31, 2024 | $(3,216) |
+| Additions charged to income tax expense | (2) |
+| Reductions credited to income tax expense | 71 |
+
+*(2 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0075`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS) (Dividends per share in dollars) | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Beginning balance | $(1,472) | $(3,623) | $(5,893) |
+| AOCI before reclasses – net of taxes of $(157), $5 and $74 | (43) | 36 | 12 |
+| Reclasses from AOCI – net of taxes of $—, $103 and $(626)(a) | — | 2,093 | 2,262 |
+| AOCI | (43) | 2,129 | 2,274 |
+| Less AOCI attributable to noncontrolling interests | — | (22) | 4 |
+| Currency translation adjustments AOCI | $(1,515) | $(1,472) | $(3,623) |
+| Beginning balance | $665 | $1,786 | $6,531 |
+| AOCI before reclasses – net of taxes of $(117), $22 and $(497) | (393) | (8) | (1,874) |
+| Reclasses from AOCI – net of taxes of $(137), $(269) and $(778)(a) | (489) | (1,119) | (2,873) |
+| AOCI | (882) | (1,127) | (4,747) |
+| Less AOCI attributable to noncontrolling interests | — | (7) | (2) |
+
+*(13 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0076`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| WEIGHTED AVERAGE GRANT DATE FAIR VALUE | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Stock options | $79.55 | $65.16 | $36.10 |
+| RSUs | 212.45 | 160.70 | 89.6 |
+| PSUs | 221.46 | 150.05 | 89.44 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0077`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| STOCK-BASED COMPENSATION ACTIVITY | Stock options |   |   |   |   |   | RSUs |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Shares (in thousands) | Weighted average exercise price |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   | Shares (in thousands) | Weighted average grant date fair value |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   |
+| Outstanding at January 1, 2025 | 10,917 |   | $91.78 |   |   |   | 3,607 |   | $103.70 |   |   |   |
+| Granted | 569 | 202.16 |   |   |   |   | 380 | 212.45 |   |   |   |   |
+| Exercised | (4,102) | 104.40 |   |   |   |   | (1,459) | 67.10 |   |   |   |   |
+| Forfeited | (83) | 172.13 |   |   |   |   | (137) | 135.42 |   |   |   |   |
+| Expired | (37) | 122.58 |   |   |   |   | N/A | N/A |   |   |   |   |
+| Outstanding at December 31, 2025 | 7,264 |   | $92.22 | 3.8 |   | $1,568 | 2,391 |   | $141.49 | 1.2 |   | $736 |
+| Exercisable at December 31, 2025 | 5,829 |   | $72.33 | 2.6 |   | $1,374 | N/A | N/A |   | N/A | N/A |   |
+| Expected to vest | 1,265 |   | $172.50 | 8.6 |   | $171 | 2,194 |   | $139.74 | 1.2 |   | $676 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0078`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Compensation expense (after-tax)(a) |   | $325 |   | $286 |   | $192 |
+| Cash received from stock options exercised | 428 |   | 1,492 |   | 565 |   |
+| Intrinsic value of stock options exercised and RSU/PSU/Performance shares vested | 853 |   | 1,754 |   | 561 |   |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0079`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | 2025 |   |   |   | 2024 |   |   |   | 2023 |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| (Earnings for per-share calculation, shares in millions, per-share amounts in dollars) | Diluted |   | Basic |   | Diluted |   | Basic |   | Diluted |   | Basic |   |
+| Net income (loss) from continuing operations(a) |   | $8,598 |   | $8,601 |   | $6,670 |   | $6,670 |   | $9,446 |   | $9,449 |
+| Preferred stock dividends and other and accretion of preferred share repurchase(b) | — |   | — |   | — |   | — |   | (295) |   | (295) |   |
+| Net income (loss) from continuing operations attributable to common shareholders(a) | 8,598 |   | 8,601 |   | 6,670 |   | 6,670 |   | 9,151 |   | 9,154 |   |
+| Net income (loss) from discontinued operations | 103 |   | 103 |   | (114) |   | (114) |   | 33 |   | 33 |   |
+| Net income (loss) attributable to common shareholders(a) | 8,701 |   | 8,704 |   | 6,556 |   | 6,556 |   | 9,184 |   | 9,187 |   |
+| Shares of common stock outstanding | 1,061 |   | 1,061 |   | 1,085 |   | 1,085 |   | 1,089 |   | 1,089 |   |
+| Employee compensation-related shares (including stock options) | 8 |   | — |   | 10 |   | — |   | 10 |   | — |   |
+| Total average equivalent shares | 1,068 |   | 1,061 |   | 1,094 |   | 1,085 |   | 1,099 |   | 1,089 |   |
+| EPS from continuing operations |   | $8.05 |   | $8.11 |   | $6.09 |   | $6.15 |   | $8.33 |   | $8.41 |
+| EPS from discontinued operations | 0.10 |   | 0.10 |   | (0.10) |   | (0.11) |   | 0.03 |   | 0.03 |   |
+
+*(2 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0080`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Investment in GE HealthCare realized and unrealized gain (loss) |   | $— |   | $480 |   | $5,639 |
+| Investment in and note with AerCap realized and unrealized gain (loss) | 21 |   | 38 |   | 129 |   |
+| Investment in Baker Hughes realized and unrealized gain (loss) | — |   | — |   | 10 |   |
+| Gains (losses) on retained and sold ownership interests |   | $21 |   | $518 |   | $5,778 |
+| Other net interest and investment income (loss)(a)(b) | 946 |   | 813 |   | 637 |   |
+| Licensing and royalty income | 175 |   | 210 |   | 148 |   |
+| Equity method income | 216 |   | 173 |   | 169 |   |
+| Purchases and sales of business interests(c) | 6 |   | 399 |   | (105) |   |
+| Other items | 123 |   | 151 |   | 92 |   |
+| Total other income (loss) |   | $1,487 |   | $2,264 |   | $6,718 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0081`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| RESTRUCTURING AND OTHER CHARGES | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Workforce reductions |   | $(33) |   | $107 |   | $166 |
+| Plant closures & associated costs and other asset write-downs | (51) |   | 74 |   | 84 |   |
+| Acquisition/disposition net charges and other | — |   | 366 |   | 10 |   |
+|   |   | $(84) |   | $546 |   | $260 |
+| Cost of equipment/services |   | $6 |   | $27 |   | $10 |
+| Selling, general and administrative expenses | (90) |   | 519 |   | 250 |   |
+| Total restructuring and other charges(a) |   | $(84) |   | $546 |   | $260 |
+| Restructuring and other cash expenditures(b) |   | $69 |   | $507 |   | $204 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0082`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS**
+
+| ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3(a) |   |   |   | Nettingadjustment(b) |   |   |   | Net balance(c) |   |   |   |
+| December 31 | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
+| Investment securities |   | $655 |   | $14 |   | $34,911 |   | $33,635 |   | $3,222 |   | $5,074 |   | $— |   | $— |   | $38,788 |   | $38,723 |
+| Derivatives | — |   | — |   | 247 |   | 243 |   | — |   | — |   | (60) |   | (55) |   | 187 |   | 188 |   |
+| Total assets |   | $655 |   | $14 |   | $35,158 |   | $33,878 |   | $3,222 |   | $5,074 |   | $(60) |   | $(55) |   | $38,975 |   | $38,911 |
+| Derivatives |   | $— |   | $— |   | $129 |   | $131 |   | $— |   | $— |   | $(58) |   | $(54) |   | $71 |   | $77 |
+| Other(d) | — |   | — |   | 400 |   | 367 |   | — |   | — |   | — |   | — |   | 400 |   | 367 |   |
+| Total liabilities |   | $— |   | $— |   | $530 |   | $498 |   | $— |   | $— |   | $(58) |   | $(54) |   | $472 |   | $444 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0083`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | Balance atJanuary 1 |   | Net realized/unrealized gains(losses)(a) |   | Purchases(b) |   | Sales & Settlements(c) |   | TransfersintoLevel 3 |   | Transfersout ofLevel 3(d) |   | Balance atDecember 31 |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Investment securities |   | $5,074 |   | $27 |   | $2,155 |   | $(2,753) |   | $13 |   | $(1,293) |   | $3,222 |
+| 2024 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Investment securities |   | $6,841 |   | $20 |   | $1,505 |   | $(768) |   | $12 |   | $(2,536) |   | $5,074 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0084`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   |   | December 31, 2025 |   |   |   | December 31, 2024 |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|
+|   |   | Carryingamount(net) |   | Estimatedfair value |   | Carryingamount(net) |   | Estimatedfair value |   |
+| Assets | Loans and other receivables(a) |   | $2,197 |   | $2,153 |   | $2,261 |   | $1,981 |
+| Liabilities | Borrowings (Note 10) | 20,494 |   | 20,558 |   | 19,273 |   | 18,805 |   |
+|   | Investment contracts(a) | 1,140 |   | 1,199 |   | 1,375 |   | 1,432 |   |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0085`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| FAIR VALUE OF DERIVATIVES |   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Classification(a) | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   |
+| Qualifying currency exchange contracts | Current |   | $2,125 |   | $38 |   | $17 |   | $1,873 |   | $36 |   | $40 |
+| Qualifying cross currency interest rate swaps | Non-Current | 3,079 |   | 20 |   | 62 |   | 416 |   | 8 |   | — |   |
+|   | Current | 471 |   | 17 |   | 39 |   | — |   | — |   | — |   |
+| Non-qualifying currency exchange contracts and other(b) | Current | 4,983 |   | 172 |   | 12 |   | 6,759 |   | 199 |   | 91 |   |
+| Gross derivatives |   |   | $10,659 |   | $247 |   | $129 |   | $9,047 |   | $243 |   | $131 |
+| Netting and credit adjustments |   |   |   |   | $(60) |   | $(58) |   |   |   | $(55) |   | $(54) |
+| Net derivatives recognized in statement of financial position |   |   |   |   | $187 |   | $71 |   |   |   | $188 |   | $77 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0086`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | Amount of Gain (Loss) Recognized in Other Comprehensive Income (Loss) on Derivatives |   |   |   | Amount of Gain (Loss) Reclassified from AOCI into Net Income |   |   |   |
+|---|---|---|---|---|---|---|---|---|
+|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
+| Cash flow hedges(a) |   | $133 |   | $(64) |   | $45 |   | $16 |
+| Net investment hedges | (798) |   | 348 |   | — |   | — |   |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0087`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+|   | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Balance at January 1 |   | $592 |   | $639 |   | $528 |
+| Current-year provisions | 242 |   | 275 |   | 277 |   |
+| Expenditures | (242) |   | (321) |   | (167) |   |
+| Other changes | 3 |   | (1) |   | — |   |
+| Balance at December 31 | 595 |   |   | $592 |   | $639 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0088`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| REVENUE | Total revenue |   |   |   |   |   | Intersegment revenue |   |   |   |   |   | External revenue |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Years ended December 31 | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   |
+| Commercial Engines & Services |   | $33,314 |   | $26,881 |   | $23,855 |   | $62 |   | $216 |   | $559 |   | $33,252 |   | $26,666 |   | $23,296 |
+| Defense & Propulsion Technologies | 10,554 |   | 9,478 |   | 8,961 |   | 1,686 |   | 1,453 |   | 1,253 |   | 8,868 |   | 8,025 |   | 7,708 |   |
+| Corporate & Other | 1,987 |   | 2,343 |   | 2,532 |   | (1,748) |   | (1,669) |   | (1,812) |   | 3,735 |   | 4,011 |   | 4,344 |   |
+| Total revenue |   | $45,855 |   | $38,702 |   | $35,348 |   | $— |   | $— |   | $— |   | $45,855 |   | $38,702 |   | $35,348 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0089`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+|   | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   | 2023 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Years ended December 31 | Equipment |   | Services |   | Total |   | Equipment |   | Services |   | Total |   | Equipment |   | Services |   | Total |   |
+| Commercial Engines & Services |   | $8,304 |   | $25,010 |   | $33,314 |   | $7,106 |   | $19,775 |   | $26,881 |   | $6,169 |   | $17,686 |   | $23,855 |
+| Defense & Propulsion Technologies | 5,128 |   | 5,426 |   | 10,554 |   | 4,208 |   | 5,270 |   | 9,478 |   | 4,000 |   | 4,961 |   | 8,961 |   |
+| Total segment revenue |   | $13,433 |   | $30,436 |   | $43,868 |   | $11,315 |   | $25,045 |   | $36,360 |   | $10,170 |   | $22,647 |   | $32,816 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0002`, `u-src-ge-10k-fy2025-a73b722f-0003`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0090`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 4 units
+
+| EXPENSES, PROFIT AND INCOME For the years ended December 31 | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Commercial Engines & Services |   |   |   |
+| Cost of revenue | $21,998 | $17,703 | $16,575 |
+| Selling, general and administrative expenses | 1,845 | 1,678 | 1,386 |
+| Research and development | 1,287 | 993 | 736 |
+| Other segment expenses (income)(a) | (677) | (548) | (484) |
+| Total Commercial Engines & Services expenses | 24,453 | 19,826 | 18,213 |
+| Defense & Propulsion Technologies |   |   |   |
+| Cost of revenue | 7,910 | 7,237 | 6,929 |
+| Selling, general and administrative expenses | 1,088 | 954 | 893 |
+| Research and development | 308 | 301 | 277 |
+| Other segment expenses (income)(a) | (48) | (75) | (46) |
+
+*(13 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0002`, `u-src-ge-10k-fy2025-a73b722f-0003`, `u-src-ge-10k-fy2025-a73b722f-0004`, `u-src-ge-10k-fy2025-a73b722f-0005`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0091`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| Years ended December 31 | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| U.S. | $18,194 | $17,340 | $17,105 |
+| Non-U.S. |   |   |   |
+| Europe | 8,603 | 7,800 | 7,248 |
+| Asia | 10,819 | 7,237 | 5,734 |
+| Americas | 3,664 | 2,593 | 1,862 |
+| Middle East and Africa | 4,575 | 3,734 | 3,399 |
+| Total Non-U.S. | $27,661 | $21,363 | $18,243 |
+| Total geographic revenue | $45,855 | $38,702 | $35,348 |
+| Non-U.S. revenue as a % of total revenue | 60% | 55% | 52% |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0092`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 3 units
+
+| December 31 | 2025 | 2024 |
+|---|---|---|
+| U.S. | $5,736 | $5,166 |
+| Non-U.S. |   |   |
+| Europe | 1,257 | 1,171 |
+| Asia | 505 | 497 |
+| Americas | 479 | 431 |
+| Other Global | 11 | 12 |
+| Total Non-U.S. | $2,252 | $2,111 |
+| Property, plant and equipment – net (Note 6) | $7,987 | $7,277 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0113`, `u-src-ge-10k-fy2025-a73b722f-0115`, `u-src-ge-10k-fy2025-a73b722f-0116`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0093`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 2 units
+
+**Equity method investment**
+
+|   | Equity method investment |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|
+|   | balance |   |   |   | Income (loss) from equity method investments |   |   |   |   |   |
+| December 31 | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2023 |   |
+| Commercial Engines & Services |   | $1,682 |   | $1,610 |   | $376 |   | $301 |   | $276 |
+| Defense & Propulsion Technologies | 189 |   | 186 |   | (2) |   | 8 |   | 8 |   |
+| Corporate & Other(a) | 5,244 |   | 4,451 |   | 518 |   | 147 |   | 61 |   |
+| Total |   | $7,115 |   | $6,247 |   | $892 |   | $456 |   | $345 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0002`, `u-src-ge-10k-fy2025-a73b722f-0003`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0094`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+| For the years ended December 31 | 2025 | 2024 | 2023(a) |
+|---|---|---|---|
+| Revenue | $48,024 | $35,342 | $41,403 |
+| Gross profit (loss) | 1,239 | 1,229 | 4,093 |
+| Net income (loss) | 3,538 | 3,243 | 4,768 |
+| Net income (loss) attributable to the entity | 3,525 | 3,199 | 4,731 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0021`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0095`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| December 31 | 2025 | 2024 |
+|---|---|---|
+| Current assets | $26,213 | $19,688 |
+| Total assets | $67,218 | $54,116 |
+| Current liabilities | $23,159 | $17,437 |
+| Total liabilities | $32,513 | $23,868 |
+| Noncontrolling interests | $336 | $200 |
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0096`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+**Date assumed**
+
+| Date assumed |   |   |   |
+|---|---|---|---|
+| Executive |   |   |   |
+| Name | Position | Age | Officer Position |
+| H. Lawrence Culp, Jr. | Chairman of the Board & Chief Executive Officer | 62 | October 2018 |
+| Rahul Ghai | Senior Vice President & Chief Financial Officer | 54 | September 2023 |
+| Mohamed Ali | Senior Vice President & Chief Technology & Operations Officer(a) | 56 | January 2025 |
+| Christian Meisner | Senior Vice President & Chief Human Resources Officer | 56 | April 2024 |
+| John R. Phillips III | Senior Vice President, General Counsel & Secretary | 48 | April 2024 |
+| Russell Stokes | Senior Vice President & CEO, Commercial Engines & Services(a) | 54 | September 2018 |
+| Amy Gowder | Senior Vice President & CEO, Defense & Systems | 50 | April 2024 |
+| Ricardo Procacci | Senior Vice President & CEO, Propulsion & Additive Technologies | 58 | April 2024 |
+| Robert Giglietti | Vice President, Chief Accounting Officer, Controller and Treasurer | 55 | April 2024 |
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0095`
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0097`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015).**
+
+| 4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015). |   |
+|---|---|
+| 4(k) Agreement to furnish to the Securities and Exchange Commission upon request a copy of instruments defining the rights of holders of certain long-term debt of the registrant and consolidated subsidiaries.* |   |
+| 4(l) Description of the Registrant’s Securities Registered Pursuant to Section 12 of the Securities Exchange Act of 1934.* |   |
+| (10) Except for 10(ll), (mm), (nn), and (oo) below, all of the following exhibits consist of Executive Compensation Plans or Arrangements: |   |
+|   | (a) GE Aerospace Executive Life Insurance Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(a) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (b) GE Leadership Life Insurance Plan, effective January 1, 2020 and all amendments to date, including its most recent amendment January 3, 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2022). |
+|   | (c) GE Aerospace Supplementary Pension Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(d) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (d) GE Aerospace Restoration Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(e) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (e) General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(g) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2018). |
+|   | (f) Amendment, dated May 7, 2024, to General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended September 30, 2024). |
+|   | (g) GE Aerospace 2024 Non-Employee Director Compensation Plan, effective May 7, 2024 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
+|   | (h) Form of Director Indemnification Agreement.* |
+
+*(14 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0098`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+**(w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025).**
+
+|   | (w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025). |
+|---|---|
+|   | (x) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
+|   | (y) Form of Agreement for Restricted Stock Unit Grants to Executive Offices under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(f) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (z) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(e) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (aa) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
+|   | (bb) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(h) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (cc) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(g) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (dd) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
+|   | (ee) GE Aerospace Incentive Compensation Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ee) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (ff) GE Aerospace Annual Executive Incentive Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ff) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (gg) Employment Agreement between H. Lawrence Culp Jr. and General Electric Company, effective July 1, 2024 (incorporated by reference to Exhibit 10.1 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
+|   | (hh) Form of Performance Stock Unit Grant Agreement by and between H. Lawrence Culp, Jr. and General Electric Company, dated July 1, 2024 (incorporated by reference to Exhibit 10.2 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
+
+*(18 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0099`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · **related to no unit**
+
+| FORM 10-K CROSS REFERENCE INDEX |   | Page(s) |
+|---|---|---|
+| Part I |   |   |
+| Item 1. | Business | 4-7, 9-10, 71-73 |
+| Item 1A. | Risk Factors | 24-31 |
+| Item 1B. | Unresolved Staff Comments | Not applicable |
+| Item 1C. | Cybersecurity | 23 |
+| Item 2. | Properties | 4 |
+| Item 3. | Legal Proceedings | 70-71 |
+| Item 4. | Mine Safety Disclosures | Not applicable |
+| Part II |   |   |
+| Item 5. | Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities | 22 |
+| Item 6. | [Reserved] | Not applicable |
+
+*(17 further rows in the stored grid.)*
+
+#### `tbl-src-ge-10k-fy2025-a73b722f-0100`
+
+table · **exact** · extractor `html_tables_v1` · anchored by `own_text` · related to 1 unit
+
+|   | Signer | Title | Date |
+|---|---|---|---|
+|   | /s/ Rahul Ghai | Principal Financial Officer | January 29, 2026 |
+|   | Rahul GhaiSenior Vice President and Chief Financial Officer |   |   |
+|   | /s/ Robert Giglietti | Principal Accounting Officer | January 29, 2026 |
+|   | Robert GigliettiVice President, Chief Accounting Officer, Controller and Treasurer |   |   |
+|   | /s/ H. Lawrence Culp, Jr. | Principal Executive Officer | January 29, 2026 |
+|   | H. Lawrence Culp, Jr.*Chairman of the Board of Directors |   |   |
+|   | Sébastien M. Bazin* | Director |   |
+|   | Margaret Billson* | Director |   |
+|   | Wesley G. Bush* | Director |   |
+|   | Thomas Enders* | Director |   |
+|   | Edward P. Garden* | Director |   |
+
+*(8 further rows in the stored grid.)*
+
+Related units: `u-src-ge-10k-fy2025-a73b722f-0095`
+
+## Assets in text nobody read
+
+61 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0001`
+
+table · **exact** · anchored by `own_text`
+
+| New York |   |   | 14-0689340 |
+|---|---|---|---|
+| (State or other jurisdiction of incorporation or organization) |   |   | (I.R.S. Employer Identification No.) |
+| 1 Neumann Way | Evendale | OH | 45215 |
+| (Address of principal executive offices) |   |   | (Zip Code) |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0002`
+
+table · **exact** · anchored by `own_text`
+
+| Title of each class | Trading Symbol(s) | Name of each exchange on which registered |
+|---|---|---|
+| Common stock, par value $0.01 per share | GE | New York Stock Exchange |
+| 1.875% Notes due 2027 | GE 27E | New York Stock Exchange |
+| 1.500% Notes due 2029 | GE 29 | New York Stock Exchange |
+| 7 1/2% Guaranteed Subordinated Notes due 2035 | GE /35 | New York Stock Exchange |
+| 2.125% Notes due 2037 | GE 37 | New York Stock Exchange |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0003`
+
+table · **exact** · anchored by `own_text`
+
+| Large accelerated filer | ☑ | Accelerated filer | ☐ |
+|---|---|---|---|
+| Non-accelerated filer | ☐ | Smaller reporting company | ☐ |
+| Emerging growth company | ☐ |   |   |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0004`
+
+table · **exact** · anchored by `own_text`
+
+**Page**
+
+| Page |   |
+|---|---|
+| Forward-Looking Statements | 3 |
+| About GE Aerospace | 4 |
+| Management’s Discussion and Analysis of Financial Condition and Results of Operations (MD&A) | 7 |
+| Consolidated Results | 8 |
+| Segment Operations | 9 |
+| Corporate & Other | 10 |
+| Other Consolidated Information | 11 |
+| Capital Resources and Liquidity | 12 |
+| Critical Accounting Estimates | 14 |
+| Other Items | 16 |
+| Non-GAAP Financial Measures | 19 |
+
+*(41 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0011`
+
+table · **exact** · anchored by `own_text`
+
+| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
+|---|---|---|---|
+| Equipment | $13,754 | $11,462 | $6,508 |
+| Services | 156,068 | 142,182 | 131,028 |
+| Total RPO | $169,822 | $153,644 | $137,535 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0014`
+
+table · **exact** · anchored by `own_text`
+
+| RPO | December 31, 2025 | December 31, 2024 | December 31, 2023 |
+|---|---|---|---|
+| Equipment | $13,780 | $11,046 | $9,739 |
+| Services | 6,962 | 6,944 | 6,729 |
+| Total RPO | $20,742 | $17,991 | $16,468 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0017`
+
+table · **exact** · anchored by `none`
+
+|   | Moody's | S&P |
+|---|---|---|
+| Outlook | Positive | Stable |
+| Short term | P-2 | A-2 |
+| Long term | A3 | A- |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0018`
+
+table · **exact** · anchored by `own_text`
+
+| Years ended December 31 | 2025 | 2024 |
+|---|---|---|
+| Increase (decrease) in employee benefit liabilities | $746 | $356 |
+| Net restructuring and other charges/(cash expenditures) | (144) | (112) |
+| (Gains) Losses on purchases and sales of business interests | (6) | (399) |
+| Net interest and other financial charges/(cash paid) | (39) | 31 |
+| Other deferred assets | (88) | (84) |
+| Other | (334) | (118) |
+| All other operating activities | $136 | $(326) |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0021`
+
+table · **exact** · anchored by `own_text`
+
+| ADJUSTED REVENUE, OPERATING PROFIT AND PROFIT MARGIN (NON-GAAP) | 2025 | 2024 |
+|---|---|---|
+| Total revenue (GAAP) | $45,855 | $38,702 |
+| Less: Insurance revenue (Note 12) | 3,533 | 3,581 |
+| Adjusted revenue (Non-GAAP) | $42,322 | $35,121 |
+| Total costs and expenses (GAAP) | $37,342 | $33,346 |
+| Less: Insurance cost and expenses (Note 12) | 2,541 | 2,560 |
+| Less: U.S. tax equity cost and expenses | 20 | 14 |
+| Less: interest and other financial charges(a) | 843 | 986 |
+| Less: non-operating benefit cost (income) | (788) | (842) |
+| Less: restructuring & other(a) | (87) | 525 |
+| Less: goodwill impairments(a) | — | 251 |
+| Less: separation costs(a) | 202 | 492 |
+
+*(13 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0026`
+
+table · **exact** · anchored by `own_text`
+
+**STATEMENT OF OPERATIONS**
+
+| STATEMENT OF OPERATIONS |   |   |   |
+|---|---|---|---|
+| (In millions; per-share amounts in dollars) | 2025 | 2024 | 2023 |
+| Sales of equipment | $12,159 | $10,274 | $9,318 |
+| Sales of services | 30,163 | 24,847 | 22,641 |
+| Insurance revenue (Note 12) | 3,533 | 3,581 | 3,389 |
+| Total revenue | 45,855 | 38,702 | 35,348 |
+| Cost of equipment sold | 12,382 | 10,341 | 9,900 |
+| Cost of services sold | 16,586 | 13,967 | 13,039 |
+| Selling, general and administrative expenses | 4,088 | 4,437 | 4,045 |
+| Separation costs | 202 | 492 | 692 |
+| Research and development | 1,580 | 1,286 | 1,011 |
+| Interest and other financial charges | 843 | 986 | 1,029 |
+
+*(31 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0027`
+
+table · **exact** · anchored by `own_text`
+
+**STATEMENT OF FINANCIAL POSITION**
+
+| STATEMENT OF FINANCIAL POSITION |   |   |
+|---|---|---|
+| December 31 (In millions) | 2025 | 2024 |
+| Cash, cash equivalents and restricted cash | $12,392 | $13,619 |
+| Investment securities (Note 3) | — | 982 |
+| Current receivables (Note 4) | 11,773 | 9,327 |
+| Inventories, including deferred inventory costs (Note 5) | 11,868 | 9,763 |
+| Current contract assets (Note 8) | 3,511 | 2,982 |
+| All other current assets (Note 9) | 1,052 | 962 |
+| Current assets | 40,596 | 37,635 |
+| Investment securities (Note 3) | 38,788 | 37,741 |
+| Property, plant and equipment – net (Note 6) | 7,987 | 7,277 |
+| Goodwill (Note 7) | 9,060 | 8,538 |
+
+*(29 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0029`
+
+table · **exact** · anchored by `own_text`
+
+**STATEMENT OF COMPREHENSIVE INCOME (LOSS)**
+
+| STATEMENT OF COMPREHENSIVE INCOME (LOSS) |   |   |   |
+|---|---|---|---|
+| For the years ended December 31 (In millions) | 2025 | 2024 | 2023 |
+| Net income (loss) | $8,698 | $6,566 | $9,445 |
+| Less: net income (loss) attributable to noncontrolling interests | (6) | 11 | (37) |
+| Net income (loss) attributable to the Company | $8,704 | $6,556 | $9,482 |
+| Currency translation adjustments | (43) | 2,131 | 2,274 |
+| Benefit plans | (882) | (1,128) | (4,747) |
+| Investment securities and cash flow hedges | 749 | (1,016) | 968 |
+| Long-duration insurance contracts | (761) | 2,284 | (2,371) |
+| L Less: other comprehensive income (loss) attributable to noncontrolling interests | — | (17) | 2 |
+| Other comprehensive income (loss) attributable to the Company | $(937) | $2,289 | $(3,878) |
+| Comprehensive income (loss) | $7,761 | $8,838 | $5,569 |
+
+*(2 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0034`
+
+table · **exact** · anchored by `own_text`
+
+| ASSETS AND LIABILITIES OF DISCONTINUED OPERATIONS | December 31, 2025 | December 31, 2024 |
+|---|---|---|
+| Cash, cash equivalents and restricted cash(a) | $1,126 | $1,327 |
+| Current receivables | 35 | 13 |
+| Property, plant, and equipment - net | 26 | 40 |
+| All other assets | 648 | 438 |
+| Deferred income taxes | 21 | 24 |
+| Assets of discontinued operations(b) | $1,855 | $1,841 |
+| Accounts payable | $35 | $30 |
+| Non-current compensation and benefits | 32 | 33 |
+| All other liabilities | 1,347 | 1,254 |
+| Liabilities of discontinued operations(b) | $1,413 | $1,317 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0035`
+
+table · **exact** · anchored by `own_text`
+
+|   | December 31, 2025 |   |   |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   | Amortizedcost |   | Grossunrealizedgains |   | Grossunrealizedlosses |   | Estimatedfair value |   |
+| Debt |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| U.S. corporate |   | $27,658 |   | $825 |   | $(1,969) |   | $26,513 |   | $28,456 |   | $546 |   | $(2,309) |   | $26,692 |
+| Non-U.S. corporate | 2,909 |   | 41 |   | (242) |   | 2,707 |   | 2,970 |   | 23 |   | (302) |   | 2,691 |   |
+| State and municipal | 2,751 |   | 46 |   | (192) |   | 2,605 |   | 2,409 |   | 22 |   | (235) |   | 2,196 |   |
+| Mortgage and asset-backed | 5,202 |   | 69 |   | (121) |   | 5,151 |   | 5,007 |   | 47 |   | (183) |   | 4,870 |   |
+| Government and agencies | 1,015 |   | 4 |   | (95) |   | 924 |   | 1,180 |   | 4 |   | (118) |   | 1,066 |   |
+| Equity | 887 |   | — |   | — |   | 887 |   | 225 |   | — |   | — |   | 225 |   |
+| Non-current investment securities |   | $40,422 |   | $985 |   | $(2,619) |   | $38,788 |   | $40,248 |   | $641 |   | $(3,148) |   | $37,741 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0036`
+
+table · **exact** · anchored by `own_text`
+
+| For the years ended December 31 | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Net unrealized gains (losses) for equity securities with readily determinable fair value (RDFV) | $313 | $320 | $6,413 |
+| Proceeds from debt/equity securities sales and redemptions | 4,922 | 9,099 | 12,595 |
+| Gross realized gains on debt securities | 35 | 75 | 52 |
+| Gross realized losses and impairments on debt securities | (76) | (66) | (66) |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0037`
+
+table · **exact** · anchored by `own_text`
+
+| For the years ended December 31 | 2025 | 2024 |
+|---|---|---|
+| Purchases of investment securities | $(4,050) | $(7,132) |
+| Dispositions and maturities of investment securities | 4,475 | 6,168 |
+| Net (purchases) dispositions of insurance investment securities | $425 | $(963) |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0038`
+
+table · **exact** · anchored by `own_text`
+
+|   | Amortized cost |   | Estimated fair value |   |
+|---|---|---|---|---|
+| Within one year |   | $843 |   | $847 |
+| After one year through five years | 3,460 |   | 3,561 |   |
+| After five years through ten years | 5,269 |   | 5,498 |   |
+| After ten years | 24,762 |   | 22,845 |   |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0039`
+
+table · **exact** · anchored by `own_text`
+
+**CURRENT RECEIVABLES**
+
+| CURRENT RECEIVABLES |   |   |
+|---|---|---|
+| December 31 | 2025 | 2024 |
+| Customer receivables | $9,269 | $7,385 |
+| Revenue sharing and other partner receivables(a) | 1,322 | 1,113 |
+| Non-income based tax receivables | 165 | 128 |
+| Supplier advances | 867 | 546 |
+| Receivables from disposed businesses | 34 | 99 |
+| Other sundry receivables | 209 | 162 |
+| Allowance for credit losses | (94) | (106) |
+| Total current receivables | $11,773 | $9,327 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0040`
+
+table · **exact** · anchored by `own_text`
+
+**LONG-TERM RECEIVABLES**
+
+| LONG-TERM RECEIVABLES |   |   |
+|---|---|---|
+| December 31 | 2025 | 2024 |
+| Long-term customer receivables | $173 | $122 |
+| Supplier advances | 94 | 50 |
+| Sundry receivables | 105 | 106 |
+| Allowance for credit losses | (96) | (85) |
+| Total long-term receivables | $276 | $194 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0041`
+
+table · **exact** · anchored by `own_text`
+
+| December 31 | 2025 | 2024 |
+|---|---|---|
+| Raw materials and work in process | $9,354 | $7,372 |
+| Finished goods | 1,542 | 1,459 |
+| Deferred inventory costs(a) | 972 | 932 |
+| Inventories, including deferred inventory costs | $11,868 | $9,763 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0042`
+
+table · **exact** · anchored by `own_text`
+
+|   | Depreciable lives | Original Cost |   |   |   | Net Carrying Value |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|
+| December 31 | (in years) | 2025 |   | 2024 |   |   | 2025 |   | 2024 |   |
+| Land and improvements | 8 |   | $139 |   | $131 |   |   | $137 |   | $129 |
+| Buildings, structures and related equipment | 8 - 40 | 3,295 |   | 3,146 |   |   | 1,411 |   | 1,369 |   |
+| Machinery and equipment | 4 - 20 | 12,757 |   | 11,533 |   |   | 4,432 |   | 3,851 |   |
+| Leasehold costs and manufacturing plant under construction | 1 - 10 | 1,197 |   | 1,084 |   |   | 989 |   | 872 |   |
+| ROU operating lease assets |   |   |   |   |   |   | 1,018 |   | 1,057 |   |
+| Property, plant and equipment - net |   |   | $17,388 |   | $15,894 |   |   | $7,987 |   | $7,277 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0044`
+
+table · **exact** · anchored by `own_text`
+
+| OPERATING LEASE EXPENSE | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Long-term (fixed) | $309 | $326 | $364 |
+| Long-term (variable) | 30 | 111 | 26 |
+| Short-term | 47 | 45 | 115 |
+| Total operating lease expense | $385 | $482 | $506 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0045`
+
+table · **exact** · anchored by `own_text`
+
+| MATURITY OF LEASE LIABILITIES | 2026 |   | 2027 |   | 2028 |   | 2029 |   | 2030 |   | Thereafter |   | Total |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Undiscounted lease payments |   | $278 |   | $221 |   | $176 |   | $154 |   | $117 |   | $377 |   | $1,323 |
+| Less: imputed interest |   |   |   |   |   |   |   |   |   |   |   |   | (260) |   |
+| Total lease liability as of December 31, 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   | $1,063 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0046`
+
+table · **exact** · anchored by `own_text`
+
+| SUPPLEMENTAL INFORMATION RELATED TO OPERATING LEASES | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Operating cash flows used for operating leases | $329 | $352 | $427 |
+| Right-of-use assets obtained in exchange for new lease liabilities | 238 | 196 | 275 |
+| Weighted-average remaining lease term | 7.6 years | 7.8 years | 7.7 years |
+| Weighted-average discount rate | 4.7% | 4.6% | 4.5% |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0048`
+
+table · **exact** · anchored by `own_text`
+
+|   |   | 2025 |   |   |   |   |   | 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| INTANGIBLE ASSETS SUBJECT TO AMORTIZATION December 31 | Useful lives (in years) | Gross carryingamount |   | Accumulatedamortization |   | Net |   | Gross carryingamount |   | Accumulatedamortization |   | Net |   |
+| Customer-related(a) | 5-20 |   | $3,992 |   | $(2,313) |   | $1,679 |   | $3,850 |   | $(2,083) |   | $1,767 |
+| Patents and technology | 5-15 | 2,946 |   | (916) |   | 2,031 |   | 2,744 |   | (759) |   | 1,985 |   |
+| Capitalized software | 5-10 | 1,366 |   | (859) |   | 507 |   | 1,296 |   | (803) |   | 493 |   |
+| Trademarks & other | 13 | 77 |   | (67) |   | 9 |   | 70 |   | (58) |   | 13 |   |
+| Total |   |   | $8,380 |   | $(4,155) |   | $4,225 |   | $7,960 |   | $(3,703) |   | $4,257 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0049`
+
+table · **exact** · anchored by `own_text`
+
+| ESTIMATED 5 YEAR CONSOLIDATED AMORTIZATION | 2026 | 2027 | 2028 | 2029 | 2030 |
+|---|---|---|---|---|---|
+| Estimated annual pre-tax amortization | 351 | 356 | 357 | 376 | 371 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0050`
+
+table · **exact** · anchored by `own_text`
+
+| CONTRACT ASSETS, LIABILITIES AND OTHER DEFERRED ASSETS AND INCOME | December 31, 2025 | December 31, 2024 |
+|---|---|---|
+| Long-term service agreements | $2,792 | $2,374 |
+| Equipment and other service agreements | 719 | 609 |
+| Current contract assets | $3,511 | $2,982 |
+| Nonrecurring engineering costs(a) | $2,423 | $2,438 |
+| Customer advances and other(b) | 2,497 | 2,393 |
+| Contract and other deferred assets | 4,920 | 4,831 |
+| Total contract and other deferred assets | $8,431 | $7,814 |
+| Long-term service agreement liabilities | $10,016 | $8,994 |
+| Current deferred income | 317 | 359 |
+| Contract liabilities and current deferred income | $10,333 | $9,353 |
+| Non-current deferred income | 1,065 | 1,013 |
+
+*(2 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0051`
+
+table · **exact** · anchored by `own_text`
+
+| December 31 |   | 2025 |   |   | 2024 |   |   |
+|---|---|---|---|---|---|---|---|
+|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
+| Current portion of long-term borrowings |   |   |   |   |   |   |   |
+| Senior notes | 2026 |   | $1,504 | 4.00% | $1,952 |   | 4.03% |
+| Subordinated notes and other | 2026 | 157 |   |   | 87 |   |   |
+| Other short-term |   | 25 |   |   | — |   |   |
+| Total short-term borrowings |   |   | $1,686 |   |   | $2,039 |   |
+|   | Maturities | Amount |   | Average Rate | Amount |   | Average Rate |
+| Senior notes(a) | 2027 - 2050 |   | $16,773 | 4.00% |   | $15,467 | 4.03% |
+| Subordinated notes | 2035 - 2037 | 1,456 |   | 4.40% | 1,330 |   | 4.43% |
+| Other |   | 580 |   |   | 437 |   |   |
+| Total long-term borrowings |   |   | $18,808 |   |   | $17,234 |   |
+
+*(1 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0052`
+
+table · **exact** · anchored by `own_text`
+
+|   | 2026 |   | 2027 | 2028 | 2029 | 2030 | Thereafter | Total |
+|---|---|---|---|---|---|---|---|---|
+| Long-term debt maturities | 1,661 | (a) | 1,693 | 480 | 1,639 | 1,700 | 13,296 | 20,469 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0053`
+
+table · **exact** · anchored by `own_text`
+
+| December 31 | 2025 | 2024 |
+|---|---|---|
+| Trade payables | $5,734 | $4,565 |
+| Supply chain finance programs | 1,247 | 1,259 |
+| Revenue sharing and other partner payables(a) | 2,553 | 1,689 |
+| Sundry payables | 544 | 397 |
+| Accounts payable | $10,078 | $7,909 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0056`
+
+table · **exact** · anchored by `own_text`
+
+|   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Present value of expected net premiums | Long-term care |   | Structured settlement annuities |   | Life |   | Long-term care |   | Structured settlement annuities |   | Life |   |
+| Balance, beginning of year |   | $4,144 |   | $— |   | $4,318 |   | $4,063 |   | $— |   | $4,803 |
+| Beginning balance at locked-in discount rate | 3,991 |   | — |   | 4,415 |   | 3,745 |   | — |   | 4,773 |   |
+| Effect of changes in cash flow assumptions | 355 |   | — |   | 4 |   | 465 |   | — |   | (1) |   |
+| Effect of actual variances from expected experience(a) | (19) |   | — |   | (2,681) |   | (26) |   | — |   | 8 |   |
+| Adjusted beginning of year balance | 4,327 |   | — |   | 1,738 |   | 4,184 |   | — |   | 4,780 |   |
+| Interest accrual | 221 |   | — |   | 164 |   | 209 |   | — |   | 177 |   |
+| Net premiums collected | (408) |   | — |   | (292) |   | (403) |   | — |   | (309) |   |
+| Effect of foreign currency | — |   | — |   | 103 |   | — |   | — |   | (234) |   |
+| Ending balance at locked-in discount rate | 4,140 |   | — |   | 1,714 |   | 3,991 |   | — |   | 4,415 |   |
+| Effect of changes in discount rate assumptions | 287 |   | — |   | 119 |   | 154 |   | — |   | (97) |   |
+
+*(24 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0061`
+
+table · **exact** · anchored by `own_text`
+
+|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3 |   |   |   | Assets measured at NAV |   |   |   | Total |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
+| Asset Category |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Global equity |   | $1,200 |   | $1,156 |   | $230 |   | $203 |   |   |   |   |   | $2,410 |   | $1,912 |   | $3,840 |   | $3,271 |
+| Fixed income and cash investment funds | 952 |   | 1,299 |   | 1,617 |   | 1,448 |   |   |   |   |   |   |   |   |   | 2,569 |   | 2,747 |   |
+| U.S. corporate(a) |   |   |   |   | 2,496 |   | 3,125 |   |   |   |   |   |   |   |   |   | 2,496 |   | 3,125 |   |
+| Other debt securities(b) |   |   |   |   | 2,957 |   | 3,152 |   |   |   |   |   | 2,263 |   | 1,851 |   | 5,220 |   | 5,003 |   |
+| Real estate |   |   |   |   |   |   |   |   | 449 |   | 541 |   | 934 |   | 995 |   | 1,383 |   | 1,536 |   |
+| Private equities and other investments |   |   |   |   |   |   |   |   | 246 |   | 312 |   | 7,079 |   | 6,385 |   | 7,325 |   | 6,697 |   |
+| Derivatives, net(c) | (67) |   | (139) |   | 12 |   | 20 |   |   |   |   |   |   |   |   |   | (55) |   | (119) |   |
+| Cash |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | 284 |   | 297 |   |
+| Payables |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | (400) |   | (440) |   |
+
+*(2 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0062`
+
+table · **exact** · anchored by `own_text`
+
+| ASSET ALLOCATION OF PENSION PLANS | 2025 Target allocation |   | 2025 Actual allocation |   |
+|---|---|---|---|---|
+|   | Principal Pension | Other Pension (weighted average) | Principal Pension | Other Pension (weighted average) |
+| Global equities | 10.0 - 30.0% | 14% | 18% | 12% |
+| Debt securities (including cash equivalents) | 19.0 - 87.5 | 65 | 41 | 65 |
+| Real estate | 1.0 - 10.0 | 6 | 6 | 7 |
+| Private equities & other investments | 12.0 - 44.0 | 15 | 35 | 16 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0063`
+
+table · **exact** · anchored by `own_text`
+
+| EXPECTED FUTURE BENEFIT PAYMENTS OF OUR BENEFIT PLANS(a) | Principal pension | Other pension | Principal retiree benefit |
+|---|---|---|---|
+| 2026 | $1,815 | $190 | $120 |
+| 2027 | 1,820 | 190 | 115 |
+| 2028 | 1,825 | 200 | 115 |
+| 2029 | 1,825 | 205 | 110 |
+| 2030 | 1,820 | 210 | 110 |
+| 2031-2035 | 8,825 | 1,115 | 465 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0065`
+
+table · **exact** · anchored by `own_text`
+
+| INCOME (LOSS) FROM CONTINUING OPERATIONS BEFORE INCOME TAXES | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| U.S. income (loss) | $6,659 | $4,809 | $7,195 |
+| Non-U.S. income (loss) | 3,341 | 2,811 | 3,246 |
+| Total | $10,000 | $7,620 | $10,441 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0066`
+
+table · **exact** · anchored by `own_text`
+
+| INCOME TAX PAYMENTS | 2025 |
+|---|---|
+| U.S. Federal(a) | $150 |
+| U.S. State(a) | 7 |
+| Non-U.S: |   |
+| Singapore | 178 |
+| United Kingdom | 78 |
+| Ireland | 60 |
+| Hungary | 52 |
+| Italy | 46 |
+| India | 36 |
+| Other Non-U.S. | 132 |
+| Total income taxes paid (received), continuing operations | $739 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0069`
+
+table · **exact** · anchored by `own_text`
+
+| RECONCILIATION OF U.S. FEDERAL STATUTORY INCOME TAX RATE TO EFFECTIVE INCOME TAX RATE | 2024 |   |   |   | 2023 |   |   |   |
+|---|---|---|---|---|---|---|---|---|
+|   |   | Amount |   | Rate |   | Amount |   | Rate |
+| U.S. federal statutory income tax rate |   |   | $1,600 | 21.0% |   |   | $2,193 | 21.0% |
+| State Taxes, net of federal benefit |   | 123 |   | 1.6 |   | 152 |   | 1.5 |
+| Tax on global activities including exports(a) |   | (92) |   | (1.2) |   | 78 |   | 0.7 |
+| U.S. business credits(b) |   | (242) |   | (3.2) |   | (254) |   | (2.4) |
+| Retained and sold ownership interests |   | (110) |   | (1.4) |   | (1,215) |   | (11.6) |
+| All other – net(c) |   | (317) |   | (4.2) |   | 40 |   | 0.3 |
+|   |   | (638) |   | (8.4) |   | (1,199) |   | (11.5) |
+| Effective income tax rate |   |   | $962 | 12.6% |   |   | $994 | 9.5% |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0070`
+
+table · **exact** · anchored by `own_text`
+
+| UNRECOGNIZED TAX BENEFITS December 31 | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Unrecognized tax benefits | $3,056 | $2,824 | $3,399 |
+| Portion that, if recognized, would reduce tax expense and effective tax rate(a) | 2,381 | 2,110 | 2,708 |
+| Accrued interest on unrecognized tax benefits | 656 | 609 | 635 |
+| Accrued penalties on unrecognized tax benefits | 11 | 14 | 111 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0071`
+
+table · **exact** · anchored by `own_text`
+
+| UNRECOGNIZED TAX BENEFITS RECONCILIATION | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Balance at January 1 | $2,824 | $3,399 | $3,951 |
+| Additions for tax positions of the current year | 347 | 68 | 109 |
+| Additions for tax positions of prior years | 93 | 77 | 156 |
+| Reductions for tax positions of prior years(a) | (168) | (649) | (710) |
+| Settlements with tax authorities | (30) | (14) | (56) |
+| Expiration of the statute of limitations | (10) | (57) | (51) |
+| Balance at December 31 | $3,056 | $2,824 | $3,399 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0072`
+
+table · **exact** · anchored by `own_text`
+
+| DEFERRED INCOME TAXES December 31 | 2025 | 2024 |
+|---|---|---|
+| Total assets | $7,883 | $7,479 |
+| Total liabilities | (424) | (368) |
+| Net deferred income tax asset (liability) | $7,459 | $7,111 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0073`
+
+table · **exact** · anchored by `own_text`
+
+| COMPONENTS OF THE NET DEFERRED INCOME TAX ASSET (LIABILITY) December 31 | 2025 | 2024 |
+|---|---|---|
+| Deferred tax assets |   |   |
+| Insurance company loss reserves | $2,398 | $2,349 |
+| Progress collections, Contract assets, Contract liabilities and deferred items | 1,764 | 1,435 |
+| Accrued expenses and reserves | 1,278 | 1,231 |
+| Deferred expenses | 1,231 | 1,398 |
+| Other compensation and benefits | 580 | 510 |
+| Principal pension plans | 989 | 1,009 |
+| Non-U.S. loss carryforwards(a) | 2,133 | 1,891 |
+| Capital losses carryforward | 881 | 849 |
+| State deferred tax assets(b) | 684 | 762 |
+| Other | 1,522 | 1,514 |
+
+*(10 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0074`
+
+table · **exact** · anchored by `own_text`
+
+**DEFERRED TAX ASSETS VALUATION ALLOWANCE**
+
+| DEFERRED TAX ASSETS VALUATION ALLOWANCE |   |
+|---|---|
+| Balance at December 31, 2022 | $(5,164) |
+| Additions charged to income tax expense | — |
+| Reductions credited to income tax expense | 102 |
+| Other adjustments(a) | 1,646 |
+| Balance at December 31, 2023 | $(3,416) |
+| Additions charged to income tax expense | (2) |
+| Reductions credited to income tax expense | 184 |
+| Other adjustments | 18 |
+| Balance at December 31, 2024 | $(3,216) |
+| Additions charged to income tax expense | (2) |
+| Reductions credited to income tax expense | 71 |
+
+*(2 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0075`
+
+table · **exact** · anchored by `own_text`
+
+| ACCUMULATED OTHER COMPREHENSIVE INCOME (LOSS) (Dividends per share in dollars) | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Beginning balance | $(1,472) | $(3,623) | $(5,893) |
+| AOCI before reclasses – net of taxes of $(157), $5 and $74 | (43) | 36 | 12 |
+| Reclasses from AOCI – net of taxes of $—, $103 and $(626)(a) | — | 2,093 | 2,262 |
+| AOCI | (43) | 2,129 | 2,274 |
+| Less AOCI attributable to noncontrolling interests | — | (22) | 4 |
+| Currency translation adjustments AOCI | $(1,515) | $(1,472) | $(3,623) |
+| Beginning balance | $665 | $1,786 | $6,531 |
+| AOCI before reclasses – net of taxes of $(117), $22 and $(497) | (393) | (8) | (1,874) |
+| Reclasses from AOCI – net of taxes of $(137), $(269) and $(778)(a) | (489) | (1,119) | (2,873) |
+| AOCI | (882) | (1,127) | (4,747) |
+| Less AOCI attributable to noncontrolling interests | — | (7) | (2) |
+
+*(13 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0076`
+
+table · **exact** · anchored by `own_text`
+
+| WEIGHTED AVERAGE GRANT DATE FAIR VALUE | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| Stock options | $79.55 | $65.16 | $36.10 |
+| RSUs | 212.45 | 160.70 | 89.6 |
+| PSUs | 221.46 | 150.05 | 89.44 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0077`
+
+table · **exact** · anchored by `own_text`
+
+| STOCK-BASED COMPENSATION ACTIVITY | Stock options |   |   |   |   |   | RSUs |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Shares (in thousands) | Weighted average exercise price |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   | Shares (in thousands) | Weighted average grant date fair value |   | Weighted average contractual term (in years) | Intrinsic value (in millions) |   |
+| Outstanding at January 1, 2025 | 10,917 |   | $91.78 |   |   |   | 3,607 |   | $103.70 |   |   |   |
+| Granted | 569 | 202.16 |   |   |   |   | 380 | 212.45 |   |   |   |   |
+| Exercised | (4,102) | 104.40 |   |   |   |   | (1,459) | 67.10 |   |   |   |   |
+| Forfeited | (83) | 172.13 |   |   |   |   | (137) | 135.42 |   |   |   |   |
+| Expired | (37) | 122.58 |   |   |   |   | N/A | N/A |   |   |   |   |
+| Outstanding at December 31, 2025 | 7,264 |   | $92.22 | 3.8 |   | $1,568 | 2,391 |   | $141.49 | 1.2 |   | $736 |
+| Exercisable at December 31, 2025 | 5,829 |   | $72.33 | 2.6 |   | $1,374 | N/A | N/A |   | N/A | N/A |   |
+| Expected to vest | 1,265 |   | $172.50 | 8.6 |   | $171 | 2,194 |   | $139.74 | 1.2 |   | $676 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0078`
+
+table · **exact** · anchored by `own_text`
+
+|   | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Compensation expense (after-tax)(a) |   | $325 |   | $286 |   | $192 |
+| Cash received from stock options exercised | 428 |   | 1,492 |   | 565 |   |
+| Intrinsic value of stock options exercised and RSU/PSU/Performance shares vested | 853 |   | 1,754 |   | 561 |   |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0079`
+
+table · **exact** · anchored by `own_text`
+
+|   | 2025 |   |   |   | 2024 |   |   |   | 2023 |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| (Earnings for per-share calculation, shares in millions, per-share amounts in dollars) | Diluted |   | Basic |   | Diluted |   | Basic |   | Diluted |   | Basic |   |
+| Net income (loss) from continuing operations(a) |   | $8,598 |   | $8,601 |   | $6,670 |   | $6,670 |   | $9,446 |   | $9,449 |
+| Preferred stock dividends and other and accretion of preferred share repurchase(b) | — |   | — |   | — |   | — |   | (295) |   | (295) |   |
+| Net income (loss) from continuing operations attributable to common shareholders(a) | 8,598 |   | 8,601 |   | 6,670 |   | 6,670 |   | 9,151 |   | 9,154 |   |
+| Net income (loss) from discontinued operations | 103 |   | 103 |   | (114) |   | (114) |   | 33 |   | 33 |   |
+| Net income (loss) attributable to common shareholders(a) | 8,701 |   | 8,704 |   | 6,556 |   | 6,556 |   | 9,184 |   | 9,187 |   |
+| Shares of common stock outstanding | 1,061 |   | 1,061 |   | 1,085 |   | 1,085 |   | 1,089 |   | 1,089 |   |
+| Employee compensation-related shares (including stock options) | 8 |   | — |   | 10 |   | — |   | 10 |   | — |   |
+| Total average equivalent shares | 1,068 |   | 1,061 |   | 1,094 |   | 1,085 |   | 1,099 |   | 1,089 |   |
+| EPS from continuing operations |   | $8.05 |   | $8.11 |   | $6.09 |   | $6.15 |   | $8.33 |   | $8.41 |
+| EPS from discontinued operations | 0.10 |   | 0.10 |   | (0.10) |   | (0.11) |   | 0.03 |   | 0.03 |   |
+
+*(2 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0080`
+
+table · **exact** · anchored by `own_text`
+
+|   | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Investment in GE HealthCare realized and unrealized gain (loss) |   | $— |   | $480 |   | $5,639 |
+| Investment in and note with AerCap realized and unrealized gain (loss) | 21 |   | 38 |   | 129 |   |
+| Investment in Baker Hughes realized and unrealized gain (loss) | — |   | — |   | 10 |   |
+| Gains (losses) on retained and sold ownership interests |   | $21 |   | $518 |   | $5,778 |
+| Other net interest and investment income (loss)(a)(b) | 946 |   | 813 |   | 637 |   |
+| Licensing and royalty income | 175 |   | 210 |   | 148 |   |
+| Equity method income | 216 |   | 173 |   | 169 |   |
+| Purchases and sales of business interests(c) | 6 |   | 399 |   | (105) |   |
+| Other items | 123 |   | 151 |   | 92 |   |
+| Total other income (loss) |   | $1,487 |   | $2,264 |   | $6,718 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0081`
+
+table · **exact** · anchored by `own_text`
+
+| RESTRUCTURING AND OTHER CHARGES | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Workforce reductions |   | $(33) |   | $107 |   | $166 |
+| Plant closures & associated costs and other asset write-downs | (51) |   | 74 |   | 84 |   |
+| Acquisition/disposition net charges and other | — |   | 366 |   | 10 |   |
+|   |   | $(84) |   | $546 |   | $260 |
+| Cost of equipment/services |   | $6 |   | $27 |   | $10 |
+| Selling, general and administrative expenses | (90) |   | 519 |   | 250 |   |
+| Total restructuring and other charges(a) |   | $(84) |   | $546 |   | $260 |
+| Restructuring and other cash expenditures(b) |   | $69 |   | $507 |   | $204 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0082`
+
+table · **exact** · anchored by `own_text`
+
+**ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS**
+
+| ASSETS AND LIABILITIES MEASURED AT FAIR VALUE ON A RECURRING BASIS |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Level 1 |   |   |   | Level 2 |   |   |   | Level 3(a) |   |   |   | Nettingadjustment(b) |   |   |   | Net balance(c) |   |   |   |
+| December 31 | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
+| Investment securities |   | $655 |   | $14 |   | $34,911 |   | $33,635 |   | $3,222 |   | $5,074 |   | $— |   | $— |   | $38,788 |   | $38,723 |
+| Derivatives | — |   | — |   | 247 |   | 243 |   | — |   | — |   | (60) |   | (55) |   | 187 |   | 188 |   |
+| Total assets |   | $655 |   | $14 |   | $35,158 |   | $33,878 |   | $3,222 |   | $5,074 |   | $(60) |   | $(55) |   | $38,975 |   | $38,911 |
+| Derivatives |   | $— |   | $— |   | $129 |   | $131 |   | $— |   | $— |   | $(58) |   | $(54) |   | $71 |   | $77 |
+| Other(d) | — |   | — |   | 400 |   | 367 |   | — |   | — |   | — |   | — |   | 400 |   | 367 |   |
+| Total liabilities |   | $— |   | $— |   | $530 |   | $498 |   | $— |   | $— |   | $(58) |   | $(54) |   | $472 |   | $444 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0083`
+
+table · **exact** · anchored by `own_text`
+
+|   | Balance atJanuary 1 |   | Net realized/unrealized gains(losses)(a) |   | Purchases(b) |   | Sales & Settlements(c) |   | TransfersintoLevel 3 |   | Transfersout ofLevel 3(d) |   | Balance atDecember 31 |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2025 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Investment securities |   | $5,074 |   | $27 |   | $2,155 |   | $(2,753) |   | $13 |   | $(1,293) |   | $3,222 |
+| 2024 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| Investment securities |   | $6,841 |   | $20 |   | $1,505 |   | $(768) |   | $12 |   | $(2,536) |   | $5,074 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0084`
+
+table · **exact** · anchored by `own_text`
+
+|   |   | December 31, 2025 |   |   |   | December 31, 2024 |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|
+|   |   | Carryingamount(net) |   | Estimatedfair value |   | Carryingamount(net) |   | Estimatedfair value |   |
+| Assets | Loans and other receivables(a) |   | $2,197 |   | $2,153 |   | $2,261 |   | $1,981 |
+| Liabilities | Borrowings (Note 10) | 20,494 |   | 20,558 |   | 19,273 |   | 18,805 |   |
+|   | Investment contracts(a) | 1,140 |   | 1,199 |   | 1,375 |   | 1,432 |   |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0085`
+
+table · **exact** · anchored by `own_text`
+
+| FAIR VALUE OF DERIVATIVES |   | December 31, 2025 |   |   |   |   |   | December 31, 2024 |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|   | Classification(a) | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   | Gross Notional |   | Fair Value - Assets |   | Fair Value - Liabilities |   |
+| Qualifying currency exchange contracts | Current |   | $2,125 |   | $38 |   | $17 |   | $1,873 |   | $36 |   | $40 |
+| Qualifying cross currency interest rate swaps | Non-Current | 3,079 |   | 20 |   | 62 |   | 416 |   | 8 |   | — |   |
+|   | Current | 471 |   | 17 |   | 39 |   | — |   | — |   | — |   |
+| Non-qualifying currency exchange contracts and other(b) | Current | 4,983 |   | 172 |   | 12 |   | 6,759 |   | 199 |   | 91 |   |
+| Gross derivatives |   |   | $10,659 |   | $247 |   | $129 |   | $9,047 |   | $243 |   | $131 |
+| Netting and credit adjustments |   |   |   |   | $(60) |   | $(58) |   |   |   | $(55) |   | $(54) |
+| Net derivatives recognized in statement of financial position |   |   |   |   | $187 |   | $71 |   |   |   | $188 |   | $77 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0086`
+
+table · **exact** · anchored by `own_text`
+
+|   | Amount of Gain (Loss) Recognized in Other Comprehensive Income (Loss) on Derivatives |   |   |   | Amount of Gain (Loss) Reclassified from AOCI into Net Income |   |   |   |
+|---|---|---|---|---|---|---|---|---|
+|   | 2025 |   | 2024 |   | 2025 |   | 2024 |   |
+| Cash flow hedges(a) |   | $133 |   | $(64) |   | $45 |   | $16 |
+| Net investment hedges | (798) |   | 348 |   | — |   | — |   |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0087`
+
+table · **exact** · anchored by `own_text`
+
+|   | 2025 |   | 2024 |   | 2023 |   |
+|---|---|---|---|---|---|---|
+| Balance at January 1 |   | $592 |   | $639 |   | $528 |
+| Current-year provisions | 242 |   | 275 |   | 277 |   |
+| Expenditures | (242) |   | (321) |   | (167) |   |
+| Other changes | 3 |   | (1) |   | — |   |
+| Balance at December 31 | 595 |   |   | $592 |   | $639 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0088`
+
+table · **exact** · anchored by `own_text`
+
+| REVENUE | Total revenue |   |   |   |   |   | Intersegment revenue |   |   |   |   |   | External revenue |   |   |   |   |   |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Years ended December 31 | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   | 2025 |   | 2024 |   | 2023 |   |
+| Commercial Engines & Services |   | $33,314 |   | $26,881 |   | $23,855 |   | $62 |   | $216 |   | $559 |   | $33,252 |   | $26,666 |   | $23,296 |
+| Defense & Propulsion Technologies | 10,554 |   | 9,478 |   | 8,961 |   | 1,686 |   | 1,453 |   | 1,253 |   | 8,868 |   | 8,025 |   | 7,708 |   |
+| Corporate & Other | 1,987 |   | 2,343 |   | 2,532 |   | (1,748) |   | (1,669) |   | (1,812) |   | 3,735 |   | 4,011 |   | 4,344 |   |
+| Total revenue |   | $45,855 |   | $38,702 |   | $35,348 |   | $— |   | $— |   | $— |   | $45,855 |   | $38,702 |   | $35,348 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0091`
+
+table · **exact** · anchored by `own_text`
+
+| Years ended December 31 | 2025 | 2024 | 2023 |
+|---|---|---|---|
+| U.S. | $18,194 | $17,340 | $17,105 |
+| Non-U.S. |   |   |   |
+| Europe | 8,603 | 7,800 | 7,248 |
+| Asia | 10,819 | 7,237 | 5,734 |
+| Americas | 3,664 | 2,593 | 1,862 |
+| Middle East and Africa | 4,575 | 3,734 | 3,399 |
+| Total Non-U.S. | $27,661 | $21,363 | $18,243 |
+| Total geographic revenue | $45,855 | $38,702 | $35,348 |
+| Non-U.S. revenue as a % of total revenue | 60% | 55% | 52% |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0095`
+
+table · **exact** · anchored by `own_text`
+
+| December 31 | 2025 | 2024 |
+|---|---|---|
+| Current assets | $26,213 | $19,688 |
+| Total assets | $67,218 | $54,116 |
+| Current liabilities | $23,159 | $17,437 |
+| Total liabilities | $32,513 | $23,868 |
+| Noncontrolling interests | $336 | $200 |
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0097`
+
+table · **exact** · anchored by `own_text`
+
+**4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015).**
+
+| 4(j) Second Global Supplemental Indenture dated as of December 2, 2015, among General Electric Capital Corporation, General Electric Company and The Bank of New York Mellon, as successor trustee (incorporated by reference to Exhibit 4.2 to the Company’s Current Report on Form 8-K dated December 3, 2015). |   |
+|---|---|
+| 4(k) Agreement to furnish to the Securities and Exchange Commission upon request a copy of instruments defining the rights of holders of certain long-term debt of the registrant and consolidated subsidiaries.* |   |
+| 4(l) Description of the Registrant’s Securities Registered Pursuant to Section 12 of the Securities Exchange Act of 1934.* |   |
+| (10) Except for 10(ll), (mm), (nn), and (oo) below, all of the following exhibits consist of Executive Compensation Plans or Arrangements: |   |
+|   | (a) GE Aerospace Executive Life Insurance Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(a) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (b) GE Leadership Life Insurance Plan, effective January 1, 2020 and all amendments to date, including its most recent amendment January 3, 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2022). |
+|   | (c) GE Aerospace Supplementary Pension Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(d) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (d) GE Aerospace Restoration Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(e) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (e) General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(g) to the Company’s Annual Report on Form 10-K for the fiscal year ended December 31, 2018). |
+|   | (f) Amendment, dated May 7, 2024, to General Electric 2003 Non-Employee Director Compensation Plan, Amended and Restated as of December 7, 2018 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended September 30, 2024). |
+|   | (g) GE Aerospace 2024 Non-Employee Director Compensation Plan, effective May 7, 2024 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
+|   | (h) Form of Director Indemnification Agreement.* |
+
+*(14 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0098`
+
+table · **exact** · anchored by `own_text`
+
+**(w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025).**
+
+|   | (w) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2025 (incorporated by reference to Exhibit 10(a) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2025). |
+|---|---|
+|   | (x) Form of Agreement for Restricted Stock Unit Grants to Directors under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended June 30, 2024). |
+|   | (y) Form of Agreement for Restricted Stock Unit Grants to Executive Offices under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(f) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (z) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(e) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (aa) Form of Agreement for Restricted Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(b) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
+|   | (bb) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2025 (incorporated by reference to Exhibit 10(h) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (cc) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of May 2024 (incorporated by reference to Exhibit 10(g) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 30, 2025). |
+|   | (dd) Form of Agreement for Performance Stock Unit Grants to Executive Officers under the General Electric Company 2022 Long-Term Incentive Plan, as of March 2023 (incorporated by reference to Exhibit 10(c) to the Company’s Quarterly Report on Form 10-Q for the quarter ended March 31, 2023). |
+|   | (ee) GE Aerospace Incentive Compensation Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ee) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (ff) GE Aerospace Annual Executive Incentive Plan, as amended and restated, effective January 1, 2025 (incorporated by reference to Exhibit 10(ff) to the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2024). |
+|   | (gg) Employment Agreement between H. Lawrence Culp Jr. and General Electric Company, effective July 1, 2024 (incorporated by reference to Exhibit 10.1 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
+|   | (hh) Form of Performance Stock Unit Grant Agreement by and between H. Lawrence Culp, Jr. and General Electric Company, dated July 1, 2024 (incorporated by reference to Exhibit 10.2 to the Company’s Current Report on Form 8-K dated July 1, 2024). |
+
+*(18 further rows in the stored grid.)*
+
+### `tbl-src-ge-10k-fy2025-a73b722f-0099`
+
+table · **exact** · anchored by `own_text`
+
+| FORM 10-K CROSS REFERENCE INDEX |   | Page(s) |
+|---|---|---|
+| Part I |   |   |
+| Item 1. | Business | 4-7, 9-10, 71-73 |
+| Item 1A. | Risk Factors | 24-31 |
+| Item 1B. | Unresolved Staff Comments | Not applicable |
+| Item 1C. | Cybersecurity | 23 |
+| Item 2. | Properties | 4 |
+| Item 3. | Legal Proceedings | 70-71 |
+| Item 4. | Mine Safety Disclosures | Not applicable |
+| Part II |   |   |
+| Item 5. | Market for Registrant’s Common Equity, Related Stockholder Matters and Issuer Purchases of Equity Securities | 22 |
+| Item 6. | [Reserved] | Not applicable |
+
+*(17 further rows in the stored grid.)*

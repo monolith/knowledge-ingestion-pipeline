@@ -147,8 +147,20 @@ def _render_asset(asset: dict[str, Any], rel_dir: str, *, compact: bool = False)
     return out
 
 
-def _assets_section(run_dir: Path, workspace: Path, units: list[dict]) -> list[str]:
-    """Every asset, with its fidelity, its provenance and its content shown."""
+def _anchor_id(asset_id: str) -> str:
+    """The GitHub heading anchor for an asset's detail block."""
+    return asset_id.lower().replace(".", "").replace("_", "-")
+
+
+def _assets_section(run_dir: Path, workspace: Path, units: list[dict],
+                    detail: bool = True) -> list[str]:
+    """The assets: an index near the top, the contents at the end.
+
+    Split because a filing with a hundred tables put a hundred rendered grids
+    between the reader and the first entry. The index says what was recovered
+    and how far to trust it; the detail is a click away and out of the path of
+    someone reading the run.
+    """
     normalized = run_dir / "01_normalized"
     bundles = [(d, _jsonl(d / "assets.jsonl")) for d in sorted(normalized.iterdir())
                if d.is_dir()] if normalized.exists() else []
@@ -161,15 +173,23 @@ def _assets_section(run_dir: Path, workspace: Path, units: list[dict]) -> list[s
             "a gap.", "",
         ]
 
-    # Which units cite which asset, so a reader can go from the picture to the claim.
+    # Which units RELATE to which asset -- quoted it, or were extracted from the
+    # text it sits in. Read from the links file rather than recomputed from
+    # citations, because "cited by" and "related to" are different questions and
+    # the whole point of anchoring is that the second is the larger set.
     citers: dict[str, list[str]] = {}
-    for u in units:
-        for e in u.get("evidence", []):
-            aid = (e.get("asset_ref") or {}).get("asset_id")
-            if aid:
-                citers.setdefault(aid, []).append(u["unit_id"])
+    for row in _jsonl(run_dir / "02_units" / "asset_links.jsonl"):
+        ids = citers.setdefault(row["asset_id"], [])
+        if row["unit_id"] not in ids:
+            ids.append(row["unit_id"])
+    if not citers:  # a run predating anchoring: fall back to citations
+        for u in units:
+            for e in u.get("evidence", []):
+                aid = (e.get("asset_ref") or {}).get("asset_id")
+                if aid:
+                    citers.setdefault(aid, []).append(u["unit_id"])
 
-    out = ["## Assets", ""]
+    out = ["## Assets", ""] if detail else ["## Assets", ""]
     total = sum(len(a) for _, a in bundles)
     kinds: dict[str, int] = {}
     fidelities: dict[str, int] = {}
@@ -181,13 +201,13 @@ def _assets_section(run_dir: Path, workspace: Path, units: list[dict]) -> list[s
     out += [
         f"**{total} asset{'s' if total != 1 else ''}** — "
         + ", ".join(f"{n} {k}" for k, n in sorted(kinds.items())) + ". "
-        + f"{cited_n} cited by at least one unit"
-        + (f", {total - cited_n} not cited." if total - cited_n else "."),
+        + f"{cited_n} related to at least one unit"
+        + (f", {total - cited_n} related to none." if total - cited_n else "."),
         "",
-        ("An uncited asset is not a failure. A source carries structure that is not "
-         "content -- a navigation box marked up as a table, a page rendered to check "
-         "one equation on it -- and capturing it losslessly while citing nothing from "
-         "it is the correct outcome." if total - cited_n else ""),
+        ("An asset related to no unit sits in a passage nothing was extracted from. "
+         "Sometimes that is correct -- a navigation box marked up as a table, a cover "
+         "page of filer checkboxes -- and sometimes it is a hole in the reading. The "
+         "run's corpus-coverage audit judges which." if total - cited_n else ""),
         "",
         "Fidelity is part of the record, because the kinds are not equally trustworthy:",
         "",
@@ -207,14 +227,29 @@ def _assets_section(run_dir: Path, workspace: Path, units: list[dict]) -> list[s
             f"[`assets.jsonl`]({rel_dir}/assets.jsonl) · "
             f"[`manifest.json`]({rel_dir}/manifest.json)", "",
         ]
+        if not detail:
+            out += ["| asset | kind · fidelity · anchor | caption | related to |",
+                    "|---|---|---|---|"]
         for a in assets:
             payload = a.get("payload", {})
             page = f" · page {a['page']}" if a.get("page") else ""
             cited = citers.get(a["asset_id"], [])
-            cite_note = (f" · cited by {len(cited)} unit{'s' if len(cited) != 1 else ''}"
-                         if cited else " · not cited by any unit")
+            cite_note = (f" · related to {len(cited)} unit{'s' if len(cited) != 1 else ''}"
+                         if cited else " · **related to no unit**")
             anchor = a.get("anchor", {})
             check = a.get("verification") or {}
+            payload = a.get("payload", {})
+            label = (payload.get("caption") or payload.get("heading")
+                     or payload.get("latex") or payload.get("alt") or "")
+            if not detail:
+                bits = [a["kind"], a["fidelity"]]
+                if anchor.get("method"):
+                    bits.append(anchor["method"])
+                related = f"{len(cited)} unit(s)" if cited else "**no units**"
+                out.append(f"| [`{a['asset_id']}`](#{_anchor_id(a['asset_id'])}) | "
+                           + " · ".join(bits) + f" | {label[:60].replace('|', '/')} | "
+                           + f"{related} |")
+                continue
             bits = [f"{a['kind']}", f"**{a['fidelity']}**",
                     f"extractor `{a['extractor']}`"]
             if anchor.get("method"):
@@ -344,12 +379,16 @@ def render(workspace: Path) -> str:
             "",
         ]
 
-    out += _assets_section(run_dir, workspace, units)
+    out += _assets_section(run_dir, workspace, units, detail=False)
+    if assets_by_id:
+        out += ["Contents of each are at the end, under "
+                "[Assets in full](#assets-in-full).", ""]
 
     related_ids = {row["asset_id"] for row in links}
     stranded = [a for aid, a in assets_by_id.items() if aid not in related_ids]
+    tail: list[str] = []
     if stranded:
-        out += [
+        tail += [
             "## Assets in text nobody read", "",
             f"{len(stranded)} asset(s) sit in a region of the source from which no unit "
             "was extracted, so nothing in the output points at them. This is a hole in "
@@ -358,10 +397,10 @@ def render(workspace: Path) -> str:
             "source's content.", "",
         ]
         for a in stranded:
-            out += [f"### `{a['asset_id']}`", "",
-                    f"{a['kind']} · **{a['fidelity']}** · anchored by "
-                    f"`{a.get('anchor', {}).get('method', 'none')}`", ""]
-            out += _render_asset(a, asset_dir_of[a["asset_id"]])
+            tail += [f"### `{a['asset_id']}`", "",
+                     f"{a['kind']} · **{a['fidelity']}** · anchored by "
+                     f"`{a.get('anchor', {}).get('method', 'none')}`", ""]
+            tail += _render_asset(a, asset_dir_of[a["asset_id"]])
 
     out += ["## The knowledge handed off", "",
             f"Rendered from [`07_enqueue/enqueue.jsonl`]"
@@ -421,6 +460,14 @@ def render(workspace: Path) -> str:
         ]
         out += [f"- `{k}` → `{v}`" for k, v in sorted(e["provenance_chain"].items())]
         out += ["", "</details>", ""]
+
+    if assets_by_id:
+        out += ["---", "", "## Assets in full", "",
+                "Every recovered object, shown as it is stored. Indexed at the top under "
+                "[Assets](#assets); the ones an entry carries are also shown with that "
+                "entry.", ""]
+        out += _assets_section(run_dir, workspace, units, detail=True)[2:]
+    out += tail
 
     return "\n".join(out)
 

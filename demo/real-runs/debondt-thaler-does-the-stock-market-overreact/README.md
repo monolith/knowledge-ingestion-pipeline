@@ -55,9 +55,9 @@ Full judgment: [`06_audit/corpus_coverage.json`](runs/dt/06_audit/corpus_coverag
 
 ## Assets
 
-**21 assets** — 7 figure, 13 formula, 1 table. 13 cited by at least one unit, 8 not cited.
+**21 assets** — 7 figure, 13 formula, 1 table. 20 related to at least one unit, 1 related to none.
 
-An uncited asset is not a failure. A source carries structure that is not content -- a navigation box marked up as a table, a page rendered to check one equation on it -- and capturing it losslessly while citing nothing from it is the correct outcome.
+An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
 
 Fidelity is part of the record, because the kinds are not equally trustworthy:
 
@@ -69,263 +69,30 @@ Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, 
 
 [`normalized.txt`](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/normalized.txt) · [`assets.jsonl`](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets.jsonl) · [`manifest.json`](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/manifest.json)
 
-#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0001`
-
-figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 5 · not cited by any unit
-
-![fig-src-debondt-thaler-1985-overreact-d07fdf64-0001](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0005.png)
-
-#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0002`
-
-figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 6 · not cited by any unit
-
-![fig-src-debondt-thaler-1985-overreact-d07fdf64-0002](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0006.png)
-
-#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0003`
-
-figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 7 · not cited by any unit
-
-![fig-src-debondt-thaler-1985-overreact-d07fdf64-0003](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0007.png)
-
-#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0004`
-
-figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 4/4 figures corroborated by the text layer · page 9 · not cited by any unit
-
-**Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36**
-
-![Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0009.png)
-
-#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0005`
-
-figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 10 · not cited by any unit
-
-![fig-src-debondt-thaler-1985-overreact-d07fdf64-0005](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0010.png)
-
-#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0006`
-
-figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 1/1 figures corroborated by the text layer · page 11 · not cited by any unit
-
-**Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of**
-
-![Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0011.png)
-
-#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0007`
-
-figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 4/4 figures corroborated by the text layer · page 12 · not cited by any unit
-
-**Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60**
-
-![Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0012.png)
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0008`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 4/4 figures corroborated by the text layer · page 5 · cited by 2 units
-
-$$E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u}_{jt} \mid F_{t-1}) = 0$$
-
-```latex
-E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u}_{jt} \mid F_{t-1}) = 0
-```
-
-> Following Fama [9], the previous arguments can be formalized by writing the efficient market's condition,
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0009`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 3/3 figures corroborated by the text layer · page 5 · cited by 2 units
-
-$$E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0$$
-
-```latex
-E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0
-```
-
-> The efficient market hypothesis implies that
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0010`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 4/4 figures corroborated by the text layer · page 5 · cited by 2 units
-
-$$E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_{t-1}) > 0$$
-
-```latex
-E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_{t-1}) > 0
-```
-
-> As explained in the introduction, the overreaction hypothesis, on the other hand, suggests that
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0011`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 5 · cited by 1 unit
-
-$$\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}$$
-
-```latex
-\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}
-```
-
-> De Bondt [7] formally derives the econometric biases in the estimated market-adjusted and market model residuals if the "true" model is multifactor, e.g.,
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0063`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0012`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 5 · cited by 1 unit
-
-$$E(\tilde{R}_j) = K_j$$
-
-```latex
-E(\tilde{R}_j) = K_j
-```
-
-> Footnote 2: measuring abnormal security price performance by way of easily calculable mean-adjusted excess returns [where, by assumption, E(R_j) equals a constant K_j]
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0064`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0013`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 2/2 figures corroborated by the text layer · page 5 · cited by 1 unit
-
-$$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
-
-```latex
-\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j
-```
-
-> Footnote 2: market-adjusted excess returns (where, by assumption, alpha_j = 0 and beta_j = 1 for all j)
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0064`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0014`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · page 6 · cited by 2 units
-
-$$\hat{u}_{jt} = R_{jt} - R_{mt}$$
-
-```latex
-\hat{u}_{jt} = R_{jt} - R_{mt}
-```
-
-> Therefore, we will only report the results based on market-adjusted excess returns. The residuals are estimated as
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0061`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0015`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 2/2 figures corroborated by the text layer · page 6 · cited by 2 units
-
-$$CU_j = \sum_{t=-35}^{t=0} u_{jt}$$
-
-```latex
-CU_j = \sum_{t=-35}^{t=0} u_{jt}
-```
-
-> For every stock j, starting in December 1932 (month 84; the "portfolio formation date") (t = 0), we compute the cumulative excess returns
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0025`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0062`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0016`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 4/4 figures corroborated by the text layer · page 7 · cited by 3 units
-
-$$ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}$$
-
-```latex
-ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}
-```
-
-> Average cumulative average residuals are computed for both portfolios, for each month between t = 1 and t = 36.
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0067`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0017`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 7/7 figures corroborated by the text layer · page 7 · cited by 2 units
-
-$$S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)$$
-
-```latex
-S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)
-```
-
-> The pooled estimate of the population variance in CAR_t is
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0018`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 2/2 figures corroborated by the text layer · page 7 · cited by 1 unit
-
-$$T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}$$
-
-```latex
-T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}
-```
-
-> Thus, the t-statistic for the difference between the loser and winner portfolios is
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0019`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 3/3 figures corroborated by the text layer · page 7 · cited by 2 units
-
-$$s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}$$
-
-```latex
-s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}
-```
-
-> the sample standard deviation of the average residuals for the winner portfolio
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0068`
-
-#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0020`
-
-formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 7 · cited by 1 unit
-
-$$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
-
-```latex
-T_t = AR_{W,t} / (s_t / \sqrt{N})
-```
-
-> the t-statistic for the winner portfolio's average residual in month t
-
-Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`
-
-#### `tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021`
-
-table · **transcribed** · extractor `visual_read_v1` · anchored by `own_text` · 244/244 figures corroborated by the text layer · page 10 · not cited by any unit
-
-**Table I. Differences in Cumulative Average (Market-Adjusted) Residual Returns Between the Winner and Loser Portfolios at the End of the Formation Period, and 1, 12, 13, 18, 24, 25, 36, and 60 Months into the Test Period. (a) formation month is December in all uneven years between 1933 and 1979; (b) formation month is December in all even years between 1932 and 1980; NA = not applicable.**
-
-| Portfolio Selection Procedures: Length of the Formation Period and No. of Independent Replications | Average No. of Stocks | CAR at the End of the Formation Period: Winner Portfolio | CAR at the End of the Formation Period: Loser Portfolio | Difference in CAR (t-Statistics): 1 month after formation | Difference in CAR (t-Statistics): 12 months after formation | Difference in CAR (t-Statistics): 13 months after formation | Difference in CAR (t-Statistics): 18 months after formation | Difference in CAR (t-Statistics): 24 months after formation | Difference in CAR (t-Statistics): 25 months after formation | Difference in CAR (t-Statistics): 36 months after formation | Difference in CAR (t-Statistics): 60 months after formation |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| 10 five-year periods | 50 | 1.463 | -1.194 | 0.070 (3.13) | 0.156 (2.04) | 0.248 (3.14) | 0.256 (3.17) | 0.196 (2.15) | 0.228 (2.40) | 0.230 (2.07) | 0.319 (3.28) |
-| 16 three-year periods | 35 | 1.375 | -1.064 | 0.105 (3.29) | 0.054 (0.77) | 0.103 (1.18) | 0.167 (1.51) | 0.181 (1.71) | 0.234 (2.19) | 0.246 (2.20) | NA* |
-| 24 two-year periods(a) | 35 | 1.130 | -0.857 | 0.062 (2.91) | -0.006 (-0.16) | 0.074 (1.53) | 0.136 (2.02) | 0.101 (1.41) | NA | NA | NA |
-| 25 two-year periods(b) | 35 | 1.119 | -0.866 | 0.089 (3.98) | 0.011 (0.19) | 0.092 (1.48) | 0.107 (1.47) | 0.115 (1.55) | NA | NA | NA |
-| 24 two-year periods(a) (deciles) | 82 | 0.875 | -0.711 | 0.051 (3.13) | 0.006 (0.19) | 0.066 (1.71) | 0.105 (1.99) | 0.083 (1.49) | NA | NA | NA |
-| 25 two-year periods(b) (deciles) | 82 | 0.868 | -0.714 | 0.068 (3.86) | 0.008 (0.19) | 0.071 (1.46) | 0.078 (1.41) | 0.072 (1.29) | NA | NA | NA |
-| 49 one-year periods | 35 | 0.774 | -0.585 | 0.042 (2.45) | -0.076 (-2.32) | -0.006 (-0.15) | 0.007 (0.14) | -0.005 (-0.09) | NA | NA | NA |
-
-## Assets in text nobody read
-
-1 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
-
-### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0006`
-
-figure · **transcribed** · anchored by `own_text`
-
-**Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of**
-
-![Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0011.png)
+| asset | kind · fidelity · anchor | caption | related to |
+|---|---|---|---|
+| [`fig-src-debondt-thaler-1985-overreact-d07fdf64-0001`](#fig-src-debondt-thaler-1985-overreact-d07fdf64-0001) | figure · transcribed · page_region |  | 9 unit(s) |
+| [`fig-src-debondt-thaler-1985-overreact-d07fdf64-0002`](#fig-src-debondt-thaler-1985-overreact-d07fdf64-0002) | figure · transcribed · page_region |  | 7 unit(s) |
+| [`fig-src-debondt-thaler-1985-overreact-d07fdf64-0003`](#fig-src-debondt-thaler-1985-overreact-d07fdf64-0003) | figure · transcribed · page_region |  | 5 unit(s) |
+| [`fig-src-debondt-thaler-1985-overreact-d07fdf64-0004`](#fig-src-debondt-thaler-1985-overreact-d07fdf64-0004) | figure · transcribed · own_text | Figure 1. Cumulative Average Residuals for Winner and Loser  | 1 unit(s) |
+| [`fig-src-debondt-thaler-1985-overreact-d07fdf64-0005`](#fig-src-debondt-thaler-1985-overreact-d07fdf64-0005) | figure · transcribed · page_region |  | 4 unit(s) |
+| [`fig-src-debondt-thaler-1985-overreact-d07fdf64-0006`](#fig-src-debondt-thaler-1985-overreact-d07fdf64-0006) | figure · transcribed · own_text | Figure 2. Differences in Cumulative Average Residual Between | **no units** |
+| [`fig-src-debondt-thaler-1985-overreact-d07fdf64-0007`](#fig-src-debondt-thaler-1985-overreact-d07fdf64-0007) | figure · transcribed · own_text | Figure 3. Cumulative Average Residuals for Winner and Loser  | 1 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0008`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0008) | formula · transcribed · context_located | E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F | 2 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0009`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0009) | formula · transcribed · context_located | E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t- | 2 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0010`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0010) | formula · transcribed · context_located | E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\t | 2 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0011`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0011) | formula · transcribed · page_region | \tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t  | 9 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0012`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0012) | formula · transcribed · page_region | E(\tilde{R}_j) = K_j | 10 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0013`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0013) | formula · transcribed · page_region | \alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for al | 10 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0014`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0014) | formula · transcribed · context_located | \hat{u}_{jt} = R_{jt} - R_{mt} | 3 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0015`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0015) | formula · transcribed · context_located | CU_j = \sum_{t=-35}^{t=0} u_{jt} | 2 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0016`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0016) | formula · transcribed · page_region | ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\tex | 7 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0017`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0017) | formula · transcribed · page_region | S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \ | 6 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0018`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0018) | formula · transcribed · page_region | T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / | 5 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0019`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0019) | formula · transcribed · page_region | s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)} | 7 unit(s) |
+| [`fml-src-debondt-thaler-1985-overreact-d07fdf64-0020`](#fml-src-debondt-thaler-1985-overreact-d07fdf64-0020) | formula · transcribed · page_region | T_t = AR_{W,t} / (s_t / \sqrt{N}) | 6 unit(s) |
+| [`tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021`](#tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021) | table · transcribed · own_text | Table I. Differences in Cumulative Average (Market-Adjusted) | 3 unit(s) |
+Contents of each are at the end, under [Assets in full](#assets-in-full).
 
 ## The knowledge handed off
 
@@ -1723,3 +1490,295 @@ $$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
 - `units` → `02_units/units.jsonl`
 
 </details>
+
+---
+
+## Assets in full
+
+Every recovered object, shown as it is stored. Indexed at the top under [Assets](#assets); the ones an entry carries are also shown with that entry.
+
+**21 assets** — 7 figure, 13 formula, 1 table. 20 related to at least one unit, 1 related to none.
+
+An asset related to no unit sits in a passage nothing was extracted from. Sometimes that is correct -- a navigation box marked up as a table, a cover page of filer checkboxes -- and sometimes it is a hole in the reading. The run's corpus-coverage audit judges which.
+
+Fidelity is part of the record, because the kinds are not equally trustworthy:
+
+- **transcribed** (21) — a model or geometry read it — a READING, not a quote; compare by meaning, not by string
+
+Evidence cites an asset with `asset_ref {asset_id, row, col}` for a table cell, or `{asset_id}` for a formula. A cell reference resolves to the value **and** the headers governing it, which is what makes a figure checkable rather than merely quoted.
+
+### `src-debondt-thaler-1985-overreact-d07fdf64`
+
+[`normalized.txt`](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/normalized.txt) · [`assets.jsonl`](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets.jsonl) · [`manifest.json`](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/manifest.json)
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0001`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 5 · related to 9 units
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0001](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0005.png)
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0016`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0017`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0019`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0020`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060` …
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0002`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 6 · related to 7 units
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0002](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0006.png)
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0021`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0023`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0024`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0025`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0061`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0062`
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0003`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 7 · related to 5 units
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0003](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0007.png)
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0026`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0028`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0029`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0030`
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0004`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 4/4 figures corroborated by the text layer · page 9 · related to 1 unit
+
+**Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36**
+
+![Figure 1. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-36](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0009.png)
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0056`
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0005`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `page_region` · page 10 · related to 4 units
+
+![fig-src-debondt-thaler-1985-overreact-d07fdf64-0005](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0010.png)
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0040`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0041`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0042`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0043`
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0006`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 1/1 figures corroborated by the text layer · page 11 · **related to no unit**
+
+**Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of**
+
+![Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0011.png)
+
+#### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0007`
+
+figure · **transcribed** · extractor `pdf_render_v1` · anchored by `own_text` · 4/4 figures corroborated by the text layer · page 12 · related to 1 unit
+
+**Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60**
+
+![Figure 3. Cumulative Average Residuals for Winner and Loser Portfolios of 35 Stocks (1-60](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0012.png)
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0057`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0008`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 4/4 figures corroborated by the text layer · page 5 · related to 2 units
+
+$$E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u}_{jt} \mid F_{t-1}) = 0$$
+
+```latex
+E(\tilde{R}_{jt} - E_m(\tilde{R}_{jt} \mid F^m_{t-1}) \mid F_{t-1}) = E(\tilde{u}_{jt} \mid F_{t-1}) = 0
+```
+
+> Following Fama [9], the previous arguments can be formalized by writing the efficient market's condition,
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0009`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 3/3 figures corroborated by the text layer · page 5 · related to 2 units
+
+$$E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0$$
+
+```latex
+E(\tilde{u}_{Wt} \mid F_{t-1}) = E(\tilde{u}_{Lt} \mid F_{t-1}) = 0
+```
+
+> The efficient market hypothesis implies that
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0010`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 4/4 figures corroborated by the text layer · page 5 · related to 2 units
+
+$$E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_{t-1}) > 0$$
+
+```latex
+E(\tilde{u}_{Wt} \mid F_{t-1}) < 0 \quad\text{and}\quad E(\tilde{u}_{Lt} \mid F_{t-1}) > 0
+```
+
+> As explained in the introduction, the overreaction hypothesis, on the other hand, suggests that
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0011`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 5 · related to 9 units
+
+$$\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}$$
+
+```latex
+\tilde{R}_{jt} = A_j + B_j \tilde{R}_{mt} + C_j \tilde{X}_t + \tilde{e}_{jt}
+```
+
+> De Bondt [7] formally derives the econometric biases in the estimated market-adjusted and market model residuals if the "true" model is multifactor, e.g.,
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0016`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0017`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0019`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0020`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060` …
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0012`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 5 · related to 10 units
+
+$$E(\tilde{R}_j) = K_j$$
+
+```latex
+E(\tilde{R}_j) = K_j
+```
+
+> Footnote 2: measuring abnormal security price performance by way of easily calculable mean-adjusted excess returns [where, by assumption, E(R_j) equals a constant K_j]
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0016`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0017`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0019`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0020`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060` …
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0013`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 2/2 figures corroborated by the text layer · page 5 · related to 10 units
+
+$$\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j$$
+
+```latex
+\alpha_j = 0 \quad\text{and}\quad \beta_j = 1 \ \text{for all } j
+```
+
+> Footnote 2: market-adjusted excess returns (where, by assumption, alpha_j = 0 and beta_j = 1 for all j)
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0016`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0017`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0018`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0019`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0020`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0059`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0060` …
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0014`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · page 6 · related to 3 units
+
+$$\hat{u}_{jt} = R_{jt} - R_{mt}$$
+
+```latex
+\hat{u}_{jt} = R_{jt} - R_{mt}
+```
+
+> Therefore, we will only report the results based on market-adjusted excess returns. The residuals are estimated as
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0021`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0022`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0061`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0015`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `context_located` · 2/2 figures corroborated by the text layer · page 6 · related to 2 units
+
+$$CU_j = \sum_{t=-35}^{t=0} u_{jt}$$
+
+```latex
+CU_j = \sum_{t=-35}^{t=0} u_{jt}
+```
+
+> For every stock j, starting in December 1932 (month 84; the "portfolio formation date") (t = 0), we compute the cumulative excess returns
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0025`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0062`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0016`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 4/4 figures corroborated by the text layer · page 7 · related to 7 units
+
+$$ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}$$
+
+```latex
+ACAR_{W,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{W,n,t} \quad\text{and}\quad ACAR_{L,t} = \frac{1}{N}\sum_{n=1}^{N} CAR_{L,n,t}
+```
+
+> Average cumulative average residuals are computed for both portfolios, for each month between t = 1 and t = 36.
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0026`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0028`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0029`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0030`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0067`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0017`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 7/7 figures corroborated by the text layer · page 7 · related to 6 units
+
+$$S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)$$
+
+```latex
+S_t^2 = \left[\sum_{n=1}^{N}(CAR_{W,n,t} - ACAR_{W,t})^2 + \sum_{n=1}^{N}(CAR_{L,n,t} - ACAR_{L,t})^2\right] / 2(N-1)
+```
+
+> The pooled estimate of the population variance in CAR_t is
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0026`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0028`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0029`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0030`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0065`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0018`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 2/2 figures corroborated by the text layer · page 7 · related to 5 units
+
+$$T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}$$
+
+```latex
+T_t = \left[ACAR_{L,t} - ACAR_{W,t}\right] / \sqrt{2 S_t^2 / N}
+```
+
+> Thus, the t-statistic for the difference between the loser and winner portfolios is
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0026`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0028`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0029`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0030`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0019`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · 3/3 figures corroborated by the text layer · page 7 · related to 7 units
+
+$$s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}$$
+
+```latex
+s_t = \sqrt{\sum_{n=1}^{N}(AR_{W,n,t} - AR_{W,t})^2 / (N-1)}
+```
+
+> the sample standard deviation of the average residuals for the winner portfolio
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0026`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0028`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0029`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0030`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0068`
+
+#### `fml-src-debondt-thaler-1985-overreact-d07fdf64-0020`
+
+formula · **transcribed** · extractor `visual_read_v1` · anchored by `page_region` · page 7 · related to 6 units
+
+$$T_t = AR_{W,t} / (s_t / \sqrt{N})$$
+
+```latex
+T_t = AR_{W,t} / (s_t / \sqrt{N})
+```
+
+> the t-statistic for the winner portfolio's average residual in month t
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0026`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0027`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0028`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0029`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0030`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0066`
+
+#### `tbl-src-debondt-thaler-1985-overreact-d07fdf64-0021`
+
+table · **transcribed** · extractor `visual_read_v1` · anchored by `own_text` · 244/244 figures corroborated by the text layer · page 10 · related to 3 units
+
+**Table I. Differences in Cumulative Average (Market-Adjusted) Residual Returns Between the Winner and Loser Portfolios at the End of the Formation Period, and 1, 12, 13, 18, 24, 25, 36, and 60 Months into the Test Period. (a) formation month is December in all uneven years between 1933 and 1979; (b) formation month is December in all even years between 1932 and 1980; NA = not applicable.**
+
+| Portfolio Selection Procedures: Length of the Formation Period and No. of Independent Replications | Average No. of Stocks | CAR at the End of the Formation Period: Winner Portfolio | CAR at the End of the Formation Period: Loser Portfolio | Difference in CAR (t-Statistics): 1 month after formation | Difference in CAR (t-Statistics): 12 months after formation | Difference in CAR (t-Statistics): 13 months after formation | Difference in CAR (t-Statistics): 18 months after formation | Difference in CAR (t-Statistics): 24 months after formation | Difference in CAR (t-Statistics): 25 months after formation | Difference in CAR (t-Statistics): 36 months after formation | Difference in CAR (t-Statistics): 60 months after formation |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 10 five-year periods | 50 | 1.463 | -1.194 | 0.070 (3.13) | 0.156 (2.04) | 0.248 (3.14) | 0.256 (3.17) | 0.196 (2.15) | 0.228 (2.40) | 0.230 (2.07) | 0.319 (3.28) |
+| 16 three-year periods | 35 | 1.375 | -1.064 | 0.105 (3.29) | 0.054 (0.77) | 0.103 (1.18) | 0.167 (1.51) | 0.181 (1.71) | 0.234 (2.19) | 0.246 (2.20) | NA* |
+| 24 two-year periods(a) | 35 | 1.130 | -0.857 | 0.062 (2.91) | -0.006 (-0.16) | 0.074 (1.53) | 0.136 (2.02) | 0.101 (1.41) | NA | NA | NA |
+| 25 two-year periods(b) | 35 | 1.119 | -0.866 | 0.089 (3.98) | 0.011 (0.19) | 0.092 (1.48) | 0.107 (1.47) | 0.115 (1.55) | NA | NA | NA |
+| 24 two-year periods(a) (deciles) | 82 | 0.875 | -0.711 | 0.051 (3.13) | 0.006 (0.19) | 0.066 (1.71) | 0.105 (1.99) | 0.083 (1.49) | NA | NA | NA |
+| 25 two-year periods(b) (deciles) | 82 | 0.868 | -0.714 | 0.068 (3.86) | 0.008 (0.19) | 0.071 (1.46) | 0.078 (1.41) | 0.072 (1.29) | NA | NA | NA |
+| 49 one-year periods | 35 | 0.774 | -0.585 | 0.042 (2.45) | -0.076 (-2.32) | -0.006 (-0.15) | 0.007 (0.14) | -0.005 (-0.09) | NA | NA | NA |
+
+Related units: `u-src-debondt-thaler-1985-overreact-d07fdf64-0040`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0041`, `u-src-debondt-thaler-1985-overreact-d07fdf64-0042`
+
+## Assets in text nobody read
+
+1 asset(s) sit in a region of the source from which no unit was extracted, so nothing in the output points at them. This is a hole in the reading rather than a judgment about evidence: no unit was dropped here, none was ever made. They are shown because they are still the source's content.
+
+### `fig-src-debondt-thaler-1985-overreact-d07fdf64-0006`
+
+figure · **transcribed** · anchored by `own_text`
+
+**Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of**
+
+![Figure 2. Differences in Cumulative Average Residual Between Winner and Loser Portfolios of](runs/dt/01_normalized/src-debondt-thaler-1985-overreact-d07fdf64/assets/page-0011.png)

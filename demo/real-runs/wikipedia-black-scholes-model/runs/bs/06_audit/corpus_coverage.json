@@ -1,34 +1,35 @@
 {
   "auditor_model": "claude-opus-5",
-  "created_at": "2026-08-13T11:21:13.931939+00:00",
-  "definitions_captured": false,
+  "created_at": "2026-08-13T16:08:49.554956+00:00",
+  "definitions_captured": true,
   "fairly_represented": true,
   "key_insights_captured": true,
   "mechanical": {
-    "assertions_out": 73,
-    "units_carried": 73,
-    "units_kept": 73,
+    "assertions_out": 68,
+    "units_carried": 91,
+    "units_kept": 91,
     "units_orphaned": 0,
     "units_orphaned_protected": 0
   },
   "missing": [
     {
-      "consequence": "Gamma, vega and both thetas are written in terms of N'(d+) and cannot be evaluated from the output alone -- a reader has the shape of each Greek but not a number. This is the failure the [PROTECTED] marking exists to catch: the density asserts nothing to argue with, so nothing downstream noticed it was gone. It is not deduplication; the density is stated once in the source and appears nowhere in the output.",
-      "what_is_lost": "The standard normal probability density function, which the source states as N'(x) = dN(x)/dx = (1/sqrt(2*pi)) e^{-x^2/2} (formula asset fml-src-black-scholes-model-fa32a5b3-0015). No unit was extracted for it, so it reached no assertion. Its cumulative counterpart N(x) WAS carried across; only the density is missing."
+      "consequence": "The article's only visual arguments — what the price process looks like, and how the option value moves with spot and time — are absent from the output. A reader gets the closed form and not the shape it describes. The images and their captions are in the record; nothing points at them.",
+      "what_is_lost": "Two of the article's three figures relate to no unit: the simulated geometric Brownian motion paths, and the surface showing a European call valued across asset price and time to expiry. Both sit in passages from which nothing was extracted."
     }
   ],
   "model_role": "corpus-coverage-auditor",
   "notes": [
-    "Not loss: six of the seven tables recovered from this source are MediaWiki navigation boxes -- lists of related articles marked up as <table>. They produced no units and should not. The seventh is the Greeks table and every row of it reached an assertion.",
-    "The Greeks are cited to table cells rather than to flattened rows, so the call and put columns are distinguishable in the record. That is the point of the cell citation and it held for all five Greeks.",
-    "Twelve leaves for one article is close to the fragmentation limit, but each answers a distinct question and the two largest -- the Greeks and the interpretation dispute -- would each be too big to merge into anything else."
+    "Not a gap, 30 of the 63 unrelated formulas: they are inline symbol-names — `C(S,t)`, `\\tau`, `N(x)` — captured because the flat text mangles them into loose characters, and cited by nobody, because a name for a quantity is not a claim.",
+    "Not a gap, 6 unrelated tables: MediaWiki navigation boxes, lists of related articles marked up as `<table>`. They are `exact` because they really are tables and they should produce no units.",
+    "Every asset in this run anchors by `own_text`, the tightest method available. An HTML document puts its tables and its MathML where they belong and the normalizer keeps them there, so nothing had to fall back to a page region — unlike a scan, where a whole page is often the best that can be said.",
+    "Three figures are new to this run: the article's images were not extracted at all before, so its charts contributed nothing. One of the three now travels with the text beside it."
   ],
   "parent_artifacts": [
     "02_units/units.jsonl",
     "06_audit/candidates.approved.jsonl"
   ],
   "prompt_version": "pass-05b-corpus-coverage-v1.0",
-  "reasoning": "Every unit reached an assertion and the formulas were carried across rather than described -- a reader can compute delta, gamma, vega, theta and rho from the output, which is the test that matters for this document. One definition is missing and it is load-bearing: N'(x), the standard normal density, appears in four of the five Greeks and nowhere in the output except as the phrase 'the standard normal density'. The article states it as a formula and the extraction skipped it, so the Greeks are unusable as written. The proportions look right otherwise: the interpretation dispute and the limitations get the weight the article gives them, and the criticism is neither buried nor promoted above the mathematics.",
+  "reasoning": "All 91 units reach an assertion, the Greeks are carried as formulas rather than described, and the interpretation dispute — the article's most substantive content — is intact. The anchoring is what is new here, and it changes what an unrelated asset means: 51 of 122 assets relate to units, 18 of them because they sit in text that was read rather than because anything quoted them. The 71 that relate to nothing fall into three groups and only one of the three is a gap.",
   "run_id": "bs",
   "schema_version": "3.1.0",
   "verdict": "gaps"
