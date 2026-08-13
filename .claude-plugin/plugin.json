@@ -1,17 +1,26 @@
 {
   "name": "knowledge-ingestion",
-  "version": "0.1.0",
-  "description": "Research-grounded document knowledge-ingestion pipeline: normalize heterogeneous files into molecular, source-backed knowledge units, route and compare them, and audit candidate knowledge-base entries against the source chain.",
+  "version": "0.2.0",
+  "description": "Document knowledge ingestion with provenance you can check. Seven passes turn a folder of heterogeneous files into audited, traceable knowledge-base entries: molecular source-backed units with verbatim citations and character offsets, tables and formulas recovered as typed ASSETS rather than flattened into text (an HTML table stays a grid, so a figure cites a CELL and resolves with the headers governing it), charts captured and never interpreted, and every asset anchored to the passage it sits in so it travels with that text whether or not anything quoted it. Fidelity is recorded per asset \u2014 exact from markup, transcribed from a reading, inferred never used as evidence. An adversarial audit with deterministic checks gates everything, a corpus-coverage audit reports what the reading missed, and `trace` walks any queue event back to the exact text or cell. Runs against the Anthropic API, or with no key at all in handoff mode, where the agent operating the CLI answers the pipeline's own calls.",
   "author": {
-    "name": "knowledge-ingestion contributors"
+    "name": "Anatoly"
   },
   "license": "MIT",
   "keywords": [
-    "knowledge-base",
+    "10-k",
+    "assets",
+    "audit",
+    "citations",
+    "documents",
+    "extraction",
+    "formulas",
     "ingestion",
+    "knowledge-base",
+    "pdf",
     "provenance",
     "rag",
-    "extraction",
-    "audit"
+    "research-papers",
+    "tables",
+    "traceability"
   ]
 }

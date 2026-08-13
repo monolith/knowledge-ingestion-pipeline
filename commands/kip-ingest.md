@@ -30,6 +30,19 @@ Steps:
 4. Run `kip --workspace .kip validate <run-id>` and report any errors verbatim.
 5. Summarize: sources processed, any quarantined, units extracted, clusters,
    assessments by bucket, audit verdicts, and queue events.
+6. Report the ASSETS separately, because they are the part a text-shaped summary
+   drops: how many tables, formulas and figures were recovered, at what
+   fidelity, and how many are **orphaned** — sitting in a passage that produced
+   no units. An orphaned asset is not a filing error; it is a hole in the
+   reading, and on a dense document it is the most informative number in the
+   run. `06_audit/corpus_coverage.json` carries the judgment on whether their
+   absence misrepresents the corpus.
+
+If the user has no API credential, or wants to answer the calls themselves, run
+with `--mode handoff` instead: the pipeline writes each request to
+`_handoff/pending.jsonl` and exits 10, and you answer by appending
+`{"call_id": ..., "response": {...}}` to `_handoff/responses.jsonl` and
+re-running. Answers are schema-checked on the way in.
 
 When reporting results, carry the pipeline's own uncertainty through rather than
 flattening it: coarse relationship buckets are reliable, fine subtypes are

@@ -179,6 +179,12 @@ def ruled_tables(pdf: Path, source_id: str, start_index: int = 1) -> list[dict[s
     try:
         import pdfplumber
     except ImportError:
+        # Say so. Returning an empty list quietly would drop every ruled table
+        # in the document and look identical to a document that had none --
+        # a capability lost with no way to notice.
+        print(f"[pass0] {source_id}: pdfplumber is not installed, so tables the PDF "
+              "draws with ruling lines are not read "
+              "(pip install -e '.[parse-pdf]')")
         return []
     from .assets import ASSET_TABLE, FIDELITY_TRANSCRIBED, build_asset
     from .html_tables import compact

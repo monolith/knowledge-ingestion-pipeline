@@ -1,0 +1,16 @@
+{
+  "name": "knowledge-ingestion",
+  "owner": {
+    "name": "Anatoly"
+  },
+  "metadata": {
+    "description": "Document knowledge ingestion with checkable provenance: source-backed units, tables and formulas as citable assets, adversarial audit, and a trace from any knowledge-base entry back to the exact text or table cell."
+  },
+  "plugins": [
+    {
+      "name": "knowledge-ingestion",
+      "source": ".",
+      "description": "Seven-pass ingestion pipeline. Extracts molecular, source-backed knowledge units with verbatim citations; recovers tables, formulas and figures as typed assets that anchor to the text they sit in and travel with it; records fidelity so a transcription is never compared like a quote; audits every proposed entry adversarially before anything reaches a knowledge base."
+    }
+  ]
+}

@@ -13,7 +13,7 @@ dependencies = [
 parse = ["docling>=2.0.0"]
 # Page rendering for formula/figure capture. ~20 MB, CPU-only, no ML stack:
 # the transcription is a vision-model call the pipeline already makes.
-parse-pdf = ["pypdfium2>=4.0.0"]
+parse-pdf = ["pypdfium2>=4.0.0", "pdfplumber>=0.11.0"]
 # Lightweight fallback parsers: a few MB instead of a multi-GB ML stack, at the
 # cost of page/slide-level provenance only (no bounding boxes).
 parse-lite = [
