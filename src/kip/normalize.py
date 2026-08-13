@@ -89,11 +89,42 @@ def _normalize_html(path: Path) -> tuple[str, dict[int, dict[str, Any]]]:
     # styles are not document content.
     raw = re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", raw)
     raw = re.sub(r"(?i)<br\s*/?>", "\n", raw)
+    # `td` and `th` belong in this list and were missing from it. Without them a
+    # row's cells concatenate with nothing between: the GE 10-K's segment table
+    # reached the corpus as `Total segment revenue$33,314 $26,881 $23,855` and
+    # its header as `SEGMENT REVENUE AND PROFIT202520242023`. A separator fixes
+    # the fusing; it does not restore which year each figure belongs to, which
+    # is why the tables are also recovered as assets.
+    raw = re.sub(r"(?i)</(t[dh])>", " | ", raw)
     raw = re.sub(r"(?i)</(p|div|li|tr|h[1-6])>", "\n", raw)
     text = re.sub(r"(?s)<[^>]+>", "", raw)
     text = html.unescape(text)
-    lines = [line.strip() for line in text.splitlines()]
+    lines = [line.strip(" |\t") for line in text.splitlines()]
     return "\n".join(line for line in lines if line), {}
+
+
+def _html_assets(path: Path, source_id: str) -> list[dict[str, Any]]:
+    """Tables recovered from the markup, as grids.
+
+    `exact` fidelity: the structure comes from the document's own `<table>`
+    elements, not from a model reading a picture of one. The only inference is
+    which row is a header, and that is confined to a flag.
+    """
+    from .assets import ASSET_TABLE, FIDELITY_EXACT, build_asset
+    from .html_tables import compact, extract_tables
+
+    raw = path.read_text(encoding="utf-8", errors="replace")
+    out: list[dict[str, Any]] = []
+    for index, table in enumerate(extract_tables(raw), start=1):
+        grid = compact(table)
+        if grid.n_rows < 2 or grid.n_cols < 2:
+            continue
+        out.append(build_asset(
+            kind=ASSET_TABLE, source_id=source_id, index=len(out) + 1,
+            fidelity=FIDELITY_EXACT, extractor="html_tables_v1",
+            payload=grid.as_dict(), text=grid.to_text(),
+        ))
+    return out
 
 
 def _normalize_email(path: Path) -> tuple[str, dict[int, dict[str, Any]]]:
@@ -335,6 +366,22 @@ def build_locator_map(
 # --- Pass entry point ---------------------------------------------------------
 
 
+def _assets_for(path: Path, source_id: str, normalizer: str | None) -> list[dict[str, Any]]:
+    """Assets a normalizer can recover, or none.
+
+    Kept separate from the text handler because the two answer different
+    questions and fail independently: a source whose tables cannot be parsed
+    still has usable text, and losing the text because of a table is the wrong
+    trade.
+    """
+    try:
+        if normalizer == "html_v1":
+            return _html_assets(path, source_id)
+    except Exception as exc:  # never let an asset failure quarantine a source
+        print(f"[pass0] {source_id}: asset extraction failed ({exc})")
+    return []
+
+
 def normalize_sources(ctx: RunContext, source_paths: list[Path]) -> list[dict[str, Any]]:
     """Normalize every source and write the source registry."""
     registry: list[dict[str, Any]] = []
@@ -394,6 +441,14 @@ def normalize_sources(ctx: RunContext, source_paths: list[Path]) -> list[dict[st
         (target_dir / "normalized.txt").write_text(text, encoding="utf-8", newline="\n")
         locator = build_locator_map(source_id, normalized_rel, text, markers)
         write_jsonl_atomic(target_dir / "locator_map.jsonl", locator)
+
+        # Non-textual content, kept as addressable assets rather than flattened
+        # into the line above. Written even when empty so a consumer can tell
+        # "this source had no tables" from "this run predates assets".
+        assets = _assets_for(path, source_id, normalizer)
+        write_jsonl_atomic(target_dir / "assets.jsonl", assets)
+        if assets:
+            print(f"[pass0] {source_id}: {len(assets)} asset(s) recovered")
 
         manifest = _manifest(
             ctx, source_id, path, normalizer=normalizer or "unknown",
